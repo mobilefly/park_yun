@@ -19,6 +19,7 @@
 		74C561B51960609200F218CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619D1960609200F218CD /* UIKit.framework */; };
 		74C561BD1960609200F218CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74C561BB1960609200F218CD /* InfoPlist.strings */; };
 		74C561BF1960609200F218CD /* park_yunTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C561BE1960609200F218CD /* park_yunTests.m */; };
+		74C561CA1960611400F218CD /* FLYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C561C91960611400F218CD /* FLYViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,8 @@
 		74C561BA1960609200F218CD /* park_yunTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "park_yunTests-Info.plist"; sourceTree = "<group>"; };
 		74C561BC1960609200F218CD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		74C561BE1960609200F218CD /* park_yunTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = park_yunTests.m; sourceTree = "<group>"; };
+		74C561C81960611400F218CD /* FLYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYViewController.h; sourceTree = "<group>"; };
+		74C561C91960611400F218CD /* FLYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +112,8 @@
 			children = (
 				74C561A81960609200F218CD /* FLYAppDelegate.h */,
 				74C561A91960609200F218CD /* FLYAppDelegate.m */,
+				74C561C81960611400F218CD /* FLYViewController.h */,
+				74C561C91960611400F218CD /* FLYViewController.m */,
 				74C561AB1960609200F218CD /* Images.xcassets */,
 				74C561A01960609200F218CD /* Supporting Files */,
 			);
@@ -240,6 +245,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74C561CA1960611400F218CD /* FLYViewController.m in Sources */,
 				74C561AA1960609200F218CD /* FLYAppDelegate.m in Sources */,
 				74C561A61960609200F218CD /* main.m in Sources */,
 			);
@@ -361,6 +367,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "park_yun/park_yun-Prefix.pch";
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -374,6 +381,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "park_yun/park_yun-Prefix.pch";
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

@@ -7,13 +7,18 @@
 //
 
 #import "FLYAppDelegate.h"
+#import "FLYViewController.h"
 
 @implementation FLYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    
+    FLYViewController *mainCtrl = [[FLYViewController alloc] init];
+    UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:mainCtrl];
+    self.window.rootViewController = navCtrl;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
