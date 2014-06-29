@@ -18,7 +18,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"主界面";
+        self.title = @"主界面__";
     }
     return self;
 }
