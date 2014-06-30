@@ -56,13 +56,14 @@
 		7420AB3E19610772000DD75F /* UIView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB3D19610772000DD75F /* UIView+Additions.m */; };
 		7420AB4119610788000DD75F /* UIViewExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB4019610788000DD75F /* UIViewExt.m */; };
 		7420AB441961079C000DD75F /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB431961079C000DD75F /* NSString+URLEncoding.m */; };
-		7420AB4819610811000DD75F /* UIUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB4719610811000DD75F /* UIUtils.m */; };
+		7420AB4819610811000DD75F /* FLYUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB4719610811000DD75F /* FLYUtils.m */; };
 		7420AB4B1961086C000DD75F /* FLYGlobalUICommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420AB4A1961086C000DD75F /* FLYGlobalUICommon.m */; };
 		7420AB8B19610E58000DD75F /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7420AB8A19610E58000DD75F /* mapapi.bundle */; };
 		7420AB9019610F82000DD75F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7420AB8F19610F82000DD75F /* QuartzCore.framework */; };
 		7420ABA119611748000DD75F /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7420AB9E19611748000DD75F /* libbaidumapapi.a */; };
 		7420ABA219611748000DD75F /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7420ABA019611748000DD75F /* libbaidumapapi.a */; };
 		7420ABA4196119A5000DD75F /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7420ABA3196119A5000DD75F /* libbaidumapapi.a */; };
+		7420ABA7196122FF000DD75F /* FLYDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = 7420ABA6196122FF000DD75F /* FLYDataService.m */; };
 		74C5619A1960609200F218CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C561991960609200F218CD /* Foundation.framework */; };
 		74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619B1960609200F218CD /* CoreGraphics.framework */; };
 		74C5619E1960609200F218CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619D1960609200F218CD /* UIKit.framework */; };
@@ -177,8 +178,8 @@
 		7420AB421961079C000DD75F /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		7420AB431961079C000DD75F /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 		7420AB45196107C0000DD75F /* CONST.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CONST.h; sourceTree = "<group>"; };
-		7420AB4619610811000DD75F /* UIUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIUtils.h; sourceTree = "<group>"; };
-		7420AB4719610811000DD75F /* UIUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIUtils.m; sourceTree = "<group>"; };
+		7420AB4619610811000DD75F /* FLYUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYUtils.h; sourceTree = "<group>"; };
+		7420AB4719610811000DD75F /* FLYUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYUtils.m; sourceTree = "<group>"; };
 		7420AB491961086C000DD75F /* FLYGlobalUICommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYGlobalUICommon.h; sourceTree = "<group>"; };
 		7420AB4A1961086C000DD75F /* FLYGlobalUICommon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYGlobalUICommon.m; sourceTree = "<group>"; };
 		7420AB4E19610E10000DD75F /* BMapKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BMapKit.h; sourceTree = "<group>"; };
@@ -245,6 +246,8 @@
 		7420AB9E19611748000DD75F /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		7420ABA019611748000DD75F /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
 		7420ABA3196119A5000DD75F /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libbaidumapapi.a; path = "libs/Release-iphonesimulator/libbaidumapapi.a"; sourceTree = "<group>"; };
+		7420ABA5196122FF000DD75F /* FLYDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYDataService.h; sourceTree = "<group>"; };
+		7420ABA6196122FF000DD75F /* FLYDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYDataService.m; sourceTree = "<group>"; };
 		74C561961960609200F218CD /* park_yun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = park_yun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74C561991960609200F218CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		74C5619B1960609200F218CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -498,10 +501,12 @@
 			isa = PBXGroup;
 			children = (
 				7420AB45196107C0000DD75F /* CONST.h */,
-				7420AB4619610811000DD75F /* UIUtils.h */,
-				7420AB4719610811000DD75F /* UIUtils.m */,
 				7420AB3F19610788000DD75F /* UIViewExt.h */,
 				7420AB4019610788000DD75F /* UIViewExt.m */,
+				7420AB4619610811000DD75F /* FLYUtils.h */,
+				7420AB4719610811000DD75F /* FLYUtils.m */,
+				7420ABA5196122FF000DD75F /* FLYDataService.h */,
+				7420ABA6196122FF000DD75F /* FLYDataService.m */,
 				7420AB491961086C000DD75F /* FLYGlobalUICommon.h */,
 				7420AB4A1961086C000DD75F /* FLYGlobalUICommon.m */,
 				7420AB3C19610772000DD75F /* UIView+Additions.h */,
@@ -839,8 +844,9 @@
 				7420AB241960F820000DD75F /* SDWebImageDownloader.m in Sources */,
 				7420AAF21960F80C000DD75F /* RTLabel.m in Sources */,
 				7420AAED1960F7F9000DD75F /* ASIWebPageRequest.m in Sources */,
-				7420AB4819610811000DD75F /* UIUtils.m in Sources */,
+				7420AB4819610811000DD75F /* FLYUtils.m in Sources */,
 				7420AB2A1960F820000DD75F /* UIImage+MultiFormat.m in Sources */,
+				7420ABA7196122FF000DD75F /* FLYDataService.m in Sources */,
 				7420AB281960F820000DD75F /* UIButton+WebCache.m in Sources */,
 				7420AAE71960F7F9000DD75F /* ASIDataDecompressor.m in Sources */,
 				7420AB1F1960F820000DD75F /* MKAnnotationView+WebCache.m in Sources */,

@@ -44,7 +44,7 @@
     self.view = _mapView;
     
     //影像图
-    //ß[_mapView setMapType:BMKMapTypeSatellite];
+    //[_mapView setMapType:BMKMapTypeSatellite];
     //切换为普通地图
     //[_mapView setMapType:BMKMapTypeStandard];
     //打开实时路况图层

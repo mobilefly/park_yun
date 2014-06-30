@@ -5,12 +5,12 @@
 //  Copyright (c) 2014年 陈晟. All rights reserved.
 //
 
-#import "UIUtils.h"
+#import "FLYUtils.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "RegexKitLite.h"
 #import "NSString+URLEncoding.h"
 
-@implementation UIUtils
+@implementation FLYUtils
 
 + (NSString *)getDocumentsPath:(NSString *)fileName {
     
@@ -42,8 +42,8 @@
 //Sat Jan 12 11:50:16 +0800 2013
 + (NSString *)fomateString:(NSString *)datestring {
     NSString *formate = @"E MMM d HH:mm:ss Z yyyy";
-    NSDate *createDate = [UIUtils dateFromFomate:datestring formate:formate];
-    NSString *text = [UIUtils stringFromFomate:createDate formate:@"MM-dd HH:mm"];
+    NSDate *createDate = [FLYUtils dateFromFomate:datestring formate:formate];
+    NSString *text = [FLYUtils stringFromFomate:createDate formate:@"MM-dd HH:mm"];
     return text;
 }
 

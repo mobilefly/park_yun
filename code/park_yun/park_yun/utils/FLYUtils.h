@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIUtils : NSObject
+@interface FLYUtils : NSObject
 
 //获取documents下的文件路径
 + (NSString *)getDocumentsPath:(NSString *)fileName;

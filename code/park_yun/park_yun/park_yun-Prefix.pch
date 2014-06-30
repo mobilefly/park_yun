@@ -18,7 +18,7 @@
 
 
 #import "CONST.h"
-#import "UIUtils.h"
+#import "FLYUtils.h"
 #import "UIViewExt.h"
 #import "FLYGlobalUICommon.h"
 #import "UIView+Additions.h"
