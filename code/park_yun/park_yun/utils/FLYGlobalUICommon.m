@@ -21,9 +21,9 @@ const CGFloat FLYkDefaultPadLandscapeKeyboardHeight  = 352;
 const CGFloat FLYkGroupedTableCellInset = 9;
 const CGFloat FLYkGroupedPadTableCellInset = 42;
 
-const CGFloat FLYkDefaulFLYransitionDuration      = 0.3;
-const CGFloat FLYkDefaultFasFLYransitionDuration  = 0.2;
-const CGFloat FLYkDefaultFlipTransitionDuration  = 0.7;
+//const CGFloat FLYkDefaulFLYransitionDuration      = 0.3;
+//const CGFloat FLYkDefaultFasFLYransitionDuration  = 0.2;
+//const CGFloat FLYkDefaultFlipTransitionDuration  = 0.7;
 
 
 

@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BMapKit.h"
 
-@interface FLYViewController : UIViewController
+@interface FLYViewController : UIViewController<BMKMapViewDelegate>{
+    BMKMapView *_mapView;
+}
 
 @end
