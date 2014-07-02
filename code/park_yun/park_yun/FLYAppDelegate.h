@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "BMapKit.h"
+#import "FLYMainViewController.h"
 
 
-@interface FLYAppDelegate : UIResponder <UIApplicationDelegate>{
+@interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
     BMKMapManager* _mapManager;
+    
 }
 
 @property (strong, nonatomic) UIWindow *window;
+@property (strong, nonatomic) FLYMainViewController *rootController;
 
 @end

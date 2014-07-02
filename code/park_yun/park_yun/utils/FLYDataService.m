@@ -20,7 +20,7 @@
 //    NSString *token = [defaults stringForKey:@"token"];
 
     //拼接url
-//    urlstring = [kHttpDomain stringByAppendingFormat:@"%@?access_token=%@",urlstring,token];
+    urlstring = [kHttpDomain stringByAppendingFormat:@"%@",urlstring];
     
     NSComparisonResult comparGet = [httpMethod caseInsensitiveCompare:@"GET"];
     if (comparGet == NSOrderedSame) {

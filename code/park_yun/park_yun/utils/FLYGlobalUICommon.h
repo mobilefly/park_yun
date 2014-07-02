@@ -70,6 +70,7 @@ CGAffineTransform FLYRotateTransformForOrientation(UIInterfaceOrientation orient
  *
  */
 CGRect FLYApplicationBounds();
+
 /**
  * @返回应用程序去掉状态栏高度的大小
  *

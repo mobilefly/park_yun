@@ -7,7 +7,8 @@
 //
 
 #import "FLYAppDelegate.h"
-#import "FLYViewController.h"
+
+#import "FLYBaseNavigationController.h"
 
 @implementation FLYAppDelegate
 
@@ -22,14 +23,25 @@
         NSLog(@"manager start failed!");
     }
     
-    FLYViewController *mainCtrl = [[FLYViewController alloc] init];
-    UINavigationController *navCtrl = [[UINavigationController alloc] initWithRootViewController:mainCtrl];
-    self.window.rootViewController = navCtrl;
+    _rootController = [[FLYMainViewController alloc] initWithNibName:@"FLYMainViewController" bundle:nil];
+    FLYBaseNavigationController *navController = [[FLYBaseNavigationController alloc] initWithRootViewController:_rootController];
+    navController.delegate = self;
+    self.window.rootViewController = navController;
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    if ( viewController ==  self.rootController) {
+        [navigationController setNavigationBarHidden:YES animated:animated];
+    } else if ( [navigationController isNavigationBarHidden] ) {
+        [navigationController setNavigationBarHidden:NO animated:animated];
+    }
+}
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
