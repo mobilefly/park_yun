@@ -10,6 +10,7 @@
 #import "FLYParkModel.h"
 
 
+
 @interface FLYParkCell : UITableViewCell{
     UILabel *_parkLabel;
     UIImageView *_p_distance;
@@ -19,7 +20,7 @@
     UILabel *_capacity;
     UILabel *_free_time;
     
-    UIImageView *_p_freelevel;
+    UIImageView *_p_feelevel;
     UIImageView *_park_image;
     UIImageView *_p_status;
     
@@ -31,5 +32,7 @@
 }
 
 @property(nonatomic,strong)FLYParkModel *parkModel;
+@property(nonatomic,strong)NSNumber *lat;
+@property(nonatomic,strong)NSNumber *lon;
 
 @end

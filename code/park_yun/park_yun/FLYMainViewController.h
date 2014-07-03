@@ -8,8 +8,23 @@
 
 #import <UIKit/UIKit.h>
 #import "PullingRefreshTableView.h"
+#import "BMapKit.h"
+#import "FLYBaseViewController.h"
+#import "ThemeButton.h"
 
-@interface FLYMainViewController : UIViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface FLYMainViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate>{
+    
+    BMKMapView *_mapView;
+    BMKLocationService *_locationService;
+    
+    //当前经纬度
+    NSNumber *_lat;
+    NSNumber *_lon;
+    //
+    BOOL _firstFlag;
+    int _dataIndex;
+    BOOL _isMore;
+}
 
 @property (strong, nonatomic)NSMutableArray *datas;
 
@@ -17,10 +32,11 @@
 @property (nonatomic) BOOL refreshing;
 
 @property (weak, nonatomic) IBOutlet UITextField *searchField;
+@property (weak, nonatomic) IBOutlet UIView *topView;
 
-- (IBAction)userInfoAction:(id)sender;
+- (void)userInfoAction:(id)sender;
 
-- (IBAction)mapAction:(id)sender;
+- (void)mapAction:(id)sender;
 
 - (IBAction)search:(id)sender;
 @end

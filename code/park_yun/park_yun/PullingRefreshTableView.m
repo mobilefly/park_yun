@@ -65,7 +65,7 @@
 //        _dateLabel.text = NSLocalizedString(@"最后更新", @"");
         [self addSubview:_dateLabel];
         
-        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 60, 75) ];
+        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];
         self.clipsToBounds = YES;
         
         [_arrowView setImage:[UIImage imageNamed:@"drop_down_renovate"]];
@@ -116,7 +116,7 @@
     }
     _stateLabel.frame = stateFrame;
     _dateLabel.frame = dateFrame;
-    _arrowView.frame = CGRectMake(arrowFrame.origin.x,arrowFrame.origin.y , 60, 75);//arrowFrame;
+    _arrowView.frame = CGRectMake(arrowFrame.origin.x,arrowFrame.origin.y , 40, 50);//arrowFrame;
     
     _activityView.center = CGPointMake(size.width - 30, arrowFrame.origin.y+20);
 }
@@ -163,7 +163,8 @@
             }
         } else if (_state == kPRStateHitTheEnd) {
             if (!self.isAtTop) {    //footer
-                _stateLabel.text = NSLocalizedString(@"没有了哦", @"");
+                _stateLabel.text = NSLocalizedString(@"全部加载完成", @"");
+                _activityView.hidden = YES;
             }
         }
     }
@@ -258,6 +259,7 @@
     return self;
 }
 
+//加载完成
 - (void)setReachedTheEnd:(BOOL)reachedTheEnd{
     _reachedTheEnd = reachedTheEnd;
     if (_reachedTheEnd){
