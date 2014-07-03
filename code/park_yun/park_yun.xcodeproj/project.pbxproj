@@ -75,7 +75,6 @@
 		748F320E1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */; };
 		748F320F1963CE48005071E0 /* mfpparking_user_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */; };
 		748F32101963CE48005071E0 /* mfpparking_user_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320C1963CE48005071E0 /* mfpparking_user_all_up@2x.png */; };
-		748F32121963E2CC005071E0 /* TBCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 748F32111963E2CC005071E0 /* TBCell.xib */; };
 		748F32B01963E491005071E0 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F32921963E491005071E0 /* arrow.png */; };
 		748F32B11963E491005071E0 /* arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F32931963E491005071E0 /* arrow@2x.png */; };
 		748F32B21963E491005071E0 /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F32941963E491005071E0 /* arrow_down.png */; };
@@ -309,7 +308,6 @@
 		748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_ditu_all_up@2x.png"; sourceTree = "<group>"; };
 		748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_user_all_down@2x.png"; sourceTree = "<group>"; };
 		748F320C1963CE48005071E0 /* mfpparking_user_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_user_all_up@2x.png"; sourceTree = "<group>"; };
-		748F32111963E2CC005071E0 /* TBCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TBCell.xib; sourceTree = "<group>"; };
 		748F32921963E491005071E0 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		748F32931963E491005071E0 /* arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "arrow@2x.png"; sourceTree = "<group>"; };
 		748F32941963E491005071E0 /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
@@ -820,7 +818,6 @@
 				748F33141963F836005071E0 /* FLYParkCell.h */,
 				748F33151963F836005071E0 /* FLYParkCell.m */,
 				748F33161963F836005071E0 /* FLYParkCell.xib */,
-				748F32111963E2CC005071E0 /* TBCell.xib */,
 				745E7418196506C100BB0AB9 /* ThemeManager */,
 				748F332F1964108D005071E0 /* Model */,
 				74D041171963B9D3005B2F76 /* BaseView */,
@@ -990,7 +987,6 @@
 				748F320F1963CE48005071E0 /* mfpparking_user_all_down@2x.png in Resources */,
 				748F33201963FC0E005071E0 /* mfpparking_rmb_all_0@2x.png in Resources */,
 				748F332E19640DE1005071E0 /* mfpparking_mqk_all_0@2x.png in Resources */,
-				748F32121963E2CC005071E0 /* TBCell.xib in Resources */,
 				74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */,
 				748F32C21963E491005071E0 /* pic_background.png in Resources */,
 				7420AAF71960F814000DD75F /* 37x-Checkmark.png in Resources */,
