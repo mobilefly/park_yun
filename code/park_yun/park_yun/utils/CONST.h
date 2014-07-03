@@ -8,6 +8,7 @@
 
 //主题切换通知
 #define kThemeDidChangeNotification @"kThemeDidChangeNotification"
+#define kNavigationBarTitleLabel @"kNavigationBarTitleLabel"
 
 //颜色
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]

@@ -10,6 +10,7 @@
 #import "FLYParkCell.h"
 #import "FLYDataService.h"
 #import "FLYParkModel.h"
+#import "FLYParkDetailViewController.h"
 
 
 @interface FLYMainViewController ()
@@ -250,7 +251,17 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    FLYParkModel *park = [self.datas objectAtIndex:indexPath.row];
+    FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
+    detail.parkModel = park;
+//    [self.viewController.navigationController pushViewController:detail animated:YES];
+    [self.navigationController pushViewController:detail animated:NO];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+
+    
 }
 
 #pragma mark - BMKLocationServiceDelegate delegate

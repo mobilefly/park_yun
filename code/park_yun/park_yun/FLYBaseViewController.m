@@ -20,7 +20,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.isBackButton = YES;
+        self.isCancelButton = NO;
     }
     return self;
 }
@@ -28,13 +29,51 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    NSArray *viewController = self.navigationController.viewControllers;
+    if(viewController.count > 1 && self.isBackButton){
+        UIButton *button = [UIFactory createButton:@"mfpparking_back_all_up.png" hightlight:@"mfpparking_back_all_down.png"];
+        button.showsTouchWhenHighlighted = YES;
+        button.frame = CGRectMake(0, 0, 24, 24);
+        [button addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:button];
+        self.navigationItem.leftBarButtonItem = backItem;
+    }
+    
+    if (self.isCancelButton) {
+        UIButton *cancelButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"关闭" target:self action:@selector(cancelAction)];
+        UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+        self.navigationItem.leftBarButtonItem = cancelButtonItem;
+    }
+    
+
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)cancelAction{
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+- (void)backAction{
+    NSArray *viewController = self.navigationController.viewControllers;
+    if(viewController.count > 2){
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+}
+
+//override
+- (void)setTitle:(NSString *)title{
+    [super setTitle:title];
+    
+    UILabel *titleLabel = [UIFactory createLabel:kNavigationBarTitleLabel];
+    titleLabel.font = [UIFont boldSystemFontOfSize:18.0f];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.text = title;
+    [titleLabel sizeToFit];
+    
+    self.navigationItem.titleView = titleLabel;
 }
 
 
@@ -191,5 +230,13 @@
     }
     
 }
+
+#pragma mark - view other
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 
 @end

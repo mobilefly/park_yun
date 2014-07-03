@@ -17,6 +17,10 @@
     ThemeImageView *barView;
 }
 
+@property(nonatomic,assign) BOOL isBackButton;
+
+@property(nonatomic,assign) BOOL isCancelButton;
+
 @property(nonatomic,strong) MBProgressHUD *hud;
 
 //提示

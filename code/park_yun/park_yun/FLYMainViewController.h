@@ -15,8 +15,6 @@
 
 @interface FLYMainViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate>{
     
-
-    
     BMKMapView *_mapView;
     BMKLocationService *_locationService;
     
