@@ -7,6 +7,8 @@
 //
 
 #import "FLYBaseViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
+
 
 @interface FLYBaseViewController ()
 
@@ -140,6 +142,54 @@
 - (void)removeTipWindow{
     _tipWindow.hidden = NO;
     _tipWindow = nil;
+}
+
+#pragma mark - UI
+//显示新微博数量
+- (void)showMessage:(NSString *)msg {
+    if (barView == nil) {
+        barView = [UIFactory createImageView:@"timeline_new_status_background.png"];
+        UIImage *image = [barView.image stretchableImageWithLeftCapWidth:5 topCapHeight:5];
+        barView.image = image;
+        //切换主题时使用
+        barView.leftCapWidth = 5;
+        barView.topCapHeight = 5;
+        barView.frame = CGRectMake(5, -40, ScreenWidth - 10, 40);
+        [self.view addSubview:barView];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.tag = 201;
+        label.font = [UIFont systemFontOfSize:16.0f];
+        label.textColor = [UIColor whiteColor];
+        label.backgroundColor = [UIColor clearColor];
+        [barView addSubview:label];
+    }
+    if (msg != nil) {
+        UILabel *label = (UILabel *)[barView viewWithTag:201];
+        label.text = [NSString stringWithFormat:@"%@",msg];
+        [label sizeToFit];
+        label.origin = CGPointMake(((barView.width - label.width)/2), (barView.height - label.height)/2);
+        
+        [UIView animateWithDuration:0.6 animations:^{
+            barView.top = 25;
+        } completion:^(BOOL finish){
+            if (finish) {
+                //延时一秒
+                [UIView beginAnimations:nil context:nil];
+                [UIView setAnimationDelay:1];
+                [UIView setAnimationDuration:0.6];
+                barView.top = -40;
+                [UIView commitAnimations];
+            }
+        }];
+        //播放声音
+        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
+        NSURL *url = [NSURL fileURLWithPath:filePath];
+        SystemSoundID soundId;
+        AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &(soundId));
+        AudioServicesPlayAlertSound(soundId);
+    }
+    
 }
 
 @end

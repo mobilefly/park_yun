@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
+#import "ThemeImageView.h"
+#import "UIFactory.h"
 
 @interface FLYBaseViewController : UIViewController{
     UIView *_loadView;
     UIWindow *_tipWindow;
+    ThemeImageView *barView;
 }
 
 @property(nonatomic,strong) MBProgressHUD *hud;
@@ -23,5 +26,7 @@
 - (void)showHUDComplete:(NSString *)title;
 //状态栏提示
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title;
+//消息提示
+- (void)showMessage:(NSString *)msg;
 
 @end

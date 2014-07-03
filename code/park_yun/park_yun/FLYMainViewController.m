@@ -10,7 +10,7 @@
 #import "FLYParkCell.h"
 #import "FLYDataService.h"
 #import "FLYParkModel.h"
-#import "UIFactory.h"
+
 
 @interface FLYMainViewController ()
 @end
@@ -118,6 +118,7 @@
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+
     }
 }
 
@@ -155,6 +156,7 @@
 
     if (!_isMore) {
         [self.tableView setReachedTheEnd:YES];
+        [super showMessage:@"加载完成"];
     }
    
 }
@@ -261,10 +263,17 @@
         [self requestData];
         [super showLoading:YES];
         _firstFlag = NO;
+//         coor = [[_mapView.userLocation location] coordinate];
+        
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
+        [_mapView setRegion:adjustedRegion animated:YES];
     }
 
     [_mapView updateLocationData:userLocation];
 }
+
+
 
 
 #pragma mark - view other
