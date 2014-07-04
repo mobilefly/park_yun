@@ -10,6 +10,7 @@
 #import "FLYMapViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "RTLabel.h"
+#import "DXAlertView.h"
 
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
@@ -69,13 +70,6 @@
         
         scollHeight += _topic.height;
     }
-    
-    
-//    UILabel parkName = [UILabel alloc];
-    
-    
-    
-    
     
     UILabel *parkName = [[UILabel alloc] initWithFrame:CGRectMake(15, _topic.bottom + 10, 230, 0)];
     parkName.text = self.parkModel.parkName;
@@ -198,6 +192,7 @@
     [scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
 }
 
+#pragma mark - view other
 
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
@@ -214,10 +209,10 @@
     
 }
 
+#pragma mark - JCTopicDelegate delegate
 -(void)didClick:(id)data{
     
 }
-
 
 
 -(void)currentPage:(int)page total:(NSUInteger)total{
@@ -241,11 +236,25 @@
 }
 
 - (void)collectAction{
-
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登录用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
+    [alert show];
+    alert.rightBlock = ^() {
+        
+    };
+    alert.dismissBlock = ^() {
+        
+    };
 }
 
 - (void)discussAction{
-    
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登录用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
+    [alert show];
+    alert.rightBlock = ^() {
+        
+    };
+    alert.dismissBlock = ^() {
+        
+    };
 }
 
 

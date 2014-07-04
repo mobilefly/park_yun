@@ -11,7 +11,8 @@
 #import "FLYDataService.h"
 #import "FLYParkModel.h"
 #import "FLYParkDetailViewController.h"
-
+#import "FLYBaseNavigationController.h"
+#import "FLYSearchViewController.h"
 
 @interface FLYMainViewController ()
 @end
@@ -30,12 +31,31 @@
 -(void)_init{
     _firstFlag = YES;
     _isMore = YES;
+    
+    
+//    _searchField.text = @"";
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+    //查询按钮
+    _searchField.layer.cornerRadius = 2.0f;
+    _searchField.layer.masksToBounds = YES;
+    _searchField.layer.borderColor = [[UIColor whiteColor]CGColor];
+    _searchField.layer.borderWidth = 1.0f;
+    UIColor *color = Color(255, 255, 255, 1);
+    _searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"输入停车场名，地点" attributes:@{NSForegroundColorAttributeName: color}];
+
+    UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nearby_list_icon_disable_search.png"]];
+    searchImage.backgroundColor = [UIColor whiteColor];
+    
+    searchImage.frame = CGRectMake(0, 0, 30, 30);
+    _searchField.rightViewMode = UITextFieldViewModeAlways;
+    _searchField.rightView = searchImage;
+    
+
     ThemeButton *mapButton = [UIFactory createButtonWithBackground:@"mfpparking_ditu_all_up.png" backgroundHightlight:@"mfpparking_ditu_all_down.png"];
     mapButton.showsTouchWhenHighlighted = YES;
     mapButton.frame = CGRectMake(248, 14, 52, 52);
@@ -126,7 +146,8 @@
 
 - (void)loadData:(id)data{
     _dataIndex = _dataIndex + 20;
-    [super showLoading:NO];
+//    [super showLoading:NO];
+    [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
     self.tableView.hidden = NO;
@@ -192,6 +213,13 @@
 }
 
 - (IBAction)search:(id)sender {
+    FLYSearchViewController *searchController = [[FLYSearchViewController alloc] init];
+    searchController.searchText = self.searchField.text;
+    
+    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:searchController];
+    [self.view.viewController presentViewController:baseNav animated:YES completion:nil];
+    
+    self.searchField.text = @"";
     [self.searchField resignFirstResponder];
 }
 
@@ -260,8 +288,6 @@
     [self.navigationController pushViewController:detail animated:NO];
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-
-    
 }
 
 #pragma mark - BMKLocationServiceDelegate delegate
@@ -272,7 +298,7 @@
     _lon = [NSNumber numberWithDouble:userLocation.location.coordinate.longitude];
     if (_firstFlag == YES) {
         [self requestData];
-        [super showLoading:YES];
+        [self showHUD:@"搜索中" isDim:NO];
         _firstFlag = NO;
 //         coor = [[_mapView.userLocation location] coordinate];
         

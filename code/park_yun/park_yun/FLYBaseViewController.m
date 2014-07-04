@@ -114,9 +114,25 @@
 - (void)showHUD:(NSString *)title isDim:(BOOL)isDim{
     self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     //是否灰色背景
-    self.hud.dimBackground = YES;
+    self.hud.dimBackground = isDim;
+    
+    self.hud.mode = MBProgressHUDModeDeterminate;
+    
+    
     if (title.length > 0) {
         self.hud.labelText = title;
+    }
+    
+    [self.hud showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+}
+
+- (void)myProgressTask {
+    // This just increases the progress indicator in a loop
+    float progress = 0.0f;
+    while (progress < 1.0f) {
+        progress += 0.01f;
+        self.hud.progress = progress;
+        usleep(50000);
     }
 }
 

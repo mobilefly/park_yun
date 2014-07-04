@@ -20,16 +20,17 @@
                     <rect key="frame" x="0.0" y="20" width="320" height="80"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入停车场名，地点" minimumFontSize="14" id="kPW-U8-CfT">
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="输入停车场名，地点" minimumFontSize="13" id="kPW-U8-CfT" userLabel="search">
                             <rect key="frame" x="70" y="26" width="170" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" red="0.33725490200000002" green="0.49803921569999998" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             <connections>
-                                <action selector="search:" destination="-1" eventType="editingDidEndOnExit" id="fpg-8w-lKV"/>
+                                <action selector="search:" destination="-1" eventType="editingDidEndOnExit" id="JtZ-uF-SAp"/>
+                                <action selector="search:" destination="-1" eventType="touchDown" id="pVc-By-PdM"/>
                             </connections>
                         </textField>
                     </subviews>

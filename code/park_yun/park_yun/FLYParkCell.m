@@ -145,7 +145,7 @@
     if (distance > 1000) {
         _distance.text = [NSString stringWithFormat:@"%.1fK",distance / 1000];
     }else{
-        _distance.text = [NSString stringWithFormat:@"%f",distance];
+        _distance.text = [NSString stringWithFormat:@"%.0f",distance];
     }
     
     [_distance sizeToFit];
