@@ -17,11 +17,19 @@
     
     BOOL _isFollow;
     BOOL _isLocation;
+    
+    BOOL _isLoading;
+    
+    double lastLat;
+    double lastLon;
 }
 
 //当前经纬度
 @property (nonatomic,strong)NSNumber *lat;
-@property (nonatomic,strong)NSNumber *lon;;
+@property (nonatomic,strong)NSNumber *lon;
+
+@property (strong, nonatomic)NSMutableDictionary *annotationDics;
+@property (strong, nonatomic)NSMutableArray *locationDatas;
 
 
 @end

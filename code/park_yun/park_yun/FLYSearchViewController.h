@@ -13,7 +13,6 @@
     
     BMKPoiSearch  *_poiSearcher;
     BMKGeoCodeSearch *_codeSearcher;
-    
     BMKLocationService *_locationService;
     CLLocation *_location;
 }

@@ -29,9 +29,16 @@
     
     BOOL _isFollow;
     BOOL _isLocation;
+    
+    
+    double lastLat;
+    double lastLon;
 }
 
+@property (strong, nonatomic)NSMutableDictionary *annotationDics;
+
 @property (strong, nonatomic)NSMutableArray *datas;
+@property (strong, nonatomic)NSMutableArray *locationDatas;
 
 @property (strong,nonatomic) PullingRefreshTableView *tableView;
 @property (nonatomic) BOOL refreshing;

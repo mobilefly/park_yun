@@ -119,15 +119,17 @@
     
     self.hud.mode = MBProgressHUDModeDeterminate;
     
+    self.hud.delegate = self;
+    //self.hud.labelText = @"加载中";
     
     if (title.length > 0) {
         self.hud.labelText = title;
     }
     
-    [self.hud showWhileExecuting:@selector(myProgressTask) onTarget:self withObject:nil animated:YES];
+    [self.hud showWhileExecuting:@selector(hudProgressTask) onTarget:self withObject:nil animated:YES];
 }
 
-- (void)myProgressTask {
+- (void)hudProgressTask {
     // This just increases the progress indicator in a loop
     float progress = 0.0f;
     while (progress < 1.0f) {
@@ -139,6 +141,7 @@
 
 - (void)showHUDComplete:(NSString *)title{
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
+    self.hud.delegate = self;
     self.hud.mode = MBProgressHUDModeCustomView;
     if (title.length > 0) {
         self.hud.labelText = title;
@@ -257,12 +260,24 @@
     
 }
 
+#pragma mark MBProgressHUDDelegate methods
+- (void)hudWasHidden:(MBProgressHUD *)hud {
+    [self.hud removeFromSuperview];
+	self.hud = nil;
+}
+
 #pragma mark - view other
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+}
+
+- (void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
+}
 
 @end

@@ -19,7 +19,7 @@
 @property(strong,nonatomic) FLYParkModel *park;
 @property(strong,nonatomic) NSMutableArray *photos;
 
-@property(strong,nonatomic)JCTopic *topic;
-@property(strong,nonatomic)UIPageControl *page;
+@property(strong,nonatomic) JCTopic *topic;
+@property(strong,nonatomic) UIPageControl *page;
 
 @end

@@ -35,7 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     [self requestData];
 }
 
@@ -46,12 +45,12 @@
                                        _parkModel.parkId,
                                        @"parkid",
                                        nil];
-        
+        //防止循环引用
+        __unsafe_unretained FLYParkDetailViewController *ref = self;
         [FLYDataService requestWithURL:kHttpQueryParkDetail params:params httpMethod:@"POST" completeBolck:^(id result){
-            [self loadData:result];
+            [ref loadData:result];
         }];
     }
-    
 }
 
 - (void)loadData:(id)data{
@@ -85,10 +84,7 @@
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44)];
     [self.view addSubview:scrollView];
     
-    
     if (self.photos != nil && [self.photos count] > 0) {
-        
-        
         //默认图片
         UIImage *placeholderImage = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
         _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
@@ -122,8 +118,8 @@
         scollHeight += _topic.height;
     }
     
-    UILabel *parkName = [[UILabel alloc] initWithFrame:CGRectMake(15, _topic.bottom + 10, 230, 0)];
-    parkName.text = self.parkModel.parkName;
+    UILabel *parkName = [[UILabel alloc] initWithFrame:CGRectMake(15, _topic.bottom + 15, 230, 0)];
+    parkName.text = self.park.parkName;
     parkName.backgroundColor = [UIColor clearColor];
     parkName.font = [UIFont systemFontOfSize:18.0];
     parkName.textColor = FontColor;
@@ -134,11 +130,11 @@
     
     //分割线
     UIView *sp = [[UIView alloc] init];
-    sp.frame = CGRectMake(0, parkName.bottom + 10, 320, 1);
+    sp.frame = CGRectMake(0, parkName.bottom + 15, 320, 1);
     sp.backgroundColor =  Color(230, 230, 230, 0.6);
     [scrollView addSubview:sp];
     
-    scollHeight += parkName.height + 10 + 10 + 1;
+    scollHeight += parkName.height + 15 + 15 + 1;
     
     //收藏图片
     UIButton *collectBtn = [UIFactory createButtonWithBackground:@"mfpparking_star_all_up.png" backgroundHightlight:@"mfpparking_star_all_down.png"];
@@ -159,7 +155,7 @@
     [scrollView addSubview:textParkCapacity];
     
     UILabel *parkCapacity = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp.bottom + 10, 100, 20)];
-    parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.parkModel.seatIdle,@"个"];
+    parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.park.seatIdle,@"个"];
     parkCapacity.font = [UIFont systemFontOfSize:18.0];
     parkCapacity.textColor = [UIColor orangeColor];
     parkCapacity.numberOfLines = 1;
@@ -169,7 +165,7 @@
     
     //停车场地址
     UILabel *parkAddress = [[UILabel alloc] initWithFrame:CGRectMake(Padding, parkCapacity.bottom + 5, 230, 20)];
-    parkAddress.text = [NSString stringWithFormat:@"%@%@",@"地址 : ",self.parkModel.parkAddress];
+    parkAddress.text = [NSString stringWithFormat:@"%@%@",@"地址 : ",self.park.parkAddress];
     parkAddress.font = [UIFont systemFontOfSize:14.0];
     parkAddress.textColor = FontColor;
     parkAddress.numberOfLines = 0;
@@ -201,7 +197,7 @@
     [scrollView addSubview:textParkFeedesc];
     
     UILabel *parkFeedesc = [[UILabel alloc] initWithFrame:CGRectMake(Padding, textParkFeedesc.bottom + 5, ScreenWidth - 2 * Padding, 20)];
-    parkFeedesc.text = self.parkModel.parkFeedesc;
+    parkFeedesc.text = self.park.parkFeedesc;
     parkFeedesc.font = [UIFont systemFontOfSize:14.0];
     parkFeedesc.textColor = FontColor;
     parkFeedesc.numberOfLines = 0;
@@ -231,7 +227,7 @@
     
     //停车场详情
     RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, discussBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
-    parkRemark.text = self.parkModel.parkRemark;
+    parkRemark.text = self.park.parkRemark;
     parkRemark.font = [UIFont systemFontOfSize:13.0];
     parkRemark.textColor = FontColor;
     parkRemark.textAlignment = NSTextAlignmentJustified;
@@ -248,22 +244,7 @@
     [scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
 }
 
-#pragma mark - view other
 
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:YES];
-    
-    if (_topic != nil) {
-        //停止自己滚动的timer
-        [_topic releaseTimer];
-    }
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
-}
 
 #pragma mark - JCTopicDelegate delegate
 -(void)didClick:(id)data{
@@ -312,6 +293,34 @@
         
     };
 }
+
+#pragma mark - view other
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+    
+    if (_topic != nil) {
+        //停止自己滚动的timer
+        [_topic releaseTimer];
+        _topic.JCdelegate = nil;
+        _topic = nil;
+    }
+//    _parkModel = nil;
+//    _park = nil;
+//    _photos = nil;
+//    _page = nil;
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    
+}
+
+- (void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
+}
+
 
 
 @end

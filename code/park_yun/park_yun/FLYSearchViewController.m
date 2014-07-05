@@ -65,6 +65,7 @@
         _poiSearcher =[[BMKPoiSearch alloc]init];
         _poiSearcher.delegate = self;
     }
+    
     //发起检索
     BMKNearbySearchOption *option = [[BMKNearbySearchOption alloc]init];
     option.pageIndex = 0;
@@ -91,8 +92,11 @@
 
 //经纬度反查地址
 - (void)reverseGeo{
-    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
-    _codeSearcher.delegate = self;
+    if (_codeSearcher == nil) {
+        _codeSearcher =[[BMKGeoCodeSearch alloc]init];
+        _codeSearcher.delegate = self;
+    }
+    
     //发起反向地理编码检索
     BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
     reverseGeoCodeSearchOption.reverseGeoPoint = _location.coordinate;
@@ -118,6 +122,7 @@
         [self reverseGeo];
 
         [_locationService stopUserLocationService];
+        _locationService.delegate = nil;
         _locationService = nil;
     }
 }
@@ -173,8 +178,10 @@
                                    @"city",
                                    nil];
     
+    //防止循环引用
+    __unsafe_unretained FLYSearchViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryBusinessList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [self loadData:result];
+        [ref loadData:result];
     }];
 }
 
@@ -289,7 +296,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     BMKPoiInfo *poiInfo = [self.datas objectAtIndex:indexPath.row];
-   
     FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
     
     mapController.lat = [NSNumber numberWithDouble:poiInfo.pt.latitude];
@@ -316,16 +322,22 @@
 //不使用时将delegate设置为 nil
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
+    
     if (_poiSearcher != nil) {
         _poiSearcher.delegate = nil;
+        _poiSearcher = nil;
     }
     if (_codeSearcher != nil) {
-        _poiSearcher.delegate = nil;
+        _codeSearcher.delegate = nil;
+        _codeSearcher = nil;
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if (_poiSearcher != nil) {
         _poiSearcher.delegate = self;
     }
@@ -336,8 +348,6 @@
 
 - (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
-    _poiSearcher = nil;
-    _codeSearcher = nil;
 }
 
 @end

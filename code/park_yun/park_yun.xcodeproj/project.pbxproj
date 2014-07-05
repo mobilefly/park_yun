@@ -20,6 +20,7 @@
 		7410D0021967AEF000A41AA5 /* mfpparking_tcc2_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7410CFFE1967AEF000A41AA5 /* mfpparking_tcc2_all_0@2x.png */; };
 		7410D0031967AEF000A41AA5 /* mfpparking_tcc3_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7410CFFF1967AEF000A41AA5 /* mfpparking_tcc3_all_0@2x.png */; };
 		7410D0041967AEF000A41AA5 /* mfpparking_tcc4_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7410D0001967AEF000A41AA5 /* mfpparking_tcc4_all_0@2x.png */; };
+		7410D0081967D6A600A41AA5 /* FLYPointAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7410D0071967D6A600A41AA5 /* FLYPointAnnotation.m */; };
 		7412602A196641DA00EF6A8E /* nearby_list_icon_disable_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74126029196641DA00EF6A8E /* nearby_list_icon_disable_search@2x.png */; };
 		7412602C1966422200EF6A8E /* nearby_list_icon_disable_search@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7412602B1966422200EF6A8E /* nearby_list_icon_disable_search@2x.png */; };
 		741260301966445600EF6A8E /* FLYSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7412602E1966445600EF6A8E /* FLYSearchViewController.m */; };
@@ -186,6 +187,8 @@
 		7410CFFE1967AEF000A41AA5 /* mfpparking_tcc2_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_tcc2_all_0@2x.png"; sourceTree = "<group>"; };
 		7410CFFF1967AEF000A41AA5 /* mfpparking_tcc3_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_tcc3_all_0@2x.png"; sourceTree = "<group>"; };
 		7410D0001967AEF000A41AA5 /* mfpparking_tcc4_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_tcc4_all_0@2x.png"; sourceTree = "<group>"; };
+		7410D0061967D6A600A41AA5 /* FLYPointAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYPointAnnotation.h; sourceTree = "<group>"; };
+		7410D0071967D6A600A41AA5 /* FLYPointAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYPointAnnotation.m; sourceTree = "<group>"; };
 		74126029196641DA00EF6A8E /* nearby_list_icon_disable_search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nearby_list_icon_disable_search@2x.png"; sourceTree = "<group>"; };
 		7412602B1966422200EF6A8E /* nearby_list_icon_disable_search@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nearby_list_icon_disable_search@2x.png"; sourceTree = "<group>"; };
 		7412602D1966445600EF6A8E /* FLYSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYSearchViewController.h; sourceTree = "<group>"; };
@@ -489,6 +492,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7410D0051967D68D00A41AA5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				7410D0061967D6A600A41AA5 /* FLYPointAnnotation.h */,
+				7410D0071967D6A600A41AA5 /* FLYPointAnnotation.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		7420AAAB1960F6E0000DD75F /* openSource */ = {
 			isa = PBXGroup;
 			children = (
@@ -911,6 +923,7 @@
 				74C561A81960609200F218CD /* FLYAppDelegate.h */,
 				74C561A91960609200F218CD /* FLYAppDelegate.mm */,
 				745E743319653FED00BB0AB9 /* park */,
+				7410D0051967D68D00A41AA5 /* UI */,
 				745E7418196506C100BB0AB9 /* ThemeManager */,
 				748F332F1964108D005071E0 /* Model */,
 				74D041171963B9D3005B2F76 /* BaseView */,
@@ -1268,6 +1281,7 @@
 				7420AB1F1960F820000DD75F /* MKAnnotationView+WebCache.m in Sources */,
 				748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */,
 				7420AB251960F820000DD75F /* SDWebImageDownloaderOperation.m in Sources */,
+				7410D0081967D6A600A41AA5 /* FLYPointAnnotation.m in Sources */,
 				7420AAEC1960F7F9000DD75F /* ASINetworkQueue.m in Sources */,
 				74D041281963BCE8005B2F76 /* FLYMainViewController.m in Sources */,
 				7420AAAF1960F777000DD75F /* DDMenuController.m in Sources */,

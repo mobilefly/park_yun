@@ -19,6 +19,8 @@
 
 #define kHttpQueryNearbyList @"/park/queryNearbyList.json"
 
+#define kHttpQueryNearbySimplifyList @"/park/queryNearbySimplifyList.json"
+
 #define kHttpQueryBusinessList @"/common/queryBusinessList.json"
 
 #define kHttpQueryParkDetail @"/park/queryParkDetail.json"

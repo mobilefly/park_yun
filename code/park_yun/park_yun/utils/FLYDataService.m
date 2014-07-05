@@ -58,7 +58,7 @@
             //判断是否文件上传
             if ([value isKindOfClass:[NSData class]]) {
                 [request addData:value forKey:key];
-//                [request addFile:value forKey:key];
+                //[request addFile:value forKey:key];
             }else{
                 [request addPostValue:value forKey:key];
             }
@@ -69,11 +69,9 @@
     //设置请求完成的BLOCK
     [request setCompletionBlock:^{
         NSData *data = req.responseData;
-        float version = FLYOSVersion();
         id result = nil;
-        if (version > 5.0) {
-            result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        }
+
+        result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
         if (block != nil) {
             block(result);

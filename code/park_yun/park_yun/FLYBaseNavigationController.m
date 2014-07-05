@@ -63,7 +63,9 @@
     [super didReceiveMemoryWarning];
 }
 
-
+- (void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
+}
 
 
 @end

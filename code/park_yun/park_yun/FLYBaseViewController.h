@@ -11,7 +11,7 @@
 #import "ThemeImageView.h"
 #import "UIFactory.h"
 
-@interface FLYBaseViewController : UIViewController{
+@interface FLYBaseViewController : UIViewController<MBProgressHUDDelegate>{
     UIView *_loadView;
     UIWindow *_tipWindow;
     ThemeImageView *barView;

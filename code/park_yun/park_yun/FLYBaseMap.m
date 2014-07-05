@@ -22,7 +22,10 @@
 
 - (void)_initView{
     _mapView = [[BMKMapView alloc]initWithFrame:CGRectZero];
+    //显示当前位置
     _mapView.showsUserLocation = YES;
+    //显示比例次
+    _mapView.showMapScaleBar = true;
     
     _mapTypeBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     _trafficBtn = [[UIButton alloc] initWithFrame:CGRectZero];
@@ -67,11 +70,13 @@
     _mapView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     _mapTypeBtn.frame = CGRectMake(260, 20, 40, 40);
     _trafficBtn.frame = CGRectMake(260, 80, 40, 40);
-    _zoomInBtn.frame = CGRectMake(260, self.height - 90, 40, 40);
-    _zoomOutBtn.frame = CGRectMake(260, self.height - 50, 40, 40);
+    _zoomInBtn.frame = CGRectMake(260, self.height - 100, 40, 40);
+    _zoomOutBtn.frame = CGRectMake(260, self.height - 60, 40, 40);
     
-    _followBtn.frame = CGRectMake(10, self.height - 100, 40, 40);
-    _locationBtn.frame = CGRectMake(10, self.height - 50, 40, 40);
+    _followBtn.frame = CGRectMake(10, self.height - 110, 40, 40);
+    _locationBtn.frame = CGRectMake(10, self.height - 60, 40, 40);
+    
+    _mapView.mapScaleBarPosition = CGPointMake(60,self.height - 40);
 }
 
 #pragma mark - Action
