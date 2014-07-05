@@ -65,7 +65,7 @@
     }
 }
 
-#pragma mark - FLYMapDelegate delegate
+#pragma mark - request
 //停车场位置
 - (void)requestLocationData{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -291,7 +291,7 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [_mapBaseView.mapView viewWillDisappear];
     _mapBaseView.mapView.delegate = nil;
-    _mapBaseView.mapDelegate = nil;
+//    _mapBaseView.mapDelegate = nil;
     
     // 不用时，置nil
     if (_locationService != nil) {

@@ -13,6 +13,4 @@
 
 @implementation FLYBussinessModel
 
-
-
 @end

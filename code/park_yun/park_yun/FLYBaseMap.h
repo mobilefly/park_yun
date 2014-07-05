@@ -35,7 +35,7 @@
 
 @property(strong,nonatomic) BMKMapView *mapView;
 
-@property(strong,nonatomic)id<FLYMapDelegate> mapDelegate;
+@property(unsafe_unretained,nonatomic)id<FLYMapDelegate> mapDelegate;
 
 @end
 
