@@ -11,6 +11,8 @@
 #import "FLYBaseNavigationController.h"
 #import "RTLabel.h"
 #import "DXAlertView.h"
+#import "FLYDataService.h"
+#import "UIButton+Bootstrap.h"
 
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
@@ -33,27 +35,76 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    [self requestData];
+}
+
+- (void)requestData{
+    if (_parkModel != nil && _parkModel.parkId.length > 0) {
+        [self showHUD:@"加载中" isDim:NO];
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       _parkModel.parkId,
+                                       @"parkid",
+                                       nil];
+        
+        [FLYDataService requestWithURL:kHttpQueryParkDetail params:params httpMethod:@"POST" completeBolck:^(id result){
+            [self loadData:result];
+        }];
+    }
     
+}
+
+- (void)loadData:(id)data{
+    [self hideHUD];
+    
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            NSDictionary *parkDic = [result objectForKey:@"park"];
+            self.park = [[FLYParkModel alloc] initWithDataDic:parkDic];
+            
+            NSArray *photos = [result objectForKey:@"photos"];
+            if (photos != nil && [photos count] > 0) {
+                NSMutableArray *photoList = [NSMutableArray arrayWithCapacity:photos.count];
+                for (NSDictionary *photoDic in photos) {
+                    FLYPhotoModel *photoModel = [[FLYPhotoModel alloc] initWithDataDic:photoDic];
+                    [photoList addObject:photoModel];
+                }
+                self.photos = photoList;
+            }
+        }
+    }
+    [self renderDetail];
+
+}
+
+- (void)renderDetail{
     int scollHeight = 0;
     
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44)];
     [self.view addSubview:scrollView];
     
     
-    if (self.parkModel.photo != nil && self.parkModel.photo.photoPath.length > 0) {
+    if (self.photos != nil && [self.photos count] > 0) {
+        
+        
         //默认图片
         UIImage *placeholderImage = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
-            _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
+        _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
         //代理
         _topic.JCdelegate = self;
         NSMutableArray * photoArray = [[NSMutableArray alloc]init];
-       
-        [photoArray addObject:[NSDictionary dictionaryWithObjects:
-                                    @[self.parkModel.photo.photoPath,@"",@NO,placeholderImage]
-                                    forKeys:
-                                    @[@"pic",@"title",@"isLoc",@"placeholderImage"]]
-                                  ];
         
+        for (FLYPhotoModel *photoModel in self.photos) {
+            
+            [photoArray addObject:[NSDictionary dictionaryWithObjects:
+                                   @[photoModel.photoPath,@"",@NO,placeholderImage]
+                                                              forKeys:
+                                   @[@"pic",@"title",@"isLoc",@"placeholderImage"]]
+             ];
+        }
+
         //加入数据
         _topic.pics = photoArray;
         //更新
@@ -65,8 +116,8 @@
         _page.numberOfPages = [photoArray count];
         _page.currentPage = 0;
         [scrollView addSubview:_page];
-         
-        _page.right = ScreenWidth - Padding;
+        
+        _page.right = ScreenWidth - 2 * Padding;
         
         scollHeight += _topic.height;
     }
@@ -88,11 +139,11 @@
     [scrollView addSubview:sp];
     
     scollHeight += parkName.height + 10 + 10 + 1;
-
+    
     //收藏图片
     UIButton *collectBtn = [UIFactory createButtonWithBackground:@"mfpparking_star_all_up.png" backgroundHightlight:@"mfpparking_star_all_down.png"];
     collectBtn.showsTouchWhenHighlighted = YES;
-    collectBtn.frame = CGRectMake(0, 0, 25, 25);
+    collectBtn.frame = CGRectMake(0, 0, 37, 40);
     collectBtn.right = ScreenWidth - 2*Padding;
     collectBtn.top = _topic.bottom + (sp.bottom - _topic.bottom)/2 - collectBtn.height / 2;
     [collectBtn addTarget:self action:@selector(collectAction) forControlEvents:UIControlEventTouchUpInside];
@@ -135,7 +186,7 @@
     
     UIButton *positionBtn = [UIFactory createButtonWithBackground:@"mfpparking_location_all_up.png" backgroundHightlight:@"mfpparking_location_all_down.png"];
     positionBtn.showsTouchWhenHighlighted = YES;
-    positionBtn.frame = CGRectMake(0, 0, 22, 27);
+    positionBtn.frame = CGRectMake(0, 0, 37, 40);
     [positionBtn addTarget:self action:@selector(positionAction) forControlEvents:UIControlEventTouchUpInside];
     positionBtn.right = ScreenWidth - 2*Padding;
     positionBtn.top = sp.bottom + (sp2.bottom - sp.bottom)/2 - positionBtn.height / 2;
@@ -166,9 +217,15 @@
     scollHeight += textParkFeedesc.height + parkFeedesc.height + 10 + 5 + 10 + 1;
     
     //评论按钮
-    UIButton *discussBtn = [UIFactory createButtonWithBackground:@"mfpparking_pl_all_up.png" backgroundHightlight:@"mfpparking_pl_all_down.png"];
-    discussBtn.showsTouchWhenHighlighted = YES;
-    discussBtn.frame = CGRectMake( (ScreenWidth - 217) / 2, sp3.bottom + 15, 217, 32);
+    UIButton *discussBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    discussBtn.frame = CGRectMake((ScreenWidth - 160) / 2, sp3.bottom + 15, 160, 35);
+    [discussBtn primaryStyle];
+
+//    discussBtn.titleLabel.text = @"查看评论";
+    [discussBtn setTitle:@"查看评论" forState:UIControlStateNormal];
+    [discussBtn addAwesomeIcon:FAIconRoad beforeTitle:YES];
+
+
     [discussBtn addTarget:self action:@selector(discussAction) forControlEvents:UIControlEventTouchUpInside];
     [scrollView addSubview:discussBtn];
     
@@ -185,9 +242,8 @@
     [parkRemark setFrame:frame];
     
     [scrollView addSubview:parkRemark];
-    
     scollHeight += discussBtn.height + parkRemark.height + 15 + 15 + 20;
- 
+    
     
     [scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
 }

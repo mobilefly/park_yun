@@ -8,12 +8,15 @@
 
 #import "FLYBaseViewController.h"
 #import "BMapKit.h"
+#import "FLYBaseMap.h"
 
-@interface FLYMapViewController : FLYBaseViewController<BMKMapViewDelegate,BMKLocationServiceDelegate>{
-    BMKMapView *_mapView;
+@interface FLYMapViewController : FLYBaseViewController<BMKMapViewDelegate,BMKLocationServiceDelegate,FLYMapDelegate>{
+    
+    FLYBaseMap *_mapBaseView;
     BMKLocationService *_locationService;
     
-
+    BOOL _isFollow;
+    BOOL _isLocation;
 }
 
 //当前经纬度

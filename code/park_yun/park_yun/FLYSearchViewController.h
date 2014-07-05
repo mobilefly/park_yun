@@ -9,17 +9,20 @@
 #import "FLYBaseViewController.h"
 #import "BMapKit.h"
 
-@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
-    BMKPoiSearch  *_searcher;
+@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
+    
+    BMKPoiSearch  *_poiSearcher;
+    BMKGeoCodeSearch *_codeSearcher;
+    
     BMKLocationService *_locationService;
     CLLocation *_location;
 }
 
+@property (strong, nonatomic)NSMutableArray *bussinessDatas;
 @property (strong, nonatomic)NSMutableArray *datas;
-@property (assign, nonatomic)BOOL firstLocation;
 
 @property(copy,nonatomic) NSString *searchText;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UITableView *tableView;
 
 @end

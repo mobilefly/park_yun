@@ -9,6 +9,8 @@
 #import "FLYSearchViewController.h"
 #import "FLYMapViewController.h"
 #import "FLYBaseNavigationController.h"
+#import "FLYDataService.h"
+#import "FLYBussinessModel.h"
 
 @interface FLYSearchViewController ()
 
@@ -20,26 +22,32 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"周边地图查询";
+        self.title = @"周边查询";
         self.isBackButton = NO;
         self.isCancelButton = YES;
     }
     return self;
 }
 
+//xib创建初始化
+- (void)awakeFromNib{
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    _firstLocation = YES;
     
     _searchBar.backgroundColor=[UIColor clearColor];
     _searchBar.placeholder=@"搜索";
     _searchBar.delegate = self;
     
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320 , ScreenHeight - 20 - 44 - 44) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
     _tableView.hidden = YES;
-    _tableView.frame = CGRectMake(10, 10, 300 , ScreenHeight - 20 - 44 - 10);
-    
+    [self.view addSubview:_tableView];
+
     if (_locationService == nil) {
         //初始化BMKLocationService
         _locationService = [[BMKLocationService alloc]init];
@@ -49,12 +57,13 @@
     }
 }
 
+//POI查询
 - (void)search:(NSString *)keyword{
     [self showHUD:@"搜索中" isDim:NO];
     //检索
-    if (_searcher == nil) {
-        _searcher =[[BMKPoiSearch alloc]init];
-        _searcher.delegate = self;
+    if (_poiSearcher == nil) {
+        _poiSearcher =[[BMKPoiSearch alloc]init];
+        _poiSearcher.delegate = self;
     }
     //发起检索
     BMKNearbySearchOption *option = [[BMKNearbySearchOption alloc]init];
@@ -67,7 +76,7 @@
         option.keyword = keyword;
     }
     option.radius = 2000;
-    BOOL flag = [_searcher poiSearchNearBy:option];
+    BOOL flag = [_poiSearcher poiSearchNearBy:option];
     
     if(flag)
     {
@@ -76,7 +85,25 @@
     else
     {
         [self hideHUD];
-        NSLog(@"周边检索发送失败");
+        [self alert:@"抱歉，未找到结果"];
+    }
+}
+
+//经纬度反查地址
+- (void)reverseGeo{
+    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
+    _codeSearcher.delegate = self;
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
+    reverseGeoCodeSearchOption.reverseGeoPoint = _location.coordinate;
+    BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if(flag)
+    {
+      NSLog(@"反geo检索发送成功");
+    }
+    else
+    {
+      NSLog(@"反geo检索发送失败");
     }
 }
 
@@ -85,11 +112,13 @@
 {
     _location = userLocation.location;
     if(_location != nil){
-        if (_firstLocation) {
-            [self search:nil];
-        }
+        //根据关键字查询
+        [self search:nil];
+        //反查城市
+        [self reverseGeo];
+
         [_locationService stopUserLocationService];
-        _firstLocation = NO;
+        _locationService = nil;
     }
 }
 
@@ -110,7 +139,7 @@
     //在此处理正常结果
     if (error == BMK_SEARCH_NO_ERROR) {
         //清空
-//        self.datas = nil;
+        //self.datas = nil;
         //赋值
         NSArray *searchData = poiResult.poiInfoList;
         NSMutableArray *searchMutableArray = [NSMutableArray arrayWithArray:searchData];
@@ -120,15 +149,103 @@
         [self.tableView reloadData];
     }
     else if (error == BMK_SEARCH_AMBIGUOUS_KEYWORD){
-        //当在设置城市未找到结果，但在其他城市找到结果时，回调建议检索城市列表
-        // result.cityList;
-        NSLog(@"起始点有歧义");
+       [self alert:@"起始点有歧义"];
     } else {
-        NSLog(@"抱歉，未找到结果");
+       [self alert:@"抱歉，未找到结果"];
+    }
+}
+
+#pragma mark - BMKGeoCodeSearchDelegate delegate
+- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
+    if (error == BMK_SEARCH_NO_ERROR) {
+        NSString *city = result.addressDetail.city;
+        [self requestBussines:city];
+    }
+    else {
+        [self alert:@"抱歉，未找到结果"];
+    }
+}
+
+#pragma mark - reuqest
+- (void)requestBussines:(NSString *)city{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   city,
+                                   @"city",
+                                   nil];
+    
+    [FLYDataService requestWithURL:kHttpQueryBusinessList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [self loadData:result];
+    }];
+}
+
+- (void)loadData:(id)data{
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            NSArray *businesss = [result objectForKey:@"businesss"];
+            
+            
+            NSMutableArray *businessList = [NSMutableArray arrayWithCapacity:businesss.count];
+            for (NSDictionary *bussinessDic in businesss) {
+                FLYBussinessModel *bussinessModel = [[FLYBussinessModel alloc] initWithDataDic:bussinessDic];
+                [businessList addObject:bussinessModel];
+            }
+            self.bussinessDatas = businessList;
+
+            [self renderBussiness];
+        }
+    }
+}
+
+- (void)renderBussiness{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, 60)];
+    
+    if (_bussinessDatas != nil) {
+        int i = 0;
+        for (FLYBussinessModel *bussinessModel in _bussinessDatas) {
+            if (i == 4) {
+                break;
+            }
+            
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10 + 78 * i, 10, 68, 40)];
+            
+            button.layer.cornerRadius = 2.0f;
+            button.layer.masksToBounds = YES;
+            button.layer.borderColor = [[UIColor lightGrayColor]CGColor];
+            button.layer.borderWidth = 0.5f;
+            button.backgroundColor = [UIColor clearColor];
+            button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+            button.showsTouchWhenHighlighted = YES;
+            button.tag = 100 + i;
+            
+            [button setTitle:bussinessModel.bussinessName forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(location:) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:button];
+            i++;
+        }
     }
     
+    self.tableView.tableHeaderView = view;
+}
+
+- (void)location:(UIButton *)button{
+    int tag = button.tag;
+    int index = tag - 100;
+    FLYBussinessModel *bussinessModel = [_bussinessDatas objectAtIndex:index];
+    
+    FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
+    NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
+    mapController.lat = [numFormat numberFromString:bussinessModel.bussinessLat];
+    mapController.lon = [numFormat numberFromString:bussinessModel.bussinessLng];
+    
+    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
+    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
 
 }
+
+
 
 #pragma mark - UITableViewDataSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -199,16 +316,28 @@
 //不使用时将delegate设置为 nil
 -(void)viewWillDisappear:(BOOL)animated
 {
-    if (_searcher != nil) {
-        _searcher.delegate = nil;
+    if (_poiSearcher != nil) {
+        _poiSearcher.delegate = nil;
+    }
+    if (_codeSearcher != nil) {
+        _poiSearcher.delegate = nil;
     }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    if (_searcher != nil) {
-        _searcher.delegate = self;
+    if (_poiSearcher != nil) {
+        _poiSearcher.delegate = self;
     }
+    if (_codeSearcher != nil) {
+        _codeSearcher.delegate = self;
+    }
+}
+
+- (void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
+    _poiSearcher = nil;
+    _codeSearcher = nil;
 }
 
 @end

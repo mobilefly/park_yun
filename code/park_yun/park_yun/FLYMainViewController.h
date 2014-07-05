@@ -11,11 +11,12 @@
 #import "BMapKit.h"
 #import "FLYBaseViewController.h"
 #import "ThemeButton.h"
+#import "FLYBaseMap.h"
 
 
-@interface FLYMainViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate>{
+@interface FLYMainViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate,FLYMapDelegate>{
     
-    BMKMapView *_mapView;
+    FLYBaseMap *_mapBaseView;
     BMKLocationService *_locationService;
     
     //当前经纬度
@@ -25,6 +26,9 @@
     BOOL _firstFlag;
     int _dataIndex;
     BOOL _isMore;
+    
+    BOOL _isFollow;
+    BOOL _isLocation;
 }
 
 @property (strong, nonatomic)NSMutableArray *datas;

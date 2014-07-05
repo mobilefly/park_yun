@@ -8,6 +8,7 @@
 
 #import "FLYBaseViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "DXAlertView.h"
 
 
 @interface FLYBaseViewController ()
@@ -146,7 +147,7 @@
 }
 
 - (void)hideHUD{
-    [self.hud hide:YES];
+    [self.hud hide:NO];
 }
 
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title{
@@ -199,8 +200,17 @@
     _tipWindow = nil;
 }
 
-#pragma mark - UI
-//显示新微博数量
+- (void)alert:(NSString *)message{
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:message leftButtonTitle:nil rightButtonTitle:@"确认"];
+    [alert show];
+    alert.rightBlock = ^() {
+        
+    };
+    alert.dismissBlock = ^() {
+        
+    };
+}
+
 - (void)showMessage:(NSString *)msg {
     if (barView == nil) {
         barView = [UIFactory createImageView:@"timeline_new_status_background.png"];

@@ -20,6 +20,11 @@
     if (self) {
         self.isBackButton = NO;
         self.isCancelButton = YES;
+        
+        _isFollow = NO;
+        _isLocation = NO;
+
+        
         self.title = @"停车场地图";
     }
     return self;
@@ -37,16 +42,9 @@
     [_locationService startUserLocationService];
     
     
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20)];
-    _mapView.showsUserLocation = YES;
-    [self.view addSubview:_mapView];
-    
-    if (_lat != nil && _lon != nil) {
-        CLLocationCoordinate2D coordinate = {[_lat doubleValue],[_lon doubleValue]};
-        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
-        BMKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
-        [_mapView setRegion:adjustedRegion animated:YES];
-    }
+    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44 - 20)];
+    _mapBaseView.mapDelegate = self;
+    [self.view addSubview:_mapBaseView];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -56,13 +54,43 @@
     coor.latitude = [_lat doubleValue];
     coor.longitude = [_lon doubleValue];
     annotation.coordinate = coor;
-    [_mapView addAnnotation:annotation];
+    [_mapBaseView.mapView addAnnotation:annotation];
+    
+    [self performSelector:@selector(locationMap) withObject:nil afterDelay:1];
+
+}
+
+- (void)locationMap{
+    //定位
+    if (_lat != nil && _lon != nil) {
+        CLLocationCoordinate2D coordinate = {[_lat doubleValue],[_lon doubleValue]};
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+    }
 }
 
 #pragma mark - BMKLocationServiceDelegate delegate
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
-    [_mapView updateLocationData:userLocation];
+    [_mapBaseView.mapView updateLocationData:userLocation];
+    
+
+    
+    //跟随、定位
+    if (_isFollow) {
+        
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+    }else if(_isLocation){
+        
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        _isLocation = NO;
+        
+    }
 }
 
 #pragma mark - BMKMapViewDelegate delegate
@@ -74,9 +102,20 @@
         newAnnotationView.animatesDrop = YES;// 设置该标注点动画显示
         return newAnnotationView;
     }
+    
     return nil;
 }
 
+#pragma mark - FLYMapDelegate delegate
+//跟随
+- (void)mapFollow:(BOOL)enable{
+    _isFollow = enable;
+}
+
+//定位
+- (void)mapLocation{
+    _isLocation = YES;
+}
 
 #pragma mark - view other
 - (void)didReceiveMemoryWarning
@@ -86,13 +125,25 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [_mapView viewWillAppear];
-    _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    [_mapBaseView.mapView viewWillAppear];
+    _mapBaseView.mapView.delegate = self;
+    // 此处记得不用的时候需要置nil，否则影响内存的释放
+    
+
 }
 
+
 -(void)viewWillDisappear:(BOOL)animated {
-    [_mapView viewWillDisappear];
-    _mapView.delegate = nil; // 不用时，置nil
+    [_mapBaseView.mapView viewWillDisappear];
+    _mapBaseView.mapView.delegate = nil;
+    // 不用时，置nil
 }
+
+-(void)dealloc{
+    [_locationService stopUserLocationService];
+    _locationService = nil;
+}
+
+
 
 @end

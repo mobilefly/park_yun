@@ -55,4 +55,5 @@
 @property(nonatomic,strong) NSNumber *seatIdle;
 @property(nonatomic,strong) FLYPhotoModel *photo;
 
+
 @end

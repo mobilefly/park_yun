@@ -30,6 +30,8 @@
 - (void)showHUDComplete:(NSString *)title;
 //状态栏提示
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title;
+
+- (void)alert:(NSString *)message;
 //消息提示
 - (void)showMessage:(NSString *)msg;
 

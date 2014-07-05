@@ -32,6 +32,8 @@
     _firstFlag = YES;
     _isMore = YES;
     
+    _isFollow = NO;
+    _isLocation = NO;
     
 //    _searchField.text = @"";
 }
@@ -46,7 +48,7 @@
     _searchField.layer.borderColor = [[UIColor whiteColor]CGColor];
     _searchField.layer.borderWidth = 1.0f;
     UIColor *color = Color(255, 255, 255, 1);
-    _searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"输入停车场名，地点" attributes:@{NSForegroundColorAttributeName: color}];
+    _searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"周边查询" attributes:@{NSForegroundColorAttributeName: color}];
 
     UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nearby_list_icon_disable_search.png"]];
     searchImage.backgroundColor = [UIColor whiteColor];
@@ -86,11 +88,13 @@
     [_locationService startUserLocationService];
     
     
-    _mapView = [[BMKMapView alloc]initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100)];
+    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100)];
 
-    _mapView.alpha = 0;
-    _mapView.showsUserLocation = YES;
-    [self.view addSubview:_mapView];
+    _mapBaseView.alpha = 0;
+
+    _mapBaseView.mapDelegate = self;
+    [self.view addSubview:_mapBaseView];
+
     
 }
 
@@ -192,11 +196,11 @@
 
 - (void)mapAction:(id)sender {
 
-    if (_mapView.alpha == 0) {
+    if (_mapBaseView.alpha == 0) {
         [UIView animateWithDuration:1 animations:^{
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:_tableView cache:YES];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:_mapView cache:YES];
-            _mapView.alpha = 1;
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:_mapBaseView cache:YES];
+            _mapBaseView.alpha = 1;
             _tableView.alpha = 0;
         }];
     }
@@ -204,8 +208,8 @@
     else if (_tableView.alpha == 0) {
         [UIView animateWithDuration:1 animations:^{
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:_tableView cache:YES];
-            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:_mapView cache:YES];
-            _mapView.alpha = 0;
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:_mapBaseView cache:YES];
+            _mapBaseView.alpha = 0;
             _tableView.alpha = 1;
         }];
     }
@@ -300,33 +304,56 @@
         [self requestData];
         [self showHUD:@"搜索中" isDim:NO];
         _firstFlag = NO;
-//         coor = [[_mapView.userLocation location] coordinate];
         
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
-        BMKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];
-        [_mapView setRegion:adjustedRegion animated:YES];
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+    }
+    
+    //跟随、定位
+    if (_isFollow) {
+        
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        
+    }else if(_isLocation){
+        
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(0.02f,0.02f));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        _isLocation = NO;
+        
     }
 
-    [_mapView updateLocationData:userLocation];
+    [_mapBaseView.mapView updateLocationData:userLocation];
 }
 
+#pragma mark - FLYMapDelegate delegate
+//跟随
+- (void)mapFollow:(BOOL)enable{
+    _isFollow = enable;
+}
 
-
+//定位
+- (void)mapLocation{
+    _isLocation = YES;
+}
 
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {
-    [_mapView viewWillAppear];
-    _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    [_mapBaseView.mapView viewWillAppear];
+    _mapBaseView.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    [_mapView viewWillDisappear];
-    _mapView.delegate = nil; // 不用时，置nil
+    [_mapBaseView.mapView viewWillDisappear];
+    _mapBaseView.mapView.delegate = nil; // 不用时，置nil
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
+-(void)dealloc{
+    [_locationService stopUserLocationService];
+    _locationService = nil;
 }
 
 @end

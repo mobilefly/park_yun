@@ -7,7 +7,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FLYSearchViewController">
             <connections>
                 <outlet property="searchBar" destination="lEQ-K2-C5L" id="f9O-T2-Uqv"/>
-                <outlet property="tableView" destination="9MN-A6-lWC" id="k1V-8z-C7f"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -21,15 +20,6 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9MN-A6-lWC">
-                    <rect key="frame" x="10" y="52" width="300" height="354"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="mwS-Oj-Ifn"/>
-                        <outlet property="delegate" destination="-1" id="0cr-XJ-ao6"/>
-                    </connections>
-                </tableView>
             </subviews>
             <color key="backgroundColor" red="0.9490196704864502" green="0.94509810209274292" blue="0.95686280727386475" alpha="1" colorSpace="deviceRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

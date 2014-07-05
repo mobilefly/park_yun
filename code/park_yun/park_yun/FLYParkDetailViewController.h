@@ -15,6 +15,9 @@
 }
 
 @property(strong,nonatomic) FLYParkModel *parkModel;
+//请求后台数据
+@property(strong,nonatomic) FLYParkModel *park;
+@property(strong,nonatomic) NSMutableArray *photos;
 
 @property(strong,nonatomic)JCTopic *topic;
 @property(strong,nonatomic)UIPageControl *page;
