@@ -261,15 +261,17 @@
 #pragma mark - Action
 - (void)positionAction{
     FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
-    
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     
     mapController.lat = [numFormat numberFromString:_parkModel.parkLat];
     mapController.lon = [numFormat numberFromString:_parkModel.parkLng];
     
-    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
+//    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
     //        [self presentViewController:sendNav animated:YES completion:nil];
-    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
+//    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
+    
+    [self.navigationController pushViewController:mapController animated:NO];
+
 }
 
 - (void)collectAction{

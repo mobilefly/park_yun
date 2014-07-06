@@ -20,8 +20,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.isBackButton = NO;
-        self.isCancelButton = YES;
+//        self.isBackButton = NO;
+//        self.isCancelButton = YES;
         
         _isFollow = NO;
         _isLocation = NO;
@@ -289,9 +289,20 @@
 
 
 -(void)viewWillDisappear:(BOOL)animated {
+    
+    
+    for (FLYPointAnnotation *annotation in self.annotationDics.allValues) {
+//        annotation.image = nil;
+        [_mapBaseView.mapView removeAnnotation:annotation];
+    }
+    self.annotationDics = nil;
+    
+
+    
     [_mapBaseView.mapView viewWillDisappear];
     _mapBaseView.mapView.delegate = nil;
-//    _mapBaseView.mapDelegate = nil;
+//    _mapBaseView.mapView = nil;
+//    _mapBaseView = nil;
     
     // 不用时，置nil
     if (_locationService != nil) {
