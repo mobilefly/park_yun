@@ -32,9 +32,9 @@
     [self loadThemeImage];
     
     //左滑返回
-    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipAction:)];
-    swipGesture.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:swipGesture];
+//    UISwipeGestureRecognizer *swipGesture = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipAction:)];
+//    swipGesture.direction = UISwipeGestureRecognizerDirectionRight;
+//    [self.view addGestureRecognizer:swipGesture];
 }
 
 - (void)swipAction:(UISwipeGestureRecognizer *)gesture{

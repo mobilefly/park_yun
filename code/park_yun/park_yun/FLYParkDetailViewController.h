@@ -12,6 +12,7 @@
 
 @interface FLYParkDetailViewController : FLYBaseViewController<JCTopicDelegate>{
 
+
 }
 
 @property(strong,nonatomic) FLYParkModel *parkModel;
@@ -21,5 +22,7 @@
 
 @property(strong,nonatomic) JCTopic *topic;
 @property(strong,nonatomic) UIPageControl *page;
+
+@property(assign,nonatomic) BOOL showLocation;
 
 @end

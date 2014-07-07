@@ -63,10 +63,13 @@
     [self addSubview:_zoomOutBtn];
     [self addSubview:_followBtn];
     [self addSubview:_locationBtn];
+    
+    [self _layout];
+    
+    
 }
 
-
-- (void)layoutSubviews{
+- (void)_layout{
     _mapView.frame = CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height);
     _mapTypeBtn.frame = CGRectMake(260, 20, 40, 40);
     _trafficBtn.frame = CGRectMake(260, 80, 40, 40);
@@ -77,6 +80,12 @@
     _locationBtn.frame = CGRectMake(10, self.height - 60, 40, 40);
     
     _mapView.mapScaleBarPosition = CGPointMake(60,self.height - 40);
+
+}
+
+
+- (void)layoutSubviews{
+    
 }
 
 #pragma mark - Action

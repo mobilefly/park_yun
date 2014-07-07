@@ -6,30 +6,23 @@
 //  Copyright (c) 2014年 无线飞翔. All rights reserved.
 //
 
-#import "FLYBaseViewController.h"
-#import "BMapKit.h"
-#import "FLYBaseMap.h"
+#import "FLYBaseMapViewController.h"
 
-@interface FLYMapViewController : FLYBaseViewController<BMKMapViewDelegate,BMKLocationServiceDelegate,FLYMapDelegate>{
-    
-    FLYBaseMap *_mapBaseView;
-    BMKLocationService *_locationService;
-    
-    BOOL _isFollow;
-    BOOL _isLocation;
-    
-    BOOL _isLoading;
-    
-    double lastLat;
-    double lastLon;
+@interface FLYMapViewController : FLYBaseMapViewController<BMKMapViewDelegate,BMKLocationServiceDelegate,FLYMapDelegate>{
+
+    //第一次进入系统，加载定位图标
+    BOOL _isFirstLoad;
+
+
 }
-
-//当前经纬度
+//屏幕首次位置
 @property (nonatomic,strong)NSNumber *lat;
 @property (nonatomic,strong)NSNumber *lon;
 
-@property (strong, nonatomic)NSMutableDictionary *annotationDics;
-@property (strong, nonatomic)NSMutableArray *locationDatas;
+//传入标记类型
+@property (copy, nonatomic)NSString *type;
+//传入标记数据
+@property (strong, nonatomic)id dataModel;
 
 
 @end

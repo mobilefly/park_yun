@@ -13,6 +13,7 @@
 #import "DXAlertView.h"
 #import "FLYDataService.h"
 #import "UIButton+Bootstrap.h"
+#import "FLYMapViewController.h"
 
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
@@ -28,6 +29,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         self.title = @"停车场详情";
+        self.showLocation = YES;
     }
     return self;
 }
@@ -90,7 +92,7 @@
         _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
         //代理
         _topic.JCdelegate = self;
-        NSMutableArray * photoArray = [[NSMutableArray alloc]init];
+        NSMutableArray *photoArray = [[NSMutableArray alloc]init];
         
         for (FLYPhotoModel *photoModel in self.photos) {
             
@@ -180,6 +182,8 @@
     
     scollHeight += parkCapacity.height + parkAddress.height + 10 + 5 + 10 + 1;
     
+    
+   
     UIButton *positionBtn = [UIFactory createButtonWithBackground:@"mfpparking_location_all_up.png" backgroundHightlight:@"mfpparking_location_all_down.png"];
     positionBtn.showsTouchWhenHighlighted = YES;
     positionBtn.frame = CGRectMake(0, 0, 37, 40);
@@ -187,6 +191,9 @@
     positionBtn.right = ScreenWidth - 2*Padding;
     positionBtn.top = sp.bottom + (sp2.bottom - sp.bottom)/2 - positionBtn.height / 2;
     [scrollView addSubview:positionBtn];
+    if (!self.showLocation) {
+        positionBtn.hidden = YES;
+    }
     
     //停车场收费标准
     UILabel *textParkFeedesc = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp2.bottom + 10, ScreenWidth - 2 * Padding, 20)];
@@ -266,10 +273,8 @@
     mapController.lat = [numFormat numberFromString:_parkModel.parkLat];
     mapController.lon = [numFormat numberFromString:_parkModel.parkLng];
     
-//    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
-    //        [self presentViewController:sendNav animated:YES completion:nil];
-//    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
-    
+    mapController.type = kAnnotationTypePark;
+    mapController.dataModel = _parkModel;
     [self.navigationController pushViewController:mapController animated:NO];
 
 }
@@ -307,10 +312,6 @@
         _topic.JCdelegate = nil;
         _topic = nil;
     }
-//    _parkModel = nil;
-//    _park = nil;
-//    _photos = nil;
-//    _page = nil;
 }
 
 - (void)didReceiveMemoryWarning

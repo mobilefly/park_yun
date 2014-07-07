@@ -8,7 +8,7 @@
 
 #import "FLYParkCell.h"
 #import "UIImageView+WebCache.h"
-#import "BMapKit.h"
+
 
 @implementation FLYParkCell
 
@@ -139,7 +139,7 @@
     _free_time.left = _p_freetime.right + 2;
     _fz.left = _free_time.right;
     
-    BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([_lat doubleValue],[_lon doubleValue]));
+    BMKMapPoint point1 = BMKMapPointForCoordinate(self.coordinate);
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([self.parkModel.parkLat doubleValue],[self.parkModel.parkLng doubleValue]));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     if (distance > 1000) {

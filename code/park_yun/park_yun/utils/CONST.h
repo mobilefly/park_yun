@@ -16,6 +16,7 @@
 //http
 //#define kHttpDomain @"http://192.168.110.13:8080/park_yun"
 #define kHttpDomain @"http://123.85.3.220:8105/park_yun"
+//#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
 
 #define kHttpQueryNearbyList @"/park/queryNearbyList.json"
 
@@ -26,6 +27,9 @@
 #define kHttpQueryParkDetail @"/park/queryParkDetail.json"
 
 
+#define kAnnotationTypePark @"PARK"
+
+#define kMapRange 0.005f
 
 //json flag
 #define kFlagYes @"0"

@@ -46,19 +46,18 @@
         UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
         self.navigationItem.leftBarButtonItem = cancelButtonItem;
     }
-    
 
 }
 
 - (void)cancelAction{
-    [self dismissViewControllerAnimated:YES completion:NULL];
+    [self dismissViewControllerAnimated:NO completion:NULL];
 }
 
 
 - (void)backAction{
     NSArray *viewController = self.navigationController.viewControllers;
     if(viewController.count > 2){
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:NO];
     }else{
         [self.navigationController popViewControllerAnimated:NO];
     }

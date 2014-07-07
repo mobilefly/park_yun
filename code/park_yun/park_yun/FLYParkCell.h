@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLYParkModel.h"
-
+#import "BMapKit.h"
 
 
 @interface FLYParkCell : UITableViewCell{
@@ -32,7 +32,6 @@
 }
 
 @property(nonatomic,strong)FLYParkModel *parkModel;
-@property(nonatomic,strong)NSNumber *lat;
-@property(nonatomic,strong)NSNumber *lon;
+@property(nonatomic,assign)CLLocationCoordinate2D coordinate;
 
 @end

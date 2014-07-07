@@ -301,9 +301,6 @@
     mapController.lat = [NSNumber numberWithDouble:poiInfo.pt.latitude];
     mapController.lon = [NSNumber numberWithDouble:poiInfo.pt.longitude];
     
-//    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
-//    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
-    
     [self.navigationController pushViewController:mapController animated:YES];
     [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
     

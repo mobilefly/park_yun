@@ -8,39 +8,27 @@
 
 #import <UIKit/UIKit.h>
 #import "PullingRefreshTableView.h"
-#import "BMapKit.h"
-#import "FLYBaseViewController.h"
 #import "ThemeButton.h"
-#import "FLYBaseMap.h"
+#import "FLYBaseMapViewController.h"
 
 
-@interface FLYMainViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate,FLYMapDelegate>{
+@interface FLYMainViewController : FLYBaseMapViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate>{
     
-    FLYBaseMap *_mapBaseView;
-    BMKLocationService *_locationService;
-    
-    //当前经纬度
-    NSNumber *_lat;
-    NSNumber *_lon;
-    //
+    //第一次定位加载数据
     BOOL _firstFlag;
+    //最后一次数据加载索引
     int _dataIndex;
+    //数据是否全部加载完
     BOOL _isMore;
     
-    BOOL _isFollow;
-    BOOL _isLocation;
-    
-    
-    double lastLat;
-    double lastLon;
+
 }
 
-@property (strong, nonatomic)NSMutableDictionary *annotationDics;
-
+//首页列表数据
 @property (strong, nonatomic)NSMutableArray *datas;
-@property (strong, nonatomic)NSMutableArray *locationDatas;
-
+//首页列表
 @property (strong,nonatomic) PullingRefreshTableView *tableView;
+//下拉刷新
 @property (nonatomic) BOOL refreshing;
 
 @property (weak, nonatomic) IBOutlet UITextField *searchField;

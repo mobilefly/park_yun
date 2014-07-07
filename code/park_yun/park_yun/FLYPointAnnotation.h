@@ -11,5 +11,5 @@
 
 @interface FLYPointAnnotation : BMKPointAnnotation
 
-@property (strong,nonatomic) FLYParkModel *parkModel;
+@property (strong,nonatomic) id data;
 @end

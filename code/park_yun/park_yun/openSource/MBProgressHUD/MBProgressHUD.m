@@ -344,8 +344,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		[UIView setAnimationDuration:0.30];
 		[UIView setAnimationDelegate:self];
 		[UIView setAnimationDidStopSelector:@selector(animationFinished:finished:context:)];
-		// 0.02 prevents the hud from passing through touches during the animation the hud will get completely hidden
-		// in the done method
+
+        
 		if (animationType == MBProgressHUDAnimationZoomIn) {
 			self.transform = CGAffineTransformConcat(rotationTransform, CGAffineTransformMakeScale(1.5f, 1.5f));
 		} else if (animationType == MBProgressHUDAnimationZoomOut) {
