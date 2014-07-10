@@ -23,6 +23,7 @@
     if (self) {
         self.isBackButton = YES;
         self.isCancelButton = NO;
+        _isHudLoad = NO;
     }
     return self;
 }
@@ -124,6 +125,7 @@
     if (title.length > 0) {
         self.hud.labelText = title;
     }
+    _isHudLoad = YES;
     
     [self.hud showWhileExecuting:@selector(hudProgressTask) onTarget:self withObject:nil animated:YES];
 }
@@ -131,10 +133,14 @@
 - (void)hudProgressTask {
     // This just increases the progress indicator in a loop
     float progress = 0.0f;
-    while (progress < 1.0f) {
+    while (_isHudLoad) {
         progress += 0.01f;
         self.hud.progress = progress;
         usleep(50000);
+        
+        if (progress >= 1.0f) {
+            progress = 0.0f;
+        }
     }
 }
 
@@ -146,10 +152,12 @@
         self.hud.labelText = title;
     }
     [self.hud hide:YES afterDelay:1];
+    _isHudLoad = NO;
 }
 
 - (void)hideHUD{
     [self.hud hide:NO];
+    _isHudLoad = NO;
 }
 
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title{
@@ -263,6 +271,7 @@
 - (void)hudWasHidden:(MBProgressHUD *)hud {
     [self.hud removeFromSuperview];
 	self.hud = nil;
+    _isHudLoad = NO;
 }
 
 #pragma mark - view other
@@ -273,6 +282,7 @@
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    _isHudLoad = NO;
 }
 
 - (void)dealloc{

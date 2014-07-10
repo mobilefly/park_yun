@@ -12,7 +12,8 @@
 
 @interface FLYParkDetailViewController : FLYBaseViewController<JCTopicDelegate>{
 
-
+    BOOL _isCollect;
+    UIButton *_collectBtn;
 }
 
 @property(strong,nonatomic) FLYParkModel *parkModel;

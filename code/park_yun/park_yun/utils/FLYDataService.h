@@ -10,12 +10,14 @@
 #import "ASIFormDataRequest.h"
 
 typedef void(^RequestFinishBlock)(id result);
+typedef void(^RequestErrorBlock)();
 
 @interface FLYDataService : NSObject
 
 + (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
                             params:(NSMutableDictionary *)params
                         httpMethod:(NSString *)httpMethod
-                     completeBolck:(RequestFinishBlock)block;
+                     completeBolck:(RequestFinishBlock)block
+                     errorBolck:(RequestErrorBlock)error;
 
 @end

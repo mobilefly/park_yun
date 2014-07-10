@@ -16,6 +16,9 @@
 
 //定位
 - (void)mapLocation;
+
+//取消导航
+- (void)mapNavigation;
 @end
 
 
@@ -32,6 +35,8 @@
 
 @property(strong,nonatomic) UIButton *locationBtn;
 @property(strong,nonatomic) UIButton *followBtn;
+
+@property(strong,nonatomic) UIButton *navigationBtn;
 
 @property(strong,nonatomic) BMKMapView *mapView;
 

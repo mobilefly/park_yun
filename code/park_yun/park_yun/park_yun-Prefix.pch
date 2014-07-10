@@ -23,6 +23,7 @@
 #import "FLYGlobalUICommon.h"
 #import "UIView+Additions.h"
 #import "NSString+URLEncoding.h"
+#import "FLYBaseUtil.h"
 
 
 //获取设备物理高度

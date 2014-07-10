@@ -12,6 +12,8 @@
 #import "FLYParkDetailViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYSearchViewController.h"
+#import "FLYUserCenterViewController.h"
+#import "DXAlertView.h"
 
 @interface FLYMainViewController ()
 @end
@@ -38,7 +40,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
+    self.topView.frame = CGRectMake(0, 20, 320, 80);
+    self.topView.hidden = NO;
+    
     //查询按钮
+    _searchField.frame = CGRectMake(75, 25, 170, 30);
     _searchField.layer.cornerRadius = 2.0f;
     _searchField.layer.masksToBounds = YES;
     _searchField.layer.borderColor = [[UIColor whiteColor]CGColor];
@@ -56,7 +64,7 @@
 
     ThemeButton *mapButton = [UIFactory createButtonWithBackground:@"mfpparking_ditu_all_up.png" backgroundHightlight:@"mfpparking_ditu_all_down.png"];
     mapButton.showsTouchWhenHighlighted = YES;
-    mapButton.frame = CGRectMake(248, 14, 52, 52);
+    mapButton.frame = CGRectMake(258, 14, 52, 52);
     [mapButton addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:mapButton];
     
@@ -96,34 +104,12 @@
                                    nil];
     
     //防止循环引用
-    __unsafe_unretained FLYMainViewController *ref = self;
+    __weak FLYMainViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryNearbySimplifyList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadLocationData:result];
+    } errorBolck:^(){
+    
     }];
-}
-
-//停车场位置
-- (void)loadLocationData:(id)data{
-    NSString *flag = [data objectForKey:@"flag"];
-    if ([flag isEqualToString:kFlagYes]) {
-        NSDictionary *result = [data objectForKey:@"result"];
-        if (result != nil) {
-            NSArray *parks = [result objectForKey:@"parks"];
-            
-            
-            NSMutableArray *parkList = [NSMutableArray arrayWithCapacity:parks.count];
-            for (NSDictionary *parkDic in parks) {
-                FLYParkModel *photoModel = [[FLYParkModel alloc] initWithDataDic:parkDic];
-                [parkList addObject:photoModel];
-            }
-            if (self.locationDatas == nil) {
-                self.locationDatas = parkList;
-            }else{
-                [self.locationDatas addObjectsFromArray:parkList];
-            }
-            _isLoading = NO;
-        }
-    }
 }
 
 //停车场位置
@@ -142,9 +128,11 @@
                                    nil];
     
     //防止循环引用
-    __unsafe_unretained FLYMainViewController *ref = self;
+    __weak FLYMainViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadParkData:result];
+    } errorBolck:^(){
+        [ref loadParkError];
     }];
 }
 
@@ -168,14 +156,20 @@
                                        nil];
         
         //防止循环引用
-        __unsafe_unretained FLYMainViewController *ref = self;
+        __weak FLYMainViewController *ref = self;
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadParkData:result];
+        } errorBolck:^(){
+            [ref loadParkError];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
-
     }
+}
+
+- (void)loadParkError{
+    [self hideHUD];
+    [FLYBaseUtil alertErrorMsg];
 }
 
 //停车场列表
@@ -220,7 +214,10 @@
 
 #pragma mark - Action
 - (void)userInfoAction:(id)sender{
-
+    FLYUserCenterViewController *userCenterController = [[FLYUserCenterViewController alloc] init];
+    
+    
+    [self.navigationController pushViewController:userCenterController animated:NO];
 }
 
 //切换地图
@@ -250,7 +247,7 @@
     searchController.searchText = self.searchField.text;
     
     FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:searchController];
-    [self.view.viewController presentViewController:baseNav animated:YES completion:nil];
+    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
     
     self.searchField.text = @"";
     [self.searchField resignFirstResponder];
@@ -304,8 +301,7 @@
     }
 
     cell.parkModel = [self.datas objectAtIndex:indexPath.row];
-    CLLocationCoordinate2D coor = {[cell.parkModel.parkLat doubleValue],[cell.parkModel.parkLng doubleValue]};
-    cell.coordinate = coor;
+    cell.coordinate = _curCoordinate;
     
     return cell;
 }
@@ -322,19 +318,29 @@
 #pragma mark - BMKLocationServiceDelegate delegate
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
+    [self updateUserLocation:userLocation];
+    
     if (_firstFlag == YES) {
-        [self requestParkData];
-        [self requestLocationData];
         
-        [self showHUD:@"搜索中" isDim:NO];
+        
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self requestParkData];
+            [self requestLocationData];
+            [self showHUD:@"加载中" isDim:NO];
+        }else{
+            DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
+            [alert show];
+        }
+        
         _firstFlag = NO;
+        
         
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
     }
     
-    [self updateUserLocation:userLocation];
+    
 }
 
 #pragma mark - BMKMapViewDelegate delegate
@@ -352,7 +358,7 @@
 
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
+    [super viewWillAppear:animated];
     [_mapBaseView.mapView viewWillAppear];
     // 此处记得不用的时候需要置nil，否则影响内存的释放
     _mapBaseView.mapView.delegate = self;
@@ -368,6 +374,7 @@
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
+    
     [_mapBaseView.mapView viewWillDisappear];
     // 不用时，置nil
     _mapBaseView.mapView.delegate = nil;
@@ -381,8 +388,10 @@
         _routesearch.delegate = nil;
         _routesearch = nil;
     }
-    
-    
+}
+
+-(void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 

@@ -11,7 +11,7 @@
 #import "FLYParkDetailViewController.h"
 #import "DXAlertView.h"
 #import "FLYAnnotationView.h"
-
+#import "FLYPointAnnotation.h"
 
 
 #pragma mark - RouteAnnotation
@@ -22,7 +22,6 @@
 
 #pragma mark - UIImage
 @implementation UIImage(InternalMethod)
-
 - (UIImage*)imageRotatedByDegrees:(CGFloat)degrees
 {
     
@@ -72,8 +71,6 @@
 {
     [super didReceiveMemoryWarning];
 }
-
-
 
 
 #pragma mark -  UI
@@ -278,7 +275,6 @@
 #pragma mark - Action
 //详情
 - (void)detailAction:(UIButton *)button{
-    //    _curModel
     FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
     detail.parkModel = _curModel;
     detail.showLocation = NO;
@@ -315,6 +311,8 @@
     }
 }
 
+
+
 #pragma mark - BMKRouteSearchDelegate delegate
 //驾车导航
 - (void)onGetDrivingRouteResult:(BMKRouteSearch*)searcher result:(BMKDrivingRouteResult*)result errorCode:(BMKSearchErrorCode)error{
@@ -328,6 +326,8 @@
         [_mapBaseView.mapView removeOverlay:self.routeOverlay];
         self.routeOverlay = nil;
     }
+    
+    _mapBaseView.navigationBtn.hidden = NO;
     
 	if (error == BMK_SEARCH_NO_ERROR) {
         BMKDrivingRouteLine *plan = (BMKDrivingRouteLine*)[result.routes objectAtIndex:0];
@@ -378,8 +378,8 @@
                 [self.routeAnnotations addObject:item];
             }
         }
-        //轨迹点
         
+        //轨迹点
         BMKMapPoint *temppoints = new BMKMapPoint[planPointCounts];
         int i = 0;
         for (int j = 0; j < size; j++) {
@@ -545,6 +545,7 @@
                 _mapBaseView.zoomOutBtn.transform = CGAffineTransformMakeTranslation(0 , -kParkInfoHight);
                 _mapBaseView.locationBtn.transform = CGAffineTransformMakeTranslation(0 , -kParkInfoHight);
                 _mapBaseView.followBtn.transform = CGAffineTransformMakeTranslation(0 , -kParkInfoHight);
+                _mapBaseView.navigationBtn.transform = CGAffineTransformMakeTranslation(0, -kParkInfoHight);
             }];
         }
     }
@@ -563,13 +564,16 @@
             _mapBaseView.zoomOutBtn.transform = CGAffineTransformIdentity;
             _mapBaseView.locationBtn.transform = CGAffineTransformIdentity;
             _mapBaseView.followBtn.transform = CGAffineTransformIdentity;
+            _mapBaseView.navigationBtn.transform = CGAffineTransformIdentity;
+            
             _parkInfoView.transform = CGAffineTransformIdentity;
+            
             _isClick = NO;
         }];
     }
 }
 
-//
+//绘制导航线
 - (BMKOverlayView *)mapView:(BMKMapView *)map viewForOverlay:(id<BMKOverlay>)overlay
 {
 	if ([overlay isKindOfClass:[BMKPolyline class]]) {
@@ -591,6 +595,20 @@
 //定位
 - (void)mapLocation{
     _isLocation = YES;
+}
+
+//取消导航
+- (void)mapNavigation{
+    for (id annotation in self.routeAnnotations) {
+        [_mapBaseView.mapView removeAnnotation:annotation];
+    }
+    self.routeAnnotations = nil;
+    
+    if (self.routeOverlay != nil) {
+        [_mapBaseView.mapView removeOverlay:self.routeOverlay];
+        self.routeOverlay = nil;
+    }
+    _mapBaseView.navigationBtn.hidden = YES;
 }
 
 #pragma mark - util
@@ -626,29 +644,31 @@
     [_mapBaseView.mapView updateLocationData:userLocation];
 }
 
+//地图滑动、放大、缩小
 - (void)regionChange:(BMKMapView *)mapView{
     if (mapView.zoomLevel < 15.5) {
         return;
     }
+    //屏幕中心点位置
     double curLat = mapView.region.center.latitude;
     double curLon = mapView.region.center.longitude;
     
-    if (lastLat == 0.0 || lastLon == 0.0) {
-        lastLat = curLat;
-        lastLon = curLon;
+    if (lastMarkLat == 0.0 || lastMarkLon == 0.0) {
+        lastMarkLat = curLat;
+        lastMarkLon = curLon;
     }else{
         BMKMapPoint point1 = BMKMapPointForCoordinate(mapView.region.center);
-        BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastLat,lastLon));
-        
+        BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastMarkLat,lastMarkLon));
+        //计算距离上次重新绘制距离
         CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
         if (distance < 2500) {
             return;
         }
-        lastLat = curLat;
-        lastLon = curLon;
+        lastMarkLat = curLat;
+        lastMarkLon = curLon;
     }
     
-    
+    //绘制标记
     for (FLYParkModel *park in self.locationDatas) {
         double parkLat = [park.parkLat doubleValue];
         double parkLng = [park.parkLng doubleValue];
@@ -684,4 +704,44 @@
         }
     }
 }
+
+
+//停车场位置
+- (void)loadLocationData:(id)data{
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            NSArray *parks = [result objectForKey:@"parks"];
+            
+            NSMutableArray *parkList = [NSMutableArray arrayWithCapacity:parks.count];
+            for (NSDictionary *parkDic in parks) {
+                FLYParkModel *photoModel = [[FLYParkModel alloc] initWithDataDic:parkDic];
+                [parkList addObject:photoModel];
+            }
+            if (self.locationDatas == nil) {
+                self.locationDatas = parkList;
+            }else{
+                [self.locationDatas addObjectsFromArray:parkList];
+            }
+            _isLoading = NO;
+        }
+    }
+}
+
+#pragma mark - other
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+}
+
+
+-(void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
+    _mapBaseView.mapView = nil;
+}
+
+
 @end

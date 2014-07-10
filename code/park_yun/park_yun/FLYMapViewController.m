@@ -8,8 +8,7 @@
 
 #import "FLYMapViewController.h"
 #import "FLYDataService.h"
-#import "FLYAnnotationView.h"
-
+#import "FLYPointAnnotation.h"
 
 #pragma mark - FLYMapViewController
 @implementation FLYMapViewController
@@ -95,34 +94,17 @@
                                    @"range",
                                    nil];
     //防止循环引用
-    __unsafe_unretained FLYMapViewController *ref = self;
+    __weak FLYMapViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryNearbySimplifyList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadLocationData:result];
+        if (ref != nil) {
+             [ref loadLocationData:result];
+        }
+    } errorBolck:^(){
+        
     }];
 }
 
-//停车场位置
-- (void)loadLocationData:(id)data{
-    NSString *flag = [data objectForKey:@"flag"];
-    if ([flag isEqualToString:kFlagYes]) {
-        NSDictionary *result = [data objectForKey:@"result"];
-        if (result != nil) {
-            NSArray *parks = [result objectForKey:@"parks"];
-            
-            NSMutableArray *parkList = [NSMutableArray arrayWithCapacity:parks.count];
-            for (NSDictionary *parkDic in parks) {
-                FLYParkModel *photoModel = [[FLYParkModel alloc] initWithDataDic:parkDic];
-                [parkList addObject:photoModel];
-            }
-            if (self.locationDatas == nil) {
-                self.locationDatas = parkList;
-            }else{
-                [self.locationDatas addObjectsFromArray:parkList];
-            }
-            _isLoading = NO;
-        }
-    }
-}
+
 
 #pragma mark - BMKLocationServiceDelegate delegate
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
@@ -154,9 +136,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [_mapBaseView.mapView viewWillAppear];
     _mapBaseView.mapView.delegate = self;
-    
     if (_locationService == nil) {
         //初始化BMKLocationService
         _locationService = [[BMKLocationService alloc]init];
@@ -168,6 +151,8 @@
 
 
 -(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
     
     [_mapBaseView.mapView viewWillDisappear];
     _mapBaseView.mapView.delegate = nil;
@@ -186,7 +171,14 @@
 }
 
 -(void)dealloc{
+    
+    if (_mapBaseView.mapView) {
+        _mapBaseView.mapView = nil;
+    }
+    
+    if (_mapBaseView != nil) {
+        _mapBaseView = nil;
+    }
     NSLog(@"%s",__FUNCTION__);
-    _mapBaseView.mapView = nil;
 }
 @end

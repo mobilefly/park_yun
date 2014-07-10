@@ -7,13 +7,13 @@
 //
 
 #import "FLYParkDetailViewController.h"
-#import "FLYMapViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "RTLabel.h"
 #import "DXAlertView.h"
 #import "FLYDataService.h"
 #import "UIButton+Bootstrap.h"
 #import "FLYMapViewController.h"
+#import "FLYLoginViewController.h"
 
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
@@ -41,17 +41,32 @@
 }
 
 - (void)requestData{
-    if (_parkModel != nil && _parkModel.parkId.length > 0) {
-        [self showHUD:@"加载中" isDim:NO];
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       _parkModel.parkId,
-                                       @"parkid",
-                                       nil];
-        //防止循环引用
-        __unsafe_unretained FLYParkDetailViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpQueryParkDetail params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref loadData:result];
-        }];
+    if ([FLYBaseUtil isEnableInternate]) {
+        if (_parkModel != nil && _parkModel.parkId.length > 0) {
+            [self showHUD:@"加载中" isDim:NO];
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                      _parkModel.parkId,
+                      @"parkid",
+                      nil];
+            if ([FLYBaseUtil checkUserLogin]) {
+                NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+                NSString *token = [defaults stringForKey:@"token"];
+                NSString *userid = [defaults stringForKey:@"memberId"];
+                [params setObject:token forKey:@"token"];
+                [params setObject:userid forKey:@"userid"];
+            }
+            
+            //防止循环引用
+            __weak FLYParkDetailViewController *ref = self;
+            [FLYDataService requestWithURL:kHttpQueryParkDetail params:params httpMethod:@"POST" completeBolck:^(id result){
+                [ref loadData:result];
+            } errorBolck:^(){
+                [ref loadDataError];
+            }];
+        }
+    }else{
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
     }
 }
 
@@ -74,6 +89,8 @@
                 }
                 self.photos = photoList;
             }
+            
+            _isCollect = [[parkDic objectForKey:@"collectFlag"] isEqualToString:@"0"] ? true:false;
         }
     }
     [self renderDetail];
@@ -139,13 +156,21 @@
     scollHeight += parkName.height + 15 + 15 + 1;
     
     //收藏图片
-    UIButton *collectBtn = [UIFactory createButtonWithBackground:@"mfpparking_star_all_up.png" backgroundHightlight:@"mfpparking_star_all_down.png"];
-    collectBtn.showsTouchWhenHighlighted = YES;
-    collectBtn.frame = CGRectMake(0, 0, 37, 40);
-    collectBtn.right = ScreenWidth - 2*Padding;
-    collectBtn.top = _topic.bottom + (sp.bottom - _topic.bottom)/2 - collectBtn.height / 2;
-    [collectBtn addTarget:self action:@selector(collectAction) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:collectBtn];
+    _collectBtn = [[UIButton alloc] init];
+    if (_isCollect) {
+        //已搜藏
+        [_collectBtn setImage:[UIImage imageNamed:@"mfpparking_star_all_down.png"] forState:UIControlStateNormal];
+    }else{
+        //未搜藏
+        [_collectBtn setImage:[UIImage imageNamed:@"mfpparking_star_all_up.png"] forState:UIControlStateNormal];
+    }
+    _collectBtn.showsTouchWhenHighlighted = YES;
+    _collectBtn.frame = CGRectMake(0, 0, 37, 40);
+    _collectBtn.right = ScreenWidth - 2*Padding;
+    _collectBtn.top = _topic.bottom + (sp.bottom - _topic.bottom)/2 - _collectBtn.height / 2;
+    [_collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
+    [scrollView addSubview:_collectBtn];
+    
     
     //剩余车位数
     UILabel *textParkCapacity = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp.bottom + 10, 90, 20)];
@@ -157,7 +182,13 @@
     [scrollView addSubview:textParkCapacity];
     
     UILabel *parkCapacity = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp.bottom + 10, 100, 20)];
-    parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.park.seatIdle,@"个"];
+    //已签约
+    if ([self.park.parkStatus isEqualToString:@"0"]) {
+         parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.park.seatIdle,@"个"];
+    }else{
+         parkCapacity.text = @" - ";
+    }
+   
     parkCapacity.font = [UIFont systemFontOfSize:18.0];
     parkCapacity.textColor = [UIColor orangeColor];
     parkCapacity.numberOfLines = 1;
@@ -167,7 +198,13 @@
     
     //停车场地址
     UILabel *parkAddress = [[UILabel alloc] initWithFrame:CGRectMake(Padding, parkCapacity.bottom + 5, 230, 20)];
-    parkAddress.text = [NSString stringWithFormat:@"%@%@",@"地址 : ",self.park.parkAddress];
+    
+    if ([FLYBaseUtil isNotEmpty:self.park.parkAddress]) {
+        parkAddress.text = [NSString stringWithFormat:@"%@%@",@"地址 : ",self.park.parkAddress];
+    }else{
+        parkAddress.text = [NSString stringWithFormat:@"%@",@"地址 : -"];
+    }
+    
     parkAddress.font = [UIFont systemFontOfSize:14.0];
     parkAddress.textColor = FontColor;
     parkAddress.numberOfLines = 0;
@@ -182,8 +219,6 @@
     
     scollHeight += parkCapacity.height + parkAddress.height + 10 + 5 + 10 + 1;
     
-    
-   
     UIButton *positionBtn = [UIFactory createButtonWithBackground:@"mfpparking_location_all_up.png" backgroundHightlight:@"mfpparking_location_all_down.png"];
     positionBtn.showsTouchWhenHighlighted = YES;
     positionBtn.frame = CGRectMake(0, 0, 37, 40);
@@ -204,7 +239,13 @@
     [scrollView addSubview:textParkFeedesc];
     
     UILabel *parkFeedesc = [[UILabel alloc] initWithFrame:CGRectMake(Padding, textParkFeedesc.bottom + 5, ScreenWidth - 2 * Padding, 20)];
-    parkFeedesc.text = self.park.parkFeedesc;
+    
+    if ([FLYBaseUtil isNotEmpty:self.park.parkAddress]) {
+        parkFeedesc.text = self.park.parkFeedesc;
+    }else{
+        parkFeedesc.text = @"";
+    }
+    
     parkFeedesc.font = [UIFont systemFontOfSize:14.0];
     parkFeedesc.textColor = FontColor;
     parkFeedesc.numberOfLines = 0;
@@ -224,7 +265,7 @@
     discussBtn.frame = CGRectMake((ScreenWidth - 160) / 2, sp3.bottom + 15, 160, 35);
     [discussBtn primaryStyle];
 
-//    discussBtn.titleLabel.text = @"查看评论";
+    //discussBtn.titleLabel.text = @"查看评论";
     [discussBtn setTitle:@"查看评论" forState:UIControlStateNormal];
     [discussBtn addAwesomeIcon:FAIconRoad beforeTitle:YES];
 
@@ -234,10 +275,18 @@
     
     //停车场详情
     RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, discussBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
-    parkRemark.text = self.park.parkRemark;
+    
+    if ([FLYBaseUtil isNotEmpty:self.park.parkRemark]) {
+        parkRemark.text = self.park.parkRemark;
+    }else{
+        parkFeedesc.text = @"";
+    }
+    
+    
     parkRemark.font = [UIFont systemFontOfSize:13.0];
     parkRemark.textColor = FontColor;
     parkRemark.textAlignment = NSTextAlignmentJustified;
+    
     //计算高度
     CGSize optimumSize = [parkRemark optimumSize];
     CGRect frame = [parkRemark frame];
@@ -279,15 +328,76 @@
 
 }
 
-- (void)collectAction{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登录用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
-    [alert show];
-    alert.rightBlock = ^() {
-        
-    };
-    alert.dismissBlock = ^() {
-        
-    };
+- (void)collectAction:(UIButton *)button{
+    if (![FLYBaseUtil checkUserLogin]) {
+        FLYLoginViewController *loginController = [[FLYLoginViewController alloc] init];
+        FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:loginController];
+        [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
+    }else{
+        [self requestCollect];
+    }
+}
+
+-(void)requestCollect{
+    _collectBtn.enabled = false;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:@"token"];
+    NSString *userid = [defaults stringForKey:@"memberId"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   token,
+                                   @"token",
+                                   userid,
+                                   @"userid",
+                                   self.park.parkId,
+                                   @"parkid",
+                                   nil];
+    __weak FLYParkDetailViewController *ref = self;
+    if (_isCollect) {
+        [FLYDataService requestWithURL:kHttpParkCollectRemove params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadRemoveData:result];
+        } errorBolck:^(){
+            [ref loadDataError];
+        }];
+    }else{
+        [FLYDataService requestWithURL:kHttpParkCollectAdd params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadAddData:result];
+        } errorBolck:^(){
+            [ref loadDataError];
+        }];
+    }
+}
+
+-(void)loadDataError{
+    [FLYBaseUtil alertErrorMsg];
+}
+
+
+-(void)loadRemoveData:(id)data{
+    _collectBtn.enabled = true;
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        //未搜藏
+        [_collectBtn setImage:[UIImage imageNamed:@"mfpparking_star_all_up.png"] forState:UIControlStateNormal];
+        _isCollect = false;
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+    }
+}
+
+-(void)loadAddData:(id)data{
+    _collectBtn.enabled = true;
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        //已搜藏
+        [_collectBtn setImage:[UIImage imageNamed:@"mfpparking_star_all_down.png"] forState:UIControlStateNormal];
+        _isCollect = true;
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+    }
 }
 
 - (void)discussAction{
@@ -317,7 +427,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
 
 - (void)dealloc{

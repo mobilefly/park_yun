@@ -179,10 +179,16 @@
                                    nil];
     
     //防止循环引用
-    __unsafe_unretained FLYSearchViewController *ref = self;
+    __weak FLYSearchViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryBusinessList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadData:result];
+    } errorBolck:^(){
+        [ref loadDataError];
     }];
+}
+
+- (void)loadDataError{
+    [FLYBaseUtil alertErrorMsg];
 }
 
 - (void)loadData:(id)data{
@@ -191,8 +197,6 @@
         NSDictionary *result = [data objectForKey:@"result"];
         if (result != nil) {
             NSArray *businesss = [result objectForKey:@"businesss"];
-            
-            
             NSMutableArray *businessList = [NSMutableArray arrayWithCapacity:businesss.count];
             for (NSDictionary *bussinessDic in businesss) {
                 FLYBussinessModel *bussinessModel = [[FLYBussinessModel alloc] initWithDataDic:bussinessDic];
@@ -206,9 +210,10 @@
 }
 
 - (void)renderBussiness{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, 60)];
     
-    if (_bussinessDatas != nil) {
+    
+    if (_bussinessDatas != nil && [_bussinessDatas count] > 0) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, 60)];
         int i = 0;
         for (FLYBussinessModel *bussinessModel in _bussinessDatas) {
             if (i == 4) {
@@ -232,24 +237,21 @@
             [view addSubview:button];
             i++;
         }
+        self.tableView.tableHeaderView = view;
     }
     
-    self.tableView.tableHeaderView = view;
+   
 }
 
 - (void)location:(UIButton *)button{
     long tag = button.tag;
     long index = tag - 100;
     FLYBussinessModel *bussinessModel = [_bussinessDatas objectAtIndex:index];
-    
     FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     mapController.lat = [numFormat numberFromString:bussinessModel.bussinessLat];
     mapController.lon = [numFormat numberFromString:bussinessModel.bussinessLng];
-    
-    FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:mapController];
-    [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
-
+    [self.navigationController pushViewController:mapController animated:NO];
 }
 
 
@@ -301,8 +303,8 @@
     mapController.lat = [NSNumber numberWithDouble:poiInfo.pt.latitude];
     mapController.lon = [NSNumber numberWithDouble:poiInfo.pt.longitude];
     
-    [self.navigationController pushViewController:mapController animated:YES];
-    [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [self.navigationController pushViewController:mapController animated:NO];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }
 
@@ -310,6 +312,10 @@
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [self.searchBar resignFirstResponder];
     [self search:searchBar.text];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
+    [self.searchBar resignFirstResponder];
 }
 
 #pragma mark - view other
@@ -322,6 +328,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [self.searchBar resignFirstResponder];
     
     if (_poiSearcher != nil) {
         _poiSearcher.delegate = nil;
@@ -336,6 +344,7 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+
     
     if (_poiSearcher != nil) {
         _poiSearcher.delegate = self;
@@ -349,4 +358,8 @@
     NSLog(@"%s",__FUNCTION__);
 }
 
+#pragma mark - Action
+- (IBAction)backgroupTap:(id)sender {
+    [self.searchBar resignFirstResponder];
+}
 @end

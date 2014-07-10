@@ -13,7 +13,8 @@
 + (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
                             params:(NSMutableDictionary *)params
                         httpMethod:(NSString *)httpMethod
-                     completeBolck:(RequestFinishBlock)block{
+                     completeBolck:(RequestFinishBlock)block
+                     errorBolck:(RequestErrorBlock)error{
     
     //取得认证信息
 //    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
@@ -75,6 +76,12 @@
     
         if (block != nil) {
             block(result);
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        if (error != nil) {
+            error();
         }
     }];
     

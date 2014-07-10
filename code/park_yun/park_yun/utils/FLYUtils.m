@@ -47,28 +47,29 @@
     return text;
 }
 
-+ (NSString *)parseLink:(NSString *)text{
-    NSString *regex = @"(@\\w+)|(#\\w+#)|(http(s)?://([A-Za-z0-9._-]+(/)?)*)";
-    NSArray *matchArray = [text componentsMatchedByRegex:regex];
-    for (NSString *linkString in matchArray) {
-        
-        NSString *repalce = nil;
-        if ([linkString hasPrefix:@"@"]) {
-            NSString *name = [linkString substringFromIndex:1];
-            repalce = [NSString stringWithFormat:@"<a href='user://%@'>%@</a>",[name URLEncodedString],linkString ];
-        }
-        else if ([linkString hasPrefix:@"http"]){
-            repalce = [NSString stringWithFormat:@"<a href='%@'>%@</a>",linkString,linkString ];
-        }
-        else if([linkString hasPrefix:@"#"]){
-            repalce = [NSString stringWithFormat:@"<a href='topic://%@'>%@</a>",[linkString URLEncodedString],linkString ];
-        }
-        
-        if(linkString != nil){
-            text = [text stringByReplacingOccurrencesOfString:linkString withString:repalce];
-        }
++ (NSString *)betweenDate:(NSDate *)beginDate endDate:(NSDate *)endDate{
+    NSString *timeString = @"";
+    
+    NSTimeInterval end = [endDate timeIntervalSince1970] * 1;
+    NSTimeInterval start = [beginDate timeIntervalSince1970] * 1;
+    NSTimeInterval cha = end - start;
+    int ts = cha / 1;
+    
+    if (ts > 86400) {
+        timeString = [NSString stringWithFormat:@"%@%d天", timeString , ts / 86400];
+        ts = ts % 86400;
     }
-    return text;
+    if (cha > 3600) {
+        timeString = [NSString stringWithFormat:@"%@%d时", timeString , ts / 3600];
+        ts = ts % 3600;
+    }
+    if (cha > 60) {
+        timeString = [NSString stringWithFormat:@"%@%d分", timeString , ts / 60];
+        ts = ts % 60;
+    }
+    return timeString;
 }
+
+
 
 @end

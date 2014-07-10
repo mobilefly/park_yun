@@ -24,4 +24,5 @@
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) UITableView *tableView;
 
+- (IBAction)backgroupTap:(id)sender;
 @end

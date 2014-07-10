@@ -10,15 +10,13 @@
 #import "BMapKit.h"
 #import "FLYBaseMap.h"
 #import "FLYParkModel.h"
-#import "FLYPointAnnotation.h"
+
 
 #define kBlueColor Color(86,127,188,1)
 #define kParkInfoHight 115
 #define kBUNDLE_NAME @ "mapapi.bundle"
 #define kBUNDLE_PATH [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: kBUNDLE_NAME]
 #define kBUNDLE [NSBundle bundleWithPath: kBUNDLE_PATH]
-
-
 
 
 #pragma mark - UIImage
@@ -41,18 +39,19 @@
 
 #pragma mark - FLYBaseMapViewController
 @interface FLYBaseMapViewController : FLYBaseViewController<BMKRouteSearchDelegate,FLYMapDelegate>{
+    //地图
     FLYBaseMap  *_mapBaseView;
-    
+    //位置服务
     BMKLocationService *_locationService;
-    
+    //寻路服务
     BMKRouteSearch *_routesearch;
     
     //人当前位置
     CLLocationCoordinate2D _curCoordinate;
 
-    //屏幕上次加载数据时中心位置
-    double lastLat;
-    double lastLon;
+    //屏幕上次绘制标记时中心位置
+    double lastMarkLat;
+    double lastMarkLon;
     
     //是否跟随
     BOOL _isFollow;
@@ -68,14 +67,14 @@
     BOOL _isLoading;
 }
 
+//绘制标记面板
 - (void)renderParkInfo;
-
+//地图滑动、放大、缩小
 - (void)regionChange:(BMKMapView *)mapView;
-
 //更新定位
 -(void)updateUserLocation:(BMKUserLocation *)userLocation;
 
-//
+//获取导航路线图标
 - (BMKAnnotationView*)getRouteAnnotationView:(BMKMapView *)mapview viewForAnnotation:(RouteAnnotation*)routeAnnotation;
 
 //缓存导航Annotation
@@ -84,9 +83,10 @@
 @property (strong, nonatomic)BMKPolyline *routeOverlay;
 //缓存停车场Annotation
 @property (strong, nonatomic)NSMutableDictionary *annotationDics;
-
+//停车场数据（精简查询接口）
 @property (strong, nonatomic)NSMutableArray *locationDatas;
 
+- (void)loadLocationData:(id)data;
 
 @end
 

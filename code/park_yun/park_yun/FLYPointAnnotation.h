@@ -7,7 +7,6 @@
 //
 
 #import "BMKPointAnnotation.h"
-#import "FLYParkModel.h"
 
 @interface FLYPointAnnotation : BMKPointAnnotation
 

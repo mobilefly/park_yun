@@ -33,6 +33,18 @@
     _zoomOutBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     _locationBtn = [[UIButton alloc] initWithFrame:CGRectZero];
     _followBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    _navigationBtn = [[UIButton alloc] initWithFrame:CGRectZero];
+    _navigationBtn.hidden = YES;
+    _navigationBtn.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5];
+    _navigationBtn.layer.borderWidth = 1;
+    _navigationBtn.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    _navigationBtn.layer.cornerRadius = 2.0;
+    _navigationBtn.layer.masksToBounds = YES;
+
+    [_navigationBtn setTitle:@"取消\n导航" forState:UIControlStateNormal];
+    [_navigationBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    _navigationBtn.titleLabel.numberOfLines = 0;
+    _navigationBtn.titleLabel.font = [UIFont systemFontOfSize:12.0];
     
     [_mapTypeBtn setImage:[UIImage imageNamed:@"mfpparking_2d_all_0.png"] forState:UIControlStateNormal];
     [_trafficBtn setImage:[UIImage imageNamed:@"mfpparking_luk_all_up.png"] forState:UIControlStateNormal];
@@ -55,6 +67,8 @@
     
     [_locationBtn addTarget:self action:@selector(locationAction:) forControlEvents:UIControlEventTouchUpInside];
     
+    [_navigationBtn addTarget:self action:@selector(navigationAction:) forControlEvents:UIControlEventTouchUpInside];
+    
     
     [self addSubview:_mapView];
     [self addSubview:_mapTypeBtn];
@@ -63,6 +77,7 @@
     [self addSubview:_zoomOutBtn];
     [self addSubview:_followBtn];
     [self addSubview:_locationBtn];
+    [self addSubview:_navigationBtn];
     
     [self _layout];
     
@@ -78,6 +93,8 @@
     
     _followBtn.frame = CGRectMake(10, self.height - 110, 40, 40);
     _locationBtn.frame = CGRectMake(10, self.height - 60, 40, 40);
+    
+    _navigationBtn.frame = CGRectMake(10, self.height - 160, 40, 40);
     
     _mapView.mapScaleBarPosition = CGPointMake(60,self.height - 40);
 
@@ -181,6 +198,11 @@
     }
 }
 
+- (void)navigationAction:(UIButton *)button{
+    if ([self.mapDelegate respondsToSelector:@selector(mapNavigation)]) {
+        [self.mapDelegate mapNavigation];
+    }
+}
 
 
 
