@@ -29,6 +29,7 @@
     BMKGeoCodeSearch *_codeSearcher;
     BMKLocationService *_locationService;
     CLLocation *_location;
+    BOOL _firstLocation;
 }
 - (IBAction)backgroupTap:(id)sender;
 

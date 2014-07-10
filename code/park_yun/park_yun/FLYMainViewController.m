@@ -41,7 +41,6 @@
 {
     [super viewDidLoad];
     
-    
     self.topView.frame = CGRectMake(0, 20, 320, 80);
     self.topView.hidden = NO;
     
@@ -84,22 +83,26 @@
     self.tableView.hidden = YES;
     [self.view addSubview:self.tableView];
     
-    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100)];
 
+    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
+    
+    _locationService = [[BMKLocationService alloc]init];
 }
 
 #pragma mark - request
 //停车场位置
 - (void)requestLocationData{
+    _isReload = NO;
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.latitude] ,
+                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.latitude] ,
                                    @"lat",
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
+                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.longitude],
                                    @"long",
-                                   @"200000",
+                                   @"10000",
                                    @"range",
                                    nil];
     
@@ -175,7 +178,7 @@
 //停车场列表
 - (void)loadParkData:(id)data{
     _dataIndex = _dataIndex + 20;
-//    [super showLoading:NO];
+    //    [super showLoading:NO];
     [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
@@ -202,7 +205,13 @@
             }
             [self.tableView reloadData];
         }
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
     }
+    
+    
     [self.tableView tableViewDidFinishedLoading];
 
     if (!_isMore) {
@@ -321,6 +330,10 @@
     [self updateUserLocation:userLocation];
     
     if (_firstFlag == YES) {
+        _firstFlag = NO;
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
         
         
         if ([FLYBaseUtil isEnableInternate]) {
@@ -331,21 +344,13 @@
             DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
             [alert show];
         }
-        
-        _firstFlag = NO;
-        
-        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
-        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
-        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
     }
-    
-    
 }
 
 #pragma mark - BMKMapViewDelegate delegate
 //屏幕移动
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    if (self.locationDatas == nil || [self.locationDatas count] == 0) {
+    if (_isReload) {
         if (!_isLoading) {
             _isLoading = YES;
             [self requestLocationData];
@@ -358,17 +363,15 @@
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [_mapBaseView.mapView viewWillAppear];
     // 此处记得不用的时候需要置nil，否则影响内存的释放
     _mapBaseView.mapView.delegate = self;
     
-    if (_locationService == nil) {
-        //初始化BMKLocationService
-        _locationService = [[BMKLocationService alloc]init];
-        _locationService.delegate = self;
-        //启动LocationService
-        [_locationService startUserLocationService];
-    }
+    
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
@@ -378,18 +381,19 @@
     // 不用时，置nil
     _mapBaseView.mapView.delegate = nil;
     
-    if (_locationService != nil) {
-        [_locationService stopUserLocationService];
-        _locationService = nil;
-    }
-    
-    if (_routesearch != nil) {
-        _routesearch.delegate = nil;
-        _routesearch = nil;
-    }
+    [_locationService stopUserLocationService];
+    _locationService.delegate = nil;
 }
 
 -(void)dealloc{
+    if (_mapBaseView.mapView != nil) {
+        _mapBaseView.mapView = nil;
+    }
+    
+    if (_mapBaseView != nil) {
+        _mapBaseView = nil;
+    }
+    
     NSLog(@"%s",__FUNCTION__);
 }
 

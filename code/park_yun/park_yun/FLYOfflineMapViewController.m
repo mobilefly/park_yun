@@ -34,15 +34,10 @@
 {
     [super viewDidLoad];
     
+    _firstLocation = NO;
     //定位
-    if (_locationService == nil) {
-        //初始化BMKLocationService
-        _locationService = [[BMKLocationService alloc]init];
-        _locationService.delegate = self;
-        //启动LocationService
-        [_locationService startUserLocationService];
-    }
-    
+    _locationService = [[BMKLocationService alloc]init];
+    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
     //初始化离线地图服务
     _offlineMap = [[BMKOfflineMap alloc]init];
     
@@ -95,11 +90,7 @@
 
 //经纬度反查地址
 - (void)reverseGeo{
-    if (_codeSearcher == nil) {
-        _codeSearcher =[[BMKGeoCodeSearch alloc]init];
-        _codeSearcher.delegate = self;
-    }
-    
+
     if (_location != nil) {
         //发起反向地理编码检索
         BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
@@ -283,13 +274,12 @@
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
     _location = userLocation.location;
-    if(_location != nil){
+    if(!_firstLocation && _location != nil){
+        _firstLocation = YES;
+        
         //反查城市
         [self reverseGeo];
-        
         [_locationService stopUserLocationService];
-        _locationService.delegate = nil;
-        _locationService = nil;
     }
 }
 
@@ -358,28 +348,36 @@
 {
     [super viewWillDisappear:animated];
     
+    
+    //停止LocationService
+    [_locationService stopUserLocationService];
+    _locationService.delegate = nil;
+    
+    _codeSearcher.delegate = nil;
     _offlineMap.delegate = nil;
     
-    if (_codeSearcher != nil) {
-        _codeSearcher.delegate = nil;
-        _codeSearcher = nil;
-    }
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
+    
+    _codeSearcher.delegate = self;
     _offlineMap.delegate = self;
     
-    if (_codeSearcher != nil) {
-        _codeSearcher.delegate = self;
-    }
     
 }
 
 - (void)dealloc{
-    _segment = nil;
+    
+    if (_codeSearcher != nil) {
+        _codeSearcher = nil;
+    }
+    
     if (_offlineMap != nil) {
         _offlineMap = nil;
     }

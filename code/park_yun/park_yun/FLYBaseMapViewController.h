@@ -53,6 +53,10 @@
     double lastMarkLat;
     double lastMarkLon;
     
+    //屏幕上次加载数据时中心位置
+    double lastLoadingLat;
+    double lastLoadingLon;
+    
     //是否跟随
     BOOL _isFollow;
     //是否定位
@@ -65,14 +69,14 @@
     BOOL _isClick;
     //加载停车场位置
     BOOL _isLoading;
+    
+    BOOL _isReload;
 }
 
 //绘制标记面板
 - (void)renderParkInfo;
 //地图滑动、放大、缩小
 - (void)regionChange:(BMKMapView *)mapView;
-//更新定位
--(void)updateUserLocation:(BMKUserLocation *)userLocation;
 
 //获取导航路线图标
 - (BMKAnnotationView*)getRouteAnnotationView:(BMKMapView *)mapview viewForAnnotation:(RouteAnnotation*)routeAnnotation;
@@ -87,6 +91,8 @@
 @property (strong, nonatomic)NSMutableArray *locationDatas;
 
 - (void)loadLocationData:(id)data;
+
+-(void)updateUserLocation:(BMKUserLocation *)userLocation;
 
 @end
 

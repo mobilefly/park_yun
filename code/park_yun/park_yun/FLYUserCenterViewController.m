@@ -133,8 +133,8 @@
 
 //收藏
 - (IBAction)collectAction:(id)sender {
-    FLYRechargeViewController *rechargeController = [[FLYRechargeViewController alloc]init];
-    [self.navigationController pushViewController:rechargeController animated:NO];
+
+    
 }
 
 //离线地图

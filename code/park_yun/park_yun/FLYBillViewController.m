@@ -145,7 +145,13 @@
             }
             [self.tableView reloadData];
         }
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
     }
+    
+    
     [self.tableView tableViewDidFinishedLoading];
     
     if (!_isMore) {

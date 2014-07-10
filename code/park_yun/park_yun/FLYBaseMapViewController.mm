@@ -57,7 +57,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        _isReload = YES;
     }
     return self;
 }
@@ -65,6 +65,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _routesearch = [[BMKRouteSearch alloc]init];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -283,17 +286,13 @@
 
 //导航
 - (void)navAction:(UIButton *)button{
+    
     BMKPlanNode *start = [[BMKPlanNode alloc]init];
     start.pt = _curCoordinate;
     
 	BMKPlanNode *end = [[BMKPlanNode alloc]init];
     CLLocationCoordinate2D coor2D = {[_curModel.parkLat doubleValue],[_curModel.parkLng doubleValue]};
     end.pt = coor2D;
-    
-    if (_routesearch == nil) {
-        _routesearch = [[BMKRouteSearch alloc]init];
-        _routesearch.delegate = self;
-    }
     
     BMKDrivingRoutePlanOption *drivingRouteSearchOption = [[BMKDrivingRoutePlanOption alloc]init];
     drivingRouteSearchOption.from = start;
@@ -327,6 +326,10 @@
         self.routeOverlay = nil;
     }
     
+    if (self.routeAnnotations == nil) {
+        self.routeAnnotations = [[NSMutableArray alloc] initWithCapacity:10];
+    }
+    
     _mapBaseView.navigationBtn.hidden = NO;
     
 	if (error == BMK_SEARCH_NO_ERROR) {
@@ -343,12 +346,16 @@
                 item.type = 0;
                 [_mapBaseView.mapView addAnnotation:item]; // 添加起点标注
                 
+                [self.routeAnnotations addObject:item];
+                
             }else if(i==size-1){
                 RouteAnnotation *item = [[RouteAnnotation alloc]init];
                 item.coordinate = plan.terminal.location;
                 item.title = @"终点";
                 item.type = 1;
                 [_mapBaseView.mapView addAnnotation:item]; // 添加起点标注
+                
+                [self.routeAnnotations addObject:item];
             }
             //添加annotation节点
             RouteAnnotation *item = [[RouteAnnotation alloc]init];
@@ -357,13 +364,14 @@
             item.degree = transitStep.direction * 30;
             item.type = 4;
             [_mapBaseView.mapView addAnnotation:item];
+            
+            [self.routeAnnotations addObject:item];
+            
             //轨迹点总数累计
             planPointCounts += transitStep.pointsCount;
         }
         
-        if (self.routeAnnotations != nil) {
-            self.routeAnnotations = [[NSMutableArray alloc] initWithCapacity:[plan.wayPoints count]];
-        }
+        
         
         // 添加途经点
         if (plan.wayPoints) {
@@ -590,6 +598,16 @@
 //跟随
 - (void)mapFollow:(BOOL)enable{
     _isFollow = enable;
+    
+    if (enable) {
+        _mapBaseView.mapView.showsUserLocation = NO;
+        _mapBaseView.mapView.userTrackingMode = BMKUserTrackingModeFollow;
+        _mapBaseView.mapView.showsUserLocation = YES;
+    }else{
+        _mapBaseView.mapView.showsUserLocation = NO;
+        _mapBaseView.mapView.userTrackingMode = BMKUserTrackingModeNone;
+        _mapBaseView.mapView.showsUserLocation = YES;
+    }
 }
 
 //定位
@@ -646,26 +664,47 @@
 
 //地图滑动、放大、缩小
 - (void)regionChange:(BMKMapView *)mapView{
-    if (mapView.zoomLevel < 15.5) {
+    NSLog(@"zoomLevel:%f",mapView.zoomLevel);
+    if (mapView.zoomLevel < 16) {
         return;
     }
     //屏幕中心点位置
     double curLat = mapView.region.center.latitude;
     double curLon = mapView.region.center.longitude;
     
+    
     if (lastMarkLat == 0.0 || lastMarkLon == 0.0) {
+        
+        lastLoadingLat = curLat;
+        lastLoadingLon = curLon;
         lastMarkLat = curLat;
         lastMarkLon = curLon;
+        _isReload = true;
     }else{
         BMKMapPoint point1 = BMKMapPointForCoordinate(mapView.region.center);
         BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastMarkLat,lastMarkLon));
+        BMKMapPoint point3 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastLoadingLat,lastLoadingLon));
+
+        
         //计算距离上次重新绘制距离
         CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-        if (distance < 2500) {
+        //计算距离上次重新加载距离
+        CLLocationDistance distance2 = BMKMetersBetweenMapPoints(point1,point3);
+        NSLog(@"distance:%f",distance);
+        
+        if(distance2 > 9000){
+            lastLoadingLat = curLat;
+            lastLoadingLon = curLon;
+            _isReload = true;
+        }
+        
+        if (distance < 2000) {
             return;
         }
+       
         lastMarkLat = curLat;
         lastMarkLon = curLon;
+        
     }
     
     //绘制标记
@@ -682,7 +721,7 @@
             self.annotationDics = [[NSMutableDictionary alloc] initWithCapacity:50];
         }
         
-        if (distance < 3000) {
+        if (distance < 4000) {
             //未添加过，需要添加
             if ([self.annotationDics objectForKey:park.parkId] == nil) {
                 FLYPointAnnotation *annotation = [[FLYPointAnnotation alloc]init];
@@ -708,6 +747,7 @@
 
 //停车场位置
 - (void)loadLocationData:(id)data{
+    self.locationDatas = nil;
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
@@ -726,6 +766,10 @@
             }
             _isLoading = NO;
         }
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
     }
 }
 
@@ -734,7 +778,13 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    _routesearch.delegate = self;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     
+    _routesearch.delegate = nil;
 }
 
 

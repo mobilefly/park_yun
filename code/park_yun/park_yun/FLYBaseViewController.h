@@ -15,7 +15,7 @@
     UIView *_loadView;
     UIWindow *_tipWindow;
     ThemeImageView *barView;
-    
+
     BOOL _isHudLoad;
 }
 

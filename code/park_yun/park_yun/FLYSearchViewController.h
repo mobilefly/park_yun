@@ -15,6 +15,7 @@
     BMKGeoCodeSearch *_codeSearcher;
     BMKLocationService *_locationService;
     CLLocation *_location;
+    BOOL _firstLocation;
 }
 
 @property (strong, nonatomic)NSMutableArray *bussinessDatas;

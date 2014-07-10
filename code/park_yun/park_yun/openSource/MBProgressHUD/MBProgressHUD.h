@@ -69,7 +69,7 @@ typedef enum {
 #ifndef MB_STRONG
 #if __has_feature(objc_arc)
 	#define MB_STRONG strong
-#else
+#else®
 	#define MB_STRONG retain
 #endif
 #endif

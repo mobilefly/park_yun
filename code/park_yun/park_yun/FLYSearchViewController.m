@@ -38,6 +38,8 @@
 {
     [super viewDidLoad];
     
+    _firstLocation = NO;
+    
     _searchBar.backgroundColor=[UIColor clearColor];
     _searchBar.placeholder=@"搜索";
     _searchBar.delegate = self;
@@ -47,24 +49,16 @@
     _tableView.dataSource = self;
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
+    
+    _poiSearcher =[[BMKPoiSearch alloc]init];
+    _locationService = [[BMKLocationService alloc]init];
+    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
 
-    if (_locationService == nil) {
-        //初始化BMKLocationService
-        _locationService = [[BMKLocationService alloc]init];
-        _locationService.delegate = self;
-        //启动LocationService
-        [_locationService startUserLocationService];
-    }
 }
 
 //POI查询
 - (void)search:(NSString *)keyword{
     [self showHUD:@"搜索中" isDim:NO];
-    //检索
-    if (_poiSearcher == nil) {
-        _poiSearcher =[[BMKPoiSearch alloc]init];
-        _poiSearcher.delegate = self;
-    }
     
     //发起检索
     BMKNearbySearchOption *option = [[BMKNearbySearchOption alloc]init];
@@ -77,26 +71,24 @@
         option.keyword = keyword;
     }
     option.radius = 2000;
-    BOOL flag = [_poiSearcher poiSearchNearBy:option];
     
-    if(flag)
-    {
-        NSLog(@"周边检索发送成功");
+    if (_poiSearcher != nil) {
+        BOOL flag = [_poiSearcher poiSearchNearBy:option];
+        if(flag)
+        {
+            NSLog(@"周边检索发送成功");
+        }
+        else
+        {
+            [self hideHUD];
+            [self alert:@"抱歉，未找到结果"];
+        }
     }
-    else
-    {
-        [self hideHUD];
-        [self alert:@"抱歉，未找到结果"];
-    }
+   
 }
 
 //经纬度反查地址
 - (void)reverseGeo{
-    if (_codeSearcher == nil) {
-        _codeSearcher =[[BMKGeoCodeSearch alloc]init];
-        _codeSearcher.delegate = self;
-    }
-    
     //发起反向地理编码检索
     BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
     reverseGeoCodeSearchOption.reverseGeoPoint = _location.coordinate;
@@ -115,15 +107,13 @@
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
     _location = userLocation.location;
-    if(_location != nil){
+    if(!_firstLocation && _location != nil){
+        _firstLocation = YES;
         //根据关键字查询
         [self search:nil];
         //反查城市
         [self reverseGeo];
-
         [_locationService stopUserLocationService];
-        _locationService.delegate = nil;
-        _locationService = nil;
     }
 }
 
@@ -330,30 +320,34 @@
     
     [self.searchBar resignFirstResponder];
     
-    if (_poiSearcher != nil) {
-        _poiSearcher.delegate = nil;
-        _poiSearcher = nil;
-    }
-    if (_codeSearcher != nil) {
-        _codeSearcher.delegate = nil;
-        _codeSearcher = nil;
-    }
+    [_locationService stopUserLocationService];
+    _locationService.delegate = nil;
+    
+    _poiSearcher.delegate = nil;
+    _codeSearcher.delegate = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
     
-    if (_poiSearcher != nil) {
-        _poiSearcher.delegate = self;
-    }
-    if (_codeSearcher != nil) {
-        _codeSearcher.delegate = self;
-    }
+    _poiSearcher.delegate = self;
+    _codeSearcher.delegate = self;
 }
 
 - (void)dealloc{
+    if (_codeSearcher != nil) {
+        _codeSearcher = nil;
+    }
+
+    if (_poiSearcher != nil) {
+        _poiSearcher = nil;
+    }
+    
     NSLog(@"%s",__FUNCTION__);
 }
 

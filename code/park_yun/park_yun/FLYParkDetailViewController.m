@@ -48,6 +48,7 @@
                       _parkModel.parkId,
                       @"parkid",
                       nil];
+            
             if ([FLYBaseUtil checkUserLogin]) {
                 NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
                 NSString *token = [defaults stringForKey:@"token"];
@@ -92,6 +93,10 @@
             
             _isCollect = [[parkDic objectForKey:@"collectFlag"] isEqualToString:@"0"] ? true:false;
         }
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
     }
     [self renderDetail];
 

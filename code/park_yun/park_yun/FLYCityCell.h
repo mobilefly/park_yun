@@ -33,7 +33,9 @@
 - (IBAction)downloadAction:(id)sender;
 
 
-@property(unsafe_unretained,nonatomic)id<FLYOfflineCellDelegate> cellDelegate;
+//@property(unsafe_unretained,nonatomic)id<FLYOfflineCellDelegate> cellDelegate;
+@property(assign,nonatomic)id<FLYOfflineCellDelegate> cellDelegate;
+
 @property(strong,nonatomic)BMKOLSearchRecord *data;
 
 @end

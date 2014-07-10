@@ -37,6 +37,10 @@
     _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44 - 20)];
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
+    
+    //初始化BMKLocationService
+    _locationService = [[BMKLocationService alloc]init];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -82,15 +86,23 @@
     }
 }
 
+#pragma mark - BMKLocationServiceDelegate delegate
+- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
+{
+    [self updateUserLocation:userLocation];
+}
+
 #pragma mark - request
 //停车场位置
 - (void)requestLocationData{
+    _isReload = NO;
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [_lat stringValue] ,
+                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.latitude] ,
                                    @"lat",
-                                   [_lon stringValue],
+                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.longitude],
                                    @"long",
-                                   @"200000",
+                                   @"10000",
                                    @"range",
                                    nil];
     //防止循环引用
@@ -100,25 +112,14 @@
              [ref loadLocationData:result];
         }
     } errorBolck:^(){
-        
+
     }];
-}
-
-
-
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    [_mapBaseView.mapView updateLocationData:userLocation];
-    
-    [self updateUserLocation:userLocation];
 }
 
 #pragma mark - BMKMapViewDelegate delegate
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     
-    
-    if (self.locationDatas == nil || [self.locationDatas count] == 0) {
+    if (_isReload) {
         if (!_isLoading) {
             _isLoading = YES;
             [self requestLocationData];
@@ -140,39 +141,32 @@
     
     [_mapBaseView.mapView viewWillAppear];
     _mapBaseView.mapView.delegate = self;
-    if (_locationService == nil) {
-        //初始化BMKLocationService
-        _locationService = [[BMKLocationService alloc]init];
-        _locationService.delegate = self;
-        //启动LocationService
-        [_locationService startUserLocationService];
-    }
+
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
+    
+    _mapBaseView.mapDelegate = self;
+
 }
 
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    
     [_mapBaseView.mapView viewWillDisappear];
     _mapBaseView.mapView.delegate = nil;
     
     // 不用时，置nil
-    if (_locationService != nil) {
-        [_locationService stopUserLocationService];
-        _locationService.delegate = nil;
-        _locationService = nil;
-    }
+    [_locationService stopUserLocationService];
+    _locationService.delegate = nil;
     
-    if (_routesearch != nil) {
-        _routesearch.delegate = nil;
-        _routesearch = nil;
-    }
+    _mapBaseView.mapDelegate = nil;
 }
 
 -(void)dealloc{
     
-    if (_mapBaseView.mapView) {
+    if (_mapBaseView.mapView != nil) {
         _mapBaseView.mapView = nil;
     }
     
