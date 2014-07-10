@@ -45,7 +45,7 @@
     NSURL *url = [NSURL URLWithString:urlstring];
     ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
     //设置超时时间
-    [request setTimeOutSeconds:60];
+    [request setTimeOutSeconds:10];
     [request setRequestMethod:httpMethod];
     
     

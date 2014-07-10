@@ -48,13 +48,13 @@
 }
 
 +(void)alertMsg:(NSString *)msg{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
     [alert show];
 }
 
 
 +(void)alertErrorMsg{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"系统错误" leftButtonTitle:nil rightButtonTitle:@"确认"];
+    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"连接失败" leftButtonTitle:nil rightButtonTitle:@"确认"];
     [alert show];
 }
 

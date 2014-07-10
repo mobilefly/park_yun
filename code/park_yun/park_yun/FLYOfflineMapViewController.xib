@@ -16,6 +16,9 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <action selector="backgroupTap:" destination="-1" eventType="touchDown" id="w5K-1i-ljk"/>
+            </connections>
         </view>
     </objects>
 </document>

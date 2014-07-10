@@ -20,4 +20,5 @@
 
 + (NSString *)betweenDate:(NSDate *)beginDate endDate:(NSDate *)endDate;
 
++ (NSString *)getDataSizeString:(int) nSize;
 @end

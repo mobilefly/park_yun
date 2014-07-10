@@ -7,8 +7,10 @@
 //
 
 #import "FLYBaseViewController.h"
+#import "BMapKit.h"
+#import "FLYCityCell.h"
 
-@interface FLYOfflineMapViewController : FLYBaseViewController<UITableViewDelegate,UITableViewDataSource>{
+@interface FLYOfflineMapViewController : FLYBaseViewController<UITableViewDelegate,UITableViewDataSource,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKOfflineMapDelegate,FLYOfflineCellDelegate>{
     UITextField *_searchText;
     UIButton *_searchBtn;
     
@@ -22,6 +24,12 @@
     
     NSMutableArray *_cityData;
     NSMutableArray *_downloadData;
+    
+    BMKOfflineMap *_offlineMap;
+    BMKGeoCodeSearch *_codeSearcher;
+    BMKLocationService *_locationService;
+    CLLocation *_location;
 }
+- (IBAction)backgroupTap:(id)sender;
 
 @end

@@ -210,8 +210,7 @@
 }
 
 - (void)renderBussiness{
-    
-    
+
     if (_bussinessDatas != nil && [_bussinessDatas count] > 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, 60)];
         int i = 0;

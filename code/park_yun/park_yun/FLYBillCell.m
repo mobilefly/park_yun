@@ -14,7 +14,7 @@
 - (void)awakeFromNib
 {
     //商品名称
-    _orderNameLabel =  (UILabel *)[self viewWithTag:101];
+    _orderNameLabel = (UILabel *)[self viewWithTag:101];
     
     _mtPaydateImage = (UIImageView *)[self viewWithTag:102];
     //交易时间

@@ -334,7 +334,6 @@
         
         _firstFlag = NO;
         
-        
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
