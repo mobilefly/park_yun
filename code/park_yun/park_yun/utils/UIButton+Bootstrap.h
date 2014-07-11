@@ -17,4 +17,5 @@
 -(void)infoStyle;
 -(void)warningStyle;
 -(void)dangerStyle;
+-(void)disabledStyle;
 @end

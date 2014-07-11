@@ -65,9 +65,9 @@
 //        _dateLabel.text = NSLocalizedString(@"最后更新", @"");
         [self addSubview:_dateLabel];
         
-        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];
+//        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];
+        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 50) ];
         self.clipsToBounds = YES;
-        
         [_arrowView setImage:[UIImage imageNamed:@"drop_down_renovate"]];
         
         [self addSubview:_arrowView];
@@ -101,16 +101,18 @@
         y = size.height - margin - kPRArrowHeight;
         arrowFrame = CGRectMake(4*x, y, kPRArrowWidth, kPRArrowHeight);
         
-    } else {    //at bottom
-        y = margin + 10;
-        stateFrame = CGRectMake(0, y, size.width, kPRLabelHeight );
+    } else {
+        //at bottom
+//        y = margin + 10;
+        y = margin;
+        stateFrame = CGRectMake(0, y, size.width, kPRLabelHeight);
         
         y = y + kPRLabelHeight;
         dateFrame = CGRectMake(0, y, size.width, kPRLabelHeight);
         
         x = kPRMargin;
         y = margin;
-        arrowFrame = CGRectMake(4*x, y, kPRArrowWidth, kPRArrowHeight);
+        arrowFrame = CGRectMake(4*x, y - 5, kPRArrowWidth, kPRArrowHeight);
         
         _stateLabel.text = NSLocalizedString(@"上拉加载", @"");
     }

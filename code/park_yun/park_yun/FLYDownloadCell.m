@@ -31,7 +31,7 @@
         _progressLabel.text = [NSString stringWithFormat:@"%i%@",self.data.ratio,@"%"];
         
         //已暂停
-        if (self.data.status != 1 && self.data.status != 4) {
+        if (self.data.status != 1 && self.data.ratio != 100) {
             _updateBtn.enabled = true;
             [_updateBtn setTitle:@"继续" forState:UIControlStateNormal];
             [_updateBtn primaryStyle];
@@ -40,9 +40,11 @@
             if (self.data.update) {
                 _updateBtn.enabled = true;
                 [_updateBtn primaryStyle];
+                NSString *size = [FLYUtils getDataSizeString:self.data.size];
+                _cityNameLabel.text = [NSString stringWithFormat:@"%@(%@)",_cityNameLabel.text,size];
             }else{
                 _updateBtn.enabled = false;
-                [_updateBtn defaultStyle];
+                [_updateBtn disabledStyle];
             }
         }
         
@@ -64,10 +66,9 @@
 }
 
 - (IBAction)updateAction:(id)sender {
-    if (self.data.status != 1 && self.data.status != 4) {
+    if (self.data.status != 1 && self.data.ratio != 100) {
         if ([self.cellDelegate respondsToSelector:@selector(download:)]) {
             [self.cellDelegate download:_data.cityID];
-            
             _updateBtn.enabled = false;
             [_updateBtn defaultStyle];
             [_updateBtn setTitle:@"更新" forState:UIControlStateNormal];

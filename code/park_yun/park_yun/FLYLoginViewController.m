@@ -196,6 +196,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberId forKey:@"memberId"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberPhone forKey:@"memberPhone"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberName forKey:@"memberName"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberCarno forKey:@"memberCarno"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
             [self dismissViewControllerAnimated:NO completion:NULL];

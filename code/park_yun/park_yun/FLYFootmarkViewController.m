@@ -1,29 +1,29 @@
 //
-//  FLYBillViewController.m
+//  FLYFootmarkViewController.m
 //  park_yun
 //
-//  Created by chen on 14-7-9.
+//  Created by chen on 14-7-11.
 //  Copyright (c) 2014年 无线飞翔. All rights reserved.
 //
 
-#import "FLYBillViewController.h"
+#import "FLYFootmarkViewController.h"
 #import "FLYDataService.h"
-#import "FLYMemberTraceModel.h"
-#import "FLYBillCell.h"
+#import "FLYFootmarkCell.h"
 #import "DXAlertView.h"
+#import "FLYMemberTraceModel.h"
 
 
-@interface FLYBillViewController ()
+@interface FLYFootmarkViewController ()
 
 @end
 
-@implementation FLYBillViewController
+@implementation FLYFootmarkViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"我的账单";
+        self.title = @"我的足迹";
     }
     return self;
 }
@@ -44,7 +44,7 @@
     
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
-        [self requestBillData];
+        [self requestFootmarkData];
     }else{
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
@@ -52,7 +52,7 @@
 }
 
 #pragma mark - request
--(void)requestBillData{
+-(void)requestFootmarkData{
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -60,26 +60,29 @@
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
+    NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    token,
                                    @"token",
                                    userid,
                                    @"userid",
+                                   memberCarno,
+                                   @"carno",
                                    nil];
     
     //防止循环引用
-    __weak FLYBillViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryBillList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadBillData:result];
+    __weak FLYFootmarkViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadFootmarkData:result];
     } errorBolck:^(){
-        [ref loadBillError];
+        [ref loadDataError];
     }];
 }
 
 
 
--(void)requestMoreBillData{
+-(void)requestMorFootmarkData{
     //FLYMemberTraceModel
     
     if (_isMore) {
@@ -90,22 +93,25 @@
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults stringForKey:@"token"];
         NSString *userid = [defaults stringForKey:@"memberId"];
+        NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        token,
                                        @"token",
                                        userid,
                                        @"userid",
+                                       memberCarno,
+                                       @"carno",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
                                        nil];
         
         //防止循环引用
-        __weak FLYBillViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref loadBillData:result];
+        __weak FLYFootmarkViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadFootmarkData:result];
         } errorBolck:^(){
-            [ref loadBillError];
+            [ref loadDataError];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
@@ -113,12 +119,12 @@
 }
 
 
--(void)loadBillError{
+-(void)loadDataError{
     [self hideHUD];
     [FLYBaseUtil alertErrorMsg];
 }
 
-- (void)loadBillData:(id)data{
+- (void)loadFootmarkData:(id)data{
     _dataIndex = _dataIndex + 20;
     [self hideHUD];
     
@@ -136,7 +142,7 @@
             
             NSMutableArray *traceList = [NSMutableArray arrayWithCapacity:traces.count];
             for (NSDictionary *traceDic in traces) {
-                FLYMemberTraceModel *traceModel = [[FLYMemberTraceModel alloc] initWithDataDic:traceDic];
+                FLYTraceModel *traceModel = [[FLYTraceModel alloc] initWithDataDic:traceDic];
                 [traceList addObject:traceModel];
             }
             if (self.datas == nil) {
@@ -161,16 +167,15 @@
     }
 }
 
-
 #pragma mark - PullingRefreshTableViewDelegate
 //下拉开始
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
     self.refreshing = YES;
-    [self performSelector:@selector(requestBillData) withObject:nil afterDelay:1.f];
+    [self performSelector:@selector(requestFootmarkData) withObject:nil afterDelay:1.f];
 }
 //上拉加载数据
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
-    [self performSelector:@selector(requestMoreBillData) withObject:nil afterDelay:1.f];
+    [self performSelector:@selector(requestMorFootmarkData) withObject:nil afterDelay:1.f];
 }
 
 #pragma mark - Scroll
@@ -203,10 +208,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BillCell";
-    FLYBillCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *CellIdentifier = @"FootmarkCell";
+    FLYFootmarkCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil){
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYBillCell" owner:self options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYFootmarkCell" owner:self options:nil] lastObject];
     }
     
     cell.traceModel = [self.datas objectAtIndex:indexPath.row];
@@ -218,16 +223,14 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - delegate
+
+#pragma mark - other
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-
--(void)dealloc{
-    NSLog(@"%s",__FUNCTION__);
-}
 
 
 @end

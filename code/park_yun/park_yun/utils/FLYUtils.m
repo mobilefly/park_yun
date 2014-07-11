@@ -41,9 +41,9 @@
 
 //Sat Jan 12 11:50:16 +0800 2013
 + (NSString *)fomateString:(NSString *)datestring {
-    NSString *formate = @"E MMM d HH:mm:ss Z yyyy";
+    NSString *formate = @"yyyyMMddHHmmss";
     NSDate *createDate = [FLYUtils dateFromFomate:datestring formate:formate];
-    NSString *text = [FLYUtils stringFromFomate:createDate formate:@"MM-dd HH:mm"];
+    NSString *text = [FLYUtils stringFromFomate:createDate formate:@"dd/MM HH:mm"];
     return text;
 }
 

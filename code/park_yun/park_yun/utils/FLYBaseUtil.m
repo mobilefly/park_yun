@@ -15,7 +15,17 @@
 +(BOOL)checkUserLogin{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
-    if (token == nil || token.length <= 0) {
+    NSString *memberId = [defaults stringForKey:@"memberId"];
+    if (token == nil || memberId == nil || token.length <= 0 || memberId.length <= 0) {
+        return false;
+    }
+    return true;
+}
+
++(BOOL)checkUserBindCar{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
+    if (memberCarno == nil || memberCarno.length <= 0) {
         return false;
     }
     return true;
@@ -27,11 +37,19 @@
     [defaults setObject:nil forKey:@"memberId"];
     [defaults setObject:nil forKey:@"memberPhone"];
     [defaults setObject:nil forKey:@"memberName"];
+    [defaults setObject:nil forKey:@"memberCarno"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 +(BOOL)isNotEmpty:(NSString *)str{
     if (str != nil && str.length > 0) {
+        return true;
+    }
+    return false;
+}
+
++(BOOL)isEmpty:(NSString *)str{
+    if (str == nil || str.length == 0) {
         return true;
     }
     return false;

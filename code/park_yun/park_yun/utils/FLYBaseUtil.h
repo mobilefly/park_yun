@@ -13,11 +13,15 @@
 //
 +(BOOL)checkUserLogin;
 
++(BOOL)checkUserBindCar;
+
 //清楚用户状态
 +(void)clearUserInfo;
 
 //字符串是否不为空
 +(BOOL)isNotEmpty:(NSString *)str;
+
++(BOOL)isEmpty:(NSString *)str;
 
 // 是否wifi
 +(BOOL)isEnableWIFI;

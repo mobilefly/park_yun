@@ -8,6 +8,7 @@
 
 #import "FLYSettingViewController.h"
 #import "DXAlertView.h"
+#import "FLYFeedbackViewController.h"
 
 @interface FLYSettingViewController ()
 
@@ -67,19 +68,15 @@
     if (indexPath.row == 0) {
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"清除缓存" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
-        return;
     }else if (indexPath.row == 1){
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"消息接受设置" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
-        return;
     }else if (indexPath.row == 2){
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"意见反馈" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
-        return;
+        FLYFeedbackViewController *feedBack = [[FLYFeedbackViewController alloc] init];
+        [self.navigationController pushViewController:feedBack animated:NO];
     }else if (indexPath.row == 3){
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"关于我们" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
-        return;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];

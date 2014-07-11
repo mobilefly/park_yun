@@ -15,6 +15,7 @@
 #import "FLYSettingViewController.h"
 #import "FLYBillViewController.h"
 #import "FLYOfflineMapViewController.h"
+#import "FLYFootmarkViewController.h"
 
 @interface FLYUserCenterViewController ()
 
@@ -129,6 +130,16 @@
 
 //足迹
 - (IBAction)footmarkAction:(id)sender {
+    if (![FLYBaseUtil checkUserLogin]) {
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登陆用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+    }else if(![FLYBaseUtil checkUserBindCar]){
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"未绑定任何车牌" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+    }else{
+        FLYFootmarkViewController *footmarkController = [[FLYFootmarkViewController alloc]init];
+        [self.navigationController pushViewController:footmarkController animated:NO];
+    }
 }
 
 //收藏

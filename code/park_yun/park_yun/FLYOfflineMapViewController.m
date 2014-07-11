@@ -201,6 +201,9 @@
 }
 
 - (void)searchCity:(UIButton *)button{
+    
+    [_searchText resignFirstResponder];
+    
     if ([FLYBaseUtil isNotEmpty:_searchText.text]) {
         if (_offlineMap != nil) {
             NSArray *city = [_offlineMap searchCity:_searchText.text];
