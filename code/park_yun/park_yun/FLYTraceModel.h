@@ -60,6 +60,8 @@
 @property(nonatomic,copy) NSString *tracePayflag;
 @property(nonatomic,copy) NSString *traceParkname;
 @property(nonatomic,copy) NSString *traceParktime;
+@property(nonatomic,copy) NSString *photoUrl;
+
 
 
 @end

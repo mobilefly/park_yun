@@ -8,8 +8,8 @@
 
 #import "FLYFeedbackViewController.h"
 #import "UIFactory.h"
-#import "DXAlertView.h"
 #import "FLYDataService.h"
+#import "DXAlertView.h"
 
 #define kBackgroundColor Color(249,249,249,1)
 
@@ -84,8 +84,7 @@
 #pragma mark - Actions
 -(void)submitAction:(UIButton *)button{
     if ([FLYBaseUtil isEmpty:_contentView.text] || [_contentView.text isEqualToString:@"在此处输入你的反馈意见"]) {
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请填写意见" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showToast:@"请填写意见"];
     }else{
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
         NSString *userid = [defaults stringForKey:@"memberId"];
@@ -131,12 +130,13 @@
         };
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        [FLYBaseUtil alertMsg:msg];
+        [self showAlert:msg];
     }
 
 }
 
 - (void)loadLoginError{
+    
     [FLYBaseUtil alertErrorMsg];
 }
 

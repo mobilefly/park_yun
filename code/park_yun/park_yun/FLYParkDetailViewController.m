@@ -9,7 +9,6 @@
 #import "FLYParkDetailViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "RTLabel.h"
-#import "DXAlertView.h"
 #import "FLYDataService.h"
 #import "UIButton+Bootstrap.h"
 #import "FLYMapViewController.h"
@@ -66,8 +65,7 @@
             }];
         }
     }else{
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请打开网络"];
     }
 }
 
@@ -95,8 +93,7 @@
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
     [self renderDetail];
 
@@ -157,7 +154,6 @@
     sp.frame = CGRectMake(0, parkName.bottom + 15, 320, 1);
     sp.backgroundColor =  Color(230, 230, 230, 0.6);
     [scrollView addSubview:sp];
-    
     scollHeight += parkName.height + 15 + 15 + 1;
     
     //收藏图片
@@ -386,8 +382,7 @@
         _isCollect = false;
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
 }
 
@@ -400,20 +395,12 @@
         _isCollect = true;
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
 }
 
 - (void)discussAction{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登录用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
-    [alert show];
-    alert.rightBlock = ^() {
-        
-    };
-    alert.dismissBlock = ^() {
-        
-    };
+    [self showAlert:@"请先登录用户"];
 }
 
 #pragma mark - view other

@@ -13,7 +13,6 @@
 #import "FLYBaseNavigationController.h"
 #import "FLYSearchViewController.h"
 #import "FLYUserCenterViewController.h"
-#import "DXAlertView.h"
 
 @interface FLYMainViewController ()
 @end
@@ -81,6 +80,7 @@
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.hidden = YES;
+    self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     
 
@@ -117,7 +117,6 @@
 
 //停车场位置
 - (void)requestParkData{
-
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -207,8 +206,8 @@
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
+
     }
     
     
@@ -337,12 +336,13 @@
         
         
         if ([FLYBaseUtil isEnableInternate]) {
+            
+//            [self.tableView updateRefreshDate];
             [self requestParkData];
             [self requestLocationData];
             [self showHUD:@"加载中" isDim:NO];
         }else{
-            DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
-            [alert show];
+            [self showAlert:@"请打开网络"];
         }
     }
 }

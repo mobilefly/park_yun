@@ -25,9 +25,9 @@
 }
 
 //首页列表数据
-@property (strong, nonatomic)NSMutableArray *datas;
+@property (strong, nonatomic) NSMutableArray *datas;
 //首页列表
-@property (strong,nonatomic) PullingRefreshTableView *tableView;
+@property (strong, nonatomic) PullingRefreshTableView *tableView;
 //下拉刷新
 @property (nonatomic) BOOL refreshing;
 

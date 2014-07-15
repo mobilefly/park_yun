@@ -81,7 +81,7 @@
         else
         {
             [self hideHUD];
-            [self alert:@"抱歉，未找到结果"];
+            [self showAlert:@"抱歉，未找到结果"];
         }
     }
    
@@ -144,9 +144,9 @@
         [self.tableView reloadData];
     }
     else if (error == BMK_SEARCH_AMBIGUOUS_KEYWORD){
-       [self alert:@"起始点有歧义"];
+       [self showAlert:@"起始点有歧义"];
     } else {
-       [self alert:@"抱歉，未找到结果"];
+       [self showAlert:@"抱歉，未找到结果"];
     }
 }
 
@@ -157,7 +157,7 @@
         [self requestBussines:city];
     }
     else {
-        [self alert:@"抱歉，未找到结果"];
+        [self showAlert:@"抱歉，未找到结果"];
     }
 }
 

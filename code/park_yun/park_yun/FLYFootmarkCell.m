@@ -8,7 +8,7 @@
 
 #import "FLYFootmarkCell.h"
 #import "FLYUtils.h"
-
+#import "UIImageView+WebCache.h"
 @implementation FLYFootmarkCell
 
 - (void)awakeFromNib
@@ -19,11 +19,7 @@
      payLabel = (UILabel *)[self viewWithTag:104];
      durationLabel = (UILabel *)[self viewWithTag:105];
      parkImage = (UIImageView *)[self viewWithTag:106];
-    
-    
 }
-
-
 
 - (void)layoutSubviews{
     
@@ -52,6 +48,9 @@
         payLabel.text = @"暂无数据";
     }
     
+    
+//    photoUrl
+    
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkbegin] && [FLYBaseUtil isNotEmpty:self.traceModel.traceParkend]) {
         NSDate *beginDate = [FLYUtils dateFromFomate:self.traceModel.traceParkbegin formate:@"yyyyMMddHHmmss"];
         NSDate *endDate = [FLYUtils dateFromFomate:self.traceModel.traceParkend formate:@"yyyyMMddHHmmss"];
@@ -62,7 +61,13 @@
     
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
-    parkImage.image = defaultParkPhoto;
+    if ([FLYBaseUtil isNotEmpty:self.traceModel.photoUrl]) {
+        parkImage.image = defaultParkPhoto;
+        [parkImage setImageWithURL:[NSURL URLWithString:self.traceModel.photoUrl] placeholderImage:defaultParkPhoto];
+    }else{
+        parkImage.image = defaultParkPhoto;
+    }
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

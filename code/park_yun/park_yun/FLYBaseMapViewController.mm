@@ -9,7 +9,6 @@
 #import "FLYBaseMapViewController.h"
 #import "UIButton+Bootstrap.h"
 #import "FLYParkDetailViewController.h"
-#import "DXAlertView.h"
 #import "FLYAnnotationView.h"
 #import "FLYPointAnnotation.h"
 
@@ -304,8 +303,7 @@
     }
     else
     {
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"未检索到导航路线" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showToast:@"未检索到导航路线"];
         NSLog(@"car检索发送失败");
     }
 }
@@ -698,7 +696,7 @@
             _isReload = true;
         }
         
-        if (distance < 2000) {
+        if (distance < 1000 || _isReload) {
             return;
         }
        
@@ -721,7 +719,7 @@
             self.annotationDics = [[NSMutableDictionary alloc] initWithCapacity:50];
         }
         
-        if (distance < 4000) {
+        if (distance < 2000) {
             //未添加过，需要添加
             if ([self.annotationDics objectForKey:park.parkId] == nil) {
                 FLYPointAnnotation *annotation = [[FLYPointAnnotation alloc]init];
@@ -768,8 +766,8 @@
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
+
     }
 }
 

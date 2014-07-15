@@ -10,7 +10,6 @@
 #import "FLYDataService.h"
 #import "FLYMemberTraceModel.h"
 #import "FLYBillCell.h"
-#import "DXAlertView.h"
 
 
 @interface FLYBillViewController ()
@@ -46,8 +45,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestBillData];
     }else{
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请打开网络"];
     }
 }
 
@@ -148,8 +146,7 @@
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
     
     
@@ -168,6 +165,7 @@
     self.refreshing = YES;
     [self performSelector:@selector(requestBillData) withObject:nil afterDelay:1.f];
 }
+
 //上拉加载数据
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
     [self performSelector:@selector(requestMoreBillData) withObject:nil afterDelay:1.f];
@@ -209,7 +207,22 @@
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYBillCell" owner:self options:nil] lastObject];
     }
     
-    cell.traceModel = [self.datas objectAtIndex:indexPath.row];
+    cell.showDate = YES;
+    FLYMemberTraceModel *traceModel = [self.datas objectAtIndex:indexPath.row];
+    cell.traceModel = traceModel;
+    
+    if (indexPath.row != 0) {
+        FLYMemberTraceModel *lastTraceModel = [self.datas objectAtIndex:(indexPath.row - 1)];
+        
+        if ([FLYBaseUtil isNotEmpty:traceModel.mtPaydate] && [FLYBaseUtil isNotEmpty:lastTraceModel.mtPaydate]) {
+            NSString *payDate = [traceModel.mtPaydate substringWithRange:NSMakeRange(0,8)];
+            NSString *lastPayDate = [lastTraceModel.mtPaydate substringWithRange:NSMakeRange(0,8)];
+            if ([payDate isEqualToString:lastPayDate]) {
+                cell.showDate = NO;
+            }
+        }
+        
+    }
     
     return cell;
 }

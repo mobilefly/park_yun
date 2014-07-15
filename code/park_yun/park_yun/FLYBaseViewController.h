@@ -35,8 +35,10 @@
 //状态栏提示
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title;
 
-- (void)alert:(NSString *)message;
+- (void)showAlert:(NSString *)message;
 //消息提示
 - (void)showMessage:(NSString *)msg;
+//提示
+- (void)showToast:(NSString *)mag;
 
 @end

@@ -36,5 +36,6 @@
 }
 
 @property(nonatomic,strong)FLYMemberTraceModel *traceModel;
+@property(nonatomic,assign)BOOL showDate;
 
 @end

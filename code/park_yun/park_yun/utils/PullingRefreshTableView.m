@@ -45,10 +45,10 @@
 		self.backgroundColor = kPRBGColor;
         
 //        self.backgroundColor = [UIColor clearColor];
-        UIFont *ft = [UIFont systemFontOfSize:15.f];
+        UIFont *ft = [UIFont systemFontOfSize:12.f];
         _stateLabel = [[UILabel alloc] init ];
         _stateLabel.font = ft;
-        _stateLabel.textColor = [UIColor blackColor];
+        _stateLabel.textColor = [UIColor grayColor];
         _stateLabel.textAlignment = NSTextAlignmentCenter;
         _stateLabel.backgroundColor = kPRBGColor;
         _stateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -62,7 +62,7 @@
         _dateLabel.textAlignment = NSTextAlignmentCenter;
         _dateLabel.backgroundColor = kPRBGColor;
         _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-//        _dateLabel.text = NSLocalizedString(@"最后更新", @"");
+        _dateLabel.text = NSLocalizedString(@"最后更新", @"");
         [self addSubview:_dateLabel];
         
 //        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];

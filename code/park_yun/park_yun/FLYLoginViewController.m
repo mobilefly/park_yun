@@ -7,13 +7,12 @@
 //
 
 #import "FLYLoginViewController.h"
-#import "DXAlertView.h"
 #import "NSString+MD5HexDigest.h"
 #import "FLYDataService.h"
 #import "SecurityUtil.h"
 #import "NSData+AES.h"
 #import "FLYMemberModel.h"
-
+#import "FLYRegisterViewController.h"
 
 
 #define fontColor Color(64,64,64,1)
@@ -55,7 +54,6 @@
     self.password.secureTextEntry = YES;
     
     ThemeButton *loginBtn = [UIFactory createButtonWithBackground:@"mfpparking_accountlogin_all_up.png" backgroundHightlight:@"mfpparking_accountlogin_all_down.png"];
-    
     loginBtn.frame = CGRectMake(20, 160, 280, 40);
     [loginBtn addTarget:self action:@selector(loginAction) forControlEvents:UIControlEventTouchUpInside];
     loginBtn.leftCapWidth = 20;
@@ -66,7 +64,8 @@
     loginBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
     [self.view addSubview:loginBtn];
     
-
+    self.registerBtn.top = loginBtn.bottom + 20;
+    self.forgetpassBtn.top = loginBtn.bottom + 20;
 }
 
 - (void)didReceiveMemoryWarning
@@ -109,17 +108,23 @@
     [self loginAction];
 }
 
+- (IBAction)forgetpassAction:(id)sender {
+}
+
+- (IBAction)registerAction:(id)sender {
+    FLYRegisterViewController *registerController = [[FLYRegisterViewController alloc] init];
+    [self.navigationController pushViewController:registerController animated:NO];
+}
+
 - (void)loginAction{
     [self.username resignFirstResponder];
     [self.password resignFirstResponder];
     
     if (self.username.text != nil && self.username.text.length <= 0) {
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"手机号不能为空" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showToast:@"手机号不能为空"];
         return;
     }else if(self.password.text != nil &&  self.password.text.length <= 0){
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"密码不能为空" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showToast:@"密码不能为空"];
         return;
     }
     
@@ -170,6 +175,8 @@
     } errorBolck:^(){
         [ref loadLoginError];
     }];
+    
+    
 }
 
 - (void)loadLoginError{
@@ -197,14 +204,14 @@
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberPhone forKey:@"memberPhone"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberName forKey:@"memberName"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberCarno forKey:@"memberCarno"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberType forKey:@"memberType"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
             [self dismissViewControllerAnimated:NO completion:NULL];
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
 }
 

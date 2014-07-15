@@ -80,7 +80,9 @@
         _mtPaydateLabel.text = [NSString stringWithFormat:@"%@:%@",payDateHour,payDateMin];
     }
     
-    
+
+    _dateView.hidden = !self.showDate;
+
     //00余额
     if ([self.traceModel.order.orderPayflag isEqualToString:@"00"]) {
         _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_time_all_0.png"];
@@ -108,9 +110,6 @@
         _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_wx_all_0.png"];
         _orderInfoLabel.text = @"微信充值";
     }
-    
-    
-    
     
 }
 

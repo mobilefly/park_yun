@@ -40,16 +40,10 @@
 #pragma mark - PullingRefreshTableViewDelegate
 //下拉开始
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
-    //    self.refreshing = NO;
+    self.refreshing = YES;
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];
 }
-//刷新时间
-- (NSDate *)pullingTableViewRefreshingFinishedDate{
-    NSDateFormatter *df = [[NSDateFormatter alloc] init ];
-    df.dateFormat = @"yyyy-MM-dd HH:mm";
-    NSDate *date = [df dateFromString:@"2012-05-03 10:10"];
-    return date;
-}
+
 //上拉加载数据
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
     [self performSelector:@selector(loadData) withObject:nil afterDelay:1.f];

@@ -9,6 +9,7 @@
 #import "FLYBaseViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "DXAlertView.h"
+#import "FLYToast.h"
 
 
 @interface FLYBaseViewController ()
@@ -210,7 +211,7 @@
     _tipWindow = nil;
 }
 
-- (void)alert:(NSString *)message{
+- (void)showAlert:(NSString *)message{
     DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:message leftButtonTitle:nil rightButtonTitle:@"确认"];
     [alert show];
     alert.rightBlock = ^() {
@@ -257,14 +258,19 @@
                 [UIView commitAnimations];
             }
         }];
+        
         //播放声音
-        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
-        NSURL *url = [NSURL fileURLWithPath:filePath];
-        SystemSoundID soundId;
-        AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &(soundId));
-        AudioServicesPlayAlertSound(soundId);
+//        NSString *filePath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
+//        NSURL *url = [NSURL fileURLWithPath:filePath];
+//        SystemSoundID soundId;
+//        AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &(soundId));
+//        AudioServicesPlayAlertSound(soundId);
     }
     
+}
+
+- (void)showToast:(NSString *)mag{
+    [FLYToast showWithText:mag];
 }
 
 #pragma mark MBProgressHUDDelegate methods
@@ -273,6 +279,7 @@
 	self.hud = nil;
     _isHudLoad = NO;
 }
+
 
 #pragma mark - view other
 - (void)didReceiveMemoryWarning

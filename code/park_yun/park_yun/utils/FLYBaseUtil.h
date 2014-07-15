@@ -30,7 +30,7 @@
 +(BOOL)isEnableInternate;
 
 +(void)alertMsg:(NSString *)msg;
-
+//
 +(void)alertErrorMsg;
 
 @end

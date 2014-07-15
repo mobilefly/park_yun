@@ -9,7 +9,6 @@
 #import "FLYFootmarkViewController.h"
 #import "FLYDataService.h"
 #import "FLYFootmarkCell.h"
-#import "DXAlertView.h"
 #import "FLYMemberTraceModel.h"
 
 
@@ -46,8 +45,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestFootmarkData];
     }else{
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请打开网络" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请打开网络"];
     }
 }
 
@@ -154,8 +152,7 @@
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:msg];
     }
     
     
@@ -228,7 +225,10 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc{
+    NSLog(@"%s",__FUNCTION__);
 }
 
 

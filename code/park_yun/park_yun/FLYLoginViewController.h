@@ -21,6 +21,10 @@
 @property (weak, nonatomic) IBOutlet UIView *loginView;
 @property (weak, nonatomic) IBOutlet UIButton *usernameBtn;
 @property (weak, nonatomic) IBOutlet UIButton *passwordBtn;
+@property (weak, nonatomic) IBOutlet UIButton *registerBtn;
+@property (weak, nonatomic) IBOutlet UIButton *forgetpassBtn;
+
+
 
 - (IBAction)passwordChange:(id)sender;
 
@@ -30,9 +34,10 @@
 
 - (IBAction)usernameClear:(id)sender;
 - (IBAction)passwordClear:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *registerAction;
-@property (weak, nonatomic) IBOutlet UIButton *fotgetpassAction;
+
 - (IBAction)passwordEnd:(id)sender;
+- (IBAction)forgetpassAction:(id)sender;
+- (IBAction)registerAction:(id)sender;
 
 
 @end

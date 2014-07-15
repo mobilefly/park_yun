@@ -31,6 +31,7 @@
     return true;
 }
 
+
 +(void)clearUserInfo{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:nil forKey:@"token"];
@@ -38,6 +39,7 @@
     [defaults setObject:nil forKey:@"memberPhone"];
     [defaults setObject:nil forKey:@"memberName"];
     [defaults setObject:nil forKey:@"memberCarno"];
+    [defaults setObject:nil forKey:@"memberType"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
@@ -69,7 +71,6 @@
     DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
     [alert show];
 }
-
 
 +(void)alertErrorMsg{
     DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"连接失败" leftButtonTitle:nil rightButtonTitle:@"确认"];

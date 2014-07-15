@@ -11,11 +11,11 @@
 #import "FLYLoginViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYRechargeViewController.h"
-#import "DXAlertView.h"
 #import "FLYSettingViewController.h"
 #import "FLYBillViewController.h"
 #import "FLYOfflineMapViewController.h"
 #import "FLYFootmarkViewController.h"
+#import "FLYCardParkViewController.h"
 
 @interface FLYUserCenterViewController ()
 
@@ -50,8 +50,10 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *username = [defaults stringForKey:@"memberName"];
         [loginBtn warningStyle];
-        NSString *str = [NSString stringWithFormat:@"注销（%@）",username];
+        
+        NSString *str = [NSString stringWithFormat:@"注销（%@）",username == nil ? @"会员":username];
         [loginBtn setTitle:str forState:UIControlStateNormal];
+        
     }else{
         [loginBtn primaryStyle];
         [loginBtn setTitle:@"会员登陆" forState:UIControlStateNormal];
@@ -63,20 +65,22 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
-     UIButton *longinBtn = (UIButton *)[self.view viewWithTag:101];
-    if (longinBtn != nil) {
+    UIButton *loginBtn = (UIButton *)[self.view viewWithTag:101];
+    if (loginBtn != nil) {
         //已登陆
         if ([FLYBaseUtil checkUserLogin]) {
             NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
             NSString *username = [defaults stringForKey:@"memberName"];
-            [longinBtn warningStyle];
-            NSString *str = [NSString stringWithFormat:@"注销（%@）",username];
-            [longinBtn setTitle:str forState:UIControlStateNormal];
+            [loginBtn warningStyle];
+            
+            
+            NSString *str = [NSString stringWithFormat:@"注销（%@）",username == nil ? @"会员":username];
+            [loginBtn setTitle:str forState:UIControlStateNormal];
         }
         //未登陆
         else{
-            [longinBtn primaryStyle];
-            [longinBtn setTitle:@"会员登陆" forState:UIControlStateNormal];
+            [loginBtn primaryStyle];
+            [loginBtn setTitle:@"会员登陆" forState:UIControlStateNormal];
         }
     }
 }
@@ -107,13 +111,24 @@
         FLYBillViewController *billController = [[FLYBillViewController alloc]init];
         [self.navigationController pushViewController:billController animated:NO];
     }else{
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登陆用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请先登陆用户"];
     }
 }
 
 //会员信息
 - (IBAction)memberInfoAction:(id)sender {
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *memberType = [defaults stringForKey:@"memberType"];
+    
+    if (![FLYBaseUtil checkUserLogin]) {
+        [self showAlert:@"请先登陆用户"];
+    }else if(![memberType isEqualToString:@"3"]){
+        [self showAlert:@"不是畅听卡用户"];
+    }else{
+        FLYCardParkViewController *cardParkController = [[FLYCardParkViewController alloc]init];
+        [self.navigationController pushViewController:cardParkController animated:NO];
+    }
+    
     
 }
 
@@ -123,19 +138,16 @@
         FLYRechargeViewController *rechargeController = [[FLYRechargeViewController alloc]init];
         [self.navigationController pushViewController:rechargeController animated:NO];
     }else{
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登陆用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请先登陆用户"];
     }
 }
 
 //足迹
 - (IBAction)footmarkAction:(id)sender {
     if (![FLYBaseUtil checkUserLogin]) {
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"请先登陆用户" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"请先登陆用户"];
     }else if(![FLYBaseUtil checkUserBindCar]){
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"未绑定任何车牌" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
+        [self showAlert:@"未绑定任何车牌"];
     }else{
         FLYFootmarkViewController *footmarkController = [[FLYFootmarkViewController alloc]init];
         [self.navigationController pushViewController:footmarkController animated:NO];

@@ -33,7 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
     _firstLocation = NO;
     //定位
     _locationService = [[BMKLocationService alloc]init];
