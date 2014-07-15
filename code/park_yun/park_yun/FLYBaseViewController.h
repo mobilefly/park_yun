@@ -16,6 +16,7 @@
     UIWindow *_tipWindow;
     ThemeImageView *barView;
 
+    UIView *_noDataView;
     BOOL _isHudLoad;
 }
 
@@ -26,6 +27,9 @@
 @property(nonatomic,assign) BOOL isCancelButton;
 
 @property(nonatomic,strong) MBProgressHUD *hud;
+
+-(void)showNoDataView:(BOOL)show;
+-(void)setNoDataViewFrame:(CGRect)rect;
 
 //提示
 - (void)showLoading:(BOOL)show;

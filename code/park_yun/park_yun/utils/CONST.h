@@ -54,7 +54,8 @@
 //json flag
 #define kFlagYes @"0"
 
-//AES KEY
-//#define kAESKey @"fly2014918"
+
+#define kBaiduKey @"fly2014918"
+#define kXunfeiKey @""
 
 

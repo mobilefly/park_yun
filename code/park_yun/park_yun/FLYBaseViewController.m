@@ -48,7 +48,19 @@
         UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
         self.navigationItem.leftBarButtonItem = cancelButtonItem;
     }
-
+    
+    _noDataView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
+    _noDataView.hidden = YES;
+    _noDataView.backgroundColor = [UIColor clearColor];
+    
+    //背景图片
+    UIImageView *noDataImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_wushujul_all_0_03.png"]];
+    noDataImage.frame = CGRectMake((_noDataView.width - 82) / 2, (_noDataView.height - 106) / 2, 82, 106);
+    noDataImage.tag = 201;
+    
+    [_noDataView addSubview:noDataImage];
+    [self.view addSubview:_noDataView];
+    
 }
 
 - (void)cancelAction{
@@ -81,6 +93,18 @@
 
 
 #pragma mark - 提示
+-(void)setNoDataViewFrame:(CGRect)rect{
+    _noDataView.frame = rect;
+    //背景图片
+    UIImageView *noDataImage = (UIImageView *) [_noDataView viewWithTag:201];
+    noDataImage.frame = CGRectMake((_noDataView.width - 82) / 2, (_noDataView.height - 106) / 2, 82, 106);
+    noDataImage.tag = 201;
+}
+
+-(void)showNoDataView:(BOOL)show{
+    _noDataView.hidden = !show;
+}
+
 - (void)showLoading:(BOOL)show{
     if (_loadView == nil) {
         //loading视图
@@ -205,7 +229,6 @@
     }
 }
 
-
 - (void)removeTipWindow{
     _tipWindow.hidden = NO;
     _tipWindow = nil;
@@ -279,7 +302,6 @@
 	self.hud = nil;
     _isHudLoad = NO;
 }
-
 
 #pragma mark - view other
 - (void)didReceiveMemoryWarning

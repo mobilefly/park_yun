@@ -218,7 +218,13 @@
 		74A60C2C196597580046457B /* btn_close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C26196597580046457B /* btn_close_selected.png */; };
 		74A60C2D196597580046457B /* btn_close_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C27196597580046457B /* btn_close_selected@2x.png */; };
 		74A60C2E196597580046457B /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A60C29196597580046457B /* DXAlertView.m */; };
-		74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03.png in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03.png */; };
+		74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */; };
+		74BEF9731974DADD003E8BDF /* CPMotionRecognizingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9701974DADD003E8BDF /* CPMotionRecognizingWindow.m */; };
+		74BEF9741974DADD003E8BDF /* UIResponder+MotionRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9721974DADD003E8BDF /* UIResponder+MotionRecognizers.m */; };
+		74BEF976197503E6003E8BDF /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF975197503E6003E8BDF /* iflyMSC.framework */; };
+		74BEF97819750405003E8BDF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97719750405003E8BDF /* AudioToolbox.framework */; };
+		74BEF97A19750430003E8BDF /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97919750430003E8BDF /* AddressBook.framework */; };
+		74BEF97C1975043D003E8BDF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97B1975043D003E8BDF /* AVFoundation.framework */; };
 		74C5619A1960609200F218CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C561991960609200F218CD /* Foundation.framework */; };
 		74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619B1960609200F218CD /* CoreGraphics.framework */; };
 		74C5619E1960609200F218CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619D1960609200F218CD /* UIKit.framework */; };
@@ -623,7 +629,15 @@
 		74A60C27196597580046457B /* btn_close_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_close_selected@2x.png"; sourceTree = "<group>"; };
 		74A60C28196597580046457B /* DXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DXAlertView.h; sourceTree = "<group>"; };
 		74A60C29196597580046457B /* DXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DXAlertView.m; sourceTree = "<group>"; };
-		74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mfpparking_wushujul_all_0_03.png; sourceTree = "<group>"; };
+		74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_wushujul_all_0_03@2x.png"; sourceTree = "<group>"; };
+		74BEF96F1974DADD003E8BDF /* CPMotionRecognizingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPMotionRecognizingWindow.h; sourceTree = "<group>"; };
+		74BEF9701974DADD003E8BDF /* CPMotionRecognizingWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CPMotionRecognizingWindow.m; sourceTree = "<group>"; };
+		74BEF9711974DADD003E8BDF /* UIResponder+MotionRecognizers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIResponder+MotionRecognizers.h"; sourceTree = "<group>"; };
+		74BEF9721974DADD003E8BDF /* UIResponder+MotionRecognizers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIResponder+MotionRecognizers.m"; sourceTree = "<group>"; };
+		74BEF975197503E6003E8BDF /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = libs/iflyMSC.framework; sourceTree = "<group>"; };
+		74BEF97719750405003E8BDF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		74BEF97919750430003E8BDF /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		74BEF97B1975043D003E8BDF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		74C561961960609200F218CD /* park_yun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = park_yun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74C561991960609200F218CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		74C5619B1960609200F218CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -665,6 +679,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74BEF97C1975043D003E8BDF /* AVFoundation.framework in Frameworks */,
+				74BEF97A19750430003E8BDF /* AddressBook.framework in Frameworks */,
+				7420AB331960F91C000DD75F /* SystemConfiguration.framework in Frameworks */,
+				74BEF97819750405003E8BDF /* AudioToolbox.framework in Frameworks */,
+				74BEF976197503E6003E8BDF /* iflyMSC.framework in Frameworks */,
 				74150B39196A9BCE00784E4C /* Security.framework in Frameworks */,
 				74150B37196A9BAE00784E4C /* OpenGLES.framework in Frameworks */,
 				7420AB9019610F82000DD75F /* QuartzCore.framework in Frameworks */,
@@ -672,7 +691,6 @@
 				7420AB391960F954000DD75F /* libxml2.dylib in Frameworks */,
 				7420AB371960F946000DD75F /* libz.dylib in Frameworks */,
 				7420AB351960F932000DD75F /* MobileCoreServices.framework in Frameworks */,
-				7420AB331960F91C000DD75F /* SystemConfiguration.framework in Frameworks */,
 				7420AB311960F90E000DD75F /* CFNetwork.framework in Frameworks */,
 				74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */,
 				7400497819618BE90016AD61 /* libbaidumapapi.a in Frameworks */,
@@ -705,43 +723,21 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		741F2C30196B948700E1B809 /* member */ = {
+		741F2C30196B948700E1B809 /* Member */ = {
 			isa = PBXGroup;
 			children = (
-				741F2C31196B94A200E1B809 /* FLYLoginViewController.h */,
-				741F2C32196B94A200E1B809 /* FLYLoginViewController.m */,
-				741F2C33196B94A200E1B809 /* FLYLoginViewController.xib */,
-				745263C4196D188B00037E3E /* FLYUserCenterViewController.h */,
-				745263C5196D188B00037E3E /* FLYUserCenterViewController.m */,
-				745263C6196D188B00037E3E /* FLYUserCenterViewController.xib */,
-				745263F5196D2B2500037E3E /* FLYRechargeViewController.h */,
-				745263F6196D2B2500037E3E /* FLYRechargeViewController.m */,
-				745263F7196D2B2500037E3E /* FLYRechargeViewController.xib */,
-				745263FC196D362300037E3E /* FLYSettingViewController.h */,
-				745263FD196D362300037E3E /* FLYSettingViewController.m */,
-				745263FF196D3BF300037E3E /* FLYBillViewController.h */,
-				74526400196D3BF300037E3E /* FLYBillViewController.m */,
-				74526405196D41AA00037E3E /* FLYBillCell.h */,
-				74526406196D41AA00037E3E /* FLYBillCell.m */,
-				74526407196D41AA00037E3E /* FLYBillCell.xib */,
-				743E51C2196FC90F004D7583 /* FLYFootmarkViewController.h */,
-				743E51C3196FC90F004D7583 /* FLYFootmarkViewController.m */,
-				743E51BD196FC47A004D7583 /* FLYFootmarkCell.h */,
-				743E51BE196FC47A004D7583 /* FLYFootmarkCell.m */,
-				743E51BF196FC47A004D7583 /* FLYFootmarkCell.xib */,
-				743E51C8196FE142004D7583 /* FLYRegisterViewController.h */,
-				743E51C9196FE142004D7583 /* FLYRegisterViewController.m */,
-				743E51CA196FE142004D7583 /* FLYRegisterViewController.xib */,
-				74926B361973B9B000833F99 /* FLYCardParkViewController.h */,
-				74926B371973B9B000833F99 /* FLYCardParkViewController.m */,
-				74926B391973BAE800833F99 /* FLYCardParkCell.h */,
-				74926B3A1973BAE800833F99 /* FLYCardParkCell.m */,
-				74926B3B1973BAE800833F99 /* FLYCardParkCell.xib */,
+				74BEF986197516F4003E8BDF /* Center */,
+				74BEF985197516ED003E8BDF /* Login */,
+				74BEF98719751701003E8BDF /* Bill */,
+				74BEF98B19751740003E8BDF /* CardPark */,
+				74BEF9881975170C003E8BDF /* Recharge */,
+				74BEF98A19751723003E8BDF /* Footmark */,
+				74BEF98919751718003E8BDF /* Setting */,
 			);
-			name = member;
+			name = Member;
 			sourceTree = "<group>";
 		};
-		7420AAAB1960F6E0000DD75F /* openSource */ = {
+		7420AAAB1960F6E0000DD75F /* OpenSource */ = {
 			isa = PBXGroup;
 			children = (
 				74926B2A19739C9000833F99 /* Toast */,
@@ -754,8 +750,10 @@
 				7420AAFF1960F820000DD75F /* SDWebImage */,
 				7420AAF91960F81B000DD75F /* RegexKitLite */,
 				7420AAF31960F814000DD75F /* MBProgressHUD */,
+				74BEF96E1974DADD003E8BDF /* MotionRecognizer */,
 				7420AAC81960F7EE000DD75F /* ASIHTTPRequest */,
 			);
+			name = OpenSource;
 			path = openSource;
 			sourceTree = "<group>";
 		};
@@ -898,9 +896,11 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
-		7420AB3B19610763000DD75F /* utils */ = {
+		7420AB3B19610763000DD75F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				74BEF982197514A9003E8BDF /* Category */,
+				74BEF98119751494003E8BDF /* View */,
 				7420AB45196107C0000DD75F /* CONST.h */,
 				7420AB3F19610788000DD75F /* UIViewExt.h */,
 				7420AB4019610788000DD75F /* UIViewExt.m */,
@@ -912,19 +912,8 @@
 				7420ABA6196122FF000DD75F /* FLYDataService.m */,
 				7420AB491961086C000DD75F /* FLYGlobalUICommon.h */,
 				7420AB4A1961086C000DD75F /* FLYGlobalUICommon.m */,
-				7420AB3C19610772000DD75F /* UIView+Additions.h */,
-				7420AB3D19610772000DD75F /* UIView+Additions.m */,
-				7420AB421961079C000DD75F /* NSString+URLEncoding.h */,
-				7420AB431961079C000DD75F /* NSString+URLEncoding.m */,
-				748208EB1966AF08008B7AB6 /* NSString+FontAwesome.h */,
-				748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */,
-				741F2C42196BB19A00E1B809 /* NSString+MD5HexDigest.h */,
-				741F2C43196BB19A00E1B809 /* NSString+MD5HexDigest.m */,
-				748208E81966AE92008B7AB6 /* UIButton+Bootstrap.h */,
-				748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */,
-				746E7D54196AF02800C3E638 /* PullingRefreshTableView.h */,
-				746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */,
 			);
+			name = Utils;
 			path = utils;
 			sourceTree = "<group>";
 		};
@@ -1037,23 +1026,13 @@
 			path = "Release-iphonesimulator";
 			sourceTree = "<group>";
 		};
-		743D26D2196E3EDE00CE1A1C /* base */ = {
+		743D26D2196E3EDE00CE1A1C /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				743D26D3196E3F5000CE1A1C /* FLYOfflineMapViewController.h */,
-				743D26D4196E3F5000CE1A1C /* FLYOfflineMapViewController.m */,
-				743D26D5196E3F5000CE1A1C /* FLYOfflineMapViewController.xib */,
-				74306562196E7BB3006026B7 /* FLYCityCell.h */,
-				74306563196E7BB3006026B7 /* FLYCityCell.m */,
-				74306564196E7BB3006026B7 /* FLYCityCell.xib */,
-				74306567196E818B006026B7 /* FLYDownloadCell.h */,
-				74306568196E818B006026B7 /* FLYDownloadCell.m */,
-				74306569196E818B006026B7 /* FLYDownloadCell.xib */,
-				743E51B0196F80D8004D7583 /* FLYFeedbackViewController.h */,
-				743E51B1196F80D8004D7583 /* FLYFeedbackViewController.m */,
-				743E51B2196F80D8004D7583 /* FLYFeedbackViewController.xib */,
+				74BEF984197516DA003E8BDF /* Feedback */,
+				74BEF983197516BB003E8BDF /* Offline */,
 			);
-			name = base;
+			name = Base;
 			sourceTree = "<group>";
 		};
 		7452639A196CE13500037E3E /* Security */ = {
@@ -1092,9 +1071,10 @@
 			path = ThemeManager;
 			sourceTree = "<group>";
 		};
-		745E743319653FED00BB0AB9 /* park */ = {
+		745E743319653FED00BB0AB9 /* Park */ = {
 			isa = PBXGroup;
 			children = (
+				7410D0051967D68D00A41AA5 /* UI */,
 				74D041251963BCE8005B2F76 /* FLYMainViewController.h */,
 				74D041261963BCE8005B2F76 /* FLYMainViewController.m */,
 				74D041271963BCE8005B2F76 /* FLYMainViewController.xib */,
@@ -1109,7 +1089,7 @@
 				7412602E1966445600EF6A8E /* FLYSearchViewController.m */,
 				7412602F1966445600EF6A8E /* FLYSearchViewController.xib */,
 			);
-			name = park;
+			name = Park;
 			sourceTree = "<group>";
 		};
 		745E744219654CF400BB0AB9 /* JCTopic */ = {
@@ -1185,6 +1165,147 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
+		74BEF96E1974DADD003E8BDF /* MotionRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				74BEF96F1974DADD003E8BDF /* CPMotionRecognizingWindow.h */,
+				74BEF9701974DADD003E8BDF /* CPMotionRecognizingWindow.m */,
+				74BEF9711974DADD003E8BDF /* UIResponder+MotionRecognizers.h */,
+				74BEF9721974DADD003E8BDF /* UIResponder+MotionRecognizers.m */,
+			);
+			path = MotionRecognizer;
+			sourceTree = "<group>";
+		};
+		74BEF98119751494003E8BDF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				746E7D54196AF02800C3E638 /* PullingRefreshTableView.h */,
+				746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */,
+				748208E81966AE92008B7AB6 /* UIButton+Bootstrap.h */,
+				748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		74BEF982197514A9003E8BDF /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				7420AB3C19610772000DD75F /* UIView+Additions.h */,
+				7420AB3D19610772000DD75F /* UIView+Additions.m */,
+				7420AB421961079C000DD75F /* NSString+URLEncoding.h */,
+				7420AB431961079C000DD75F /* NSString+URLEncoding.m */,
+				748208EB1966AF08008B7AB6 /* NSString+FontAwesome.h */,
+				748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */,
+				741F2C42196BB19A00E1B809 /* NSString+MD5HexDigest.h */,
+				741F2C43196BB19A00E1B809 /* NSString+MD5HexDigest.m */,
+			);
+			name = Category;
+			sourceTree = "<group>";
+		};
+		74BEF983197516BB003E8BDF /* Offline */ = {
+			isa = PBXGroup;
+			children = (
+				743D26D3196E3F5000CE1A1C /* FLYOfflineMapViewController.h */,
+				743D26D4196E3F5000CE1A1C /* FLYOfflineMapViewController.m */,
+				743D26D5196E3F5000CE1A1C /* FLYOfflineMapViewController.xib */,
+				74306562196E7BB3006026B7 /* FLYCityCell.h */,
+				74306563196E7BB3006026B7 /* FLYCityCell.m */,
+				74306564196E7BB3006026B7 /* FLYCityCell.xib */,
+				74306567196E818B006026B7 /* FLYDownloadCell.h */,
+				74306568196E818B006026B7 /* FLYDownloadCell.m */,
+				74306569196E818B006026B7 /* FLYDownloadCell.xib */,
+			);
+			name = Offline;
+			sourceTree = "<group>";
+		};
+		74BEF984197516DA003E8BDF /* Feedback */ = {
+			isa = PBXGroup;
+			children = (
+				743E51B0196F80D8004D7583 /* FLYFeedbackViewController.h */,
+				743E51B1196F80D8004D7583 /* FLYFeedbackViewController.m */,
+				743E51B2196F80D8004D7583 /* FLYFeedbackViewController.xib */,
+			);
+			name = Feedback;
+			sourceTree = "<group>";
+		};
+		74BEF985197516ED003E8BDF /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				741F2C31196B94A200E1B809 /* FLYLoginViewController.h */,
+				741F2C32196B94A200E1B809 /* FLYLoginViewController.m */,
+				741F2C33196B94A200E1B809 /* FLYLoginViewController.xib */,
+				743E51C8196FE142004D7583 /* FLYRegisterViewController.h */,
+				743E51C9196FE142004D7583 /* FLYRegisterViewController.m */,
+				743E51CA196FE142004D7583 /* FLYRegisterViewController.xib */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		74BEF986197516F4003E8BDF /* Center */ = {
+			isa = PBXGroup;
+			children = (
+				745263C4196D188B00037E3E /* FLYUserCenterViewController.h */,
+				745263C5196D188B00037E3E /* FLYUserCenterViewController.m */,
+				745263C6196D188B00037E3E /* FLYUserCenterViewController.xib */,
+			);
+			name = Center;
+			sourceTree = "<group>";
+		};
+		74BEF98719751701003E8BDF /* Bill */ = {
+			isa = PBXGroup;
+			children = (
+				745263FF196D3BF300037E3E /* FLYBillViewController.h */,
+				74526400196D3BF300037E3E /* FLYBillViewController.m */,
+				74526405196D41AA00037E3E /* FLYBillCell.h */,
+				74526406196D41AA00037E3E /* FLYBillCell.m */,
+				74526407196D41AA00037E3E /* FLYBillCell.xib */,
+			);
+			name = Bill;
+			sourceTree = "<group>";
+		};
+		74BEF9881975170C003E8BDF /* Recharge */ = {
+			isa = PBXGroup;
+			children = (
+				745263F5196D2B2500037E3E /* FLYRechargeViewController.h */,
+				745263F6196D2B2500037E3E /* FLYRechargeViewController.m */,
+				745263F7196D2B2500037E3E /* FLYRechargeViewController.xib */,
+			);
+			name = Recharge;
+			sourceTree = "<group>";
+		};
+		74BEF98919751718003E8BDF /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				745263FC196D362300037E3E /* FLYSettingViewController.h */,
+				745263FD196D362300037E3E /* FLYSettingViewController.m */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		74BEF98A19751723003E8BDF /* Footmark */ = {
+			isa = PBXGroup;
+			children = (
+				743E51C2196FC90F004D7583 /* FLYFootmarkViewController.h */,
+				743E51C3196FC90F004D7583 /* FLYFootmarkViewController.m */,
+				743E51BD196FC47A004D7583 /* FLYFootmarkCell.h */,
+				743E51BE196FC47A004D7583 /* FLYFootmarkCell.m */,
+				743E51BF196FC47A004D7583 /* FLYFootmarkCell.xib */,
+			);
+			name = Footmark;
+			sourceTree = "<group>";
+		};
+		74BEF98B19751740003E8BDF /* CardPark */ = {
+			isa = PBXGroup;
+			children = (
+				74926B361973B9B000833F99 /* FLYCardParkViewController.h */,
+				74926B371973B9B000833F99 /* FLYCardParkViewController.m */,
+				74926B391973BAE800833F99 /* FLYCardParkCell.h */,
+				74926B3A1973BAE800833F99 /* FLYCardParkCell.m */,
+				74926B3B1973BAE800833F99 /* FLYCardParkCell.xib */,
+			);
+			name = CardPark;
+			sourceTree = "<group>";
+		};
 		74C5618D1960609200F218CD = {
 			isa = PBXGroup;
 			children = (
@@ -1207,6 +1328,10 @@
 		74C561981960609200F218CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				74BEF97B1975043D003E8BDF /* AVFoundation.framework */,
+				74BEF97919750430003E8BDF /* AddressBook.framework */,
+				74BEF97719750405003E8BDF /* AudioToolbox.framework */,
+				74BEF975197503E6003E8BDF /* iflyMSC.framework */,
 				74150B38196A9BCE00784E4C /* Security.framework */,
 				74150B36196A9BAE00784E4C /* OpenGLES.framework */,
 				7400497719618BE90016AD61 /* libbaidumapapi.a */,
@@ -1230,15 +1355,14 @@
 			children = (
 				74C561A81960609200F218CD /* FLYAppDelegate.h */,
 				74C561A91960609200F218CD /* FLYAppDelegate.mm */,
-				743D26D2196E3EDE00CE1A1C /* base */,
-				741F2C30196B948700E1B809 /* member */,
-				745E743319653FED00BB0AB9 /* park */,
-				7410D0051967D68D00A41AA5 /* UI */,
+				743D26D2196E3EDE00CE1A1C /* Base */,
+				741F2C30196B948700E1B809 /* Member */,
+				745E743319653FED00BB0AB9 /* Park */,
 				745E7418196506C100BB0AB9 /* ThemeManager */,
 				748F332F1964108D005071E0 /* Model */,
 				74D041171963B9D3005B2F76 /* BaseView */,
-				7420AB3B19610763000DD75F /* utils */,
-				7420AAAB1960F6E0000DD75F /* openSource */,
+				7420AB3B19610763000DD75F /* Utils */,
+				7420AAAB1960F6E0000DD75F /* OpenSource */,
 				74FC62201966DEB400A8289A /* Resources */,
 				74C561A01960609200F218CD /* Supporting Files */,
 			);
@@ -1279,7 +1403,7 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03.png */,
+				74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */,
 				74926B3E1973BD1A00833F99 /* mfpparking_card_all_0@2x.png */,
 				74926B3F1973BD1A00833F99 /* mfpparking_chepai_all_0@2x.png */,
 				74926B401973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png */,
@@ -1514,7 +1638,7 @@
 				74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */,
 				748F32C21963E491005071E0 /* pic_background.png in Resources */,
 				7420AAF71960F814000DD75F /* 37x-Checkmark.png in Resources */,
-				74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03.png in Resources */,
+				74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png in Resources */,
 				74FC62311966F10900A8289A /* mfpparking_jian_all_up@2x.png in Resources */,
 				745263E0196D195D00037E3E /* mfpparking_zd_all_up@2x.png in Resources */,
 				7420AB8B19610E58000DD75F /* mapapi.bundle in Resources */,
@@ -1688,9 +1812,11 @@
 				745263C7196D188B00037E3E /* FLYUserCenterViewController.m in Sources */,
 				743E51CB196FE142004D7583 /* FLYRegisterViewController.m in Sources */,
 				7420AB241960F820000DD75F /* SDWebImageDownloader.m in Sources */,
+				74BEF9731974DADD003E8BDF /* CPMotionRecognizingWindow.m in Sources */,
 				7420AAF21960F80C000DD75F /* RTLabel.m in Sources */,
 				745263BF196CF46D00037E3E /* FLYBaseUtil.m in Sources */,
 				7420AAED1960F7F9000DD75F /* ASIWebPageRequest.m in Sources */,
+				74BEF9741974DADD003E8BDF /* UIResponder+MotionRecognizers.m in Sources */,
 				743E51C7196FCD64004D7583 /* FLYTraceModel.m in Sources */,
 				748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */,
 				7420AB4819610811000DD75F /* FLYUtils.m in Sources */,
@@ -1834,6 +1960,10 @@
 		74C561C31960609200F218CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "park_yun/park_yun-Prefix.pch";
@@ -1857,6 +1987,10 @@
 		74C561C41960609200F218CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/libs",
+				);
 				GCC_INPUT_FILETYPE = automatic;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "park_yun/park_yun-Prefix.pch";

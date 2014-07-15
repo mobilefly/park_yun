@@ -12,6 +12,7 @@
 #import "FLYDataService.h"
 #import "FLYBussinessModel.h"
 
+
 @interface FLYSearchViewController ()
 
 @end
@@ -54,6 +55,42 @@
     _locationService = [[BMKLocationService alloc]init];
     _codeSearcher =[[BMKGeoCodeSearch alloc]init];
 
+    
+    UIButton *voiceButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"语音" target:self action:@selector(voiceAction)];
+    UIBarButtonItem *voiceButtonItem = [[UIBarButtonItem alloc] initWithCustomView:voiceButton];
+    self.navigationItem.rightBarButtonItem = voiceButtonItem;
+    
+    
+    //初始化语音识别控件
+    _iflyRecognizerView = [[IFlyRecognizerView alloc] initWithCenter:self.view.center];
+    _iflyRecognizerView.delegate = self;
+    [_iflyRecognizerView setParameter: @"iat" forKey:[IFlySpeechConstant IFLY_DOMAIN]];
+    // | result_type   | 返回结果的数据格式，可设置为json，xml，plain，默认为json。
+    [_iflyRecognizerView setParameter:@"plain" forKey:[IFlySpeechConstant RESULT_TYPE]];
+     //当你再不需要保存音频时，请在必要的地方加上这行。
+    [_iflyRecognizerView setParameter:nil forKey:[IFlySpeechConstant ASR_AUDIO_PATH]];
+   
+    
+    // 创建合成对象,为单例模式
+    _iflySpeechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
+    _iflySpeechSynthesizer.delegate = self;
+    //设置语音合成的参数
+    //语速,取值范围 0~100
+    [_iflySpeechSynthesizer setParameter:@"70" forKey:[IFlySpeechConstant SPEED]];
+    //音量;取值范围 0~100
+    [_iflySpeechSynthesizer setParameter:@"100" forKey: [IFlySpeechConstant VOLUME]];
+    //发音人,默认为”xiaoyan”;可以设置的参数列表可参考个 性化发音人列表 [_iFlySpeechSynthesizer setParameter:@" xiaoyan " forKey: [IFlySpeechConstant VOICE_NAME]];
+    //音频采样率,目前支持的采样率有 16000 和 8000
+    [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    //asr_audio_path保存录音文件路径,如不再需要,设置value为nil表示取消,默认目录是 documents
+    [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+}
+
+- (void)voiceAction{
+    //启动识别服务
+    [_iflyRecognizerView start];
+    
+    _searchBar.text = @"";
 }
 
 //POI查询
@@ -126,7 +163,6 @@
 //NSString* _postcode;		///<POI邮编
 //int		  _epoitype;		///<POI类型，0:普通点 1:公交站 2:公交线路 3:地铁站 4:地铁线路
 //CLLocationCoordinate2D _pt;	///<POI坐标
-
 #pragma mark - BMKPoiSearchDelegate delegate
 - (void)onGetPoiResult:(BMKPoiSearch*)searcher result:(BMKPoiResult*)poiResult errorCode:(BMKSearchErrorCode)error{
     
@@ -355,4 +391,38 @@
 - (IBAction)backgroupTap:(id)sender {
     [self.searchBar resignFirstResponder];
 }
+
+#pragma mark  - delegate IFlyRecognizerViewDelegate
+/*识别结果返回代理
+ @param resultArray 识别结果
+ @ param isLast 表示是否最后一次结果
+ */
+- (void)onResult: (NSArray *)resultArray isLast:(BOOL) isLast {
+    if (!isLast) {
+        NSMutableString *result = [[NSMutableString alloc] init];
+        NSDictionary *dic = [resultArray objectAtIndex:0];
+        for (NSString *key in dic) {
+            [result appendFormat:@"%@",key];
+        }
+        _searchBar.text = [NSString stringWithFormat:@"%@%@",_searchBar.text,result];
+    }
+    
+    if (isLast && [FLYBaseUtil isNotEmpty:_searchBar.text]) {
+        [_iflySpeechSynthesizer startSpeaking:_searchBar.text];
+    }
+    
+}
+
+/*识别会话错误返回代理
+ @ param error 错误码
+ */
+- (void)onError: (IFlySpeechError *) error {
+//    [self showToast:@"无法识别"];
+}
+
+#pragma mark  - delegate IFlySpeechSynthesizerDelegate
+- (void) onCompleted:(IFlySpeechError*) error{
+//    [self showToast:@"无法发音"];
+}
+
 @end

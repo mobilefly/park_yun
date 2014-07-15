@@ -74,7 +74,7 @@
     [self.topView addSubview:userInfoButton];
     
 
-    self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100) pullingDelegate:self];
+    self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight - 100) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -84,12 +84,14 @@
     [self.view addSubview:self.tableView];
     
 
-    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 80 + 20, ScreenWidth, ScreenHeight - 100)];
+    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight - 100)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
     
     _locationService = [[BMKLocationService alloc]init];
+    
+    [self setNoDataViewFrame:_mapBaseView.frame];
 }
 
 #pragma mark - request
@@ -125,7 +127,7 @@
                                    @"lat",
                                    [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
                                    @"long",
-                                   @"200000",
+                                   @"10000000",
                                    @"range",
                                    nil];
     
@@ -151,7 +153,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
                                        @"long",
-                                       @"200000",
+                                       @"10000000",
                                        @"range",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
@@ -181,7 +183,6 @@
     [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
-    self.tableView.hidden = NO;
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
@@ -202,6 +203,15 @@
             }else{
                 [self.datas addObjectsFromArray:parkList];
             }
+            
+            if (self.datas != nil && [self.datas count] > 0) {
+                self.tableView.hidden = NO;
+                [self showNoDataView:NO];
+            }else{
+                self.tableView.hidden = YES;
+                [self showNoDataView:YES];
+            }
+            
             [self.tableView reloadData];
         }
     }else{
@@ -213,7 +223,7 @@
     
     [self.tableView tableViewDidFinishedLoading];
 
-    if (!_isMore) {
+    if (!_isMore && self.datas != nil && [self.datas count] > 0) {
         [self.tableView setReachedTheEnd:YES];
         [super showMessage:@"加载完成"];
     }
@@ -360,6 +370,19 @@
     [super regionChange:mapView];
 }
 
+#pragma mark - 摇动手势
+
+-(BOOL)canBecomeFirstResponder{
+    return YES;
+}
+
+-(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+    if(motion == UIEventSubtypeMotionShake){
+        NSLog(@"Shake!!!!!!!!!!!");
+    }
+}
+
+
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -372,6 +395,8 @@
     _locationService.delegate = self;
     //启动LocationService
     [_locationService startUserLocationService];
+    
+    [self becomeFirstResponder];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {

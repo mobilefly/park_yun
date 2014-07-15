@@ -8,14 +8,22 @@
 
 #import "FLYBaseViewController.h"
 #import "BMapKit.h"
+#import "iflyMSC/IFlyRecognizerViewDelegate.h"
+#import "iflyMSC/IFlyRecognizerView.h"
+#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
+#import "iflyMSC/IFlySpeechSynthesizer.h"
+#import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
+@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,IFlyRecognizerViewDelegate,IFlySpeechSynthesizerDelegate>{
     
     BMKPoiSearch  *_poiSearcher;
     BMKGeoCodeSearch *_codeSearcher;
     BMKLocationService *_locationService;
     CLLocation *_location;
     BOOL _firstLocation;
+    
+    IFlyRecognizerView *_iflyRecognizerView;
+    IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }
 
 @property (strong, nonatomic)NSMutableArray *bussinessDatas;

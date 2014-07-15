@@ -120,7 +120,7 @@
     [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
-    self.tableView.hidden = NO;
+
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
@@ -141,6 +141,15 @@
             }else{
                 [self.datas addObjectsFromArray:cardparkList];
             }
+            
+            if (self.datas != nil && [self.datas count] > 0) {
+                self.tableView.hidden = NO;
+                [self showNoDataView:NO];
+            }else{
+                self.tableView.hidden = YES;
+                [self showNoDataView:YES];
+            }
+            
             [self.tableView reloadData];
         }
     }else{
@@ -151,7 +160,7 @@
     
     [self.tableView tableViewDidFinishedLoading];
     
-    if (!_isMore) {
+    if (!_isMore && self.datas != nil && [self.datas count] > 0) {
         [self.tableView setReachedTheEnd:YES];
         [super showMessage:@"加载完成"];
     }
