@@ -16,6 +16,7 @@
 #import "FLYOfflineMapViewController.h"
 #import "FLYFootmarkViewController.h"
 #import "FLYCardParkViewController.h"
+#import "FLYCollectViewController.h"
 
 @interface FLYUserCenterViewController ()
 
@@ -156,7 +157,12 @@
 
 //收藏
 - (IBAction)collectAction:(id)sender {
-
+    if ([FLYBaseUtil checkUserLogin]) {
+        FLYCollectViewController *collectController = [[FLYCollectViewController alloc]init];
+        [self.navigationController pushViewController:collectController animated:NO];
+    }else{
+        [self showAlert:@"请先登陆用户"];
+    }
     
 }
 

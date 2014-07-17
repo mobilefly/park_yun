@@ -147,4 +147,15 @@
 	return string;
 }
 
++ (NSString *)getSmallImage:(NSString *)url width:(NSString *)width height:(NSString *)height{
+    NSString *result = @"";
+    if ([FLYBaseUtil isNotEmpty:url]) {
+        NSRange range = [url rangeOfString:@"." options:NSBackwardsSearch];
+        if (range.location != NSNotFound){
+            result = [NSString stringWithFormat:@"%@_small_%@_%@%@",[url substringToIndex:range.location],width,height,[url substringFromIndex:range.location]];
+        }
+    }
+    return result;
+}
+
 @end

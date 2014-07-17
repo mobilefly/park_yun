@@ -65,6 +65,8 @@
                                    @"token",
                                    userid,
                                    @"userid",
+                                   @"1",
+                                   @"flag",
                                    nil];
     
     //防止循环引用
@@ -94,6 +96,8 @@
                                        userid,
                                        @"userid",
                                        [NSString stringWithFormat:@"%d",start],
+                                       @"1",
+                                       @"flag",
                                        @"start",
                                        nil];
         

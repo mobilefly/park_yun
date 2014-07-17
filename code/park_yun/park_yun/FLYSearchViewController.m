@@ -11,6 +11,11 @@
 #import "FLYBaseNavigationController.h"
 #import "FLYDataService.h"
 #import "FLYBussinessModel.h"
+#import "FLYSearhBussinessViewController.h"
+
+#define blueColor Color(86, 127, 188 ,1)
+#define blueborderColor Color(86, 127, 188 ,0.5)
+#define blueBgColor Color(86, 127, 188 ,0.2)
 
 
 @interface FLYSearchViewController ()
@@ -41,8 +46,8 @@
     
     _firstLocation = NO;
     
-    _searchBar.backgroundColor=[UIColor clearColor];
-    _searchBar.placeholder=@"搜索";
+    _searchBar.backgroundColor = [UIColor clearColor];
+    _searchBar.placeholder = @"停车场";
     _searchBar.delegate = self;
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320 , ScreenHeight - 20 - 44 - 44) style:UITableViewStylePlain];
@@ -51,9 +56,9 @@
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
     
-    _poiSearcher =[[BMKPoiSearch alloc]init];
+    _poiSearcher = [[BMKPoiSearch alloc]init];
     _locationService = [[BMKLocationService alloc]init];
-    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
+    _codeSearcher = [[BMKGeoCodeSearch alloc]init];
 
     
     UIButton *voiceButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"语音" target:self action:@selector(voiceAction)];
@@ -81,7 +86,7 @@
     [_iflySpeechSynthesizer setParameter:@"100" forKey: [IFlySpeechConstant VOLUME]];
     //发音人,默认为”xiaoyan”;可以设置的参数列表可参考个 性化发音人列表 [_iFlySpeechSynthesizer setParameter:@" xiaoyan " forKey: [IFlySpeechConstant VOICE_NAME]];
     //音频采样率,目前支持的采样率有 16000 和 8000
-    [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    [_iflySpeechSynthesizer setParameter:@"16000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
     //asr_audio_path保存录音文件路径,如不再需要,设置value为nil表示取消,默认目录是 documents
     [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
 }
@@ -238,26 +243,29 @@
 - (void)renderBussiness{
 
     if (_bussinessDatas != nil && [_bussinessDatas count] > 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, 60)];
+        int count = [_bussinessDatas count];
+//        NSLog(@"%f",count / 4.0);
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, ceil(count / 4.0) * 50 + 10)];
+        view.backgroundColor = blueBgColor;
         int i = 0;
+        
         for (FLYBussinessModel *bussinessModel in _bussinessDatas) {
-            if (i == 4) {
-                break;
-            }
+            int j = i / 4;
             
-            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10 + 78 * i, 10, 68, 40)];
-            
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10 + 78 * (i % 4), 10 + j * 50, 68, 40)];
             button.layer.cornerRadius = 2.0f;
             button.layer.masksToBounds = YES;
-            button.layer.borderColor = [[UIColor lightGrayColor]CGColor];
-            button.layer.borderWidth = 0.5f;
+            button.layer.borderColor = [blueborderColor CGColor];
+            button.layer.borderWidth = 1.0f;
             button.backgroundColor = [UIColor clearColor];
             button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+            button.titleLabel.numberOfLines = 2;
+            button.titleLabel.textAlignment = NSTextAlignmentCenter;
             button.showsTouchWhenHighlighted = YES;
             button.tag = 100 + i;
             
             [button setTitle:bussinessModel.bussinessName forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            [button setTitleColor:blueColor forState:UIControlStateNormal];
             [button addTarget:self action:@selector(location:) forControlEvents:UIControlEventTouchUpInside];
             [view addSubview:button];
             i++;
@@ -272,11 +280,9 @@
     long tag = button.tag;
     long index = tag - 100;
     FLYBussinessModel *bussinessModel = [_bussinessDatas objectAtIndex:index];
-    FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
-    NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
-    mapController.lat = [numFormat numberFromString:bussinessModel.bussinessLat];
-    mapController.lon = [numFormat numberFromString:bussinessModel.bussinessLng];
-    [self.navigationController pushViewController:mapController animated:NO];
+    FLYSearhBussinessViewController *bussinessCtrl = [[FLYSearhBussinessViewController alloc] init];
+    bussinessCtrl.bussinessModel = bussinessModel;
+    [self.navigationController pushViewController:bussinessCtrl animated:NO];
 }
 
 

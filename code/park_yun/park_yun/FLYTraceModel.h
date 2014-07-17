@@ -61,6 +61,7 @@
 @property(nonatomic,copy) NSString *traceParkname;
 @property(nonatomic,copy) NSString *traceParktime;
 @property(nonatomic,copy) NSString *photoUrl;
+@property(nonatomic,copy) NSString *parkId;
 
 
 

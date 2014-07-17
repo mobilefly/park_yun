@@ -13,59 +13,67 @@
 
 - (void)awakeFromNib
 {
-     parkNameLabel = (UILabel *)[self viewWithTag:101];
-     startTimeLabel = (UILabel *)[self viewWithTag:102];
-     endTimeLabel = (UILabel *)[self viewWithTag:103];
-     payLabel = (UILabel *)[self viewWithTag:104];
-     durationLabel = (UILabel *)[self viewWithTag:105];
-     parkImage = (UIImageView *)[self viewWithTag:106];
+     _parkNameLabel = (UILabel *)[self viewWithTag:101];
+     _startTimeLabel = (UILabel *)[self viewWithTag:102];
+     _endTimeLabel = (UILabel *)[self viewWithTag:103];
+     _payLabel = (UILabel *)[self viewWithTag:104];
+     _durationLabel = (UILabel *)[self viewWithTag:105];
+     _parkImage = (UIImageView *)[self viewWithTag:106];
+    
+    _parkImage.layer.masksToBounds = YES;
+    _parkImage.layer.cornerRadius = 2.0;
+    _parkImage.layer.borderWidth = 0.1;
+    _parkImage.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 
 - (void)layoutSubviews{
     
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkname]) {
-        parkNameLabel.text = self.traceModel.traceParkname;
+        _parkNameLabel.text = self.traceModel.traceParkname;
     }else{
-        parkNameLabel.text = @"";
+        _parkNameLabel.text = @"";
     }
     
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkbegin]) {
-        startTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkbegin];
+        _startTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkbegin];
     }else{
-        startTimeLabel.text = @"";
+        _startTimeLabel.text = @"";
     }
     
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkend]) {
-         endTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkend];
+         _endTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkend];
     }else{
-         endTimeLabel.text = @"";
+         _endTimeLabel.text = @"";
     }
     
     if (self.traceModel.traceAmt != nil) {
         double traceAmy = [self.traceModel.traceAmt doubleValue] / 100;
-        payLabel.text = [NSString stringWithFormat:@"-%.2f",traceAmy];
+        _payLabel.text = [NSString stringWithFormat:@"-%.2f",traceAmy];
     }else{
-        payLabel.text = @"暂无数据";
+        _payLabel.text = @"暂无数据";
     }
     
-    
-//    photoUrl
-    
+    //    photoUrl
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkbegin] && [FLYBaseUtil isNotEmpty:self.traceModel.traceParkend]) {
         NSDate *beginDate = [FLYUtils dateFromFomate:self.traceModel.traceParkbegin formate:@"yyyyMMddHHmmss"];
         NSDate *endDate = [FLYUtils dateFromFomate:self.traceModel.traceParkend formate:@"yyyyMMddHHmmss"];
-        durationLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
+        _durationLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
     }else{
-        durationLabel.text = @"";
+        _durationLabel.text = @"";
     }
     
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
     if ([FLYBaseUtil isNotEmpty:self.traceModel.photoUrl]) {
-        parkImage.image = defaultParkPhoto;
-        [parkImage setImageWithURL:[NSURL URLWithString:self.traceModel.photoUrl] placeholderImage:defaultParkPhoto];
+        NSString *photoUrl = self.traceModel.photoUrl;
+        if ([FLYBaseUtil isNotEmpty:photoUrl]) {
+            NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+            [_parkImage setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+        }else{
+            _parkImage.image = defaultParkPhoto;
+        }
     }else{
-        parkImage.image = defaultParkPhoto;
+        _parkImage.image = defaultParkPhoto;
     }
     
 }

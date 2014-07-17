@@ -46,6 +46,8 @@
 
 #define kHttpQueryParkCard @"/member/queryParkCard.json"
 
+#define kHttpQueryMemberCollectList @"/member/queryMemberCollect.json"
+
 
 #define kAnnotationTypePark @"PARK"
 
@@ -55,7 +57,7 @@
 #define kFlagYes @"0"
 
 
-#define kBaiduKey @"fly2014918"
-#define kXunfeiKey @""
+#define kBaiduKey @"U2NLMulqHTdAa5hnalS2Ps9c"
+#define kXunfeiKey @"53c47fda"
 
 

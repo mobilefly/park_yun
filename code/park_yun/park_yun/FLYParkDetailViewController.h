@@ -16,7 +16,7 @@
     UIButton *_collectBtn;
 }
 
-@property(strong,nonatomic) FLYParkModel *parkModel;
+@property(strong,nonatomic) NSString *parkId;
 //请求后台数据
 @property(strong,nonatomic) FLYParkModel *park;
 @property(strong,nonatomic) NSMutableArray *photos;

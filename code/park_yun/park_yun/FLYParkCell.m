@@ -8,6 +8,7 @@
 
 #import "FLYParkCell.h"
 #import "UIImageView+WebCache.h"
+#import "FLYUtils.h"
 
 
 @implementation FLYParkCell
@@ -18,33 +19,47 @@
 {
     [super awakeFromNib];
     _parkLabel = (UILabel *)[self viewWithTag:101];
-    _p_distance = (UIImageView *)[self viewWithTag:102];
-    _distance = (UILabel *)[self viewWithTag:103];
+    _distanceImage = (UIImageView *)[self viewWithTag:102];
+    _distanceLabel = (UILabel *)[self viewWithTag:103];
     _scoreView = (UILabel *)[self viewWithTag:104];
     _seatIdle = (UILabel *)[self viewWithTag:105];
     _capacity = (UILabel *)[self viewWithTag:106];
     _free_time = (UILabel *)[self viewWithTag:107];
-    _p_feelevel = (UIImageView *)[self viewWithTag:108];
-    _park_image = (UIImageView *)[self viewWithTag:109];
-    _p_status = (UIImageView *)[self viewWithTag:110];
+    _feelevelImage = (UIImageView *)[self viewWithTag:108];
+    _parkImage = (UIImageView *)[self viewWithTag:109];
+    _statusImage = (UIImageView *)[self viewWithTag:110];
     
     _sep = (UILabel *)[self viewWithTag:111];
-    _p_count = (UIImageView *)[self viewWithTag:112];
+    _countImage = (UIImageView *)[self viewWithTag:112];
     
     _fz = (UILabel *)[self viewWithTag:113];
-    _p_freetime = (UIImageView *)[self viewWithTag:114];
+    _freetimeImage = (UIImageView *)[self viewWithTag:114];
+    _typeImage = (UIImageView *)[self viewWithTag:115];
     
-    _park_image.layer.masksToBounds = YES;
-    _park_image.layer.cornerRadius = 3.0;
-    _park_image.layer.borderWidth = 0.1;
-    _park_image.layer.borderColor = [[UIColor grayColor] CGColor];
-    
+    _parkImage.layer.masksToBounds = YES;
+    _parkImage.layer.cornerRadius = 2.0;
+    _parkImage.layer.borderWidth = 0.1;
+    _parkImage.layer.borderColor = [[UIColor grayColor] CGColor];
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    
+    //1路内2路外
+    if ([self.parkModel.parkType isEqualToString:@"1"]) {
+        _typeImage.hidden = NO;
+        _parkLabel.left = _typeImage.right + 2;
+        _parkLabel.width = 120;
+        
+    }else{
+        _typeImage.hidden = YES;
+        _parkLabel.left = _typeImage.left;
+        _parkLabel.width = 138;
+    }
+    
     //停车场名称
     _parkLabel.text = self.parkModel.parkName;
+    
     //空位数
     _seatIdle.text = [self.parkModel.seatIdle stringValue];
     //容量
@@ -54,41 +69,43 @@
     if (freeTime == nil || [freeTime isEqualToString:@"0"]) {
         _fz.hidden = YES;
         _free_time.text = @"";
-        _p_freetime.hidden = YES;
+        _freetimeImage.hidden = YES;
     }else{
         _free_time.text = freeTime;
         _fz.hidden = NO;
-        _p_freetime.hidden = NO;
+        _freetimeImage.hidden = NO;
     }
     
     
     //加盟标示
     if ([self.parkModel.parkStatus isEqualToString:@"0"]) {
-        _p_status.hidden = NO;
+        _statusImage.hidden = NO;
         
     }else if([self.parkModel.parkStatus isEqualToString:@"1"]){
-        _p_status.hidden = YES;
+        _statusImage.hidden = YES;
         _seatIdle.text = @"-";
     }else{
-        _p_status.hidden = YES;
+        _statusImage.hidden = YES;
         _seatIdle.text = @"-";
     }
     
     //收费评级
     if ([self.parkModel.parkFeelevel isEqualToString:@"0"]) {
-        _p_feelevel.image = [UIImage imageNamed:@"mfpparking_rmb_all_0.png"];
+        _feelevelImage.image = [UIImage imageNamed:@"mfpparking_rmb_all_0.png"];
     }else if([self.parkModel.parkFeelevel isEqualToString:@"1"]){
-        _p_feelevel.image = [UIImage imageNamed:@"mfpparking_rmb2_all_0.png"];
+        _feelevelImage.image = [UIImage imageNamed:@"mfpparking_rmb2_all_0.png"];
     }else if([self.parkModel.parkFeelevel isEqualToString:@"2"]){
-        _p_feelevel.image = [UIImage imageNamed:@"mfpparking_rmb3_all_0.png"];
+        _feelevelImage.image = [UIImage imageNamed:@"mfpparking_rmb3_all_0.png"];
     }
     
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
-    if (self.parkModel.photo != nil && self.parkModel.photo.photoPath != nil) {
-        [_park_image setImageWithURL:[NSURL URLWithString:self.parkModel.photo.photoPath]placeholderImage:defaultParkPhoto];
+    NSString *photoUrl = self.parkModel.photo.photoPath;
+    if ([FLYBaseUtil isNotEmpty:photoUrl]) {
+        NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+        [_parkImage setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
     }else{
-        _park_image.image = defaultParkPhoto;
+        _parkImage.image = defaultParkPhoto;
     }
     
     //评分
@@ -131,29 +148,26 @@
     [_seatIdle sizeToFit];
     [_capacity sizeToFit];
     //CGFloat fl = _p_count.right;
-    _seatIdle.left = _p_count.right + 2;
-    _sep.left = _seatIdle.right;
-    _capacity.left = _sep.right;
+    _seatIdle.left = _countImage.right + 2;
+    _sep.left = _seatIdle.right + 2;
+    _capacity.left = _sep.right + 2;
     
     [_free_time sizeToFit];
-    _free_time.left = _p_freetime.right + 2;
-    _fz.left = _free_time.right;
+    _free_time.left = _freetimeImage.right + 2;
+    _fz.left = _free_time.right + 2;
     
     BMKMapPoint point1 = BMKMapPointForCoordinate(self.coordinate);
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([self.parkModel.parkLat doubleValue],[self.parkModel.parkLng doubleValue]));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     if (distance > 1000) {
-        _distance.text = [NSString stringWithFormat:@"%.1fK",distance / 1000];
+        _distanceLabel.text = [NSString stringWithFormat:@"%.1fK",distance / 1000];
     }else{
-        _distance.text = [NSString stringWithFormat:@"%.0f",distance];
+        _distanceLabel.text = [NSString stringWithFormat:@"%.0f",distance];
     }
     
-    [_distance sizeToFit];
-    _distance.right = 310;
-    _p_distance.right = _distance.left;
-    
-//    _seatIdle.text = self.parkModel.seatIdle;
-    
+    [_distanceLabel sizeToFit];
+    _distanceLabel.right = 310;
+    _distanceImage.right = _distanceLabel.left;
 }
 
 

@@ -119,15 +119,18 @@
 
 //停车场位置
 - (void)requestParkData{
+    
+    _reloadLoaction = _curCoordinate;
+    
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.latitude] ,
+                                   [NSString stringWithFormat:@"%f",_reloadLoaction.latitude] ,
                                    @"lat",
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
+                                   [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                    @"long",
-                                   @"10000000",
+                                   @"200000",
                                    @"range",
                                    nil];
     
@@ -149,11 +152,11 @@
        
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       [NSString stringWithFormat:@"%f",_curCoordinate.latitude],
+                                       [NSString stringWithFormat:@"%f",_reloadLoaction.latitude],
                                        @"lat",
-                                       [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
+                                       [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                        @"long",
-                                       @"10000000",
+                                       @"200000",
                                        @"range",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
@@ -307,7 +310,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 85;
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -319,7 +322,7 @@
     }
 
     cell.parkModel = [self.datas objectAtIndex:indexPath.row];
-    cell.coordinate = _curCoordinate;
+    cell.coordinate = _reloadLoaction;
     
     return cell;
 }
@@ -327,9 +330,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     FLYParkModel *park = [self.datas objectAtIndex:indexPath.row];
     FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
-    detail.parkModel = park;
+    detail.parkId = park.parkId;
     [self.navigationController pushViewController:detail animated:NO];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

@@ -21,4 +21,6 @@
 + (NSString *)betweenDate:(NSDate *)beginDate endDate:(NSDate *)endDate;
 
 + (NSString *)getDataSizeString:(int) nSize;
+
++ (NSString *)getSmallImage:(NSString *)url width:(NSString *)width height:(NSString *)height;
 @end

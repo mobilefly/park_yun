@@ -13,21 +13,23 @@
 
 @interface FLYParkCell : UITableViewCell{
     UILabel *_parkLabel;
-    UIImageView *_p_distance;
-    UILabel *_distance;
+    UIImageView *_distanceImage;
+    UILabel *_distanceLabel;
     UIView *_scoreView;
     UILabel *_seatIdle;
     UILabel *_capacity;
     UILabel *_free_time;
     
-    UIImageView *_p_feelevel;
-    UIImageView *_park_image;
-    UIImageView *_p_status;
+    UIImageView *_feelevelImage;
+    UIImageView *_parkImage;
+    UIImageView *_statusImage;
     
     UILabel *_sep;
-    UIImageView *_p_count;
+    UIImageView *_countImage;
     UILabel *_fz;
-    UIImageView *_p_freetime;
+    UIImageView *_freetimeImage;
+    
+    UIImageView *_typeImage;
 
 }
 

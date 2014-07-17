@@ -1,31 +1,29 @@
 //
-//  FLYFootmarkViewController.m
+//  FLYCollectViewController.m
 //  park_yun
 //
-//  Created by chen on 14-7-11.
+//  Created by chen on 14-7-15.
 //  Copyright (c) 2014年 无线飞翔. All rights reserved.
 //
 
-#import "FLYFootmarkViewController.h"
+#import "FLYCollectViewController.h"
 #import "FLYDataService.h"
-#import "FLYFootmarkCell.h"
-#import "FLYMemberTraceModel.h"
-#import "FLYParkModel.h"
 #import "FLYCollectModel.h"
+#import "FLYCollectCell.h"
 #import "FLYParkDetailViewController.h"
 
 
-@interface FLYFootmarkViewController ()
+@interface FLYCollectViewController ()
 
 @end
 
-@implementation FLYFootmarkViewController
+@implementation FLYCollectViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"我的足迹";
+        self.title = @"我的收藏";
     }
     return self;
 }
@@ -33,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _firstLocation = NO;
+    _locationService = [[BMKLocationService alloc]init];
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
@@ -44,16 +45,30 @@
     [self.view addSubview:self.tableView];
     
     
-    if ([FLYBaseUtil isEnableInternate]) {
-        [self showHUD:@"加载中" isDim:NO];
-        [self requestFootmarkData];
-    }else{
-        [self showAlert:@"请打开网络"];
+    
+    
+}
+
+
+#pragma mark - BMKLocationServiceDelegate delegate
+- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
+{
+    _location = userLocation.location;
+    if(!_firstLocation && _location != nil){
+        _firstLocation = YES;
+        [_locationService stopUserLocationService];
+        
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self showHUD:@"加载中" isDim:NO];
+            [self requestCollectData];
+        }else{
+            [self showAlert:@"请打开网络"];
+        }
     }
 }
 
 #pragma mark - request
--(void)requestFootmarkData{
+-(void)requestCollectData{
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -61,27 +76,30 @@
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
-    NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
+    
+    
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    token,
                                    @"token",
                                    userid,
                                    @"userid",
-                                   memberCarno,
-                                   @"carno",
+                                   [NSString stringWithFormat:@"%f",_location.coordinate.latitude],
+                                   @"lat",
+                                   [NSString stringWithFormat:@"%f",_location.coordinate.longitude],
+                                   @"lon",
                                    nil];
     
     //防止循环引用
-    __weak FLYFootmarkViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadFootmarkData:result];
+    __weak FLYCollectViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpQueryMemberCollectList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadCollectData:result];
     } errorBolck:^(){
         [ref loadDataError];
     }];
 }
 
--(void)requestMorFootmarkData{
+-(void)requestMoreCollectData{
     //FLYMemberTraceModel
     
     if (_isMore) {
@@ -92,23 +110,25 @@
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults stringForKey:@"token"];
         NSString *userid = [defaults stringForKey:@"memberId"];
-        NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
+
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        token,
                                        @"token",
                                        userid,
                                        @"userid",
-                                       memberCarno,
-                                       @"carno",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
+                                       [NSString stringWithFormat:@"%f",_location.coordinate.latitude],
+                                       @"lat",
+                                       [NSString stringWithFormat:@"%f",_location.coordinate.longitude],
+                                       @"lon",
                                        nil];
         
         //防止循环引用
-        __weak FLYFootmarkViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref loadFootmarkData:result];
+        __weak FLYCollectViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryMemberCollectList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadCollectData:result];
         } errorBolck:^(){
             [ref loadDataError];
         }];
@@ -123,7 +143,7 @@
     [FLYBaseUtil alertErrorMsg];
 }
 
-- (void)loadFootmarkData:(id)data{
+- (void)loadCollectData:(id)data{
     _dataIndex = _dataIndex + 20;
     [self hideHUD];
     [self.tableView setReachedTheEnd:NO];
@@ -132,7 +152,7 @@
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
         if (result != nil) {
-            NSArray *traces = [result objectForKey:@"traces"];
+            NSArray *traces = [result objectForKey:@"collects"];
             
             if ([traces count] >= 20) {
                 _isMore = YES;
@@ -140,7 +160,7 @@
             
             NSMutableArray *traceList = [NSMutableArray arrayWithCapacity:traces.count];
             for (NSDictionary *traceDic in traces) {
-                FLYTraceModel *traceModel = [[FLYTraceModel alloc] initWithDataDic:traceDic];
+                FLYCollectModel *traceModel = [[FLYCollectModel alloc] initWithDataDic:traceDic];
                 [traceList addObject:traceModel];
             }
             if (self.datas == nil) {
@@ -178,11 +198,11 @@
 //下拉开始
 - (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
     self.refreshing = YES;
-    [self performSelector:@selector(requestFootmarkData) withObject:nil afterDelay:1.f];
+    [self performSelector:@selector(requestCollectData) withObject:nil afterDelay:1.f];
 }
 //上拉加载数据
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
-    [self performSelector:@selector(requestMorFootmarkData) withObject:nil afterDelay:1.f];
+    [self performSelector:@selector(requestMoreCollectData) withObject:nil afterDelay:1.f];
 }
 
 #pragma mark - Scroll
@@ -215,24 +235,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"FootmarkCell";
-    FLYFootmarkCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *identifier = @"CollectCell";
+    FLYCollectCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYFootmarkCell" owner:self options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCollectCell" owner:self options:nil] lastObject];
     }
-    
-    cell.traceModel = [self.datas objectAtIndex:indexPath.row];
-    
+    cell.collectModel = [self.datas objectAtIndex:indexPath.row];
+    cell.coordinate = _location.coordinate;
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    FLYTraceModel *trace = [self.datas objectAtIndex:indexPath.row];
+    FLYCollectModel *collect = [self.datas objectAtIndex:indexPath.row];
     FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
-    detail.parkId = trace.parkId;
+    detail.parkId = collect.park.parkId;
     [self.navigationController pushViewController:detail animated:NO];
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
@@ -243,10 +261,22 @@
     [super didReceiveMemoryWarning];
 }
 
+//不使用时将delegate设置为 nil
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [_locationService stopUserLocationService];
+    _locationService.delegate = nil;
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
+}
+
 -(void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
-
-
 
 @end

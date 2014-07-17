@@ -141,6 +141,7 @@
 		74526412196D4C2100037E3E /* FLYOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74526411196D4C2100037E3E /* FLYOrderModel.m */; };
 		74526415196D547D00037E3E /* mfpparking_wx_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74526413196D547D00037E3E /* mfpparking_wx_all_0@2x.png */; };
 		74526416196D547D00037E3E /* mfpparking_zfb_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74526414196D547D00037E3E /* mfpparking_zfb_all_0@2x.png */; };
+		745D6E9719775BBE0085E238 /* FLYSearhBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */; };
 		745E7424196506C100BB0AB9 /* theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 745E7419196506C100BB0AB9 /* theme.plist */; };
 		745E7425196506C100BB0AB9 /* ThemeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 745E741B196506C100BB0AB9 /* ThemeButton.m */; };
 		745E7426196506C100BB0AB9 /* ThemeImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 745E741D196506C100BB0AB9 /* ThemeImageView.m */; };
@@ -171,6 +172,7 @@
 		748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E619668230008B7AB6 /* FLYBussinessModel.m */; };
 		748208EA1966AE92008B7AB6 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */; };
 		748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */; };
+		7486816C19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */; };
 		748F320D1963CE48005071E0 /* mfpparking_ditu_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F32091963CE48005071E0 /* mfpparking_ditu_all_down@2x.png */; };
 		748F320E1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */; };
 		748F320F1963CE48005071E0 /* mfpparking_user_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */; };
@@ -225,6 +227,10 @@
 		74BEF97819750405003E8BDF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97719750405003E8BDF /* AudioToolbox.framework */; };
 		74BEF97A19750430003E8BDF /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97919750430003E8BDF /* AddressBook.framework */; };
 		74BEF97C1975043D003E8BDF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97B1975043D003E8BDF /* AVFoundation.framework */; };
+		74BEF99019751B5E003E8BDF /* FLYCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF98F19751B5E003E8BDF /* FLYCollectViewController.m */; };
+		74BEF99319751DB6003E8BDF /* FLYCollectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF99219751DB6003E8BDF /* FLYCollectModel.m */; };
+		74BEF99A19755FDE003E8BDF /* FLYCollectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF99819755FDE003E8BDF /* FLYCollectCell.m */; };
+		74BEF99B19755FDE003E8BDF /* FLYCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF99919755FDE003E8BDF /* FLYCollectCell.xib */; };
 		74C5619A1960609200F218CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C561991960609200F218CD /* Foundation.framework */; };
 		74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619B1960609200F218CD /* CoreGraphics.framework */; };
 		74C5619E1960609200F218CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619D1960609200F218CD /* UIKit.framework */; };
@@ -528,6 +534,8 @@
 		74526411196D4C2100037E3E /* FLYOrderModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYOrderModel.m; sourceTree = "<group>"; };
 		74526413196D547D00037E3E /* mfpparking_wx_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_wx_all_0@2x.png"; sourceTree = "<group>"; };
 		74526414196D547D00037E3E /* mfpparking_zfb_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_zfb_all_0@2x.png"; sourceTree = "<group>"; };
+		745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYSearhBussinessViewController.h; sourceTree = "<group>"; };
+		745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYSearhBussinessViewController.m; sourceTree = "<group>"; };
 		745E7419196506C100BB0AB9 /* theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = theme.plist; sourceTree = "<group>"; };
 		745E741A196506C100BB0AB9 /* ThemeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeButton.h; sourceTree = "<group>"; };
 		745E741B196506C100BB0AB9 /* ThemeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeButton.m; sourceTree = "<group>"; };
@@ -571,6 +579,7 @@
 		748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Bootstrap.m"; sourceTree = "<group>"; };
 		748208EB1966AF08008B7AB6 /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
+		7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_shouyelu_all_0@2x.png"; sourceTree = "<group>"; };
 		748F32091963CE48005071E0 /* mfpparking_ditu_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_ditu_all_down@2x.png"; sourceTree = "<group>"; };
 		748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_ditu_all_up@2x.png"; sourceTree = "<group>"; };
 		748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_user_all_down@2x.png"; sourceTree = "<group>"; };
@@ -638,6 +647,13 @@
 		74BEF97719750405003E8BDF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		74BEF97919750430003E8BDF /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		74BEF97B1975043D003E8BDF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		74BEF98E19751B5E003E8BDF /* FLYCollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCollectViewController.h; sourceTree = "<group>"; };
+		74BEF98F19751B5E003E8BDF /* FLYCollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCollectViewController.m; sourceTree = "<group>"; };
+		74BEF99119751DB6003E8BDF /* FLYCollectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCollectModel.h; sourceTree = "<group>"; };
+		74BEF99219751DB6003E8BDF /* FLYCollectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCollectModel.m; sourceTree = "<group>"; };
+		74BEF99719755FDE003E8BDF /* FLYCollectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCollectCell.h; sourceTree = "<group>"; };
+		74BEF99819755FDE003E8BDF /* FLYCollectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCollectCell.m; sourceTree = "<group>"; };
+		74BEF99919755FDE003E8BDF /* FLYCollectCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYCollectCell.xib; sourceTree = "<group>"; };
 		74C561961960609200F218CD /* park_yun.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = park_yun.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		74C561991960609200F218CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		74C5619B1960609200F218CD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -732,6 +748,7 @@
 				74BEF98B19751740003E8BDF /* CardPark */,
 				74BEF9881975170C003E8BDF /* Recharge */,
 				74BEF98A19751723003E8BDF /* Footmark */,
+				74BEF98D19751B03003E8BDF /* Collect */,
 				74BEF98919751718003E8BDF /* Setting */,
 			);
 			name = Member;
@@ -1088,6 +1105,8 @@
 				7412602D1966445600EF6A8E /* FLYSearchViewController.h */,
 				7412602E1966445600EF6A8E /* FLYSearchViewController.m */,
 				7412602F1966445600EF6A8E /* FLYSearchViewController.xib */,
+				745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */,
+				745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */,
 			);
 			name = Park;
 			sourceTree = "<group>";
@@ -1139,6 +1158,8 @@
 				74926B451973C0A900833F99 /* FLYCardParkModel.m */,
 				74926B471973C11D00833F99 /* FLYMemberCard.h */,
 				74926B481973C11D00833F99 /* FLYMemberCard.m */,
+				74BEF99119751DB6003E8BDF /* FLYCollectModel.h */,
+				74BEF99219751DB6003E8BDF /* FLYCollectModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1306,6 +1327,18 @@
 			name = CardPark;
 			sourceTree = "<group>";
 		};
+		74BEF98D19751B03003E8BDF /* Collect */ = {
+			isa = PBXGroup;
+			children = (
+				74BEF98E19751B5E003E8BDF /* FLYCollectViewController.h */,
+				74BEF98F19751B5E003E8BDF /* FLYCollectViewController.m */,
+				74BEF99719755FDE003E8BDF /* FLYCollectCell.h */,
+				74BEF99819755FDE003E8BDF /* FLYCollectCell.m */,
+				74BEF99919755FDE003E8BDF /* FLYCollectCell.xib */,
+			);
+			name = Collect;
+			sourceTree = "<group>";
+		};
 		74C5618D1960609200F218CD = {
 			isa = PBXGroup;
 			children = (
@@ -1355,9 +1388,9 @@
 			children = (
 				74C561A81960609200F218CD /* FLYAppDelegate.h */,
 				74C561A91960609200F218CD /* FLYAppDelegate.mm */,
-				743D26D2196E3EDE00CE1A1C /* Base */,
-				741F2C30196B948700E1B809 /* Member */,
 				745E743319653FED00BB0AB9 /* Park */,
+				741F2C30196B948700E1B809 /* Member */,
+				743D26D2196E3EDE00CE1A1C /* Base */,
 				745E7418196506C100BB0AB9 /* ThemeManager */,
 				748F332F1964108D005071E0 /* Model */,
 				74D041171963B9D3005B2F76 /* BaseView */,
@@ -1403,6 +1436,7 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */,
 				74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */,
 				74926B3E1973BD1A00833F99 /* mfpparking_card_all_0@2x.png */,
 				74926B3F1973BD1A00833F99 /* mfpparking_chepai_all_0@2x.png */,
@@ -1665,6 +1699,7 @@
 				74526415196D547D00037E3E /* mfpparking_wx_all_0@2x.png in Resources */,
 				7410CFF41967946A00A41AA5 /* mfpparking_gs2_all_0@2x.png in Resources */,
 				74FC622D1966E3B100A8289A /* mfpparking_luk_all_up@2x.png in Resources */,
+				74BEF99B19755FDE003E8BDF /* FLYCollectCell.xib in Resources */,
 				741260311966445600EF6A8E /* FLYSearchViewController.xib in Resources */,
 				743E51B7196F844E004D7583 /* mfpparking_tj_all_down@2x.png in Resources */,
 				745263C3196D13BB00037E3E /* Default@2x.png in Resources */,
@@ -1692,6 +1727,7 @@
 				745E745A19658A7000BB0AB9 /* navigationbar_button_background.png in Resources */,
 				7410CFFB1967AEE400A41AA5 /* mfpparking_lb3_all_0@2x.png in Resources */,
 				74FC62301966F10900A8289A /* mfpparking_jia_all_up@2x.png in Resources */,
+				7486816C19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png in Resources */,
 				745263D8196D195D00037E3E /* mfpparking_hy_all_down@2x.png in Resources */,
 				748F32B01963E491005071E0 /* arrow.png in Resources */,
 				74926B431973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png in Resources */,
@@ -1756,6 +1792,7 @@
 				748F33171963F836005071E0 /* FLYParkCell.m in Sources */,
 				74D0411A1963BA27005B2F76 /* FLYBaseViewController.m in Sources */,
 				7420AAFE1960F81B000DD75F /* RegexKitLite.m in Sources */,
+				74BEF99A19755FDE003E8BDF /* FLYCollectCell.m in Sources */,
 				7420AB4B1961086C000DD75F /* FLYGlobalUICommon.m in Sources */,
 				74926B461973C0A900833F99 /* FLYCardParkModel.m in Sources */,
 				74D0411D1963BA59005B2F76 /* FLYBaseNavigationController.m in Sources */,
@@ -1764,6 +1801,7 @@
 				74926B491973C11D00833F99 /* FLYMemberCard.m in Sources */,
 				745263B9196CE86D00037E3E /* NSObject+Encryption.m in Sources */,
 				74926B2D19739CB100833F99 /* FLYToast.m in Sources */,
+				74BEF99319751DB6003E8BDF /* FLYCollectModel.m in Sources */,
 				743E51B3196F80D8004D7583 /* FLYFeedbackViewController.m in Sources */,
 				7420AAE51960F7F9000DD75F /* ASIAuthenticationDialog.m in Sources */,
 				7420AAE61960F7F9000DD75F /* ASIDataCompressor.m in Sources */,
@@ -1791,6 +1829,7 @@
 				745E743219653FE200BB0AB9 /* FLYParkDetailViewController.m in Sources */,
 				745E7429196506C100BB0AB9 /* UIFactory.m in Sources */,
 				7420AB441961079C000DD75F /* NSString+URLEncoding.m in Sources */,
+				74BEF99019751B5E003E8BDF /* FLYCollectViewController.m in Sources */,
 				745263BC196CF17600037E3E /* FLYMemberModel.m in Sources */,
 				748F32D31963E816005071E0 /* FLYBaseTableView.m in Sources */,
 				7420AB2B1960F820000DD75F /* UIImage+WebP.m in Sources */,
@@ -1843,6 +1882,7 @@
 				7420AAAF1960F777000DD75F /* DDMenuController.m in Sources */,
 				74C561A61960609200F218CD /* main.m in Sources */,
 				7430656A196E818B006026B7 /* FLYDownloadCell.m in Sources */,
+				745D6E9719775BBE0085E238 /* FLYSearhBussinessViewController.m in Sources */,
 				74926B3C1973BAE800833F99 /* FLYCardParkCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

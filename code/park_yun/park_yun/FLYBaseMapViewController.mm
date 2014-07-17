@@ -278,7 +278,7 @@
 //详情
 - (void)detailAction:(UIButton *)button{
     FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
-    detail.parkModel = _curModel;
+    detail.parkId = _curModel.parkId;
     detail.showLocation = NO;
     [self.navigationController pushViewController:detail animated:NO];
 }
@@ -447,14 +447,14 @@
             //签约
             if ([parkModel.parkStatus isEqualToString:@"0"]) {
                 if ([parkModel.seatIdle intValue] > 100) {
-                    image = [UIImage imageNamed:@"mfpparking_tcc1_all_0.png"];
+                    image = [UIImage imageNamed:@"mfpparking_tcc2_all_0.png"];
                 }else if([parkModel.seatIdle intValue] > 20){
-                    image = [UIImage imageNamed:@"mfpparking_tcc1_all_0.png"];
+                    image = [UIImage imageNamed:@"mfpparking_tcc3_all_0.png"];
                 }else{
                     image = [UIImage imageNamed:@"mfpparking_tcc1_all_0.png"];
                 }
             }else{
-                image = [UIImage imageNamed:@"mfpparking_tcc1_all_0.png"];
+                image = [UIImage imageNamed:@"mfpparking_tcc4_all_0.png"];
             }
         }
         annotationView.data = parkModel;
@@ -525,7 +525,7 @@
         //容量
         capacityLabel.text =  [NSString stringWithFormat:@"%@%@",@"/ ",[model.parkCapacity stringValue]];
         [capacityLabel sizeToFit];
-        capacityLabel.left = seatIdleLabel.right + 2;
+        capacityLabel.left = seatIdleLabel.right + 3;
         
         //免费时间
         freeTimeLabel.text = [model.parkFreetime stringValue];

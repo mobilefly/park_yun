@@ -63,6 +63,7 @@
         _dateLabel.backgroundColor = kPRBGColor;
         _dateLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         _dateLabel.text = NSLocalizedString(@"最后更新", @"");
+//        _dateLabel.hidden = YES;
         [self addSubview:_dateLabel];
         
 //        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];
@@ -87,7 +88,6 @@
     CGRect stateFrame,dateFrame,arrowFrame;
 
     float x = 0,y,margin;
-//    x = 0;
     margin = (kPROffsetY - 2*kPRLabelHeight)/2;
     if (self.isAtTop) {
         y = size.height - margin - kPRLabelHeight;
@@ -100,10 +100,9 @@
         x = kPRMargin;
         y = size.height - margin - kPRArrowHeight;
         arrowFrame = CGRectMake(4*x, y, kPRArrowWidth, kPRArrowHeight);
+        _activityView.center = CGPointMake(size.width - 30, arrowFrame.origin.y + 20);
         
     } else {
-        //at bottom
-//        y = margin + 10;
         y = margin;
         stateFrame = CGRectMake(0, y, size.width, kPRLabelHeight);
         
@@ -115,12 +114,14 @@
         arrowFrame = CGRectMake(4*x, y - 5, kPRArrowWidth, kPRArrowHeight);
         
         _stateLabel.text = NSLocalizedString(@"上拉加载", @"");
+        
+        _activityView.center = CGPointMake(size.width - 30, arrowFrame.origin.y + 25);
     }
     _stateLabel.frame = stateFrame;
     _dateLabel.frame = dateFrame;
-    _arrowView.frame = CGRectMake(arrowFrame.origin.x,arrowFrame.origin.y , 40, 50);//arrowFrame;
+    _arrowView.frame = CGRectMake(arrowFrame.origin.x,arrowFrame.origin.y , 40, 50);
     
-    _activityView.center = CGPointMake(size.width - 30, arrowFrame.origin.y+20);
+    
 }
 
 - (void)setState:(PRState)state {
@@ -137,9 +138,9 @@
             
             _loading = YES;
             if (self.isAtTop) {
-                _stateLabel.text = NSLocalizedString(@"正在刷新", @"");
+                _stateLabel.text = NSLocalizedString(@"努力加载中", @"");
             } else {
-                _stateLabel.text = NSLocalizedString(@"正在加载", @"");
+                _stateLabel.text = NSLocalizedString(@"努力加载中", @"");
             }
             
         } else if (_state == kPRStatePulling && !_loading) {    //Scrolling

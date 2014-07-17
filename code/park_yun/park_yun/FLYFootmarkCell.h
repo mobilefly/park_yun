@@ -11,12 +11,12 @@
 
 @interface FLYFootmarkCell : UITableViewCell{
 
-    UILabel *parkNameLabel;
-    UILabel *startTimeLabel;
-    UILabel *endTimeLabel;
-    UILabel *payLabel;
-    UILabel *durationLabel;
-    UIImageView *parkImage;
+    UILabel *_parkNameLabel;
+    UILabel *_startTimeLabel;
+    UILabel *_endTimeLabel;
+    UILabel *_payLabel;
+    UILabel *_durationLabel;
+    UIImageView *_parkImage;
     
 }
 

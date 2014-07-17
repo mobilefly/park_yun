@@ -41,10 +41,10 @@
 
 - (void)requestData{
     if ([FLYBaseUtil isEnableInternate]) {
-        if (_parkModel != nil && _parkModel.parkId.length > 0) {
+        if ([FLYBaseUtil isNotEmpty:_parkId]) {
             [self showHUD:@"加载中" isDim:NO];
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                      _parkModel.parkId,
+                      _parkId,
                       @"parkid",
                       nil];
             
@@ -108,13 +108,13 @@
     if (self.photos != nil && [self.photos count] > 0) {
         //默认图片
         UIImage *placeholderImage = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
-        _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 180)];
+        _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 128)];
+        
         //代理
         _topic.JCdelegate = self;
         NSMutableArray *photoArray = [[NSMutableArray alloc]init];
         
         for (FLYPhotoModel *photoModel in self.photos) {
-            
             [photoArray addObject:[NSDictionary dictionaryWithObjects:
                                    @[photoModel.photoPath,@"",@NO,placeholderImage]
                                                               forKeys:
@@ -320,11 +320,11 @@
     FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
     
-    mapController.lat = [numFormat numberFromString:_parkModel.parkLat];
-    mapController.lon = [numFormat numberFromString:_parkModel.parkLng];
+    mapController.lat = [numFormat numberFromString:_park.parkLat];
+    mapController.lon = [numFormat numberFromString:_park.parkLng];
     
     mapController.type = kAnnotationTypePark;
-    mapController.dataModel = _parkModel;
+    mapController.dataModel = _park;
     [self.navigationController pushViewController:mapController animated:NO];
 
 }

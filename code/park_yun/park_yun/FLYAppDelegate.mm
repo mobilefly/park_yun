@@ -15,12 +15,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [FLYBaseUtil clearUserInfo];
+//    [FLYBaseUtil clearUserInfo];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     //初始化讯飞语音
-    NSString *initString = [NSString stringWithFormat:@"appid=%@",@"53c47fda"];
+    NSString *initString = [NSString stringWithFormat:@"appid=%@",kXunfeiKey];
     //所有服务启动前，需要确保执行createUtility
     [IFlySpeechUtility createUtility:initString];
     
@@ -28,7 +28,7 @@
     //初始化百度地图
     _mapManager = [[BMKMapManager alloc]init];
     // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
-    BOOL ret = [_mapManager start:@"U2NLMulqHTdAa5hnalS2Ps9c"  generalDelegate:nil];
+    BOOL ret = [_mapManager start:kBaiduKey generalDelegate:nil];
     if (!ret) {
         NSLog(@"manager start failed!");
     }

@@ -21,6 +21,8 @@
     //数据是否全部加载完
     BOOL _isMore;
     
+    //第一次加载数据坐标
+    CLLocationCoordinate2D _reloadLoaction;
 
 }
 
