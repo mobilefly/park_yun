@@ -55,6 +55,7 @@
     _tableView.dataSource = self;
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
+    [self setExtraCellLineHidden:self.tableView];
     
     _poiSearcher = [[BMKPoiSearch alloc]init];
     _locationService = [[BMKLocationService alloc]init];
@@ -289,6 +290,11 @@
 
 #pragma mark - UITableViewDataSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.datas == nil || [self.datas count] == 0) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }else{
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
     return [self.datas count];
 }
 
@@ -349,6 +355,18 @@
     [self.searchBar resignFirstResponder];
 }
 
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    self.cancelBtn.hidden = NO;
+    self.searchBar.width = ScreenWidth - 50;
+}
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
+    self.cancelBtn.hidden = YES;
+    self.searchBar.width = ScreenWidth;
+    [self.searchBar resignFirstResponder];
+}
+
 #pragma mark - view other
 - (void)didReceiveMemoryWarning
 {
@@ -394,6 +412,10 @@
 }
 
 #pragma mark - Action
+- (IBAction)cancelAction:(id)sender {
+    [self.searchBar resignFirstResponder];
+}
+
 - (IBAction)backgroupTap:(id)sender {
     [self.searchBar resignFirstResponder];
 }
@@ -408,7 +430,13 @@
         NSMutableString *result = [[NSMutableString alloc] init];
         NSDictionary *dic = [resultArray objectAtIndex:0];
         for (NSString *key in dic) {
-            [result appendFormat:@"%@",key];
+
+            NSString *keyWord =  [key stringByReplacingOccurrencesOfString:@"，" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"！" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"？" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"。" withString:@" "];
+            
+            [result appendFormat:@"%@",keyWord];
         }
         _searchBar.text = [NSString stringWithFormat:@"%@%@",_searchBar.text,result];
     }

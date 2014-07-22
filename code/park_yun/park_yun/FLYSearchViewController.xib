@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FLYSearchViewController">
             <connections>
+                <outlet property="cancelBtn" destination="A2l-dB-MwT" id="ryr-Fh-oRg"/>
                 <outlet property="searchBar" destination="lEQ-K2-C5L" id="f9O-T2-Uqv"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="Roy-tn-c0w"/>
             </connections>
@@ -20,6 +21,18 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <textInputTraits key="textInputTraits"/>
                 </searchBar>
+                <button hidden="YES" autoresizesSubviews="NO" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="A2l-dB-MwT">
+                    <rect key="frame" x="269.5" y="0.0" width="50" height="44"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="取消">
+                        <color key="titleColor" red="1" green="0.24817999265006752" blue="0.2123056656280311" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="cancelAction:" destination="-1" eventType="touchUpInside" id="2K1-C4-K4A"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.9490196704864502" green="0.94509810209274292" blue="0.95686280727386475" alpha="1" colorSpace="deviceRGB"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

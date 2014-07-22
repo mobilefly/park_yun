@@ -12,7 +12,7 @@
 #import "DXAlertView.h"
 #import "NSString+MD5HexDigest.h"
 
-#define kLoginBackgroundColor Color(233,247,241,1)
+#define kLoginBackgroundColor Color(249,249,249,1)
 #define kLoginBorderColor Color(206,215,225,1)
 
 @interface FLYRegisterViewController ()
@@ -50,65 +50,131 @@
     passverifyIcon.frame = CGRectMake(9, 8, 22, 24);
     [passverifyIconView addSubview:passverifyIcon];
     
-    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20, 20, 280, 40)];
+    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20, 10, 280, 40)];
     _usernameField.clearButtonMode = YES;
     _usernameField.layer.masksToBounds = YES;
     _usernameField.layer.borderColor = [kLoginBorderColor CGColor];
     _usernameField.layer.borderWidth = 1.0f;
+    _usernameField.layer.cornerRadius = 5;
     _usernameField.leftView = usernameIconView;
     _usernameField.leftViewMode = UITextFieldViewModeAlways;
     _usernameField.placeholder = @"请输入手机号";
-    _usernameField.keyboardType = UIKeyboardTypePhonePad;
+    _usernameField.keyboardType = UIKeyboardTypeASCIICapable;
+    _usernameField.font = [UIFont systemFontOfSize:14.0];
+    _usernameField.backgroundColor = kLoginBackgroundColor;
+    _usernameField.returnKeyType = UIReturnKeyNext;
+    _usernameField.tag = 101;
+    [_usernameField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_usernameField];
     
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _usernameField.bottom + 20, 280, 40)];
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _usernameField.bottom + 10, 280, 40)];
     _passwordField.clearButtonMode = YES;
     _passwordField.layer.masksToBounds = YES;
     _passwordField.layer.borderColor = [kLoginBorderColor CGColor];
     _passwordField.layer.borderWidth = 1.0f;
+    _passwordField.layer.cornerRadius = 5;
     _passwordField.secureTextEntry = YES;
     _passwordField.leftView = passwordIconView;
     _passwordField.leftViewMode = UITextFieldViewModeAlways;
     _passwordField.placeholder = @"请输入密码";
+    _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
+    _passwordField.font = [UIFont systemFontOfSize:14.0];
+    _passwordField.backgroundColor = kLoginBackgroundColor;
+    _passwordField.returnKeyType = UIReturnKeyNext;
+    _passwordField.tag = 102;
+    [_passwordField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_passwordField];
     
-    _passverifyField = [[UITextField alloc] initWithFrame:CGRectMake(20, _passwordField.bottom + 20, 280, 40)];
+    _passverifyField = [[UITextField alloc] initWithFrame:CGRectMake(20, _passwordField.bottom + 10, 280, 40)];
     _passverifyField.clearButtonMode = YES;
     _passverifyField.layer.masksToBounds = YES;
     _passverifyField.layer.borderColor = [kLoginBorderColor CGColor];
     _passverifyField.layer.borderWidth = 1.0f;
+    _passverifyField.layer.cornerRadius = 5;
     _passverifyField.secureTextEntry = YES;
     _passverifyField.leftView = passverifyIconView;
     _passverifyField.leftViewMode = UITextFieldViewModeAlways;
     _passverifyField.placeholder = @"请确认输入密码";
+    _passverifyField.keyboardType = UIKeyboardTypeASCIICapable;
+    _passverifyField.font = [UIFont systemFontOfSize:14.0];
+    _passverifyField.backgroundColor = kLoginBackgroundColor;
+    _passverifyField.returnKeyType = UIReturnKeyNext;
+    _passverifyField.tag = 103;
+    [_passverifyField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_passverifyField];
     
-    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(20, _passverifyField.bottom + 20, 160, 40)];
+    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(20, _passverifyField.bottom + 10, 160, 40)];
     _codeFiled.layer.masksToBounds = YES;
     _codeFiled.layer.borderColor = [kLoginBorderColor CGColor];
     _codeFiled.layer.borderWidth = 1.0f;
+    _codeFiled.layer.cornerRadius = 5;
     _codeFiled.placeholder = @"验证码";
     _codeFiled.textAlignment = NSTextAlignmentCenter;
-    _codeFiled.keyboardType = UIKeyboardTypePhonePad;
+    _codeFiled.keyboardType = UIKeyboardTypeASCIICapable;
+//    _codeFiled.keyboardType = UIKeyboardTypePhonePad;
+    _codeFiled.font = [UIFont systemFontOfSize:14.0];
+    _codeFiled.backgroundColor = kLoginBackgroundColor;
+    _codeFiled.returnKeyType = UIReturnKeyDone;
+    _codeFiled.tag = 104;
+    [_codeFiled addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_codeFiled];
     
     _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, _passverifyField.bottom + 20, 100, 40);
+    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, _passverifyField.bottom + 10, 100, 40);
     [_codeBtn infoStyle];
     [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
     _codeBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    [_codeBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_codeBtn];
 
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 20 , 280, 40);
+    _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 10 , 280, 40);
     [_submitBtn primaryStyle];
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    [_submitBtn addTarget:self action:@selector(submitAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_submitBtn];
 }
 
 #pragma mark - Action
-- (void)submitAction:(UIButton *)button{
+- (void)didEndAction:(UITextField *)textField{
+    if (textField.tag == 101) {
+        [_usernameField resignFirstResponder];
+        [_passwordField becomeFirstResponder];
+    }else if (textField.tag == 102) {
+        [_passwordField resignFirstResponder];
+        [_passverifyField becomeFirstResponder];
+    }else if (textField.tag == 103) {
+        [_passverifyField resignFirstResponder];
+        [_codeFiled becomeFirstResponder];
+    }else if (textField.tag == 104) {
+        [_codeFiled resignFirstResponder];
+        [self submitAction];
+    }
+}
+
+- (void)refreshAction:(UIButton *)button{
+    _codeBtn.enabled = NO;
+    [_codeBtn defaultStyle];
+    
+    //每60秒请求未读数
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction:) userInfo:nil repeats:YES];
+}
+
+- (void)timeAction:(NSTimer *)timer{
+    if ([_codeBtn.titleLabel.text isEqualToString:@"1"]) {
+        [_timer invalidate];
+        _codeBtn.enabled = YES;
+        [_codeBtn primaryStyle];
+        [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
+    }else{
+        int num = [_codeBtn.titleLabel.text intValue];
+        [_codeBtn setTitle:[NSString stringWithFormat:@"%i",num -1 ] forState:UIControlStateDisabled];
+    }
+}
+
+
+- (void)submitAction{
     [_usernameField resignFirstResponder];
     [_passwordField resignFirstResponder];
     [_passverifyField resignFirstResponder];
@@ -191,6 +257,14 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
+}
+
+- (void)dealloc{
+    //取消定时器
+    [_timer invalidate];
+    _timer = nil;
+    
+    NSLog(@"%s",__FUNCTION__);
 }
 
 

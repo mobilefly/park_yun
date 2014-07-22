@@ -36,6 +36,10 @@
 - (void)showHUD:(NSString *)title isDim:(BOOL)isDim;
 - (void)hideHUD;
 - (void)showHUDComplete:(NSString *)title;
+- (void)showHUDProgress:(NSString *)title isDim:(BOOL)isDim;
+- (void)updateHUDProgress:(float)progress;
+
+
 //状态栏提示
 - (void)showStatusTip:(BOOL)show tilte:(NSString *)title;
 
@@ -44,5 +48,7 @@
 - (void)showMessage:(NSString *)msg;
 //提示
 - (void)showToast:(NSString *)mag;
+//隐藏多余分割线
+- (void)setExtraCellLineHidden: (UITableView *)tableView;
 
 @end

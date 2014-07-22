@@ -15,6 +15,8 @@
     UITextField *_codeFiled;
     UIButton *_codeBtn;
     UIButton *_submitBtn;
+    
+    NSTimer *_timer;
 }
 - (IBAction)backgroundTap:(id)sender;
 

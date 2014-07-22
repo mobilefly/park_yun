@@ -20,4 +20,10 @@ typedef void(^RequestErrorBlock)();
                      completeBolck:(RequestFinishBlock)block
                      errorBolck:(RequestErrorBlock)error;
 
++ (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
+                            params:(NSMutableDictionary *)params
+                          progress:(id)progress
+                     completeBolck:(RequestFinishBlock)block
+                        errorBolck:(RequestErrorBlock)error;
+
 @end

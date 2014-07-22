@@ -30,8 +30,11 @@
 @property (strong, nonatomic)NSMutableArray *datas;
 
 @property(copy,nonatomic) NSString *searchText;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (strong, nonatomic) UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+
+- (IBAction)cancelAction:(id)sender;
 
 - (IBAction)backgroupTap:(id)sender;
 @end

@@ -43,6 +43,8 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     
+    [self setExtraCellLineHidden:self.tableView];
+    
     
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
@@ -89,7 +91,7 @@
         
         int start = _dataIndex;
         
-        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults stringForKey:@"token"];
         NSString *userid = [defaults stringForKey:@"memberId"];
         NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
@@ -205,6 +207,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.datas == nil || [self.datas count] == 0) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }else{
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
     return [self.datas count];
 }
 

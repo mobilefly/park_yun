@@ -169,6 +169,27 @@
     }
 }
 
+- (void)showHUDProgress:(NSString *)title isDim:(BOOL)isDim{
+    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    //是否灰色背景
+    self.hud.dimBackground = isDim;
+    
+    self.hud.mode = MBProgressHUDModeDeterminate;
+    
+    self.hud.delegate = self;
+    //self.hud.labelText = @"加载中";
+    
+    if (title.length > 0) {
+        self.hud.labelText = title;
+    }
+    _isHudLoad = YES;
+}
+
+- (void)updateHUDProgress:(float)progress{
+    self.hud.progress = progress;
+    self.hud.detailsLabelText = [NSString stringWithFormat:@"%.2f",progress * 100];
+}
+
 - (void)showHUDComplete:(NSString *)title{
     self.hud.customView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]];
     self.hud.delegate = self;
@@ -301,6 +322,13 @@
     [self.hud removeFromSuperview];
 	self.hud = nil;
     _isHudLoad = NO;
+}
+
+#pragma mark - tableView
+- (void)setExtraCellLineHidden: (UITableView *)tableView{
+    UIView *view = [[UIView alloc] init];
+    view.backgroundColor = [UIColor clearColor];
+    [tableView setTableFooterView:view];
 }
 
 #pragma mark - view other

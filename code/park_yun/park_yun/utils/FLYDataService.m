@@ -89,5 +89,58 @@
 
     return request;
 }
++ (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
+                            params:(NSMutableDictionary *)params
+                          progress:(id)progress
+                     completeBolck:(RequestFinishBlock)block
+                        errorBolck:(RequestErrorBlock)error{
+    //拼接url
+    urlstring = [kHttpDomain stringByAppendingFormat:@"%@",urlstring];
+    
+    NSLog(@"%@",urlstring);
+    NSURL *url = [NSURL URLWithString:urlstring];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    //设置超时时间
+    [request setTimeOutSeconds:600];
+    [request setRequestMethod:@"POST"];
+    
+    //POST
+    NSArray *allkey = [params allKeys];
+    for (int i=0; i<params.count; i++) {
+        NSString *key = [allkey objectAtIndex:i];
+        id value = [params objectForKey:key];
+        //判断是否文件上传
+        if ([value isKindOfClass:[NSData class]]) {
+            [request addData:value forKey:key];
+        }else{
+            [request addPostValue:value forKey:key];
+        }
+    }
+    [request setUploadProgressDelegate:progress];
+    request.showAccurateProgress=YES;
+
+    __block ASIFormDataRequest *req = request;
+    //设置请求完成的BLOCK
+    [request setCompletionBlock:^{
+        NSData *data = req.responseData;
+        id result = nil;
+        
+        result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        if (block != nil) {
+            block(result);
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        if (error != nil) {
+            error();
+        }
+    }];
+    
+    [request startAsynchronous];
+    
+    return request;
+}
 
 @end

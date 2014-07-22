@@ -18,8 +18,6 @@
 #define fontColor Color(64,64,64,1)
 #define bordColor Color(230,230,230,1)
 
-
-
 @interface FLYLoginViewController ()
 
 @end

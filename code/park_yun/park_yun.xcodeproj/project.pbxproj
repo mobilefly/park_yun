@@ -100,6 +100,17 @@
 		743E51C7196FCD64004D7583 /* FLYTraceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 743E51C6196FCD64004D7583 /* FLYTraceModel.m */; };
 		743E51CB196FE142004D7583 /* FLYRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 743E51C9196FE142004D7583 /* FLYRegisterViewController.m */; };
 		743E51CC196FE142004D7583 /* FLYRegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 743E51CA196FE142004D7583 /* FLYRegisterViewController.xib */; };
+		744B74511978E3D300D51485 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74501978E3D300D51485 /* iCarousel.m */; };
+		744B74551978E43F00D51485 /* FLYShakeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74541978E43F00D51485 /* FLYShakeViewController.m */; };
+		744B74571978E76800D51485 /* page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74561978E76800D51485 /* page@2x.png */; };
+		744B745A1978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */; };
+		744B745B1978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */; };
+		744B745D19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */; };
+		744B7466197917DF00D51485 /* mfpparking_yaoxh_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B7462197917DF00D51485 /* mfpparking_yaoxh_all_0@2x.png */; };
+		744B7467197917DF00D51485 /* mfpparking_yaoxh_all_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B7463197917DF00D51485 /* mfpparking_yaoxh_all_1@2x.png */; };
+		744B7468197917DF00D51485 /* mfpparking_yaoxh_all_2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B7464197917DF00D51485 /* mfpparking_yaoxh_all_2@2x.png */; };
+		744B7469197917DF00D51485 /* mfpparking_yaoxh_all_3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B7465197917DF00D51485 /* mfpparking_yaoxh_all_3@2x.png */; };
+		744B746D19791CB900D51485 /* mfpparking_yaojiazaidaizi_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B746C19791CB900D51485 /* mfpparking_yaojiazaidaizi_all_0@2x.png */; };
 		745263A4196CE17200037E3E /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 7452639C196CE17200037E3E /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		745263A7196CE17200037E3E /* SecurityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 745263A3196CE17200037E3E /* SecurityUtil.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		745263B0196CE78800037E3E /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = 745263AF196CE78800037E3E /* NSString+MD5.m */; };
@@ -142,6 +153,14 @@
 		74526415196D547D00037E3E /* mfpparking_wx_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74526413196D547D00037E3E /* mfpparking_wx_all_0@2x.png */; };
 		74526416196D547D00037E3E /* mfpparking_zfb_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74526414196D547D00037E3E /* mfpparking_zfb_all_0@2x.png */; };
 		745D6E9719775BBE0085E238 /* FLYSearhBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */; };
+		745D6E9E19778E7D0085E238 /* FLYCarManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745D6E9D19778E7D0085E238 /* FLYCarManagerViewController.m */; };
+		745D6EA11977A0CB0085E238 /* FLYCarnoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 745D6EA01977A0CB0085E238 /* FLYCarnoModel.m */; };
+		745D6EA41977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745D6EA21977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png */; };
+		745D6EA51977A3BD0085E238 /* mfpparking_clglgou_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745D6EA31977A3BD0085E238 /* mfpparking_clglgou_all_0@2x.png */; };
+		745D6EA91977ADB40085E238 /* mfpparking_empty@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745D6EA81977ADB40085E238 /* mfpparking_empty@2x.png */; };
+		745D6EB01977C4210085E238 /* FLYCarBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 745D6EAE1977C4210085E238 /* FLYCarBindViewController.m */; };
+		745D6EB11977C4210085E238 /* FLYCarBindViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 745D6EAF1977C4210085E238 /* FLYCarBindViewController.xib */; };
+		745D6EB31977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 745D6EB21977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png */; };
 		745E7424196506C100BB0AB9 /* theme.plist in Resources */ = {isa = PBXBuildFile; fileRef = 745E7419196506C100BB0AB9 /* theme.plist */; };
 		745E7425196506C100BB0AB9 /* ThemeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 745E741B196506C100BB0AB9 /* ThemeButton.m */; };
 		745E7426196506C100BB0AB9 /* ThemeImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 745E741D196506C100BB0AB9 /* ThemeImageView.m */; };
@@ -173,6 +192,12 @@
 		748208EA1966AE92008B7AB6 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */; };
 		748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */; };
 		7486816C19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */; };
+		748B794B197CE9470081A317 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 748B794A197CE9470081A317 /* ImageIO.framework */; };
+		748B794D197CE9550081A317 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 748B794C197CE9550081A317 /* CoreMotion.framework */; };
+		748B794F197CE9690081A317 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 748B794E197CE9690081A317 /* CoreTelephony.framework */; };
+		748B7951197CE9730081A317 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 748B7950197CE9730081A317 /* MediaPlayer.framework */; };
+		748B7953197CE98E0081A317 /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 748B7952197CE98E0081A317 /* libstdc++.6.0.9.dylib */; };
+		748B79A2197CF3ED0081A317 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF975197503E6003E8BDF /* iflyMSC.framework */; };
 		748F320D1963CE48005071E0 /* mfpparking_ditu_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F32091963CE48005071E0 /* mfpparking_ditu_all_down@2x.png */; };
 		748F320E1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */; };
 		748F320F1963CE48005071E0 /* mfpparking_user_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */; };
@@ -223,7 +248,6 @@
 		74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */; };
 		74BEF9731974DADD003E8BDF /* CPMotionRecognizingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9701974DADD003E8BDF /* CPMotionRecognizingWindow.m */; };
 		74BEF9741974DADD003E8BDF /* UIResponder+MotionRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9721974DADD003E8BDF /* UIResponder+MotionRecognizers.m */; };
-		74BEF976197503E6003E8BDF /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF975197503E6003E8BDF /* iflyMSC.framework */; };
 		74BEF97819750405003E8BDF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97719750405003E8BDF /* AudioToolbox.framework */; };
 		74BEF97A19750430003E8BDF /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97919750430003E8BDF /* AddressBook.framework */; };
 		74BEF97C1975043D003E8BDF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74BEF97B1975043D003E8BDF /* AVFoundation.framework */; };
@@ -478,6 +502,19 @@
 		743E51C8196FE142004D7583 /* FLYRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYRegisterViewController.h; sourceTree = "<group>"; };
 		743E51C9196FE142004D7583 /* FLYRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYRegisterViewController.m; sourceTree = "<group>"; };
 		743E51CA196FE142004D7583 /* FLYRegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYRegisterViewController.xib; sourceTree = "<group>"; };
+		744B744F1978E3D300D51485 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		744B74501978E3D300D51485 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		744B74531978E43F00D51485 /* FLYShakeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYShakeViewController.h; sourceTree = "<group>"; };
+		744B74541978E43F00D51485 /* FLYShakeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYShakeViewController.m; sourceTree = "<group>"; };
+		744B74561978E76800D51485 /* page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "page@2x.png"; sourceTree = "<group>"; };
+		744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaorkzd_all_down@2x.png"; sourceTree = "<group>"; };
+		744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaorkzd_all_up@2x.png"; sourceTree = "<group>"; };
+		744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaolocation_all_0@2x.png"; sourceTree = "<group>"; };
+		744B7462197917DF00D51485 /* mfpparking_yaoxh_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaoxh_all_0@2x.png"; sourceTree = "<group>"; };
+		744B7463197917DF00D51485 /* mfpparking_yaoxh_all_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaoxh_all_1@2x.png"; sourceTree = "<group>"; };
+		744B7464197917DF00D51485 /* mfpparking_yaoxh_all_2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaoxh_all_2@2x.png"; sourceTree = "<group>"; };
+		744B7465197917DF00D51485 /* mfpparking_yaoxh_all_3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaoxh_all_3@2x.png"; sourceTree = "<group>"; };
+		744B746C19791CB900D51485 /* mfpparking_yaojiazaidaizi_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaojiazaidaizi_all_0@2x.png"; sourceTree = "<group>"; };
 		7452639B196CE17200037E3E /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
 		7452639C196CE17200037E3E /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
 		7452639D196CE17200037E3E /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
@@ -536,6 +573,17 @@
 		74526414196D547D00037E3E /* mfpparking_zfb_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_zfb_all_0@2x.png"; sourceTree = "<group>"; };
 		745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYSearhBussinessViewController.h; sourceTree = "<group>"; };
 		745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYSearhBussinessViewController.m; sourceTree = "<group>"; };
+		745D6E9C19778E7D0085E238 /* FLYCarManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCarManagerViewController.h; sourceTree = "<group>"; };
+		745D6E9D19778E7D0085E238 /* FLYCarManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCarManagerViewController.m; sourceTree = "<group>"; };
+		745D6E9F1977A0CB0085E238 /* FLYCarnoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCarnoModel.h; sourceTree = "<group>"; };
+		745D6EA01977A0CB0085E238 /* FLYCarnoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCarnoModel.m; sourceTree = "<group>"; };
+		745D6EA21977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_clgldelete_all_0@2x.png"; sourceTree = "<group>"; };
+		745D6EA31977A3BD0085E238 /* mfpparking_clglgou_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_clglgou_all_0@2x.png"; sourceTree = "<group>"; };
+		745D6EA81977ADB40085E238 /* mfpparking_empty@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_empty@2x.png"; sourceTree = "<group>"; };
+		745D6EAD1977C4210085E238 /* FLYCarBindViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYCarBindViewController.h; sourceTree = "<group>"; };
+		745D6EAE1977C4210085E238 /* FLYCarBindViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCarBindViewController.m; sourceTree = "<group>"; };
+		745D6EAF1977C4210085E238 /* FLYCarBindViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYCarBindViewController.xib; sourceTree = "<group>"; };
+		745D6EB21977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_bdcpsc_all_0@2x.png"; sourceTree = "<group>"; };
 		745E7419196506C100BB0AB9 /* theme.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = theme.plist; sourceTree = "<group>"; };
 		745E741A196506C100BB0AB9 /* ThemeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThemeButton.h; sourceTree = "<group>"; };
 		745E741B196506C100BB0AB9 /* ThemeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThemeButton.m; sourceTree = "<group>"; };
@@ -580,6 +628,11 @@
 		748208EB1966AF08008B7AB6 /* NSString+FontAwesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FontAwesome.h"; sourceTree = "<group>"; };
 		748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FontAwesome.m"; sourceTree = "<group>"; };
 		7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_shouyelu_all_0@2x.png"; sourceTree = "<group>"; };
+		748B794A197CE9470081A317 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		748B794C197CE9550081A317 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		748B794E197CE9690081A317 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		748B7950197CE9730081A317 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		748B7952197CE98E0081A317 /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
 		748F32091963CE48005071E0 /* mfpparking_ditu_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_ditu_all_down@2x.png"; sourceTree = "<group>"; };
 		748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_ditu_all_up@2x.png"; sourceTree = "<group>"; };
 		748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_user_all_down@2x.png"; sourceTree = "<group>"; };
@@ -695,21 +748,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7400497819618BE90016AD61 /* libbaidumapapi.a in Frameworks */,
+				748B7953197CE98E0081A317 /* libstdc++.6.0.9.dylib in Frameworks */,
+				7420AB391960F954000DD75F /* libxml2.dylib in Frameworks */,
+				7420AB371960F946000DD75F /* libz.dylib in Frameworks */,
+				748B79A2197CF3ED0081A317 /* iflyMSC.framework in Frameworks */,
+				748B7951197CE9730081A317 /* MediaPlayer.framework in Frameworks */,
+				748B794F197CE9690081A317 /* CoreTelephony.framework in Frameworks */,
+				748B794D197CE9550081A317 /* CoreMotion.framework in Frameworks */,
+				748B794B197CE9470081A317 /* ImageIO.framework in Frameworks */,
 				74BEF97C1975043D003E8BDF /* AVFoundation.framework in Frameworks */,
 				74BEF97A19750430003E8BDF /* AddressBook.framework in Frameworks */,
 				7420AB331960F91C000DD75F /* SystemConfiguration.framework in Frameworks */,
 				74BEF97819750405003E8BDF /* AudioToolbox.framework in Frameworks */,
-				74BEF976197503E6003E8BDF /* iflyMSC.framework in Frameworks */,
 				74150B39196A9BCE00784E4C /* Security.framework in Frameworks */,
 				74150B37196A9BAE00784E4C /* OpenGLES.framework in Frameworks */,
 				7420AB9019610F82000DD75F /* QuartzCore.framework in Frameworks */,
 				7420AB2F1960F8FF000DD75F /* CoreLocation.framework in Frameworks */,
-				7420AB391960F954000DD75F /* libxml2.dylib in Frameworks */,
-				7420AB371960F946000DD75F /* libz.dylib in Frameworks */,
 				7420AB351960F932000DD75F /* MobileCoreServices.framework in Frameworks */,
 				7420AB311960F90E000DD75F /* CFNetwork.framework in Frameworks */,
 				74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */,
-				7400497819618BE90016AD61 /* libbaidumapapi.a in Frameworks */,
 				74C5619E1960609200F218CD /* UIKit.framework in Frameworks */,
 				74C5619A1960609200F218CD /* Foundation.framework in Frameworks */,
 			);
@@ -742,6 +800,7 @@
 		741F2C30196B948700E1B809 /* Member */ = {
 			isa = PBXGroup;
 			children = (
+				745D6E9B19778E390085E238 /* Car */,
 				74BEF986197516F4003E8BDF /* Center */,
 				74BEF985197516ED003E8BDF /* Login */,
 				74BEF98719751701003E8BDF /* Bill */,
@@ -757,6 +816,7 @@
 		7420AAAB1960F6E0000DD75F /* OpenSource */ = {
 			isa = PBXGroup;
 			children = (
+				744B744E1978E3D300D51485 /* iCarousel */,
 				74926B2A19739C9000833F99 /* Toast */,
 				7452639A196CE13500037E3E /* Security */,
 				7420AAAC1960F777000DD75F /* DDMenu */,
@@ -1052,6 +1112,24 @@
 			name = Base;
 			sourceTree = "<group>";
 		};
+		744B744E1978E3D300D51485 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				744B744F1978E3D300D51485 /* iCarousel.h */,
+				744B74501978E3D300D51485 /* iCarousel.m */,
+			);
+			path = iCarousel;
+			sourceTree = "<group>";
+		};
+		744B74521978E42600D51485 /* Shake */ = {
+			isa = PBXGroup;
+			children = (
+				744B74531978E43F00D51485 /* FLYShakeViewController.h */,
+				744B74541978E43F00D51485 /* FLYShakeViewController.m */,
+			);
+			name = Shake;
+			sourceTree = "<group>";
+		};
 		7452639A196CE13500037E3E /* Security */ = {
 			isa = PBXGroup;
 			children = (
@@ -1068,6 +1146,52 @@
 				745263A3196CE17200037E3E /* SecurityUtil.m */,
 			);
 			path = Security;
+			sourceTree = "<group>";
+		};
+		745D6E9B19778E390085E238 /* Car */ = {
+			isa = PBXGroup;
+			children = (
+				745D6E9C19778E7D0085E238 /* FLYCarManagerViewController.h */,
+				745D6E9D19778E7D0085E238 /* FLYCarManagerViewController.m */,
+				745D6EAD1977C4210085E238 /* FLYCarBindViewController.h */,
+				745D6EAE1977C4210085E238 /* FLYCarBindViewController.m */,
+				745D6EAF1977C4210085E238 /* FLYCarBindViewController.xib */,
+			);
+			name = Car;
+			sourceTree = "<group>";
+		};
+		745D6EAA1977B3B70085E238 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				748F33141963F836005071E0 /* FLYParkCell.h */,
+				748F33151963F836005071E0 /* FLYParkCell.m */,
+				748F33161963F836005071E0 /* FLYParkCell.xib */,
+				74D041251963BCE8005B2F76 /* FLYMainViewController.h */,
+				74D041261963BCE8005B2F76 /* FLYMainViewController.m */,
+				74D041271963BCE8005B2F76 /* FLYMainViewController.xib */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		745D6EAB1977B3CA0085E238 /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				745E743019653FE200BB0AB9 /* FLYParkDetailViewController.h */,
+				745E743119653FE200BB0AB9 /* FLYParkDetailViewController.m */,
+			);
+			name = Detail;
+			sourceTree = "<group>";
+		};
+		745D6EAC1977B3D60085E238 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				7412602D1966445600EF6A8E /* FLYSearchViewController.h */,
+				7412602E1966445600EF6A8E /* FLYSearchViewController.m */,
+				7412602F1966445600EF6A8E /* FLYSearchViewController.xib */,
+				745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */,
+				745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */,
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		745E7418196506C100BB0AB9 /* ThemeManager */ = {
@@ -1091,22 +1215,13 @@
 		745E743319653FED00BB0AB9 /* Park */ = {
 			isa = PBXGroup;
 			children = (
+				744B74521978E42600D51485 /* Shake */,
+				745D6EAC1977B3D60085E238 /* Search */,
+				745D6EAB1977B3CA0085E238 /* Detail */,
+				745D6EAA1977B3B70085E238 /* Home */,
 				7410D0051967D68D00A41AA5 /* UI */,
-				74D041251963BCE8005B2F76 /* FLYMainViewController.h */,
-				74D041261963BCE8005B2F76 /* FLYMainViewController.m */,
-				74D041271963BCE8005B2F76 /* FLYMainViewController.xib */,
-				748F33141963F836005071E0 /* FLYParkCell.h */,
-				748F33151963F836005071E0 /* FLYParkCell.m */,
-				748F33161963F836005071E0 /* FLYParkCell.xib */,
-				745E743019653FE200BB0AB9 /* FLYParkDetailViewController.h */,
-				745E743119653FE200BB0AB9 /* FLYParkDetailViewController.m */,
 				745E7452196582FD00BB0AB9 /* FLYMapViewController.h */,
 				745E7453196582FD00BB0AB9 /* FLYMapViewController.m */,
-				7412602D1966445600EF6A8E /* FLYSearchViewController.h */,
-				7412602E1966445600EF6A8E /* FLYSearchViewController.m */,
-				7412602F1966445600EF6A8E /* FLYSearchViewController.xib */,
-				745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */,
-				745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */,
 			);
 			name = Park;
 			sourceTree = "<group>";
@@ -1160,6 +1275,8 @@
 				74926B481973C11D00833F99 /* FLYMemberCard.m */,
 				74BEF99119751DB6003E8BDF /* FLYCollectModel.h */,
 				74BEF99219751DB6003E8BDF /* FLYCollectModel.m */,
+				745D6E9F1977A0CB0085E238 /* FLYCarnoModel.h */,
+				745D6EA01977A0CB0085E238 /* FLYCarnoModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1361,6 +1478,11 @@
 		74C561981960609200F218CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				748B7952197CE98E0081A317 /* libstdc++.6.0.9.dylib */,
+				748B7950197CE9730081A317 /* MediaPlayer.framework */,
+				748B794E197CE9690081A317 /* CoreTelephony.framework */,
+				748B794C197CE9550081A317 /* CoreMotion.framework */,
+				748B794A197CE9470081A317 /* ImageIO.framework */,
 				74BEF97B1975043D003E8BDF /* AVFoundation.framework */,
 				74BEF97919750430003E8BDF /* AddressBook.framework */,
 				74BEF97719750405003E8BDF /* AudioToolbox.framework */,
@@ -1436,6 +1558,19 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				744B746C19791CB900D51485 /* mfpparking_yaojiazaidaizi_all_0@2x.png */,
+				744B7462197917DF00D51485 /* mfpparking_yaoxh_all_0@2x.png */,
+				744B7463197917DF00D51485 /* mfpparking_yaoxh_all_1@2x.png */,
+				744B7464197917DF00D51485 /* mfpparking_yaoxh_all_2@2x.png */,
+				744B7465197917DF00D51485 /* mfpparking_yaoxh_all_3@2x.png */,
+				744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */,
+				744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */,
+				744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */,
+				744B74561978E76800D51485 /* page@2x.png */,
+				745D6EB21977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png */,
+				745D6EA81977ADB40085E238 /* mfpparking_empty@2x.png */,
+				745D6EA21977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png */,
+				745D6EA31977A3BD0085E238 /* mfpparking_clglgou_all_0@2x.png */,
 				7486816B19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png */,
 				74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */,
 				74926B3E1973BD1A00833F99 /* mfpparking_card_all_0@2x.png */,
@@ -1610,6 +1745,13 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = "无线飞翔";
 				TargetAttributes = {
+					74C561951960609200F218CD = {
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 0;
+							};
+						};
+					};
 					74C561B01960609200F218CD = {
 						TestTargetID = 74C561951960609200F218CD;
 					};
@@ -1642,12 +1784,16 @@
 				748F332A1963FD92005071E0 /* mfpparking_star2_all_0@2x.png in Resources */,
 				745E745919658A7000BB0AB9 /* navigationbar_button_background@2x.png in Resources */,
 				748F331A1963F8B9005071E0 /* mfpparking_p_all_0@2x.png in Resources */,
+				744B745D19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png in Resources */,
+				745D6EB11977C4210085E238 /* FLYCarBindViewController.xib in Resources */,
 				74D041211963BC24005B2F76 /* icon.png in Resources */,
+				745D6EA91977ADB40085E238 /* mfpparking_empty@2x.png in Resources */,
 				741F2C3C196B95CE00E1B809 /* mfpparking_accountlogin_all_down@2x.png in Resources */,
 				745263DA196D195D00037E3E /* mfpparking_lx_all_down@2x.png in Resources */,
 				743E51BC196FC3B9004D7583 /* mfpparking_ru_all_0@2x.png in Resources */,
 				745E744119654C1C00BB0AB9 /* navigationbar_background@2x.png in Resources */,
 				745E7424196506C100BB0AB9 /* theme.plist in Resources */,
+				744B746D19791CB900D51485 /* mfpparking_yaojiazaidaizi_all_0@2x.png in Resources */,
 				7452640F196D420900037E3E /* mfpparking_time_all_0@2x.png in Resources */,
 				743D26D7196E3F5000CE1A1C /* FLYOfflineMapViewController.xib in Resources */,
 				7410CFFC1967AEE400A41AA5 /* mfpparking_lb4_all_0@2x.png in Resources */,
@@ -1679,6 +1825,7 @@
 				74A60C2A196597580046457B /* btn_close_normal.png in Resources */,
 				748F32B11963E491005071E0 /* arrow@2x.png in Resources */,
 				74526409196D41AA00037E3E /* FLYBillCell.xib in Resources */,
+				745D6EA51977A3BD0085E238 /* mfpparking_clglgou_all_0@2x.png in Resources */,
 				745263F2196D1F8400037E3E /* mfpparking_xx_all_0@2x.png in Resources */,
 				745E744919655AF100BB0AB9 /* mfpparking_star_all_up@2x.png in Resources */,
 				745263F9196D2B2500037E3E /* FLYRechargeViewController.xib in Resources */,
@@ -1691,6 +1838,7 @@
 				748F332C19640528005071E0 /* mfpparking_jiazai_all_0@2x.png in Resources */,
 				7410CFF21967946A00A41AA5 /* mfpparking_dw_all_up@2x.png in Resources */,
 				745263C8196D188B00037E3E /* FLYUserCenterViewController.xib in Resources */,
+				744B74571978E76800D51485 /* page@2x.png in Resources */,
 				7410CFF31967946A00A41AA5 /* mfpparking_gs1_all_0@2x.png in Resources */,
 				745E744019654C1C00BB0AB9 /* navigationbar_background.png in Resources */,
 				745263DD196D195D00037E3E /* mfpparking_sc_all_up@2x.png in Resources */,
@@ -1699,6 +1847,7 @@
 				74526415196D547D00037E3E /* mfpparking_wx_all_0@2x.png in Resources */,
 				7410CFF41967946A00A41AA5 /* mfpparking_gs2_all_0@2x.png in Resources */,
 				74FC622D1966E3B100A8289A /* mfpparking_luk_all_up@2x.png in Resources */,
+				744B7469197917DF00D51485 /* mfpparking_yaoxh_all_3@2x.png in Resources */,
 				74BEF99B19755FDE003E8BDF /* FLYCollectCell.xib in Resources */,
 				741260311966445600EF6A8E /* FLYSearchViewController.xib in Resources */,
 				743E51B7196F844E004D7583 /* mfpparking_tj_all_down@2x.png in Resources */,
@@ -1718,6 +1867,7 @@
 				74FC62291966E39800A8289A /* mfpparking_2wxdw_all_0@2x.png in Resources */,
 				7412602C1966422200EF6A8E /* nearby_list_icon_disable_search@2x.png in Resources */,
 				748F33241963FC84005071E0 /* mfpparking_location_all_0@2x.png in Resources */,
+				744B745B1978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png in Resources */,
 				745263DE196D195D00037E3E /* mfpparking_shezhi_all_down@2x.png in Resources */,
 				743E51C1196FC47A004D7583 /* FLYFootmarkCell.xib in Resources */,
 				74926B351973B8F100833F99 /* pic_background@2x.png in Resources */,
@@ -1727,6 +1877,7 @@
 				745E745A19658A7000BB0AB9 /* navigationbar_button_background.png in Resources */,
 				7410CFFB1967AEE400A41AA5 /* mfpparking_lb3_all_0@2x.png in Resources */,
 				74FC62301966F10900A8289A /* mfpparking_jia_all_up@2x.png in Resources */,
+				745D6EB31977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png in Resources */,
 				7486816C19765AB3000EA7B2 /* mfpparking_shouyelu_all_0@2x.png in Resources */,
 				745263D8196D195D00037E3E /* mfpparking_hy_all_down@2x.png in Resources */,
 				748F32B01963E491005071E0 /* arrow.png in Resources */,
@@ -1738,14 +1889,17 @@
 				74FC62221966DEB400A8289A /* FontAwesome.ttf in Resources */,
 				745263E2196D195D00037E3E /* mfpparking_zj_all_up@2x.png in Resources */,
 				748F33281963FD92005071E0 /* mfpparking_star_all_0@2x.png in Resources */,
+				744B7466197917DF00D51485 /* mfpparking_yaoxh_all_0@2x.png in Resources */,
 				745E74371965458400BB0AB9 /* mfpparking_back_all_down@2x.png in Resources */,
 				7410CFF91967AEE400A41AA5 /* mfpparking_lb1_all_0@2x.png in Resources */,
 				745263F4196D20C700037E3E /* mfpparking_smile_all_0@2x.png in Resources */,
 				745E744819655AF100BB0AB9 /* mfpparking_star_all_down@2x.png in Resources */,
 				748F32BA1963E491005071E0 /* drop_down_renovate.png in Resources */,
 				745263D9196D195D00037E3E /* mfpparking_hy_all_up@2x.png in Resources */,
+				744B7467197917DF00D51485 /* mfpparking_yaoxh_all_1@2x.png in Resources */,
 				74A60C2B196597580046457B /* btn_close_normal@2x.png in Resources */,
 				748F32B31963E491005071E0 /* arrow_down@2x.png in Resources */,
+				744B745A1978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png in Resources */,
 				748F32BB1963E491005071E0 /* drop_down_renovate@2x.png in Resources */,
 				7410D0031967AEF000A41AA5 /* mfpparking_tcc3_all_0@2x.png in Resources */,
 				74306566196E7BB3006026B7 /* FLYCityCell.xib in Resources */,
@@ -1761,11 +1915,13 @@
 				741F2C41196B95CE00E1B809 /* mfpparking_inputpwd_all_0@2x.png in Resources */,
 				743E51B4196F80D8004D7583 /* FLYFeedbackViewController.xib in Resources */,
 				745E74361965458400BB0AB9 /* mfpparking_back_all_up@2x.png in Resources */,
+				744B7468197917DF00D51485 /* mfpparking_yaoxh_all_2@2x.png in Resources */,
 				741F2C3F196B95CE00E1B809 /* mfpparking_inputbg_all_0@2x.png in Resources */,
 				748F33291963FD92005071E0 /* mfpparking_star1_all_0@2x.png in Resources */,
 				74926B3D1973BAE800833F99 /* FLYCardParkCell.xib in Resources */,
 				74C561AC1960609200F218CD /* Images.xcassets in Resources */,
 				745E742F1965388C00BB0AB9 /* timeline_new_status_background.png in Resources */,
+				745D6EA41977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png in Resources */,
 				745263D6196D195D00037E3E /* mfpparking_cz_all_down@2x.png in Resources */,
 				743E51BB196FC3B9004D7583 /* mfpparking_chu_all_0@2x.png in Resources */,
 			);
@@ -1827,6 +1983,8 @@
 				7420AB291960F820000DD75F /* UIImage+GIF.m in Sources */,
 				746E7D4A196ACEBF00C3E638 /* FLYBaseMapViewController.mm in Sources */,
 				745E743219653FE200BB0AB9 /* FLYParkDetailViewController.m in Sources */,
+				745D6EA11977A0CB0085E238 /* FLYCarnoModel.m in Sources */,
+				745D6E9E19778E7D0085E238 /* FLYCarManagerViewController.m in Sources */,
 				745E7429196506C100BB0AB9 /* UIFactory.m in Sources */,
 				7420AB441961079C000DD75F /* NSString+URLEncoding.m in Sources */,
 				74BEF99019751B5E003E8BDF /* FLYCollectViewController.m in Sources */,
@@ -1852,6 +2010,7 @@
 				743E51CB196FE142004D7583 /* FLYRegisterViewController.m in Sources */,
 				7420AB241960F820000DD75F /* SDWebImageDownloader.m in Sources */,
 				74BEF9731974DADD003E8BDF /* CPMotionRecognizingWindow.m in Sources */,
+				744B74551978E43F00D51485 /* FLYShakeViewController.m in Sources */,
 				7420AAF21960F80C000DD75F /* RTLabel.m in Sources */,
 				745263BF196CF46D00037E3E /* FLYBaseUtil.m in Sources */,
 				7420AAED1960F7F9000DD75F /* ASIWebPageRequest.m in Sources */,
@@ -1859,6 +2018,7 @@
 				743E51C7196FCD64004D7583 /* FLYTraceModel.m in Sources */,
 				748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */,
 				7420AB4819610811000DD75F /* FLYUtils.m in Sources */,
+				744B74511978E3D300D51485 /* iCarousel.m in Sources */,
 				7420AB2A1960F820000DD75F /* UIImage+MultiFormat.m in Sources */,
 				74926B381973B9B000833F99 /* FLYCardParkViewController.m in Sources */,
 				7420ABA7196122FF000DD75F /* FLYDataService.m in Sources */,
@@ -1873,6 +2033,7 @@
 				7420AB1F1960F820000DD75F /* MKAnnotationView+WebCache.m in Sources */,
 				745263A7196CE17200037E3E /* SecurityUtil.m in Sources */,
 				743E51C0196FC47A004D7583 /* FLYFootmarkCell.m in Sources */,
+				745D6EB01977C4210085E238 /* FLYCarBindViewController.m in Sources */,
 				748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */,
 				745263FE196D362300037E3E /* FLYSettingViewController.m in Sources */,
 				7420AB251960F820000DD75F /* SDWebImageDownloaderOperation.m in Sources */,
@@ -2015,11 +2176,13 @@
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libs/Release-iphoneos";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-licucore",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2042,11 +2205,13 @@
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)/libs/Release-iphoneos";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-licucore",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = armv7;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -13,6 +13,8 @@
 #import "FLYBaseNavigationController.h"
 #import "FLYSearchViewController.h"
 #import "FLYUserCenterViewController.h"
+#import "FLYShakeViewController.h"
+
 
 @interface FLYMainViewController ()
 @end
@@ -82,6 +84,7 @@
     self.tableView.hidden = YES;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
+    [self setExtraCellLineHidden:self.tableView];
     
 
     _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight - 100)];
@@ -305,6 +308,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (self.datas == nil || [self.datas count] == 0) {
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }else{
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }
     return [self.datas count];
 }
 
@@ -380,7 +388,9 @@
 
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
-        NSLog(@"Shake!!!!!!!!!!!");
+        FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
+        shakeCtrl.curCoordinate = _curCoordinate;
+        [self.navigationController pushViewController:shakeCtrl animated:NO];
     }
 }
 
@@ -392,8 +402,7 @@
     [_mapBaseView.mapView viewWillAppear];
     // 此处记得不用的时候需要置nil，否则影响内存的释放
     _mapBaseView.mapView.delegate = self;
-    
-    
+
     _locationService.delegate = self;
     //启动LocationService
     [_locationService startUserLocationService];

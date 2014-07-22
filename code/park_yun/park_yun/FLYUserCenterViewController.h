@@ -8,7 +8,19 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYUserCenterViewController : FLYBaseViewController
+@interface FLYUserCenterViewController : FLYBaseViewController{
+    UIView *_topView;
+    
+    //默认车牌号
+    UILabel *_carNoLabel;
+    
+    UILabel *_balanceLabel;
+    
+    UIButton *_carBtn;
+    
+    UIActivityIndicatorView *_spinner;
+}
+@property (weak, nonatomic) IBOutlet UIView *middleView;
 
 - (IBAction)billAction:(id)sender;
 - (IBAction)memberInfoAction:(id)sender;

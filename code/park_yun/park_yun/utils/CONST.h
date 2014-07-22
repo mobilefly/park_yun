@@ -22,14 +22,16 @@
 //小朱
 //#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
 
+//停车场
 #define kHttpQueryNearbyList @"/park/queryNearbyList.json"
 
 #define kHttpQueryNearbySimplifyList @"/park/queryNearbySimplifyList.json"
 
-#define kHttpQueryBusinessList @"/common/queryBusinessList.json"
+#define kHttpQuerySelfMotionParkList @"/park/querySelfMotionParkList.json"
 
 #define kHttpQueryParkDetail @"/park/queryParkDetail.json"
 
+//会员
 #define kHttpLogin @"/member/loginForAes256.json"
 
 #define kHttpParkCollectAdd @"/member/addMemberCollect.json"
@@ -47,6 +49,19 @@
 #define kHttpQueryParkCard @"/member/queryParkCard.json"
 
 #define kHttpQueryMemberCollectList @"/member/queryMemberCollect.json"
+
+#define kHttpQueryBalance @"/member/queryBalance.json"
+
+#define kHttpQueryCarnoList @"/member/queryMemberCarnos.json"
+
+#define kHttpChangeCarno @"/member/changeCarno.json"
+
+#define kHttpRemoveCarno @"/member/removeCarno.json"
+
+#define kHttpAddCarno @"/member/addMemberCarno.json"
+
+//其他
+#define kHttpQueryBusinessList @"/common/queryBusinessList.json"
 
 
 #define kAnnotationTypePark @"PARK"
