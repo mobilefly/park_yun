@@ -1,28 +1,31 @@
 //
-//  FLYRegisterViewController.m
+//  FLYFindPasswordViewController.m
 //  park_yun
 //
-//  Created by chen on 14-7-11.
+//  Created by chen on 14-7-23.
 //  Copyright (c) 2014年 无线飞翔. All rights reserved.
 //
 
-#import "FLYRegisterViewController.h"
+#import "FLYFindPasswordViewController.h"
 #import "UIButton+Bootstrap.h"
 #import "FLYDataService.h"
 #import "DXAlertView.h"
 #import "NSString+MD5HexDigest.h"
 
-@interface FLYRegisterViewController ()
+//#define kLoginBackgroundColor Color(249,249,249,1)
+//#define kLoginBorderColor Color(206,215,225,1)
+
+@interface FLYFindPasswordViewController ()
 
 @end
 
-@implementation FLYRegisterViewController
+@implementation FLYFindPasswordViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"用户注册";
+        self.title = @"找回密码";
     }
     return self;
 }
@@ -65,7 +68,7 @@
     _passwordField.secureTextEntry = YES;
     _passwordField.leftView = passwordIconView;
     _passwordField.leftViewMode = UITextFieldViewModeAlways;
-    _passwordField.placeholder = @"请输入密码";
+    _passwordField.placeholder = @"请输入新密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
     _passwordField.font = [UIFont systemFontOfSize:14.0];
     _passwordField.returnKeyType = UIReturnKeyNext;
@@ -79,7 +82,7 @@
     _passverifyField.secureTextEntry = YES;
     _passverifyField.leftView = passverifyIconView;
     _passverifyField.leftViewMode = UITextFieldViewModeAlways;
-    _passverifyField.placeholder = @"请确认输入密码";
+    _passverifyField.placeholder = @"请确认新密码";
     _passverifyField.keyboardType = UIKeyboardTypeASCIICapable;
     _passverifyField.font = [UIFont systemFontOfSize:14.0];
     _passverifyField.returnKeyType = UIReturnKeyNext;
@@ -92,6 +95,7 @@
     _codeFiled.placeholder = @"验证码";
     _codeFiled.textAlignment = NSTextAlignmentCenter;
     _codeFiled.keyboardType = UIKeyboardTypeASCIICapable;
+    //    _codeFiled.keyboardType = UIKeyboardTypePhonePad;
     _codeFiled.font = [UIFont systemFontOfSize:14.0];
     _codeFiled.returnKeyType = UIReturnKeyDone;
     _codeFiled.tag = 104;
@@ -106,7 +110,7 @@
     _codeBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [_codeBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchDown];
     [self.view addSubview:_codeBtn];
-
+    
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 10 , 280, 40);
     [_submitBtn primaryStyle];
@@ -114,6 +118,7 @@
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_submitBtn];
 }
+
 
 #pragma mark - Action
 - (void)didEndAction:(UITextField *)textField{
@@ -133,17 +138,11 @@
 }
 
 - (void)refreshAction:(UIButton *)button{
-    if ([FLYBaseUtil isNotEmpty:_usernameField.text]) {
-        _codeBtn.enabled = NO;
-        [_codeBtn disabledStyle];
-        
-        //每60秒请求未读数
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction:) userInfo:nil repeats:YES];
-    }else{
-        [self showToast:@"请先输入手机号"];
-    }
+    _codeBtn.enabled = NO;
+    [_codeBtn disabledStyle];
     
-    
+    //每60秒请求未读数
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction:) userInfo:nil repeats:YES];
 }
 
 - (void)timeAction:(NSTimer *)timer{
@@ -169,7 +168,7 @@
         [self showToast:@"请输入手机号"];
         return;
     }else if([FLYBaseUtil isEmpty:_passwordField.text] || [FLYBaseUtil isEmpty:_passverifyField.text]){
-        [self showToast:@"请输入密码"];
+        [self showToast:@"请输入新密码"];
         return;
     }else if ([FLYBaseUtil isEmpty:_codeFiled.text]) {
         [self showToast:@"请输入验证码"];
@@ -184,31 +183,31 @@
                                    _usernameField.text,
                                    @"phone",
                                    [_passwordField.text md5HexDigest],
-                                   @"password",
+                                   @"pwd",
                                    _codeFiled.text,
-                                   @"checkNo",
+                                   @"checkNum",
                                    nil];
     [self showHUD:@"注册中" isDim:NO];
     
     [_submitBtn setEnabled:NO];
     //防止循环引用
-    __weak FLYRegisterViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpMemberRegister params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadLoginData:result];
+    __weak FLYFindPasswordViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpFindPassword params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadData:result];
     } errorBolck:^(){
-        [ref loadLoginError];
+        [ref loadError];
     }];
     
 }
 
-- (void)loadLoginData:(id)data{
+- (void)loadData:(id)data{
     [_submitBtn setEnabled:YES];
     [self hideHUD];
     
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
-        
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"注册成功" leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [FLYBaseUtil clearUserInfo];
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"密码重置成功" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
         
         alert.rightBlock = ^() {
@@ -222,10 +221,10 @@
         NSString *msg = [data objectForKey:@"msg"];
         [self showAlert:msg];
     }
-
+    
 }
 
-- (void)loadLoginError{
+- (void)loadError{
     [_submitBtn setEnabled:YES];
     [self hideHUD];
     [FLYBaseUtil alertErrorMsg];
@@ -237,6 +236,7 @@
     [_passverifyField resignFirstResponder];
     [_codeFiled resignFirstResponder];
 }
+
 
 #pragma mark - other
 - (void)didReceiveMemoryWarning
@@ -251,6 +251,5 @@
     
     NSLog(@"%s",__FUNCTION__);
 }
-
 
 @end

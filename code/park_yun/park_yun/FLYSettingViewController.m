@@ -8,6 +8,7 @@
 
 #import "FLYSettingViewController.h"
 #import "FLYFeedbackViewController.h"
+#import "FLYChangePasswordViewController.h"
 
 @interface FLYSettingViewController ()
 
@@ -27,15 +28,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 200)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
     
+    [self setExtraCellLineHidden:tableView];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 5;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -58,6 +61,8 @@
     }else if(indexPath.row == 2){
         cell.textLabel.text = @"意见反馈";
     }else if(indexPath.row == 3){
+        cell.textLabel.text = @"修改密码";
+    }else if(indexPath.row == 4){
         cell.textLabel.text = @"关于我们";
     }
     return cell;
@@ -69,9 +74,16 @@
     }else if (indexPath.row == 1){
         [self showAlert:@"消息接受设置"];
     }else if (indexPath.row == 2){
-        FLYFeedbackViewController *feedBack = [[FLYFeedbackViewController alloc] init];
-        [self.navigationController pushViewController:feedBack animated:NO];
+        FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
+        [self.navigationController pushViewController:feedBackCtrl animated:NO];
     }else if (indexPath.row == 3){
+        if (![FLYBaseUtil checkUserLogin]) {
+            [self showAlert:@"请先登陆用户"];
+        }else{
+            FLYChangePasswordViewController *changePwdCtrl = [[FLYChangePasswordViewController alloc] init];
+            [self.navigationController pushViewController:changePwdCtrl animated:NO];
+        }
+    }else if (indexPath.row == 4){
         [self showAlert:@"关于我们"];
     }
     

@@ -72,7 +72,7 @@
     
     //防止循环引用
     __weak FLYCardParkViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryParkCard params:params httpMethod:@"POST" completeBolck:^(id result){
+    [FLYDataService requestWithURL:kHttpQueryParkCardList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadCardParkData:result];
     } errorBolck:^(){
         [ref loadDataError];
@@ -104,7 +104,7 @@
         
         //防止循环引用
         __weak FLYCardParkViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpQueryParkCard params:params httpMethod:@"POST" completeBolck:^(id result){
+        [FLYDataService requestWithURL:kHttpQueryParkCardList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadCardParkData:result];
         } errorBolck:^(){
             [ref loadDataError];

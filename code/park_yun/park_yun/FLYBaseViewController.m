@@ -64,11 +64,37 @@
 }
 
 - (void)cancelAction{
+    
+    if ([self.ctrlDelegate respondsToSelector:@selector(close)]) {
+        [self.ctrlDelegate close];
+        [self performSelector:@selector(cancel) withObject:nil afterDelay:0.5];
+        
+    }else{
+        [self dismissViewControllerAnimated:NO completion:NULL];
+    }
+}
+
+- (void)cancel{
     [self dismissViewControllerAnimated:NO completion:NULL];
 }
 
-
 - (void)backAction{
+    
+    if ([self.ctrlDelegate respondsToSelector:@selector(back)]) {
+        [self.ctrlDelegate close];
+        [self performSelector:@selector(back) withObject:nil afterDelay:0.5];
+
+    }else{
+        NSArray *viewController = self.navigationController.viewControllers;
+        if(viewController.count > 2){
+            [self.navigationController popViewControllerAnimated:NO];
+        }else{
+            [self.navigationController popViewControllerAnimated:NO];
+        }
+    }
+}
+
+- (void)back{
     NSArray *viewController = self.navigationController.viewControllers;
     if(viewController.count > 2){
         [self.navigationController popViewControllerAnimated:NO];
@@ -76,6 +102,7 @@
         [self.navigationController popViewControllerAnimated:NO];
     }
 }
+
 
 //override
 - (void)setTitle:(NSString *)title{

@@ -12,8 +12,12 @@
 #import "UIFactory.h"
 #import "UIButton+Bootstrap.h"
 #import <AudioToolbox/AudioToolbox.h>
+#import "FLYGateViewController.h"
+#import <MapKit/MapKit.h>
+
 
 #define shakeBorderColor Color(210, 210, 210, 1)
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 @interface FLYShakeViewController ()
 
@@ -34,33 +38,43 @@
 {
     [super viewDidLoad];
     
+    // 创建语音合成对象,为单例模式
+    _iflySpeechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
+    _iflySpeechSynthesizer.delegate = self;
+    [_iflySpeechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
+    [_iflySpeechSynthesizer setParameter:@"50" forKey: [IFlySpeechConstant VOLUME]];
+    [_iflySpeechSynthesizer setParameter:@"xiaoyan" forKey: [IFlySpeechConstant VOICE_NAME]];
+    [_iflySpeechSynthesizer setParameter:@"16000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+    
     //初始化数据
     _index = 0;
     _datas = [NSMutableArray array];
-    
     _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 275)];
     
     //加载中
     _loadingView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaojiazaidaizi_all_0.png"]];
     _loadingView.frame = CGRectMake((_carousel.width - 110) / 2, (_carousel.height - 85) / 2, 110, 85);
     [self.view addSubview:_loadingView];
-
     
     //速率
-    //_carousel.decelerationRate = 0.5;
+    _carousel.decelerationRate = 0.5;
     _carousel.type = iCarouselTypeLinear;
     _carousel.delegate = self;
     _carousel.dataSource = self;
     _carousel.hidden = YES;
     [self.view addSubview:_carousel];
     
+    //巡航下部剩余高度
     int freewidth =  ScreenHeight - 20 - 44 - 260;
+    //间隙
     int mwidht = (freewidth - 35 - 80 - 30) / 2;
     
     _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaoxh_all_3.png"]];
     _imageView.frame = CGRectMake((ScreenWidth - 80) / 2, _carousel.bottom + mwidht , 80, 80);
     [self.view addSubview:_imageView];
     
+    //自动巡航按钮
     _autonavBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _autonavBtn.tag = 111;
     _autonavBtn.frame = CGRectMake(30, _imageView.bottom + 10 , 260, 35);
@@ -70,6 +84,7 @@
     _autonavBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [self.view addSubview:_autonavBtn];
 
+    //定位服务
     _locationService = [[BMKLocationService alloc]init];
     
     [self setNoDataViewFrame:_carousel.frame];
@@ -80,6 +95,8 @@
     }else{
         [self showAlert:@"请打开网络"];
     }
+    
+    self.ctrlDelegate = self;
 }
 
 #pragma mark Action
@@ -118,7 +135,49 @@
         _imageView.image = [UIImage imageNamed:@"mfpparking_yaoxh_all_3.png"];
     }
     _index ++;
+}
+
+- (void)gateAction:(UIButton *)button{
+    UIView *view = [button superview];
+    int index = [_carousel indexOfItemView:view];
     
+    FLYParkModel *parkModel = [self.datas objectAtIndex:index];
+    FLYGateViewController *gateCtrl = [[FLYGateViewController alloc] init];
+    
+    gateCtrl.parkModel = parkModel;
+    [self.navigationController pushViewController:gateCtrl animated:NO];
+}
+
+- (void)autoNavAction:(UIButton *)button{
+    UIView *view = [button superview];
+    int index = [_carousel indexOfItemView:view];
+    
+    FLYParkModel *parkModel = [self.datas objectAtIndex:index];
+
+    CLLocationCoordinate2D startCoor = _curCoordinate;
+    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([parkModel.parkLat doubleValue], [parkModel.parkLng doubleValue]);
+    
+    // ios6以下，调用google map
+    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
+        NSString *urlString = [[NSString alloc]
+                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
+                               startCoor.latitude,
+                               startCoor.longitude,
+                               endCoor.latitude,
+                               endCoor.longitude];
+        
+        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSURL *url = [NSURL URLWithString:urlString];
+        [[UIApplication sharedApplication] openURL:url];
+    } else {
+        // 直接调用ios自己带的apple map
+        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
+        toLocation.name = parkModel.parkName;
+        
+        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+    }
 }
 
 #pragma mark - request
@@ -150,7 +209,6 @@
 
 //加载更多
 - (void)requestMoreParkData{
-    
     if ([FLYBaseUtil isEnableInternate]) {
         [self showToast:@"巡航中"];
         
@@ -181,7 +239,6 @@
     }else{
         [self showToast:@"请打开网络"];
     }
-    
 }
 
 
@@ -212,6 +269,11 @@
             self.datas = parkList;
             
             if (self.datas != nil && [self.datas count] > 0) {
+                FLYParkModel *parkModel = [self.datas objectAtIndex:0];
+//                [self speakAction:parkModel];
+                
+                [self performSelector:@selector(speakAction:) withObject:parkModel afterDelay:1.0];
+                
                 _carousel.hidden = NO;
                 [self showNoDataView:NO];
                 [_carousel reloadData];
@@ -229,6 +291,9 @@
 
 -(void)loadMoreParkData:(id)data{
     _isLoading = NO;
+    _loadingView.hidden = YES;
+    
+    //是否有新的数据
     BOOL isNew = NO;
     
     NSString *flag = [data objectForKey:@"flag"];
@@ -249,7 +314,6 @@
                             break;
                         }
                     }
-                    
                     FLYParkModel *model = _datas[0];
                     
                     //添加新的
@@ -257,7 +321,6 @@
                         isNew = YES;
                         [_datas insertObject:parkModel atIndex:0];
                     }
-                    
                 }
                 //添加新的
                 else{
@@ -274,15 +337,17 @@
                     //[_carousel scrollToItemAtIndex:0 animated:YES];
                     
                     if (isNew || _carousel.currentItemIndex != 0) {
-//                        if (isNew) {
+                        if (isNew) {
                             //播放声音
                             NSString *filePath = [[NSBundle mainBundle] pathForResource:@"msgcome" ofType:@"wav"];
                             NSURL *url = [NSURL fileURLWithPath:filePath];
                             SystemSoundID soundId;
                             AudioServicesCreateSystemSoundID((__bridge CFURLRef)url, &(soundId));
                             AudioServicesPlayAlertSound(soundId);
-//                        }
-                        
+                            
+                            FLYParkModel *parkModel = [self.datas objectAtIndex:0];
+                            [self speakAction:parkModel];
+                        }
                         [self performSelector:@selector(scaleAnimation) withObject:nil afterDelay:1];
                     }
                     
@@ -293,6 +358,48 @@
         NSString *msg = [data objectForKey:@"msg"];
         [self showToast:msg];
     }
+}
+
+-(void)speakAction:(FLYParkModel *)parkModel{
+    
+    NSString *parkName = parkModel.parkName;
+    NSString *parkDistance = @"";
+    
+    BMKMapPoint point1 = BMKMapPointForCoordinate(_curCoordinate);
+    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
+    CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
+    if (distance > 1000) {
+        parkDistance = [NSString stringWithFormat:@"%.f1千米",distance / 1000];
+    }else{
+        parkDistance = [NSString stringWithFormat:@"%.f0米",distance];
+    }
+    
+    NSString *seatidea = @"";
+    if ([parkModel.parkStatus isEqualToString:@"0"]) {
+        seatidea = [NSString stringWithFormat:@"目前共有空车位%@个",seatidea];
+    }else if([parkModel.parkStatus isEqualToString:@"1"]){
+        seatidea = @"空车位未知";
+    }else{
+        seatidea = @"空车位未知";
+    }
+    
+    NSString *text = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
+    
+    NSString *freeTime = @"";
+    if (freeTime == nil || [freeTime isEqualToString:@"0"]) {
+        freeTime = nil;
+    }else if([freeTime isEqualToString:@"-1"]){
+        freeTime = @"全天免费";
+    }else{
+        freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",parkModel.parkFreetime];
+    }
+    
+    if (freeTime != nil) {
+        text = [NSString stringWithFormat:@"%@，%@",text,freeTime];
+    }
+    
+    NSLog(@"%@",text);
+    [_iflySpeechSynthesizer startSpeaking:text];
 }
 
 //动画
@@ -309,7 +416,6 @@
         [UIView animateWithDuration:0.5 animations:^{
             view.transform = CGAffineTransformIdentity;
         }];
-        
     }];
 }
 
@@ -357,6 +463,7 @@
         enterBtn = [UIFactory createButton:@"mfpparking_yaorkzd_all_up.png" hightlight:@"mfpparking_yaorkzd_all_down.png"];
         enterBtn.frame = CGRectMake(addressLabel.right + 15, parknameLabel.bottom + 5, 54, 28);
         enterBtn.tag = 103;
+        [enterBtn addTarget:self action:@selector(gateAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:enterBtn];
         
         //分割线
@@ -364,7 +471,6 @@
         sep.frame = CGRectMake(10, enterBtn.bottom + 10, view.width - 20, 1);
         sep.backgroundColor =  shakeBorderColor;
         [view addSubview:sep];
-        
         
         distanceImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaolocation_all_0.png"]];
         distanceImage.frame = CGRectMake(70, sep.bottom + 15, 13, 16);
@@ -409,13 +515,13 @@
         detailLabel.numberOfLines = 3;
         [view addSubview:detailLabel];
 
-        
         navBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         navBtn.tag = 111;
         navBtn.frame = CGRectMake(10, view.bottom - 50, view.width - 20, 35);
         [navBtn primaryStyle];
         [navBtn setTitle:@"开始导航" forState:UIControlStateNormal];
         navBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
+        [navBtn addTarget:self action:@selector(autoNavAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:navBtn];
     }
     
@@ -460,6 +566,7 @@
         
         detailLabel = (UILabel *)[view viewWithTag:110];
         detailLabel.text = parkModel.parkFeedesc;
+
     }
 	return view;
 }
@@ -474,8 +581,6 @@
 	return 2;
 }
 
-
-
 #pragma mark - iCarouselDelegate delegate
 - (BOOL)carouselShouldWrap:(iCarousel *)carousel
 {
@@ -487,7 +592,6 @@
     return 280;
 }
 
-
 #pragma mark - BMKLocationServiceDelegate delegate
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
@@ -495,7 +599,6 @@
 }
 
 #pragma mark - 摇动手势
-
 -(BOOL)canBecomeFirstResponder{
     return YES;
 }
@@ -506,11 +609,22 @@
     }
 }
 
+#pragma mark  - FLYBaseCtrlDelegate delegate
+- (void)close{
+    if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
+        [_iflySpeechSynthesizer stopSpeaking];
+    }
+    [IFlySpeechSynthesizer destroy];
+}
+
+#pragma mark  - IFlySpeechSynthesizerDelegate delegate
+- (void)onCompleted:(IFlySpeechError*) error{
+    //    [self showToast:@"无法发音"];
+}
 
 #pragma mark - other
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -537,12 +651,15 @@
     
     [_locationService stopUserLocationService];
     _locationService.delegate = nil;
+    
+    if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
+        [_iflySpeechSynthesizer stopSpeaking];
+    }
 }
 
 - (void)dealloc{
 	_carousel.delegate = nil;
 	_carousel.dataSource = nil;
-    
     
     NSLog(@"%s",__FUNCTION__);
 }

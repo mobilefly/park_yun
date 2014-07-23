@@ -13,8 +13,6 @@
 
 @implementation FLYParkCell
 
-
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -70,6 +68,10 @@
         _fz.hidden = YES;
         _free_time.text = @"";
         _freetimeImage.hidden = YES;
+    }else if([freeTime isEqualToString:@"-1"]){
+        _free_time.text = @"全天免费";
+        _fz.hidden = NO;
+        _freetimeImage.hidden = NO;
     }else{
         _free_time.text = freeTime;
         _fz.hidden = NO;
@@ -142,7 +144,6 @@
             break;
         }
     }
-    
     
     [_sep sizeToFit];
     [_seatIdle sizeToFit];

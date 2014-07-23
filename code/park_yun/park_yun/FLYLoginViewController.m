@@ -13,6 +13,7 @@
 #import "NSData+AES.h"
 #import "FLYMemberModel.h"
 #import "FLYRegisterViewController.h"
+#import "FLYFindPasswordViewController.h"
 
 
 #define fontColor Color(64,64,64,1)
@@ -107,6 +108,8 @@
 }
 
 - (IBAction)forgetpassAction:(id)sender {
+    FLYFindPasswordViewController *findController = [[FLYFindPasswordViewController alloc] init];
+    [self.navigationController pushViewController:findController animated:NO];
 }
 
 - (IBAction)registerAction:(id)sender {

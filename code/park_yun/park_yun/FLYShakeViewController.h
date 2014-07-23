@@ -9,8 +9,11 @@
 #import "FLYBaseViewController.h"
 #import "iCarousel.h"
 #import "BMapKit.h"
+#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
+#import "iflyMSC/IFlySpeechSynthesizer.h"
+#import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYShakeViewController : FLYBaseViewController<iCarouselDataSource, iCarouselDelegate, BMKLocationServiceDelegate>{
+@interface FLYShakeViewController : FLYBaseViewController<iCarouselDataSource, iCarouselDelegate, BMKLocationServiceDelegate,IFlySpeechSynthesizerDelegate,FLYBaseCtrlDelegate>{
     iCarousel *_carousel;
     UIImageView *_loadingView;
     
@@ -25,6 +28,8 @@
     NSTimer *_loadTimer;
     
     BOOL _isLoading;
+    
+    IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }
 
 //人当前位置

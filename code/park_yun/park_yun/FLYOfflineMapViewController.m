@@ -40,7 +40,7 @@
     //初始化离线地图服务
     _offlineMap = [[BMKOfflineMap alloc]init];
     
-    _searchText = [[UITextField alloc] initWithFrame:CGRectMake(15, 20, 210, 35)];
+    _searchText = [[UITextField alloc] initWithFrame:CGRectMake(15, 20, 220, 35)];
     _searchText.borderStyle = UITextBorderStyleRoundedRect;
     _searchText.placeholder = @"请输入城市名称";
     [_searchText setFont:[UIFont systemFontOfSize:14.0f]];

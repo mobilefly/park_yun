@@ -107,7 +107,7 @@
         
         //防止循环引用
         __weak FLYFeedbackViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpFeedback params:params httpMethod:@"POST" completeBolck:^(id result){
+        [FLYDataService requestWithURL:kHttpAddFeedback params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadFeedbackData:result];
         } errorBolck:^(){
             [ref loadLoginError];

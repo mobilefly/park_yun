@@ -14,7 +14,7 @@
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,IFlyRecognizerViewDelegate,IFlySpeechSynthesizerDelegate>{
+@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,IFlyRecognizerViewDelegate>{
     
     BMKPoiSearch  *_poiSearcher;
     BMKGeoCodeSearch *_codeSearcher;
@@ -23,7 +23,6 @@
     BOOL _firstLocation;
     
     IFlyRecognizerView *_iflyRecognizerView;
-    IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }
 
 @property (strong, nonatomic)NSMutableArray *bussinessDatas;

@@ -528,9 +528,19 @@
         capacityLabel.left = seatIdleLabel.right + 3;
         
         //免费时间
-        freeTimeLabel.text = [model.parkFreetime stringValue];
-        [freeTimeLabel sizeToFit];
-        freeLabel.left = freeTimeLabel.right + 2;
+        if ([model.parkFreetime intValue] == -1) {
+            freeTimeLabel.text = @"全天免费";
+            [freeTimeLabel sizeToFit];
+//            freeLabel.left = freeTimeLabel.right + 2;
+            freeLabel.hidden = YES;
+        }else{
+            freeTimeLabel.text = [model.parkFreetime stringValue];
+            [freeTimeLabel sizeToFit];
+            freeLabel.left = freeTimeLabel.right + 2;
+            freeLabel.hidden = NO;
+        }
+        
+       
         
         //收费评级
         if ([model.parkFeelevel isEqualToString:@"0"]) {

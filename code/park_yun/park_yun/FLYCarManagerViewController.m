@@ -73,7 +73,6 @@
 
 
 -(void)requestCarNoData{
-    
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
@@ -188,7 +187,6 @@
 
 -(void)loadDeleteData:(id)data index:(NSIndexPath *)index{
 
-    
     //关闭编辑状态
     [_tableView setEditing:NO animated:NO];
     

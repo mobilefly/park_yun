@@ -11,6 +11,13 @@
 #import "ThemeImageView.h"
 #import "UIFactory.h"
 
+@protocol FLYBaseCtrlDelegate <NSObject>
+@required
+//关闭
+- (void)close;
+@end
+
+
 @interface FLYBaseViewController : UIViewController<MBProgressHUDDelegate>{
     UIView *_loadView;
     UIWindow *_tipWindow;
@@ -20,13 +27,13 @@
     BOOL _isHudLoad;
 }
 
-
-
 @property(nonatomic,assign) BOOL isBackButton;
 
 @property(nonatomic,assign) BOOL isCancelButton;
 
 @property(nonatomic,strong) MBProgressHUD *hud;
+
+@property(assign,nonatomic)id<FLYBaseCtrlDelegate> ctrlDelegate;
 
 -(void)showNoDataView:(BOOL)show;
 -(void)setNoDataViewFrame:(CGRect)rect;
@@ -50,5 +57,7 @@
 - (void)showToast:(NSString *)mag;
 //隐藏多余分割线
 - (void)setExtraCellLineHidden: (UITableView *)tableView;
+
+
 
 @end

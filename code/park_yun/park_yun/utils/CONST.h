@@ -14,7 +14,7 @@
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 //本机
-#define kHttpDomain @"http://192.168.110.24:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.18:8080/park_yun"
 //window
 //#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
 //linux
@@ -31,28 +31,34 @@
 
 #define kHttpQueryParkDetail @"/park/queryParkDetail.json"
 
+#define kHttpQueryParkGateList @"/park/queryParkGateList.json"
+
 //会员
 #define kHttpLogin @"/member/loginForAes256.json"
+
+#define kHttpMemberRegister @"/member/register.json"
+
+#define kHttpFindPassword @"/member/findPwd.json"
+
+#define kHttpUpdatePassword @"/member/updatePwd.json"
 
 #define kHttpParkCollectAdd @"/member/addMemberCollect.json"
 
 #define kHttpParkCollectRemove @"/member/removeMemberCollect.json"
 
-#define kHttpQueryBillList @"/member/queryMemberTrace.json"
+#define kHttpQueryBillList @"/member/queryMemberTraceList.json"
 
-#define kHttpFeedback @"/member/feedback.json"
+#define kHttpAddFeedback @"/member/addFeedback.json"
 
-#define kHttpFootmarkList @"/member/queryParkHis.json"
+#define kHttpFootmarkList @"/member/queryParkHisList.json"
 
-#define kHttpMemberRegister @"/member/register.json"
+#define kHttpQueryParkCardList @"/member/queryParkCardList.json"
 
-#define kHttpQueryParkCard @"/member/queryParkCard.json"
-
-#define kHttpQueryMemberCollectList @"/member/queryMemberCollect.json"
+#define kHttpQueryMemberCollectList @"/member/queryMemberCollectList.json"
 
 #define kHttpQueryBalance @"/member/queryBalance.json"
 
-#define kHttpQueryCarnoList @"/member/queryMemberCarnos.json"
+#define kHttpQueryCarnoList @"/member/queryMemberCarnoList.json"
 
 #define kHttpChangeCarno @"/member/changeCarno.json"
 
@@ -62,7 +68,6 @@
 
 //其他
 #define kHttpQueryBusinessList @"/common/queryBusinessList.json"
-
 
 #define kAnnotationTypePark @"PARK"
 
