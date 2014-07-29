@@ -11,6 +11,7 @@
 #import "FLYParkDetailViewController.h"
 #import "FLYAnnotationView.h"
 #import "FLYPointAnnotation.h"
+#import "FLYGateViewController.h"
 
 
 #pragma mark - RouteAnnotation
@@ -159,13 +160,14 @@
     [entranceBtn defaultStyle];
     [entranceBtn setTitle:@"入口引导" forState:UIControlStateNormal];
     entranceBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+    [entranceBtn addTarget:self action:@selector(gateAction:) forControlEvents:UIControlEventTouchUpInside];
     entranceBtn.tag = 111;
     [_parkInfoView addSubview:entranceBtn];
     
     UIButton *navBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     navBtn.frame = CGRectMake(entranceBtn.right + 10, freeImage.bottom + 15, 90, 35);
     [navBtn defaultStyle];
-    [navBtn setTitle:@"导航" forState:UIControlStateNormal];
+    [navBtn setTitle:@"行车路线" forState:UIControlStateNormal];
     navBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     navBtn.tag = 112;
     [navBtn addTarget:self action:@selector(navAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -309,6 +311,13 @@
     }
 }
 
+- (void)gateAction:(UIButton *)button{
+
+    FLYGateViewController *gateCtrl = [[FLYGateViewController alloc] init];
+    
+    gateCtrl.parkModel = _curModel;
+    [self.navigationController pushViewController:gateCtrl animated:NO];
+}
 
 
 #pragma mark - BMKRouteSearchDelegate delegate

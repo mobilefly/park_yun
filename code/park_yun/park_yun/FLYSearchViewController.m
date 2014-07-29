@@ -13,10 +13,10 @@
 #import "FLYSearhBussinessViewController.h"
 #import "FLYAPPDelegate.h"
 #import "FLYBussinessViewController.h"
+#import "FLYBussinessCell.h"
 
 #define blueColor Color(86, 127, 188 ,1)
-#define blueborderColor Color(86, 127, 188 ,0.5)
-#define blueBgColor Color(86, 127, 188 ,0.2)
+#define bgColor Color(230, 230, 230 ,1)
 
 
 @interface FLYSearchViewController ()
@@ -45,16 +45,28 @@
 {
     [super viewDidLoad];
     
+    self.view.backgroundColor = bgColor;
+    
     _searchBar.backgroundColor = [UIColor clearColor];
     _searchBar.placeholder = @"停车场";
     _searchBar.delegate = self;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320 , ScreenHeight - 20 - 44 - 44) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, ScreenHeight - 20 - 44 - 44) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.hidden = YES;
+    _tableView.backgroundColor = [UIColor clearColor];
+    
     [self.view addSubview:_tableView];
     [self setExtraCellLineHidden:self.tableView];
+    
+    UIView *headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 10)];
+    headView.backgroundColor = [UIColor clearColor];
+    _tableView.tableHeaderView = headView;
+    
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 10)];
+    footView.backgroundColor = [UIColor clearColor];
+    _tableView.tableFooterView = footView;
     
     _poiSearcher = [[BMKPoiSearch alloc]init];
     
@@ -210,9 +222,6 @@
     if (_bussinessDatas != nil && [_bussinessDatas count] > 0) {
         int count = [_bussinessDatas count];
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ceil(count / 4.0) * 50 + 10)];
-//        view.backgroundColor = blueBgColor;
-        
-        view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pic_background"]];
         
         int i = 0;
         
@@ -223,7 +232,7 @@
             button.layer.cornerRadius = 2.0f;
             button.layer.masksToBounds = YES;
             button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            button.layer.borderWidth = 1.0f;
+            button.layer.borderWidth = 0.4f;
             button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
             button.titleLabel.numberOfLines = 2;
@@ -243,7 +252,7 @@
             button.layer.cornerRadius = 2.0f;
             button.layer.masksToBounds = YES;
             button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            button.layer.borderWidth = 1.0f;
+            button.layer.borderWidth = 0.4f;
             button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
             button.titleLabel.numberOfLines = 2;
@@ -259,8 +268,6 @@
         
         self.tableView.tableHeaderView = view;
     }
-    
-   
 }
 
 - (void)location:(UIButton *)button{
@@ -298,10 +305,10 @@
     
     static NSString *identifier = @"poiCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    FLYBussinessCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
+        cell = [[FLYBussinessCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identifier];
     }
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     

@@ -57,6 +57,7 @@
     _contentView.textColor = [UIColor grayColor];
     [_contentView setFont:[UIFont systemFontOfSize:14.0f]];
     _contentView.textAlignment = NSTextAlignmentCenter;
+    
     _contentView.delegate = self;
     
     [self.view addSubview:_contentView];
@@ -79,9 +80,18 @@
     if ([_contentView.text isEqualToString:@"在此处输入你的反馈意见"]) {
         _contentView.text = @"";
     }
+    
+    [UIView animateWithDuration:0.4 animations:^{
+        _contentView.transform = CGAffineTransformMakeTranslation(0 , -80);
+    }];
 }
 
-#pragma mark - Actions
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [UIView animateWithDuration:0.4 animations:^{
+        _contentView.transform = CGAffineTransformIdentity;
+    }];
+}
+
 -(void)submitAction:(UIButton *)button{
     if ([FLYBaseUtil isEmpty:_contentView.text] || [_contentView.text isEqualToString:@"在此处输入你的反馈意见"]) {
         [self showToast:@"请填写意见"];

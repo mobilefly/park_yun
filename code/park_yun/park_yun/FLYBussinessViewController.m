@@ -13,7 +13,7 @@
 #import "FLYSearhBussinessViewController.h"
 
 
-#define blueColor Color(86, 127, 188 ,1)
+#define bgColor Color(230, 230, 230 ,1)
 
 @interface FLYBussinessViewController ()
 
@@ -35,7 +35,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pic_background"]];
+    self.view.backgroundColor = bgColor;
     
     //查询商圈
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -106,7 +106,7 @@
             button.layer.cornerRadius = 2.0f;
             button.layer.masksToBounds = YES;
             button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-            button.layer.borderWidth = 1.0f;
+            button.layer.borderWidth = 0.4f;
             button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
             button.titleLabel.numberOfLines = 2;

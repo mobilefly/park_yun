@@ -31,7 +31,7 @@
         _progressLabel.text = [NSString stringWithFormat:@"%i%@",self.data.ratio,@"%"];
         
         //已暂停
-        if ((self.data.status != 1 || self.data.status != 2) && self.data.ratio != 100) {
+        if ((self.data.status != 1 && self.data.status != 2) && self.data.ratio != 100) {
             _updateBtn.enabled = true;
             [_updateBtn setTitle:@"继续" forState:UIControlStateNormal];
             [_updateBtn primaryStyle];

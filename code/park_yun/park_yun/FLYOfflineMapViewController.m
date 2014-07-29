@@ -199,7 +199,7 @@
                 
                 [self switchAction];
             }else{
-                [FLYBaseUtil alertMsg:@"（%@）未查询到离线数据包"];
+                [FLYBaseUtil alertMsg:@"未查询到离线数据包"];
             }
         }
     }else{

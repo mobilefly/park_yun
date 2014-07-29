@@ -46,7 +46,6 @@
     _contentView.delegate = self;
     [self.view addSubview:_contentView];
     
-    
     UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, _contentView.bottom + 20, 0, 20)];
     infoLabel.text = @"环境：";
     infoLabel.textColor = [UIColor grayColor];
@@ -54,7 +53,6 @@
     [infoLabel sizeToFit];
     [self.view addSubview:infoLabel];
 
-    
 	_ratingControl = [[AMRatingControl alloc] initWithLocation:
                         CGPointMake(infoLabel.right + 10, _contentView.bottom + 20)
                         emptyImage:[UIImage imageNamed:@"mfpparking_ckplstark_all_0.png"]
@@ -65,7 +63,6 @@
     [_ratingControl addTarget:self action:@selector(updateRating:) forControlEvents:UIControlEventEditingChanged];
     [_ratingControl addTarget:self action:@selector(updateEndRating:) forControlEvents:UIControlEventEditingDidEnd];
     [self.view addSubview:_ratingControl];
-    
     
     _ratingLabel = [[UILabel alloc] initWithFrame:CGRectMake(_ratingControl.right + 5, _contentView.bottom + 22, 80, 20)];
     _ratingLabel.font = [UIFont systemFontOfSize:14.0];
@@ -91,8 +88,7 @@
     [_rating2Control addTarget:self action:@selector(updateRating:) forControlEvents:UIControlEventEditingChanged];
     [_rating2Control addTarget:self action:@selector(updateEndRating:) forControlEvents:UIControlEventEditingDidEnd];
     [self.view addSubview:_rating2Control];
-    
-    
+
     _rating2Label = [[UILabel alloc] initWithFrame:CGRectMake(_rating2Control.right + 5, infoLabel.bottom + 22, 80, 20)];
     _rating2Label.font = [UIFont systemFontOfSize:14.0];
     _rating2Label.textColor = [UIColor grayColor];
@@ -175,7 +171,6 @@
     if ([flag isEqualToString:kFlagYes]) {
         FLYAppDelegate *appDelegate = (FLYAppDelegate *)[[UIApplication sharedApplication] delegate];
         appDelegate.reloadFlag = @"AddRemark";
-        
         
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"感谢你的评价" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];

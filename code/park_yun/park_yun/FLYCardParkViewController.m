@@ -41,8 +41,6 @@
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     
-    [self setExtraCellLineHidden:self.tableView];
-    
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
         [self requestCardParkData];
@@ -215,14 +213,24 @@
     return 85;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 10;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *footView = [[UIView alloc] initWithFrame:CGRectZero];
+    footView.backgroundColor = [UIColor clearColor];
+    return footView;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *identifier = @"CardParkCell";
     FLYCardParkCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCardParkCell" owner:self options:nil] lastObject];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
     cell.cardParkModel = [self.datas objectAtIndex:indexPath.row];
     
     return cell;

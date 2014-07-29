@@ -306,6 +306,7 @@
 		74D041281963BCE8005B2F76 /* FLYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D041261963BCE8005B2F76 /* FLYMainViewController.m */; };
 		74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D041271963BCE8005B2F76 /* FLYMainViewController.xib */; };
 		74EE13FF1987546000FB0C86 /* FLYBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */; };
+		74EE14021987976800FB0C86 /* FLYBussinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE14011987976800FB0C86 /* FLYBussinessCell.m */; };
 		74FC62221966DEB400A8289A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62211966DEB400A8289A /* FontAwesome.ttf */; };
 		74FC62251966E0B200A8289A /* FLYBaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FC62241966E0B200A8289A /* FLYBaseMap.m */; };
 		74FC62281966E39800A8289A /* mfpparking_2d_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62261966E39800A8289A /* mfpparking_2d_all_0@2x.png */; };
@@ -826,6 +827,8 @@
 		74D041271963BCE8005B2F76 /* FLYMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYMainViewController.xib; sourceTree = "<group>"; };
 		74EE13FD1987546000FB0C86 /* FLYBussinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessViewController.h; sourceTree = "<group>"; };
 		74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBussinessViewController.m; sourceTree = "<group>"; };
+		74EE14001987976800FB0C86 /* FLYBussinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessCell.h; sourceTree = "<group>"; };
+		74EE14011987976800FB0C86 /* FLYBussinessCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBussinessCell.m; sourceTree = "<group>"; };
 		74FC62211966DEB400A8289A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		74FC62231966E0B200A8289A /* FLYBaseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBaseMap.h; sourceTree = "<group>"; };
 		74FC62241966E0B200A8289A /* FLYBaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBaseMap.m; sourceTree = "<group>"; };
@@ -1352,6 +1355,8 @@
 				745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */,
 				74EE13FD1987546000FB0C86 /* FLYBussinessViewController.h */,
 				74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */,
+				74EE14001987976800FB0C86 /* FLYBussinessCell.h */,
+				74EE14011987976800FB0C86 /* FLYBussinessCell.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -2181,6 +2186,7 @@
 				74D0411D1963BA59005B2F76 /* FLYBaseNavigationController.m in Sources */,
 				74A0864A197FB15400F148ED /* FLYRemarkViewController.m in Sources */,
 				7420AB2C1960F820000DD75F /* UIImageView+HighlightedWebCache.m in Sources */,
+				74EE14021987976800FB0C86 /* FLYBussinessCell.m in Sources */,
 				745E7425196506C100BB0AB9 /* ThemeButton.m in Sources */,
 				74926B491973C11D00833F99 /* FLYMemberCard.m in Sources */,
 				745263B9196CE86D00037E3E /* NSObject+Encryption.m in Sources */,

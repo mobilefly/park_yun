@@ -54,13 +54,16 @@
     //充值
     else if([self.traceModel.order.orderType isEqualToString:@"01"]) {
         _orderNameLabel.text = @"账户充值";
+        _orderInfoImage.hidden = NO;
     }
     else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
         _orderNameLabel.text = @"办理停车场畅听卡";
+        _orderInfoImage.hidden = YES;
     }
     //充值(优惠劵)
     else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
         _orderNameLabel.text = @"账户充值";
+        _orderInfoImage.hidden = NO;
     }
     
     //消费
