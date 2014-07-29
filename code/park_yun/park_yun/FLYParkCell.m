@@ -105,6 +105,7 @@
     NSString *photoUrl = self.parkModel.photo.photoPath;
     if ([FLYBaseUtil isNotEmpty:photoUrl]) {
         NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+        NSLog(@"%@",smallUrl);
         [_parkImage setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
     }else{
         _parkImage.image = defaultParkPhoto;

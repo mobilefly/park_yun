@@ -18,5 +18,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FLYMainViewController *rootController;
+@property (copy, nonatomic) NSString *reloadFlag;
 
 @end

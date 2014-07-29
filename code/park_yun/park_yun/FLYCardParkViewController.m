@@ -217,8 +217,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"CardParkCell";
-    FLYCardParkCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *identifier = @"CardParkCell";
+    FLYCardParkCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCardParkCell" owner:self options:nil] lastObject];
     }

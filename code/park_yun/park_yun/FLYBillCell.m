@@ -41,17 +41,26 @@
 }
 
 - (void)layoutSubviews{
-    //停车
-    if ([self.traceModel.order.orderType isEqualToString:@"02"] || [self.traceModel.order.orderType isEqualToString:@"03"]) {
-        if (self.traceModel.order.orderName.length > 8) {
-            _orderNameLabel.text = [self.traceModel.order.orderName substringFromIndex:8];
-        }else{
-            _orderNameLabel.text = self.traceModel.order.orderName;
+    
+    NSString *goodName = self.traceModel.order.goodsOrder.goName;
+    
+    _orderNameLabel.text = @"";
+
+    if ([self.traceModel.order.orderType isEqualToString:@"03"]) {
+        if ([FLYBaseUtil isNotEmpty:goodName]) {
+            _orderNameLabel.text = goodName;
         }
     }
     //充值
-    else{
-        _orderNameLabel.text = self.traceModel.order.orderName;
+    else if([self.traceModel.order.orderType isEqualToString:@"01"]) {
+        _orderNameLabel.text = @"账户充值";
+    }
+    else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
+        _orderNameLabel.text = @"办理停车场畅听卡";
+    }
+    //充值(优惠劵)
+    else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
+        _orderNameLabel.text = @"账户充值";
     }
     
     //消费

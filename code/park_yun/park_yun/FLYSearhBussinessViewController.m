@@ -31,7 +31,7 @@
 {
     [super viewDidLoad];
     
-    self.title = _bussinessModel.bussinessName;
+    self.title = self.titleName;
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
@@ -65,9 +65,9 @@
     _dataIndex = 0;
     self.datas = nil;
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   _bussinessModel.bussinessLat,
+                                   [NSString stringWithFormat:@"%f",self.coordinate.latitude],
                                    @"lat",
-                                   _bussinessModel.bussinessLng,
+                                   [NSString stringWithFormat:@"%f",self.coordinate.longitude],
                                    @"long",
                                    @"2000",
                                    @"range",
@@ -91,9 +91,9 @@
         
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       _bussinessModel.bussinessLat,
+                                       [NSString stringWithFormat:@"%f",self.coordinate.latitude],
                                        @"lat",
-                                       _bussinessModel.bussinessLng,
+                                       [NSString stringWithFormat:@"%f",self.coordinate.longitude],
                                        @"long",
                                        @"2000",
                                        @"range",
@@ -219,14 +219,14 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"ParkCell";
-    FLYParkCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *identifier = @"ParkCell";
+    FLYParkCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYParkCell" owner:self options:nil] lastObject];
     }
     
     cell.parkModel = [self.datas objectAtIndex:indexPath.row];
-    CLLocationCoordinate2D coor = {[_bussinessModel.bussinessLat doubleValue],[_bussinessModel.bussinessLng doubleValue]};;
+    CLLocationCoordinate2D coor = {self.coordinate.latitude,self.coordinate.longitude};
     cell.coordinate = coor;
     return cell;
 }

@@ -112,7 +112,6 @@
         } errorBolck:^(){
             [ref loadLoginError];
         }];
-        
     }
 }
 
@@ -136,7 +135,6 @@
 }
 
 - (void)loadLoginError{
-    
     [FLYBaseUtil alertErrorMsg];
 }
 

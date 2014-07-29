@@ -7,7 +7,6 @@
 //
 
 #import "FLYSearchViewController.h"
-#import "FLYMapViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYDataService.h"
 #import "FLYBussinessModel.h"
@@ -267,7 +266,11 @@
     long index = tag - 100;
     FLYBussinessModel *bussinessModel = [_bussinessDatas objectAtIndex:index];
     FLYSearhBussinessViewController *bussinessCtrl = [[FLYSearhBussinessViewController alloc] init];
-    bussinessCtrl.bussinessModel = bussinessModel;
+
+    CLLocationCoordinate2D coor = {[bussinessModel.bussinessLat doubleValue],[bussinessModel.bussinessLng doubleValue]};
+    bussinessCtrl.coordinate = coor;
+    bussinessCtrl.titleName = bussinessModel.bussinessName;
+    
     [self.navigationController pushViewController:bussinessCtrl animated:NO];
 }
 
@@ -320,12 +323,13 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     BMKPoiInfo *poiInfo = [self.datas objectAtIndex:indexPath.row];
-    FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
+    FLYSearhBussinessViewController *bussinessCtrl = [[FLYSearhBussinessViewController alloc] init];
     
-    mapController.lat = [NSNumber numberWithDouble:poiInfo.pt.latitude];
-    mapController.lon = [NSNumber numberWithDouble:poiInfo.pt.longitude];
+
+    bussinessCtrl.coordinate = poiInfo.pt;
+    bussinessCtrl.titleName = poiInfo.name;
     
-    [self.navigationController pushViewController:mapController animated:NO];
+    [self.navigationController pushViewController:bussinessCtrl animated:NO];
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
 }

@@ -47,6 +47,13 @@
     return text;
 }
 
++ (NSString *)fomateString:(NSString *)datestring formate:(NSString *)formate {
+    NSString *sformate = @"yyyyMMddHHmmss";
+    NSDate *createDate = [FLYUtils dateFromFomate:datestring formate:sformate];
+    NSString *text = [FLYUtils stringFromFomate:createDate formate:formate];
+    return text;
+}
+
 + (NSString *)betweenDate:(NSDate *)beginDate endDate:(NSDate *)endDate{
     NSString *timeString = @"";
     

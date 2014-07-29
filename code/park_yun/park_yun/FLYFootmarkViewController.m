@@ -11,7 +11,6 @@
 #import "FLYFootmarkCell.h"
 #import "FLYMemberTraceModel.h"
 #import "FLYParkModel.h"
-#import "FLYCollectModel.h"
 #import "FLYParkDetailViewController.h"
 
 
@@ -222,8 +221,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"FootmarkCell";
-    FLYFootmarkCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *identifier = @"FootmarkCell";
+    FLYFootmarkCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYFootmarkCell" owner:self options:nil] lastObject];
     }

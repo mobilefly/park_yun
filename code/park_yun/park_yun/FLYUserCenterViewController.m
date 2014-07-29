@@ -190,6 +190,17 @@
     }
 }
 
+//注销
+- (void)requestLogout:(NSString *)token{
+    if ([FLYBaseUtil isNotEmpty:token]) {
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:token forKey:@"token" ];
+        [FLYDataService requestWithURL:kHttpLogout params:params httpMethod:@"POST" completeBolck:^(id result){
+        } errorBolck:^(){
+            
+        }];
+    }
+}
+
 #pragma mark - Action
 
 - (void)carManagerAction:(UIButton *)button{
@@ -201,6 +212,10 @@
 -(void)loginAction:(UIButton *)button{
     //注销用户
     if ([FLYBaseUtil checkUserLogin]) {
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSString *token = [defaults stringForKey:@"token"];
+        
         [FLYBaseUtil clearUserInfo];
         [button primaryStyle];
         [button setTitle:@"会员登陆" forState:UIControlStateNormal];
@@ -210,6 +225,8 @@
         _carNoLabel.text = @"";
         _balanceLabel.text = @"";
         _middleView.top = 0;
+        
+        [self requestLogout:token];
 
     }else{
         FLYLoginViewController *loginController = [[FLYLoginViewController alloc] init];

@@ -214,8 +214,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"BillCell";
-    FLYBillCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    static NSString *identifier = @"BillCell";
+    FLYBillCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYBillCell" owner:self options:nil] lastObject];
     }

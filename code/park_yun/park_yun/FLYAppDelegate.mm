@@ -10,14 +10,30 @@
 
 #import "FLYBaseNavigationController.h"
 #import "iflyMSC/IFlySpeechUtility.h"
+#import "BaiduMobStat.h"
 
 @implementation FLYAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //清空上次登录信息
 //    [FLYBaseUtil clearUserInfo];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    //百度统计
+    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
+    // 是否允许截获并发送崩溃信息，请设置YES或者NO
+    statTracker.enableExceptionLog = NO;
+    //根据开发者设定的时间间隔接口发送 也可以使用启动时发送策略
+    statTracker.logStrategy = BaiduMobStatLogStrategyAppLaunch;
+    //打开调试模式，发布时请去除此行代码或者设置为False即可。
+    statTracker.enableDebugOn = NO;
+    //是否仅在WIfi情况下发送日志数据
+    statTracker.logSendWifiOnly = YES;
+    //设置应用进入后台再回到前台为同一次session的间隔时间[0~600s],超过600s则设为600s，默认为30s
+    //statTracker.sessionResumeInterval = 1;
+    [statTracker startWithAppId:kBaiduStat];
     
     //初始化讯飞语音
     NSString *initString = [NSString stringWithFormat:@"appid=%@",kXunfeiKey];

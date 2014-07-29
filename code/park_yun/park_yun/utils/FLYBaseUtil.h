@@ -10,6 +10,8 @@
 
 @interface FLYBaseUtil : NSObject
 
+
+
 //
 +(BOOL)checkUserLogin;
 

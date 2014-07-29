@@ -61,6 +61,8 @@
     _segment = [[UISegmentedControl alloc]initWithItems:segmentedArray];
     _segment.frame = CGRectMake(15, _searchBtn.bottom + 20 , 290, 35);
     _segment.selectedSegmentIndex = 0;//设置默认选择项索引
+    _segment.tintColor= [UIColor colorWithRed:51/255.0 green:119/255.0 blue:172/255.0 alpha:1];
+    
     [_segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:_segment];
     

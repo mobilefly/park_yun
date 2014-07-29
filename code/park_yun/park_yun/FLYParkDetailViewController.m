@@ -13,6 +13,7 @@
 #import "UIButton+Bootstrap.h"
 #import "FLYMapViewController.h"
 #import "FLYLoginViewController.h"
+#import "FLYRemarkViewController.h"
 
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
@@ -263,12 +264,12 @@
     
     //评论按钮
     UIButton *discussBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    discussBtn.frame = CGRectMake((ScreenWidth - 160) / 2, sp3.bottom + 15, 160, 35);
+    discussBtn.frame = CGRectMake((ScreenWidth - 280) / 2, sp3.bottom + 15, 280, 35);
     [discussBtn primaryStyle];
 
     //discussBtn.titleLabel.text = @"查看评论";
     [discussBtn setTitle:@"查看评论" forState:UIControlStateNormal];
-    [discussBtn addAwesomeIcon:FAIconRoad beforeTitle:YES];
+//    [discussBtn addAwesomeIcon:FAIconRoad beforeTitle:YES];
 
 
     [discussBtn addTarget:self action:@selector(discussAction) forControlEvents:UIControlEventTouchUpInside];
@@ -326,7 +327,6 @@
     mapController.type = kAnnotationTypePark;
     mapController.dataModel = _park;
     [self.navigationController pushViewController:mapController animated:NO];
-
 }
 
 - (void)collectAction:(UIButton *)button{
@@ -372,7 +372,6 @@
     [FLYBaseUtil alertErrorMsg];
 }
 
-
 -(void)loadRemoveData:(id)data{
     _collectBtn.enabled = true;
     NSString *flag = [data objectForKey:@"flag"];
@@ -400,7 +399,9 @@
 }
 
 - (void)discussAction{
-    [self showAlert:@"请先登录用户"];
+    FLYRemarkViewController *remarkController = [[FLYRemarkViewController alloc] init];
+    remarkController.parkId = self.parkId;
+    [self.navigationController pushViewController:remarkController animated:NO];
 }
 
 #pragma mark - view other

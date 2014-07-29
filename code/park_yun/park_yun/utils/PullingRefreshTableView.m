@@ -224,7 +224,6 @@
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"contentSize"];
-
 }
 
 - (id)initWithFrame:(CGRect)frame style:(UITableViewStyle)style
@@ -240,14 +239,12 @@
         _headerView.atTop = YES;
         [self addSubview:_headerView];
         
-        
         rect = CGRectMake(0, frame.size.height, frame.size.width, frame.size.height);
         _footerView = [[LoadingView alloc] initWithFrame:rect atTop:NO];
         _footerView.atTop = NO;
         [self addSubview:_footerView];
         
         [self sendSubviewToBack:_headerView];
-        
         [self addObserver:self forKeyPath:@"contentSize" options:NSKeyValueObservingOptionNew context:nil];
         
     }
