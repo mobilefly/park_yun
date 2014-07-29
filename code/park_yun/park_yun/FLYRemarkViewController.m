@@ -119,9 +119,10 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    self.parkId,
                                    @"parkid",
-                                   _maxTime,
-                                   @"max_time",
                                    nil];
+    if ([FLYBaseUtil isNotEmpty:_maxTime]) {
+        [params setObject:_maxTime forKey:@"max_time"];
+    }
     
     //防止循环引用
     __weak FLYRemarkViewController *ref = self;
@@ -213,11 +214,13 @@
                 int maxIndex = [self.datas count] - 1;
                 _maxTime = ((FLYRemarkModel *)[self.datas objectAtIndex:0]).remarkTime;
                 _sinceTime = ((FLYRemarkModel *)[self.datas objectAtIndex:maxIndex]).remarkTime;
-                
             }
             
             if (remarkList != nil && [remarkList count] > 0) {
                 [self.tableView reloadData];
+                
+                self.tableView.hidden = NO;
+                [self showNoDataView:NO];
             }
         }
     }else{
@@ -270,10 +273,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    UITableViewCell *cell = [self tableView:tableView cellForRowAtIndexPath:indexPath];
-//    return cell.frame.size.height;
-    
     int height = 26 + 20 + 25;
     FLYRemarkModel *model = [self.datas objectAtIndex:indexPath.row];
     
@@ -291,14 +290,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    static NSString *identifier = @"RemarkCell";
     FLYRemarkCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYRemarkCell" owner:self options:nil] lastObject];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    FLYRemarkCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-//    if (cell == nil){
-//        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYRemarkCell" owner:self options:nil] lastObject];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
     cell.remarkModel = [self.datas objectAtIndex:indexPath.row];
     return cell;
 }
@@ -306,9 +299,8 @@
 - (void)viewWillAppear:(BOOL)animated{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.reloadFlag isEqualToString:@"AddRemark"]) {
+        appDelegate.reloadFlag = nil;
         [self.tableView launchRefreshing];
-//        [self requestMaxRemarkData];
-        
     }
 }
 

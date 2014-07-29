@@ -2,7 +2,7 @@
 //  CONST.h
 //
 //  Created by chen on 14-6-7.
-//  Copyright (c) 2014年 陈晟. All rights reserved.
+//  Copyright (c) 2014年 无线飞翔. All rights reserved.
 //
 
 
@@ -22,7 +22,8 @@
 //小朱
 //#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
 
-//停车场
+//------停车场-----
+
 #define kHttpQueryNearbyList @"/park/queryNearbyList.json"
 
 #define kHttpQueryNearbySimplifyList @"/park/queryNearbySimplifyList.json"
@@ -33,43 +34,44 @@
 
 #define kHttpQueryParkGateList @"/park/queryParkGateList.json"
 
-//会员
+//------会员------
+//登陆
 #define kHttpLogin @"/member/loginForAes256.json"
-
+//注销
 #define kHttpLogout @"/member/logout.json"
-
+//注册
 #define kHttpMemberRegister @"/member/register.json"
-
+//找回密码
 #define kHttpFindPassword @"/member/findPwd.json"
-
+//修改密码
 #define kHttpUpdatePassword @"/member/updatePwd.json"
-
+//添加停车场收藏
 #define kHttpParkCollectAdd @"/member/addMemberCollect.json"
-
+//删除停车场收藏
 #define kHttpParkCollectRemove @"/member/removeMemberCollect.json"
-
+//查询账单
 #define kHttpQueryBillList @"/member/queryMemberTraceList.json"
-
+//用户反馈
 #define kHttpAddFeedback @"/member/addFeedback.json"
-
+//查询足迹
 #define kHttpFootmarkList @"/member/queryParkHisList.json"
-
+//查询停车场会员列表
 #define kHttpQueryParkCardList @"/member/queryParkCardList.json"
-
+//查询用户收藏列表
 #define kHttpQueryMemberCollectList @"/member/queryMemberCollectList.json"
-
+//查询余额
 #define kHttpQueryBalance @"/member/queryBalance.json"
-
+//查询车牌列表
 #define kHttpQueryCarnoList @"/member/queryMemberCarnoList.json"
-
+//切换默认车牌
 #define kHttpChangeCarno @"/member/changeCarno.json"
-
+//解绑车牌
 #define kHttpRemoveCarno @"/member/removeCarno.json"
-
+//绑定车牌
 #define kHttpAddCarno @"/member/addMemberCarno.json"
-
+//添加评论
 #define kHttpAddRemark @"/member/addRemark.json"
-
+//查询评论
 #define kHttpQueryRemarkList @"/member/queryRemarkList.json"
 
 
