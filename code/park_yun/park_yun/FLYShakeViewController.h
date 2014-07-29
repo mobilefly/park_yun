@@ -13,12 +13,10 @@
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYShakeViewController : FLYBaseViewController<iCarouselDataSource, iCarouselDelegate, BMKLocationServiceDelegate,IFlySpeechSynthesizerDelegate,FLYBaseCtrlDelegate>{
+@interface FLYShakeViewController : FLYBaseViewController<iCarouselDataSource, iCarouselDelegate,IFlySpeechSynthesizerDelegate,FLYBaseCtrlDelegate>{
     iCarousel *_carousel;
     UIImageView *_loadingView;
     
-    //位置服务
-    BMKLocationService *_locationService;
     UIImageView *_imageView;
     UIButton *_autonavBtn;
     
@@ -32,8 +30,6 @@
     IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }
 
-//人当前位置
-@property (nonatomic,assign) CLLocationCoordinate2D curCoordinate;
 @property (strong, nonatomic) NSMutableArray *datas;
 
 

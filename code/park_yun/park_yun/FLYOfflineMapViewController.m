@@ -8,10 +8,8 @@
 
 #import "FLYOfflineMapViewController.h"
 #import "UIButton+Bootstrap.h"
-
-
-
 #import "FLYDownloadCell.h"
+#import "FLYAppDelegate.h"
 
 @interface FLYOfflineMapViewController ()
 
@@ -33,16 +31,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _firstLocation = NO;
-    //定位
-    _locationService = [[BMKLocationService alloc]init];
-    _codeSearcher =[[BMKGeoCodeSearch alloc]init];
     //初始化离线地图服务
     _offlineMap = [[BMKOfflineMap alloc]init];
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *) [UIApplication sharedApplication].delegate;
     
     _searchText = [[UITextField alloc] initWithFrame:CGRectMake(15, 20, 220, 35)];
     _searchText.borderStyle = UITextBorderStyleRoundedRect;
     _searchText.placeholder = @"请输入城市名称";
+    if ([FLYBaseUtil isNotEmpty:appDelegate.city]) {
+        _searchText.text = appDelegate.city;
+    }
     [_searchText setFont:[UIFont systemFontOfSize:14.0f]];
     [self.view addSubview:_searchText];
     
@@ -51,9 +50,8 @@
     [_searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     _searchBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [_searchBtn primaryStyle];
-    [_searchBtn addTarget:self action:@selector(searchCity:) forControlEvents:UIControlEventTouchUpInside];
+    [_searchBtn addTarget:self action:@selector(searchCity) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_searchBtn];
-    
     
     NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"城市列表",@"下载管理",nil];
     
@@ -87,24 +85,10 @@
     _downloadTableView.delegate = self;
     _downloadTableView.dataSource = self;
     [_downloadView addSubview:_downloadTableView];
-}
-
-//经纬度反查地址
-- (void)reverseGeo{
-
-    if (_location != nil) {
-        //发起反向地理编码检索
-        BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-        reverseGeoCodeSearchOption.reverseGeoPoint = _location.coordinate;
-        BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-        if(flag)
-        {
-            NSLog(@"反geo检索发送成功");
-        }
-        else
-        {
-            NSLog(@"反geo检索发送失败");
-        }
+    
+    //查询当前城市离线包
+    if ([FLYBaseUtil isNotEmpty:_searchText.text]) {
+        [self searchCity];
     }
 }
 
@@ -201,7 +185,7 @@
     [_searchText resignFirstResponder];
 }
 
-- (void)searchCity:(UIButton *)button{
+- (void)searchCity{
     
     [_searchText resignFirstResponder];
     
@@ -274,31 +258,6 @@
     [_downloadTableView reloadData];
 }
 
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    _location = userLocation.location;
-    if(!_firstLocation && _location != nil){
-        _firstLocation = YES;
-        
-        //反查城市
-        [self reverseGeo];
-        [_locationService stopUserLocationService];
-    }
-}
-
-#pragma mark - BMKGeoCodeSearchDelegate delegate
-- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
-    if (error == BMK_SEARCH_NO_ERROR) {
-        NSString *city = result.addressDetail.city;
-        if ([FLYBaseUtil isNotEmpty:city] && result != nil) {
-            if (_searchText != nil && ![FLYBaseUtil isNotEmpty:_searchText.text]) {
-                _searchText.text = city;
-            }
-        }
-    }
-}
-
 #pragma mark - BMKOfflineMapDelegate delegate
 - (void)onGetOfflineMapState:(int)type withState:(int)state{
     
@@ -345,19 +304,12 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    
-    //停止LocationService
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
-    
-    _codeSearcher.delegate = nil;
     _offlineMap.delegate = nil;
     
 }
@@ -366,28 +318,17 @@
 {
     [super viewWillAppear:animated];
     
-    _locationService.delegate = self;
-    //启动LocationService
-    [_locationService startUserLocationService];
-    
-    _codeSearcher.delegate = self;
     _offlineMap.delegate = self;
     
     
 }
 
 - (void)dealloc{
-    
-    if (_codeSearcher != nil) {
-        _codeSearcher = nil;
-    }
-    
     if (_offlineMap != nil) {
         _offlineMap = nil;
     }
     
     NSLog(@"%s",__FUNCTION__);
-    
 }
 
 

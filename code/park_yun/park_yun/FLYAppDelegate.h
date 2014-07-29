@@ -12,12 +12,17 @@
 
 
 @interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
-    BMKMapManager* _mapManager;
-    
+    BMKMapManager* _mapManager;    
 }
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FLYMainViewController *rootController;
+
+//页面回调
 @property (copy, nonatomic) NSString *reloadFlag;
+//城市
+@property (copy, nonatomic) NSString *city;
+@property(nonatomic,assign) CLLocationCoordinate2D coordinate;
+
 
 @end

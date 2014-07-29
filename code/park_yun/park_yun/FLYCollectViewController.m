@@ -11,6 +11,7 @@
 #import "FLYCollectModel.h"
 #import "FLYCollectCell.h"
 #import "FLYParkDetailViewController.h"
+#import "FLYAppDelegate.h"
 
 
 @interface FLYCollectViewController ()
@@ -32,8 +33,6 @@
 {
     [super viewDidLoad];
     
-    _firstLocation = NO;
-    _locationService = [[BMKLocationService alloc]init];
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
@@ -43,25 +42,13 @@
     self.tableView.hidden = YES;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
-    
     [self setExtraCellLineHidden:self.tableView];
-}
-
-
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    _location = userLocation.location;
-    if(!_firstLocation && _location != nil){
-        _firstLocation = YES;
-        [_locationService stopUserLocationService];
-        
-        if ([FLYBaseUtil isEnableInternate]) {
-            [self showHUD:@"加载中" isDim:NO];
-            [self requestCollectData];
-        }else{
-            [self showAlert:@"请打开网络"];
-        }
+    
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self showHUD:@"加载中" isDim:NO];
+        [self requestCollectData];
+    }else{
+        [self showAlert:@"请打开网络"];
     }
 }
 
@@ -75,16 +62,16 @@
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
     
-    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    token,
                                    @"token",
                                    userid,
                                    @"userid",
-                                   [NSString stringWithFormat:@"%f",_location.coordinate.latitude],
+                                   [NSString stringWithFormat:@"%f",appDelegate.coordinate.latitude],
                                    @"lat",
-                                   [NSString stringWithFormat:@"%f",_location.coordinate.longitude],
+                                   [NSString stringWithFormat:@"%f",appDelegate.coordinate.longitude],
                                    @"lon",
                                    nil];
     
@@ -109,6 +96,7 @@
         NSString *token = [defaults stringForKey:@"token"];
         NSString *userid = [defaults stringForKey:@"memberId"];
 
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        token,
@@ -117,9 +105,9 @@
                                        @"userid",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
-                                       [NSString stringWithFormat:@"%f",_location.coordinate.latitude],
+                                       [NSString stringWithFormat:@"%f",appDelegate.coordinate.latitude],
                                        @"lat",
-                                       [NSString stringWithFormat:@"%f",_location.coordinate.longitude],
+                                       [NSString stringWithFormat:@"%f",appDelegate.coordinate.longitude],
                                        @"lon",
                                        nil];
         
@@ -131,7 +119,7 @@
             [ref loadDataError];
         }];
     }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 
@@ -243,8 +231,11 @@
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCollectCell" owner:self options:nil] lastObject];
     }
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
     cell.collectModel = [self.datas objectAtIndex:indexPath.row];
-    cell.coordinate = _location.coordinate;
+    cell.coordinate = appDelegate.coordinate;
     return cell;
 }
 
@@ -264,18 +255,14 @@
     [super didReceiveMemoryWarning];
 }
 
-//不使用时将delegate设置为 nil
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
+    [super viewWillDisappear:animated];
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    _locationService.delegate = self;
-    //启动LocationService
-    [_locationService startUserLocationService];
+    [super viewWillAppear:animated];
 }
 
 -(void)dealloc{

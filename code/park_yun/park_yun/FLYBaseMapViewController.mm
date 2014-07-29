@@ -285,9 +285,10 @@
 
 //导航
 - (void)navAction:(UIButton *)button{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
     BMKPlanNode *start = [[BMKPlanNode alloc]init];
-    start.pt = _curCoordinate;
+    start.pt = appDelegate.coordinate;
     
 	BMKPlanNode *end = [[BMKPlanNode alloc]init];
     CLLocationCoordinate2D coor2D = {[_curModel.parkLat doubleValue],[_curModel.parkLng doubleValue]};
@@ -407,9 +408,10 @@
         
         delete []temppoints;
         
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
         
         //定位当前地点
-        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(_curCoordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(appDelegate.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
     }
@@ -499,8 +501,10 @@
         //名称
         parkNameLabel.text = model.parkName;
         
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        
         //距离
-        BMKMapPoint point1 = BMKMapPointForCoordinate(_curCoordinate);
+        BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
         BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([model.parkLat doubleValue],[model.parkLng doubleValue]));
         CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
         if (distance > 1000) {
@@ -651,25 +655,6 @@
 
 
 #pragma mark - child
-//更新用户位置
--(void)updateUserLocation:(BMKUserLocation *)userLocation{
-    _curCoordinate = userLocation.location.coordinate;
-    //跟随、定位
-    if (_isFollow) {
-        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
-        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
-        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-        
-    }else if(_isLocation){
-        
-        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
-        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
-        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-        _isLocation = NO;
-    }
-    [_mapBaseView.mapView updateLocationData:userLocation];
-}
-
 //地图滑动、放大、缩小
 - (void)regionChange:(BMKMapView *)mapView{
     NSLog(@"zoomLevel:%f",mapView.zoomLevel);

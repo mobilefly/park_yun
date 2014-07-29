@@ -45,8 +45,6 @@
     [self setExtraCellLineHidden:self.tableView];
     
     if ([FLYBaseUtil isEnableInternate]) {
-        
-        //            [self.tableView updateRefreshDate];
         [self requestParkData];
         [self showHUD:@"加载中" isDim:NO];
     }else{
@@ -59,8 +57,6 @@
 #pragma mark - request
 //停车场位置
 - (void)requestParkData{
-    
-    
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -109,7 +105,7 @@
             [ref loadParkError];
         }];
     }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 

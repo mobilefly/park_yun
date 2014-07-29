@@ -48,7 +48,6 @@
         _typeImage.hidden = NO;
         _parkLabel.left = _typeImage.right + 2;
         _parkLabel.width = 120;
-        
     }else{
         _typeImage.hidden = YES;
         _parkLabel.left = _typeImage.left;
@@ -64,19 +63,23 @@
     _capacity.text = [self.parkModel.parkCapacity stringValue];
     //免费时间
     NSString *freeTime = [self.parkModel.parkFreetime stringValue];
+    _free_time.font = [UIFont systemFontOfSize:15.0];
     if (freeTime == nil || [freeTime isEqualToString:@"0"]) {
         _fz.hidden = YES;
         _free_time.text = @"";
         _freetimeImage.hidden = YES;
     }else if([freeTime isEqualToString:@"-1"]){
+        _free_time.font = [UIFont boldSystemFontOfSize:12.0];
         _free_time.text = @"全天免费";
-        _fz.hidden = NO;
+        _fz.hidden = YES;
         _freetimeImage.hidden = NO;
     }else{
         _free_time.text = freeTime;
         _fz.hidden = NO;
         _freetimeImage.hidden = NO;
     }
+    [_free_time sizeToFit];
+    _free_time.bottom = _fz.bottom;
     
     
     //加盟标示

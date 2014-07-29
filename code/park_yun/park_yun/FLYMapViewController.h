@@ -8,12 +8,10 @@
 
 #import "FLYBaseMapViewController.h"
 
-@interface FLYMapViewController : FLYBaseMapViewController<BMKMapViewDelegate,BMKLocationServiceDelegate>{
+@interface FLYMapViewController : FLYBaseMapViewController<BMKMapViewDelegate>{
 
     //第一次进入系统，加载定位图标
     BOOL _isFirstLoad;
-
-
 }
 //屏幕首次位置
 @property (nonatomic,strong)NSNumber *lat;

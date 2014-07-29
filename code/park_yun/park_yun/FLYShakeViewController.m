@@ -83,9 +83,6 @@
     [_autonavBtn addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
     _autonavBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [self.view addSubview:_autonavBtn];
-
-    //定位服务
-    _locationService = [[BMKLocationService alloc]init];
     
     [self setNoDataViewFrame:_carousel.frame];
     [self navAction];
@@ -153,8 +150,10 @@
     int index = [_carousel indexOfItemView:view];
     
     FLYParkModel *parkModel = [self.datas objectAtIndex:index];
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
 
-    CLLocationCoordinate2D startCoor = _curCoordinate;
+    CLLocationCoordinate2D startCoor = appDelegate.coordinate;
     CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([parkModel.parkLat doubleValue], [parkModel.parkLng doubleValue]);
     
     // ios6以下，调用google map
@@ -184,10 +183,12 @@
 - (void)requestParkData{
     _isLoading = YES;
     
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.latitude] ,
+                                   [NSString stringWithFormat:@"%f",appDelegate.coordinate.latitude] ,
                                    @"lat",
-                                   [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
+                                   [NSString stringWithFormat:@"%f",appDelegate.coordinate.longitude],
                                    @"long",
                                    @"200000",
                                    @"range",
@@ -209,6 +210,8 @@
 
 //加载更多
 - (void)requestMoreParkData{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
     if ([FLYBaseUtil isEnableInternate]) {
         [self showToast:@"巡航中"];
         
@@ -216,9 +219,9 @@
             _isLoading = YES;
             
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                           [NSString stringWithFormat:@"%f",_curCoordinate.latitude] ,
+                                           [NSString stringWithFormat:@"%f",appDelegate.coordinate.latitude] ,
                                            @"lat",
-                                           [NSString stringWithFormat:@"%f",_curCoordinate.longitude],
+                                           [NSString stringWithFormat:@"%f",appDelegate.coordinate.longitude],
                                            @"long",
                                            @"200000",
                                            @"range",
@@ -361,11 +364,12 @@
 }
 
 -(void)speakAction:(FLYParkModel *)parkModel{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
     NSString *parkName = parkModel.parkName;
     NSString *parkDistance = @"";
     
-    BMKMapPoint point1 = BMKMapPointForCoordinate(_curCoordinate);
+    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     if (distance > 1000) {
@@ -526,6 +530,8 @@
     }
     
     if (parkModel != nil) {
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        
         parknameLabel = (UILabel *)[view viewWithTag:101];
         parknameLabel.text = parkModel.parkName;
         
@@ -535,7 +541,7 @@
         distanceImage = (UIImageView *)[view viewWithTag:104];
         
         distanceLabel = (UILabel *)[view viewWithTag:105];
-        BMKMapPoint point1 = BMKMapPointForCoordinate(_curCoordinate);
+        BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
         BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
         CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
         if (distance > 1000) {
@@ -592,12 +598,6 @@
     return 280;
 }
 
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    self.curCoordinate = userLocation.location.coordinate;
-}
-
 #pragma mark - 摇动手势
 -(BOOL)canBecomeFirstResponder{
     return YES;
@@ -630,9 +630,6 @@
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //启动LocationService
-    [_locationService startUserLocationService];
-    
     [self becomeFirstResponder];
 }
 
@@ -648,9 +645,6 @@
     
     [_autonavBtn setTitle:@"开启巡航" forState:UIControlStateNormal];
     [_autonavBtn warningStyle];
-    
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
     
     if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
         [_iflySpeechSynthesizer stopSpeaking];

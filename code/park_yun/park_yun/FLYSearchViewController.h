@@ -14,13 +14,11 @@
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,IFlyRecognizerViewDelegate>{
+@interface FLYSearchViewController : FLYBaseViewController<BMKPoiSearchDelegate,BMKGeoCodeSearchDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate,IFlyRecognizerViewDelegate>{
     
     BMKPoiSearch  *_poiSearcher;
-    BMKGeoCodeSearch *_codeSearcher;
-    BMKLocationService *_locationService;
-    CLLocation *_location;
-    BOOL _firstLocation;
+    //更多商圈
+    BOOL _isMore;
     
     IFlyRecognizerView *_iflyRecognizerView;
 }
@@ -30,6 +28,7 @@
 
 @property(copy,nonatomic) NSString *searchText;
 @property (strong, nonatomic) UITableView *tableView;
+
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
 

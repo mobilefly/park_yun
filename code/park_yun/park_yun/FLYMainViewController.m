@@ -14,6 +14,7 @@
 #import "FLYSearchViewController.h"
 #import "FLYUserCenterViewController.h"
 #import "FLYShakeViewController.h"
+#import "FLYAppDelegate.h"
 
 
 @interface FLYMainViewController ()
@@ -92,9 +93,17 @@
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
     
+    //定位
     _locationService = [[BMKLocationService alloc]init];
+    _locationService.delegate = self;
+    //启动LocationService
+    [_locationService startUserLocationService];
+    
+    _codeSearcher = [[BMKGeoCodeSearch alloc]init];
+    _codeSearcher.delegate = self;
     
     [self setNoDataViewFrame:_mapBaseView.frame];
+    
 }
 
 #pragma mark - request
@@ -123,7 +132,9 @@
 //停车场位置
 - (void)requestParkData{
     
-    _reloadLoaction = _curCoordinate;
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    _reloadLoaction = appDelegate.coordinate;
     
     _isMore = NO;
     _dataIndex = 0;
@@ -173,7 +184,7 @@
             [ref loadParkError];
         }];
     }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 
@@ -348,22 +359,84 @@
 {
     [self updateUserLocation:userLocation];
     
+    //反查城市
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    appDelegate.coordinate = userLocation.location.coordinate;
+    
+    
+    
     if (_firstFlag == YES) {
+        
+        
+//        if ([FLYBaseUtil isEmpty:appDelegate.city]) {
+            [self reverseGeo];
+//        }
+        
         _firstFlag = NO;
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-        
-        
+
         if ([FLYBaseUtil isEnableInternate]) {
-            
-//            [self.tableView updateRefreshDate];
             [self requestParkData];
             [self requestLocationData];
             [self showHUD:@"加载中" isDim:NO];
         }else{
             [self showAlert:@"请打开网络"];
         }
+    }
+    
+    
+}
+
+//更新用户位置
+-(void)updateUserLocation:(BMKUserLocation *)userLocation{
+    //跟随、定位
+    if (_isFollow) {
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        
+    }else if(_isLocation){
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        _isLocation = NO;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kMapLocationNotification object:userLocation];
+    
+    [_mapBaseView.mapView updateLocationData:userLocation];
+}
+
+#pragma mark - BMKGeoCodeSearchDelegate delegate
+- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
+    if (error == BMK_SEARCH_NO_ERROR) {
+        NSString *city = result.addressDetail.city;
+        
+        //缓存当前城市
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        appDelegate.city = city;
+    }
+    else {
+        [self showAlert:@"抱歉，未找到结果"];
+    }
+}
+
+- (void)reverseGeo{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    //发起反向地理编码检索
+    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
+    reverseGeoCodeSearchOption.reverseGeoPoint = appDelegate.coordinate;
+    BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+    if(flag)
+    {
+        NSLog(@"反geo检索发送成功");
+    }
+    else
+    {
+        NSLog(@"反geo检索发送失败");
     }
 }
 
@@ -381,7 +454,6 @@
 }
 
 #pragma mark - 摇动手势
-
 -(BOOL)canBecomeFirstResponder{
     return YES;
 }
@@ -389,7 +461,6 @@
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
         FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
-        shakeCtrl.curCoordinate = _curCoordinate;
         [self.navigationController pushViewController:shakeCtrl animated:NO];
     }
 }
@@ -403,9 +474,7 @@
     // 此处记得不用的时候需要置nil，否则影响内存的释放
     _mapBaseView.mapView.delegate = self;
 
-    _locationService.delegate = self;
-    //启动LocationService
-    [_locationService startUserLocationService];
+//    _codeSearcher.delegate = self;
     
     [self becomeFirstResponder];
 }
@@ -417,8 +486,7 @@
     // 不用时，置nil
     _mapBaseView.mapView.delegate = nil;
     
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
+//    _codeSearcher.delegate = nil;
 }
 
 -(void)dealloc{
@@ -428,6 +496,10 @@
     
     if (_mapBaseView != nil) {
         _mapBaseView = nil;
+    }
+    
+    if (_codeSearcher != nil) {
+        _codeSearcher = nil;
     }
     
     NSLog(@"%s",__FUNCTION__);

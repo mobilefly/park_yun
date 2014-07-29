@@ -41,14 +41,9 @@
 @interface FLYBaseMapViewController : FLYBaseViewController<BMKRouteSearchDelegate,FLYMapDelegate>{
     //地图
     FLYBaseMap  *_mapBaseView;
-    //位置服务
-    BMKLocationService *_locationService;
     //寻路服务
     BMKRouteSearch *_routesearch;
     
-    //人当前位置
-    CLLocationCoordinate2D _curCoordinate;
-
     //屏幕上次绘制标记时中心位置
     double lastMarkLat;
     double lastMarkLon;
@@ -91,8 +86,6 @@
 @property (strong, nonatomic)NSMutableArray *locationDatas;
 
 - (void)loadLocationData:(id)data;
-
--(void)updateUserLocation:(BMKUserLocation *)userLocation;
 
 @end
 

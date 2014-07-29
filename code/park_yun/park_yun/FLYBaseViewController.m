@@ -364,6 +364,20 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if (barView != nil && barView.top != -40) {
+        [UIView animateWithDuration:0.5 animations:^{
+            //延时一秒
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDelay:1];
+            [UIView setAnimationDuration:0.6];
+            barView.top = -40;
+            [UIView commitAnimations];
+        }];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     _isHudLoad = NO;

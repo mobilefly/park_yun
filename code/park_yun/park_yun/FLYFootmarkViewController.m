@@ -114,7 +114,7 @@
             [ref loadDataError];
         }];
     }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 

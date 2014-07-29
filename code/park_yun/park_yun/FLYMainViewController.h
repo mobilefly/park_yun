@@ -12,7 +12,7 @@
 #import "FLYBaseMapViewController.h"
 
 
-@interface FLYMainViewController : FLYBaseMapViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate>{
+@interface FLYMainViewController : FLYBaseMapViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>{
     
     //第一次定位加载数据
     BOOL _firstFlag;
@@ -23,7 +23,11 @@
     
     //第一次加载数据坐标
     CLLocationCoordinate2D _reloadLoaction;
-
+    
+    BMKGeoCodeSearch *_codeSearcher;
+    
+    //位置服务
+    BMKLocationService *_locationService;
 }
 
 //首页列表数据

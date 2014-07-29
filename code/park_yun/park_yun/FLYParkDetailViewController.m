@@ -118,7 +118,7 @@
         for (FLYPhotoModel *photoModel in self.photos) {
             [photoArray addObject:[NSDictionary dictionaryWithObjects:
                                    @[photoModel.photoPath,@"",@NO,placeholderImage]
-                                                              forKeys:
+                                                forKeys:
                                    @[@"pic",@"title",@"isLoc",@"placeholderImage"]]
              ];
         }

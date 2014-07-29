@@ -110,7 +110,7 @@
             [ref loadDataError];
         }];
     }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:@"加载完成"];
+        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 
@@ -190,7 +190,10 @@
     if (!_isMore && self.datas != nil && [self.datas count] > 0) {
         [self.tableView setReachedTheEnd:YES];
         [super showMessage:@"加载完成"];
+    }else if(self.datas == nil || [self.datas count] == 0){
+        [self.tableView setReachedTheEnd:YES];
     }
+        
 }
 
 

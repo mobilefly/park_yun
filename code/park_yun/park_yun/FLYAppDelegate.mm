@@ -17,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //清空上次登录信息
-//    [FLYBaseUtil clearUserInfo];
+//  [FLYBaseUtil clearUserInfo];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -49,19 +49,19 @@
         NSLog(@"manager start failed!");
     }
     
+    //主页面
     _rootController = [[FLYMainViewController alloc] initWithNibName:@"FLYMainViewController" bundle:nil];
     FLYBaseNavigationController *navController = [[FLYBaseNavigationController alloc] initWithRootViewController:_rootController];
     navController.delegate = self;
     self.window.rootViewController = navController;
-    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
 
-
+//隐藏首页topbar
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
-    if ( viewController ==  self.rootController) {
+    if (viewController ==  self.rootController) {
         [navigationController setNavigationBarHidden:YES animated:animated];
     } else if ( [navigationController isNavigationBarHidden] ) {
         [navigationController setNavigationBarHidden:NO animated:animated];

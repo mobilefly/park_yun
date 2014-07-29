@@ -11,6 +11,8 @@
 #import "FLYDataService.h"
 #import "FLYBussinessModel.h"
 #import "FLYSearhBussinessViewController.h"
+#import "FLYAPPDelegate.h"
+#import "FLYBussinessViewController.h"
 
 #define blueColor Color(86, 127, 188 ,1)
 #define blueborderColor Color(86, 127, 188 ,0.5)
@@ -43,8 +45,6 @@
 {
     [super viewDidLoad];
     
-    _firstLocation = NO;
-    
     _searchBar.backgroundColor = [UIColor clearColor];
     _searchBar.placeholder = @"停车场";
     _searchBar.delegate = self;
@@ -57,14 +57,10 @@
     [self setExtraCellLineHidden:self.tableView];
     
     _poiSearcher = [[BMKPoiSearch alloc]init];
-    _locationService = [[BMKLocationService alloc]init];
-    _codeSearcher = [[BMKGeoCodeSearch alloc]init];
-
     
     UIButton *voiceButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"语音" target:self action:@selector(voiceAction)];
     UIBarButtonItem *voiceButtonItem = [[UIBarButtonItem alloc] initWithCustomView:voiceButton];
     self.navigationItem.rightBarButtonItem = voiceButtonItem;
-    
     
     //初始化语音识别控件
     _iflyRecognizerView = [[IFlyRecognizerView alloc] initWithCenter:self.view.center];
@@ -74,9 +70,23 @@
     [_iflyRecognizerView setParameter:@"plain" forKey:[IFlySpeechConstant RESULT_TYPE]];
      //当你再不需要保存音频时，请在必要的地方加上这行。
     [_iflyRecognizerView setParameter:nil forKey:[IFlySpeechConstant ASR_AUDIO_PATH]];
-   
+    
+    
+    //查询商圈
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self searchAction:@""];
+        if ([FLYBaseUtil isNotEmpty:appDelegate.city]) {
+            [self requestBussines:appDelegate.city];
+        }
+    }else{
+        [self showAlert:@"请打开网络"];
+    }
+    
 }
 
+#pragma mark - Action
 - (void)voiceAction{
     //启动识别服务
     [_iflyRecognizerView start];
@@ -85,14 +95,16 @@
 }
 
 //POI查询
-- (void)search:(NSString *)keyword{
+- (void)searchAction:(NSString *)keyword{
     [self showHUD:@"搜索中" isDim:NO];
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
     //发起检索
     BMKNearbySearchOption *option = [[BMKNearbySearchOption alloc]init];
     option.pageIndex = 0;
     option.pageCapacity = 50;
-    option.location = _location.coordinate;
+    option.location = appDelegate.coordinate;
     if (keyword == nil || keyword.length <= 0) {
         option.keyword = @"停车场";
     }else{
@@ -113,36 +125,6 @@
         }
     }
    
-}
-
-//经纬度反查地址
-- (void)reverseGeo{
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = _location.coordinate;
-    BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if(flag)
-    {
-      NSLog(@"反geo检索发送成功");
-    }
-    else
-    {
-      NSLog(@"反geo检索发送失败");
-    }
-}
-
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    _location = userLocation.location;
-    if(!_firstLocation && _location != nil){
-        _firstLocation = YES;
-        //根据关键字查询
-        [self search:nil];
-        //反查城市
-        [self reverseGeo];
-        [_locationService stopUserLocationService];
-    }
 }
 
 //BMKPoiInfo 说明
@@ -177,22 +159,15 @@
     }
 }
 
-#pragma mark - BMKGeoCodeSearchDelegate delegate
-- (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
-    if (error == BMK_SEARCH_NO_ERROR) {
-        NSString *city = result.addressDetail.city;
-        [self requestBussines:city];
-    }
-    else {
-        [self showAlert:@"抱歉，未找到结果"];
-    }
-}
+
 
 #pragma mark - reuqest
 - (void)requestBussines:(NSString *)city{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    city,
                                    @"city",
+                                   @"10",
+                                   @"count",
                                    nil];
     
     //防止循环引用
@@ -215,23 +190,30 @@
         if (result != nil) {
             NSArray *businesss = [result objectForKey:@"businesss"];
             NSMutableArray *businessList = [NSMutableArray arrayWithCapacity:businesss.count];
-            for (NSDictionary *bussinessDic in businesss) {
+            for (int i=0; i < [businesss count] && i < 8; i++) {
+                NSDictionary *bussinessDic = [businesss objectAtIndex:i];
                 FLYBussinessModel *bussinessModel = [[FLYBussinessModel alloc] initWithDataDic:bussinessDic];
                 [businessList addObject:bussinessModel];
             }
+            
             self.bussinessDatas = businessList;
-
+            if ([businesss count] > 8) {
+                _isMore = YES;
+                [self.bussinessDatas removeObjectAtIndex:7];
+            }
             [self renderBussiness];
         }
     }
 }
 
 - (void)renderBussiness{
-
     if (_bussinessDatas != nil && [_bussinessDatas count] > 0) {
         int count = [_bussinessDatas count];
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenHeight, ceil(count / 4.0) * 50 + 10)];
-        view.backgroundColor = blueBgColor;
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ceil(count / 4.0) * 50 + 10)];
+//        view.backgroundColor = blueBgColor;
+        
+        view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pic_background"]];
+        
         int i = 0;
         
         for (FLYBussinessModel *bussinessModel in _bussinessDatas) {
@@ -240,9 +222,9 @@
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10 + 78 * (i % 4), 10 + j * 50, 68, 40)];
             button.layer.cornerRadius = 2.0f;
             button.layer.masksToBounds = YES;
-            button.layer.borderColor = [blueborderColor CGColor];
+            button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
             button.layer.borderWidth = 1.0f;
-            button.backgroundColor = [UIColor clearColor];
+            button.backgroundColor = [UIColor whiteColor];
             button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
             button.titleLabel.numberOfLines = 2;
             button.titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -255,6 +237,26 @@
             [view addSubview:button];
             i++;
         }
+        
+        if (_isMore) {
+            UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(10 + 78 * 3, 10 + 1 * 50, 68, 40)];
+            button.layer.cornerRadius = 2.0f;
+            button.layer.masksToBounds = YES;
+            button.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+            button.layer.borderWidth = 1.0f;
+            button.backgroundColor = [UIColor whiteColor];
+            button.titleLabel.font = [UIFont systemFontOfSize: 12.0];
+            button.titleLabel.numberOfLines = 2;
+            button.titleLabel.textAlignment = NSTextAlignmentCenter;
+            button.showsTouchWhenHighlighted = YES;
+            button.tag = 100 + 8;
+            
+            [button setTitle:@"更多>" forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(moreBussiness:) forControlEvents:UIControlEventTouchUpInside];
+            [view addSubview:button];
+        }
+        
         self.tableView.tableHeaderView = view;
     }
     
@@ -271,6 +273,11 @@
     bussinessCtrl.coordinate = coor;
     bussinessCtrl.titleName = bussinessModel.bussinessName;
     
+    [self.navigationController pushViewController:bussinessCtrl animated:NO];
+}
+
+- (void)moreBussiness:(UIButton *)button{
+    FLYBussinessViewController *bussinessCtrl = [[FLYBussinessViewController alloc] init];
     [self.navigationController pushViewController:bussinessCtrl animated:NO];
 }
 
@@ -300,7 +307,8 @@
     
     BMKPoiInfo *poiInfo = [self.datas objectAtIndex:indexPath.row];
     
-    BMKMapPoint point1 = BMKMapPointForCoordinate(_location.coordinate);
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
     BMKMapPoint point2 = BMKMapPointForCoordinate(poiInfo.pt);
     
     NSString *distanceText = @"";
@@ -325,7 +333,6 @@
     BMKPoiInfo *poiInfo = [self.datas objectAtIndex:indexPath.row];
     FLYSearhBussinessViewController *bussinessCtrl = [[FLYSearhBussinessViewController alloc] init];
     
-
     bussinessCtrl.coordinate = poiInfo.pt;
     bussinessCtrl.titleName = poiInfo.name;
     
@@ -337,7 +344,7 @@
 #pragma mark - UISearchBarDelegate delegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [self.searchBar resignFirstResponder];
-    [self search:searchBar.text];
+    [self searchAction:searchBar.text];
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *) searchBar{
@@ -369,30 +376,18 @@
     
     [self.searchBar resignFirstResponder];
     
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
-    
     _poiSearcher.delegate = nil;
-    _codeSearcher.delegate = nil;
 }
 
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 
-    _locationService.delegate = self;
-    //启动LocationService
-    [_locationService startUserLocationService];
-    
     _poiSearcher.delegate = self;
-    _codeSearcher.delegate = self;
+
 }
 
 - (void)dealloc{
-    if (_codeSearcher != nil) {
-        _codeSearcher = nil;
-    }
-
     if (_poiSearcher != nil) {
         _poiSearcher = nil;
     }

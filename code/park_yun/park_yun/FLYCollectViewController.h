@@ -10,15 +10,11 @@
 #import "PullingRefreshTableView.h"
 #import "BMapKit.h"
 
-@interface FLYCollectViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKLocationServiceDelegate>{
+@interface FLYCollectViewController : FLYBaseViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource>{
     //最后一次数据加载索引
     int _dataIndex;
     //数据是否全部加载完
     BOOL _isMore;
-    
-    BMKLocationService *_locationService;
-    BOOL _firstLocation;
-    CLLocation *_location;
 }
 
 //列表

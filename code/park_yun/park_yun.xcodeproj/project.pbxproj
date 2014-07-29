@@ -305,6 +305,7 @@
 		74D041211963BC24005B2F76 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 74D0411F1963BC24005B2F76 /* icon.png */; };
 		74D041281963BCE8005B2F76 /* FLYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D041261963BCE8005B2F76 /* FLYMainViewController.m */; };
 		74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D041271963BCE8005B2F76 /* FLYMainViewController.xib */; };
+		74EE13FF1987546000FB0C86 /* FLYBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */; };
 		74FC62221966DEB400A8289A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62211966DEB400A8289A /* FontAwesome.ttf */; };
 		74FC62251966E0B200A8289A /* FLYBaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FC62241966E0B200A8289A /* FLYBaseMap.m */; };
 		74FC62281966E39800A8289A /* mfpparking_2d_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62261966E39800A8289A /* mfpparking_2d_all_0@2x.png */; };
@@ -823,6 +824,8 @@
 		74D041251963BCE8005B2F76 /* FLYMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYMainViewController.h; sourceTree = "<group>"; };
 		74D041261963BCE8005B2F76 /* FLYMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYMainViewController.m; sourceTree = "<group>"; };
 		74D041271963BCE8005B2F76 /* FLYMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYMainViewController.xib; sourceTree = "<group>"; };
+		74EE13FD1987546000FB0C86 /* FLYBussinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessViewController.h; sourceTree = "<group>"; };
+		74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBussinessViewController.m; sourceTree = "<group>"; };
 		74FC62211966DEB400A8289A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		74FC62231966E0B200A8289A /* FLYBaseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBaseMap.h; sourceTree = "<group>"; };
 		74FC62241966E0B200A8289A /* FLYBaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBaseMap.m; sourceTree = "<group>"; };
@@ -1347,6 +1350,8 @@
 				7412602F1966445600EF6A8E /* FLYSearchViewController.xib */,
 				745D6E9519775BBE0085E238 /* FLYSearhBussinessViewController.h */,
 				745D6E9619775BBE0085E238 /* FLYSearhBussinessViewController.m */,
+				74EE13FD1987546000FB0C86 /* FLYBussinessViewController.h */,
+				74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */,
 			);
 			name = Search;
 			sourceTree = "<group>";
@@ -2267,6 +2272,7 @@
 				745263A7196CE17200037E3E /* SecurityUtil.m in Sources */,
 				74415C3519861CEF005DD554 /* CJSONScanner.m in Sources */,
 				743E51C0196FC47A004D7583 /* FLYFootmarkCell.m in Sources */,
+				74EE13FF1987546000FB0C86 /* FLYBussinessViewController.m in Sources */,
 				745D6EB01977C4210085E238 /* FLYCarBindViewController.m in Sources */,
 				748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */,
 				741E897B197E11E0003E9D9B /* FLYGateViewController.m in Sources */,

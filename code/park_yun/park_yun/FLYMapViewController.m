@@ -38,9 +38,7 @@
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
     
-    //初始化BMKLocationService
-    _locationService = [[BMKLocationService alloc]init];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationNotificcation:) name:kMapLocationNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -86,10 +84,23 @@
     }
 }
 
-#pragma mark - BMKLocationServiceDelegate delegate
-- (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
-{
-    [self updateUserLocation:userLocation];
+- (void)locationNotificcation:(NSNotification *)notification{
+    BMKUserLocation *userLocation = notification.object;
+    //跟随、定位
+    if (_isFollow) {
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        
+    }else if(_isLocation){
+        BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
+        BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
+        [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
+        _isLocation = NO;
+    }
+    
+    [_mapBaseView.mapView updateLocationData:userLocation];
+
 }
 
 #pragma mark - request
@@ -141,10 +152,6 @@
     
     [_mapBaseView.mapView viewWillAppear];
     _mapBaseView.mapView.delegate = self;
-
-    _locationService.delegate = self;
-    //启动LocationService
-    [_locationService startUserLocationService];
     
     _mapBaseView.mapDelegate = self;
 
@@ -156,10 +163,6 @@
     
     [_mapBaseView.mapView viewWillDisappear];
     _mapBaseView.mapView.delegate = nil;
-    
-    // 不用时，置nil
-    [_locationService stopUserLocationService];
-    _locationService.delegate = nil;
     
     _mapBaseView.mapDelegate = nil;
 }
@@ -173,6 +176,9 @@
     if (_mapBaseView != nil) {
         _mapBaseView = nil;
     }
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     NSLog(@"%s",__FUNCTION__);
 }
 @end

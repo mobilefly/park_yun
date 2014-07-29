@@ -34,6 +34,7 @@
 }
 
 @property(nonatomic,strong)FLYParkModel *parkModel;
+//当前经纬度
 @property(nonatomic,assign)CLLocationCoordinate2D coordinate;
 
 @end

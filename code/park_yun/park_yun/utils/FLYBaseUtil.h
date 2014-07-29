@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FLYAppDelegate.h"
 
 @interface FLYBaseUtil : NSObject
-
-
 
 //
 +(BOOL)checkUserLogin;
