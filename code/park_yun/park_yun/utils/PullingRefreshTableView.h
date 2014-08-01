@@ -42,6 +42,7 @@ typedef enum {
     BOOL _loading;
     BOOL _isFooterInAction;
     NSInteger _bottomRow;
+    CGRect cgrect;
 }
 @property (assign,nonatomic) id <PullingRefreshTableViewDelegate> pullingDelegate;
 @property (nonatomic) BOOL autoScrollToNextPage;

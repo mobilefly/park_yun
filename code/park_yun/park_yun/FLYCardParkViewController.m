@@ -200,11 +200,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.datas == nil || [self.datas count] == 0) {
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    }else{
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    }
     return [self.datas count];
 }
 

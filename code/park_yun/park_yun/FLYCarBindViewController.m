@@ -97,6 +97,7 @@
 
     NSData *picData = UIImageJPEGRepresentation(_photoView.image, 1);
     [params setObject:picData forKey:@"image"];
+    [params setObject:picData forKey:@"image1"];
     
     //防止循环引用
     __weak FLYCarBindViewController *ref = self;

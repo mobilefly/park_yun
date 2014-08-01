@@ -19,6 +19,8 @@
     NSMutableArray *_datas;
     
     IFlySpeechSynthesizer *_iflySpeechSynthesizer;
+    
+    BOOL _isClose;
 }
 
 @property (nonatomic,strong) FLYParkModel *parkModel;

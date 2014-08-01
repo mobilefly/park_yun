@@ -9,6 +9,8 @@
 #import "FLYSettingViewController.h"
 #import "FLYFeedbackViewController.h"
 #import "FLYChangePasswordViewController.h"
+#import "FLYAbortViewController.h"
+#import "FLYOfflineParkViewController.h"
 
 @interface FLYSettingViewController ()
 
@@ -34,11 +36,10 @@
     [self.view addSubview:tableView];
     
     [self setExtraCellLineHidden:tableView];
-    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return 4;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -55,14 +56,12 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.textLabel.textColor = [UIColor grayColor];
     if (indexPath.row == 0) {
-        cell.textLabel.text = @"清除缓存";
+        cell.textLabel.text = @"离线数据管理";
     }else if(indexPath.row == 1){
-        cell.textLabel.text = @"消息接受设置";
-    }else if(indexPath.row == 2){
         cell.textLabel.text = @"意见反馈";
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 2){
         cell.textLabel.text = @"修改密码";
-    }else if(indexPath.row == 4){
+    }else if(indexPath.row == 3){
         cell.textLabel.text = @"关于我们";
     }
     return cell;
@@ -70,23 +69,23 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        [self showAlert:@"清除缓存"];
+        FLYOfflineParkViewController *offlineCtrl = [[FLYOfflineParkViewController alloc] init];
+        [self.navigationController pushViewController:offlineCtrl animated:NO];
+        
     }else if (indexPath.row == 1){
-        [self showAlert:@"消息接受设置"];
-    }else if (indexPath.row == 2){
         FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
         [self.navigationController pushViewController:feedBackCtrl animated:NO];
-    }else if (indexPath.row == 3){
+    }else if (indexPath.row == 2){
         if (![FLYBaseUtil checkUserLogin]) {
             [self showAlert:@"请先登陆用户"];
         }else{
             FLYChangePasswordViewController *changePwdCtrl = [[FLYChangePasswordViewController alloc] init];
             [self.navigationController pushViewController:changePwdCtrl animated:NO];
         }
-    }else if (indexPath.row == 4){
-        [self showAlert:@"关于我们"];
+    }else if (indexPath.row == 3){
+        FLYAbortViewController *abortCtrl = [[FLYAbortViewController alloc] init];
+        [self.navigationController pushViewController:abortCtrl animated:NO];
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

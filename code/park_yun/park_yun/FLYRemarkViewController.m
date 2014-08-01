@@ -299,15 +299,22 @@
     return cell;
 }
 
+
+
+#pragma mark - other
+
 - (void)viewWillAppear:(BOOL)animated{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.reloadFlag isEqualToString:@"AddRemark"]) {
         appDelegate.reloadFlag = nil;
+        
+        self.tableView.hidden = NO;
+        [self showNoDataView:NO];
+        
         [self.tableView launchRefreshing];
     }
 }
 
-#pragma mark - other
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

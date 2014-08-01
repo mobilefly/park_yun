@@ -19,6 +19,7 @@
 
 @interface FLYMemberTraceModel : FLYBaseModel
 
+
 @property(nonatomic,copy) NSString *mtId;
 @property(nonatomic,strong) NSNumber *mtPrice;
 @property(nonatomic,strong) NSNumber *mtBalance;

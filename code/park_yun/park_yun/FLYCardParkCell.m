@@ -43,10 +43,6 @@
         _cpExpdateLabel.text = [NSString stringWithFormat:@"%@(过期)",datetText];
         _cpExpdateLabel.textColor = [UIColor redColor];
     }
-    
-    
-    
-    
 }
 
 

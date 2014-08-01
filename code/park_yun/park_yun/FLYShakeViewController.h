@@ -17,15 +17,22 @@
     iCarousel *_carousel;
     UIImageView *_loadingView;
     
-    UIImageView *_imageView;
-    UIButton *_autonavBtn;
+    UILabel *_autonavLabel;
+    UIView *_autonavView;
+    UIButton *_parkTypeBtn;
+    UIButton *_voiceBtn;
     
     int _index;
     
-    NSTimer *_timer;
     NSTimer *_loadTimer;
     
     BOOL _isLoading;
+    BOOL _isClose;
+    
+    //是否开启自动巡航
+    BOOL _isNaving;
+    //是否开启语音
+    BOOL _isVoice;
     
     IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }

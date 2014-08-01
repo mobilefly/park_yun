@@ -16,6 +16,7 @@
 #import <MapKit/MapKit.h>
 
 
+#define shakeBgColor Color(55, 67, 84, 1)
 #define shakeBorderColor Color(210, 210, 210, 1)
 #define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -44,11 +45,12 @@
     [_iflySpeechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
     [_iflySpeechSynthesizer setParameter:@"50" forKey: [IFlySpeechConstant VOLUME]];
     [_iflySpeechSynthesizer setParameter:@"xiaoyan" forKey: [IFlySpeechConstant VOICE_NAME]];
-    [_iflySpeechSynthesizer setParameter:@"16000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
     [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     
     //初始化数据
     _index = 0;
+    _isClose = NO;
     _datas = [NSMutableArray array];
     _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 275)];
     
@@ -65,27 +67,68 @@
     _carousel.hidden = YES;
     [self.view addSubview:_carousel];
     
-    //巡航下部剩余高度
-    int freewidth =  ScreenHeight - 20 - 44 - 260;
-    //间隙
-    int mwidht = (freewidth - 35 - 80 - 30) / 2;
+    //下部蓝色背景
+    UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 100 - 20 - 44, 320, 100)];
+    bottomView.backgroundColor = shakeBgColor;
+    [self.view addSubview:bottomView];
+    UIImageView *btView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaosanjiao_all_0_02.png"]];
+    btView.bottom = bottomView.top;
+    [self.view addSubview:btView];
     
-    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaoxh_all_3.png"]];
-    _imageView.frame = CGRectMake((ScreenWidth - 80) / 2, _carousel.bottom + mwidht , 80, 80);
-    [self.view addSubview:_imageView];
+    //点击手势
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapNavAction:)];
+    [tapGesture setNumberOfTapsRequired:1];
+
+    //自动导航
+    _autonavView = [[UIView alloc] initWithFrame:CGRectMake((ScreenWidth - 100) / 2, 0, 100, 100)];
+    _autonavView.userInteractionEnabled = YES;
+    UIImageView *bgImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+    [bgImgView setImage:[UIImage imageNamed:@"mfpparking_yaoyiyaoxz_all_0.png"]];
+    [_autonavView addSubview:bgImgView];
+    [bottomView addSubview:_autonavView];
+    //点击事件
+    [_autonavView addGestureRecognizer:tapGesture];
     
-    //自动巡航按钮
-    _autonavBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _autonavBtn.tag = 111;
-    _autonavBtn.frame = CGRectMake(30, _imageView.bottom + 10 , 260, 35);
-    [_autonavBtn warningStyle];
-    [_autonavBtn setTitle:@"开启巡航" forState:UIControlStateNormal];
-    [_autonavBtn addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
-    _autonavBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    [self.view addSubview:_autonavBtn];
+    //自动巡航文字
+    _autonavLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+    _autonavLabel.text = @"开始巡航";
+    _autonavLabel.textColor = [UIColor whiteColor];
+    _autonavLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    [_autonavLabel sizeToFit];
+    _autonavLabel.frame = CGRectMake((ScreenWidth - _autonavLabel.width) / 2, 40, _autonavLabel.width, _autonavLabel.height);
+    [bottomView addSubview:_autonavLabel];
+    
+    //停车类型按钮
+    _parkTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, (100 - 47) / 2, 47, 47)];
+    _parkTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
+    [_parkTypeBtn setTitle:@"全部" forState:UIControlStateNormal];
+    [_parkTypeBtn addTarget:self action:@selector(parkTypeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_up.png"] forState:UIControlStateNormal];
+    [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_down.png"] forState:UIControlStateHighlighted];
+    [bottomView addSubview:_parkTypeBtn];
+
+    //语音按钮
+    _voiceBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 30 - 47,(100 - 47) / 2, 47, 47)];
+    [_voiceBtn addTarget:self action:@selector(voiceAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_down.png"] forState:UIControlStateNormal];
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *navVoice = [defaults stringForKey:@"navVoice"];
+
+    if ([FLYBaseUtil isNotEmpty:navVoice] && [navVoice isEqualToString:@"NO"]) {
+        _isVoice = NO;
+        [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_down.png"] forState:UIControlStateNormal];
+    }else{
+        _isVoice = YES;
+        [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_up.png"] forState:UIControlStateNormal];
+    }
+
+    [bottomView addSubview:_voiceBtn];
+
     
     [self setNoDataViewFrame:_carousel.frame];
-    [self navAction];
+    
+    _isNaving = YES;
     
     if ([FLYBaseUtil isEnableInternate]) {
         [self requestParkData];
@@ -96,42 +139,74 @@
     self.ctrlDelegate = self;
 }
 
+- (void)runSpinAnimationOnView:(UIView*)view duration:(CGFloat)duration rotations:(CGFloat)rotations repeat:(float)repeat;
+{
+    CABasicAnimation *rotationAnimation;
+    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+    rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 * rotations * duration];
+    rotationAnimation.duration = duration;
+    rotationAnimation.cumulative = YES;
+    rotationAnimation.repeatCount = repeat;
+    [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
+}
+
 #pragma mark Action
-- (void)navAction{
-    if ([_autonavBtn.titleLabel.text isEqualToString:@"开启巡航"]) {
-        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeAction:) userInfo:nil repeats:YES];
-        _loadTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(requestMoreParkData) userInfo:nil repeats:YES];
-        
-        [_autonavBtn setTitle:@"巡航中" forState:UIControlStateNormal];
-        [_autonavBtn primaryStyle];
-    }else{
-        [_timer invalidate];
-        _timer = nil;
-        
-        [_loadTimer invalidate];
-        _loadTimer = nil;
-        
-        [_autonavBtn setTitle:@"开启巡航" forState:UIControlStateNormal];
-        [_autonavBtn warningStyle];
+- (void)parkTypeAction:(UIButton *)btn{
+    if ([_parkTypeBtn.titleLabel.text isEqualToString:@"全部"]) {
+        [_parkTypeBtn setTitle:@"路边" forState:UIControlStateNormal];
+    }else if([_parkTypeBtn.titleLabel.text isEqualToString:@"路边"]){
+        [_parkTypeBtn setTitle:@"路外" forState:UIControlStateNormal];
+    }else if([_parkTypeBtn.titleLabel.text isEqualToString:@"路外"]){
+        [_parkTypeBtn setTitle:@"全部" forState:UIControlStateNormal];
     }
 }
 
-- (void)timeAction:(NSTimer *)timer{
 
-    if (_index == 4) {
-        _index = 0;
-    }
+- (void)voiceAction:(UIButton *)btn{
     
-    if (_index == 0) {
-        _imageView.image = [UIImage imageNamed:@"mfpparking_yaoxh_all_0.png"];
-    }else if(_index == 1){
-        _imageView.image = [UIImage imageNamed:@"mfpparking_yaoxh_all_1.png"];
-    }else if(_index == 2){
-        _imageView.image = [UIImage imageNamed:@"mfpparking_yaoxh_all_2.png"];
-    }else if(_index == 3){
-        _imageView.image = [UIImage imageNamed:@"mfpparking_yaoxh_all_3.png"];
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    
+    if (_isVoice) {
+        _isVoice = NO;
+        [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_down.png"] forState:UIControlStateNormal];
+        
+        [defaults setObject:@"NO" forKey:@"navVoice"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
+            [_iflySpeechSynthesizer stopSpeaking];
+        }
+        
+    }else{
+        _isVoice = YES;
+        [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_up.png"] forState:UIControlStateNormal];
+        
+        [defaults setObject:@"YES" forKey:@"navVoice"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+
     }
-    _index ++;
+}
+
+- (void)navAction{
+    if ([_autonavLabel.text isEqualToString:@"开始巡航"] || [_autonavLabel.text isEqualToString:@"停止巡航"]) {
+        _loadTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(requestMoreParkData) userInfo:nil repeats:YES];
+        //旋转动画
+        [self runSpinAnimationOnView:_autonavView duration:1 rotations:1 repeat:36000];
+        _isNaving = YES;
+        _autonavLabel.text = @"自动巡航";
+        
+    }else{
+        [_loadTimer invalidate];
+        _loadTimer = nil;
+        
+        _isNaving = NO;
+        _autonavLabel.text = @"停止巡航";
+        [_autonavView.layer removeAnimationForKey:@"rotationAnimation"];
+    }
+}
+
+- (void)tapNavAction:(UITapGestureRecognizer *)gesture{
+    [self navAction];
 }
 
 - (void)gateAction:(UIButton *)button{
@@ -192,6 +267,8 @@
                                    @"long",
                                    @"200000",
                                    @"range",
+                                   @"0",
+                                   @"type",
                                    nil];
     
     [self showNoDataView:NO];
@@ -225,6 +302,8 @@
                                            @"long",
                                            @"200000",
                                            @"range",
+                                           @"0",
+                                           @"type",
                                            @"1",
                                            @"count",
                                            nil];
@@ -248,7 +327,6 @@
 - (void)loadParkError{
     _isLoading = NO;
     [self showToast:@"连接失败"];
-//    [FLYBaseUtil alertErrorMsg];
 }
 
 
@@ -273,7 +351,6 @@
             
             if (self.datas != nil && [self.datas count] > 0) {
                 FLYParkModel *parkModel = [self.datas objectAtIndex:0];
-//                [self speakAction:parkModel];
                 
                 [self performSelector:@selector(speakAction:) withObject:parkModel afterDelay:1.0];
                 
@@ -337,7 +414,6 @@
                     [self showNoDataView:NO];
                     [_carousel reloadData];
                     [_carousel scrollToItemAtIndex:0 duration:1.0];
-                    //[_carousel scrollToItemAtIndex:0 animated:YES];
                     
                     if (isNew || _carousel.currentItemIndex != 0) {
                         if (isNew) {
@@ -373,9 +449,9 @@
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     if (distance > 1000) {
-        parkDistance = [NSString stringWithFormat:@"%.f1千米",distance / 1000];
+        parkDistance = [NSString stringWithFormat:@"%.1f千米",distance / 1000];
     }else{
-        parkDistance = [NSString stringWithFormat:@"%.f0米",distance];
+        parkDistance = [NSString stringWithFormat:@"%.0f米",distance];
     }
     
     NSString *seatidea = @"";
@@ -390,9 +466,9 @@
     NSString *text = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
     
     NSString *freeTime = @"";
-    if (freeTime == nil || [freeTime isEqualToString:@"0"]) {
+    if (parkModel.parkFreetime == nil || [parkModel.parkFreetime intValue] == 0) {
         freeTime = nil;
-    }else if([freeTime isEqualToString:@"-1"]){
+    }else if([parkModel.parkFreetime intValue] == -1){
         freeTime = @"全天免费";
     }else{
         freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",parkModel.parkFreetime];
@@ -403,7 +479,13 @@
     }
     
     NSLog(@"%@",text);
-    [_iflySpeechSynthesizer startSpeaking:text];
+    
+    if (_iflySpeechSynthesizer != nil && !_isClose) {
+        if (_isVoice) {
+            [_iflySpeechSynthesizer startSpeaking:text];
+        }
+    }
+    
 }
 
 //动画
@@ -454,25 +536,20 @@
         parknameLabel.numberOfLines = 1;
         parknameLabel.tag = 101;
         parknameLabel.textColor = [UIColor darkGrayColor];
+        parknameLabel.textAlignment = NSTextAlignmentCenter;
         [view addSubview:parknameLabel];
         
         addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, parknameLabel.bottom + 5, 160, 35)];
         addressLabel.numberOfLines = 2;
-        addressLabel.textAlignment = NSTextAlignmentJustified;
+        addressLabel.textAlignment = NSTextAlignmentCenter;
         addressLabel.font = [UIFont systemFontOfSize:13.0];
         addressLabel.textColor = [UIColor grayColor];
         addressLabel.tag = 102;
         [view addSubview:addressLabel];
         
-        enterBtn = [UIFactory createButton:@"mfpparking_yaorkzd_all_up.png" hightlight:@"mfpparking_yaorkzd_all_down.png"];
-        enterBtn.frame = CGRectMake(addressLabel.right + 15, parknameLabel.bottom + 5, 54, 28);
-        enterBtn.tag = 103;
-        [enterBtn addTarget:self action:@selector(gateAction:) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:enterBtn];
-        
         //分割线
         UIView *sep = [[UIView alloc] init];
-        sep.frame = CGRectMake(10, enterBtn.bottom + 10, view.width - 20, 1);
+        sep.frame = CGRectMake(10, addressLabel.bottom + 10, view.width - 20, 1);
         sep.backgroundColor =  shakeBorderColor;
         [view addSubview:sep];
         
@@ -518,13 +595,22 @@
         detailLabel.textColor = [UIColor grayColor];
         detailLabel.numberOfLines = 3;
         [view addSubview:detailLabel];
+        
+        enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        enterBtn.tag = 103;
+        enterBtn.frame = CGRectMake(10, view.bottom - 50, 110 , 35);
+        [enterBtn primaryStyle];
+        [enterBtn setTitle:@"入口引导" forState:UIControlStateNormal];
+        enterBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        [enterBtn addTarget:self action:@selector(gateAction:) forControlEvents:UIControlEventTouchUpInside];
+        [view addSubview:enterBtn];
 
         navBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         navBtn.tag = 111;
-        navBtn.frame = CGRectMake(10, view.bottom - 50, view.width - 20, 35);
+        navBtn.frame = CGRectMake(enterBtn.right + 20, view.bottom - 50, 110, 35);
         [navBtn primaryStyle];
         [navBtn setTitle:@"开始导航" forState:UIControlStateNormal];
-        navBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
+        navBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
         [navBtn addTarget:self action:@selector(autoNavAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:navBtn];
     }
@@ -610,16 +696,21 @@
 }
 
 #pragma mark  - FLYBaseCtrlDelegate delegate
-- (void)close{
+- (BOOL)close{
+    _isClose = YES;
+
     if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
         [_iflySpeechSynthesizer stopSpeaking];
+        return NO;
     }
-    [IFlySpeechSynthesizer destroy];
+    return YES;
 }
 
 #pragma mark  - IFlySpeechSynthesizerDelegate delegate
 - (void)onCompleted:(IFlySpeechError*) error{
-    //    [self showToast:@"无法发音"];
+    if (_isClose) {
+        [self back];
+    }
 }
 
 #pragma mark - other
@@ -631,20 +722,19 @@
     [super viewWillAppear:animated];
     
     [self becomeFirstResponder];
+    
+    if (_isNaving) {
+        [self navAction];
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
     
-    //取消定时器
-    [_timer invalidate];
-    _timer = nil;
-    
     [_loadTimer invalidate];
     _loadTimer = nil;
-    
-    [_autonavBtn setTitle:@"开启巡航" forState:UIControlStateNormal];
-    [_autonavBtn warningStyle];
+    _autonavLabel.text = @"停止巡航";
+    [_autonavView.layer removeAnimationForKey:@"rotationAnimation"];
     
     if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
         [_iflySpeechSynthesizer stopSpeaking];
@@ -652,6 +742,7 @@
 }
 
 - (void)dealloc{
+    _iflySpeechSynthesizer = nil;
 	_carousel.delegate = nil;
 	_carousel.dataSource = nil;
     

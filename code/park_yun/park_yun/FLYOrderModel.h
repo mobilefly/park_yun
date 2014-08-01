@@ -13,12 +13,15 @@
 //orderAddtime	string	下单时间
 //orderPaytime	string	付款时间
 //orderPrice	int	订单金额
+//orderOffprice int	折扣金额
+//orderTotalprice int 总金额
 
 #import "FLYBaseModel.h"
 #import "FLYGoodsOrderModel.h"
 
 @interface FLYOrderModel : FLYBaseModel
 
+@property(nonatomic,copy) NSString *orderId;
 @property(nonatomic,copy) NSString *orderCode;
 @property(nonatomic,copy) NSString *orderType;
 @property(nonatomic,copy) NSString *orderPayflag;
@@ -26,6 +29,9 @@
 @property(nonatomic,copy) NSString *orderAddtime;
 @property(nonatomic,copy) NSString *orderPaytime;
 @property(nonatomic,strong) NSNumber *orderPrice;
+@property(nonatomic,strong) NSNumber *orderOffprice;
+@property(nonatomic,strong) NSNumber *orderTotalprice;
+
 
 @property(nonatomic,strong) FLYGoodsOrderModel *goodsOrder;
 

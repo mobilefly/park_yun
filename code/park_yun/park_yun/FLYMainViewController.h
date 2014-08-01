@@ -37,13 +37,7 @@
 //下拉刷新
 @property (nonatomic) BOOL refreshing;
 
-@property (weak, nonatomic) IBOutlet UITextField *searchField;
 @property (weak, nonatomic) IBOutlet UIView *topView;
 
 
-- (void)userInfoAction:(id)sender;
-
-- (void)mapAction:(id)sender;
-
-- (IBAction)search:(id)sender;
 @end

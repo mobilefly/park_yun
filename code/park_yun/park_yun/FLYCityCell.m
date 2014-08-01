@@ -23,14 +23,9 @@
 }
 
 - (void)layoutSubviews{
-    
-//    _downloadBtn
     _cityNameLabel.text = self.data.cityName;
-    
     _sizeLabel.text = [FLYUtils getDataSizeString:self.data.size];
-    
     [_downloadBtn primaryStyle];
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

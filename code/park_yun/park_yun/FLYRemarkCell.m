@@ -28,8 +28,12 @@
 - (void)layoutSubviews{
     _phoneLabel.text = self.remarkModel.member.memberPhone;
     
+    //U0001f42f
+    
     _contentLabel.frame = CGRectMake(20, _phoneLabel.bottom + 10, 280, 0) ;
-    _contentLabel.text = self.remarkModel.remarkContent;
+    _contentLabel.text = [NSString stringWithFormat:@"%@", self.remarkModel.remarkContent];
+    
+    
     [_contentLabel sizeToFit];
     
     int rating = round([self.remarkModel.remarkTotal intValue] / 3.0);
@@ -66,8 +70,6 @@
     [_timeLabel sizeToFit];
     _timeLabel.top = _contentLabel.bottom + 10;
     _timeLabel.right = ScreenWidth - 20;
-    
-//    self.height = 26 + 20 + _contentLabel.height;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

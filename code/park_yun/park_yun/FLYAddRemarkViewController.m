@@ -12,6 +12,7 @@
 #import "FLYAppDelegate.h"
 
 #define kBackgroundColor Color(249,249,249,1)
+#define MULITTHREEBYTEUTF16TOUNICODE(x,y) (((((x ^ 0xD800) << 2) | ((y ^ 0xDC00) >> 8)) << 8) | ((y ^ 0xDC00) & 0xFF)) + 0x10000
 
 @interface FLYAddRemarkViewController ()
 
@@ -128,6 +129,76 @@
     [self.view addSubview:_okButton];
 }
 
+#pragma mark - emoji
+- (NSString *)replaceEmoji:(NSString *)text
+{
+    NSString *hexstr = @"";
+    if ([FLYBaseUtil isNotEmpty:text]) {
+        BOOL isLastEmoji = false;
+        for (int i = 0; i< text.length - 1; i++) {
+            NSString *temp = [text substringWithRange:NSMakeRange(i,2)];
+            
+            
+            if ([self stringContainsEmoji:temp]) {
+                hexstr = [hexstr stringByAppendingFormat:@"%@%1X",@"\\U000",MULITTHREEBYTEUTF16TOUNICODE([temp characterAtIndex:0],[temp characterAtIndex:1])];
+                i++;
+                
+                if (i == text.length - 1) {
+                    isLastEmoji = YES;
+                }
+            }else{
+                NSString *character = [text substringWithRange:NSMakeRange(i,1)];
+                hexstr = [hexstr stringByAppendingFormat:@"%@",character];
+            }
+        }
+        if (!isLastEmoji) {
+            NSString *lastchar = [text substringFromIndex:text.length - 1];
+            hexstr = [hexstr stringByAppendingFormat:@"%@",lastchar];
+        }
+    }
+    return hexstr;
+}
+
+- (BOOL)stringContainsEmoji:(NSString *)string {
+    __block BOOL returnValue = NO;
+    [string enumerateSubstringsInRange:NSMakeRange(0, [string length])
+                               options:NSStringEnumerationByComposedCharacterSequences
+                            usingBlock:^(NSString *substring, NSRange substringRange, NSRange enclosingRange, BOOL *stop) {
+        const unichar hs = [substring characterAtIndex:0];
+        // surrogate pair
+        if (0xd800 <= hs && hs <= 0xdbff) {
+            if (substring.length > 1) {
+                const unichar ls = [substring characterAtIndex:1];
+                const int uc = ((hs - 0xd800) * 0x400) + (ls - 0xdc00) + 0x10000;
+                if (0x1d000 <= uc && uc <= 0x1f77f) {
+                    returnValue = YES;
+                }
+            }
+        } else if (substring.length > 1) {
+            const unichar ls = [substring characterAtIndex:1];
+            if (ls == 0x20e3) {
+                returnValue = YES;
+            }
+            
+        } else {
+            // non surrogate
+            if (0x2100 <= hs && hs <= 0x27ff) {
+                returnValue = YES;
+            } else if (0x2B05 <= hs && hs <= 0x2b07) {
+                returnValue = YES;
+            } else if (0x2934 <= hs && hs <= 0x2935) {
+                returnValue = YES;
+            } else if (0x3297 <= hs && hs <= 0x3299) {
+                returnValue = YES;
+            } else if (hs == 0xa9 || hs == 0xae || hs == 0x303d || hs == 0x3030 || hs == 0x2b55 || hs == 0x2b1c || hs == 0x2b1b || hs == 0x2b50) {
+                returnValue = YES;
+            }
+        }
+    }];
+    return returnValue;
+}
+
+
 #pragma mark - Action
 - (void)submitAction:(UIButton *)button{
     if ([FLYBaseUtil isEmpty:_contentView.text] || [_contentView.text isEqualToString:@"请输入评论内容"]) {
@@ -139,12 +210,16 @@
         NSString *userid = [defaults stringForKey:@"memberId"];
         NSString *token = [defaults stringForKey:@"token"];
         
+//        NSString *emojiText = [self replaceEmoji:_contentView.text];
+        
+//        NSLog(@"%@",emojiText);
+        
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        userid,
                                        @"userid",
                                        token,
                                        @"token",
-                                       _contentView.text,
+                                       [NSString stringWithFormat:@"%@", _contentView.text],
                                        @"content",
                                        _parkId,
                                        @"parkid",
@@ -215,6 +290,7 @@
     }
 }
 
+#pragma mark - other
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

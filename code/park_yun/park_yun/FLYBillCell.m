@@ -70,12 +70,14 @@
     double doulePrice = [self.traceModel.mtPrice doubleValue];
     doulePrice = doulePrice / 100;
     
-    if (doulePrice >= 0) {
+    if (doulePrice > 0) {
         _mtPriceLabel.textColor = [UIColor greenColor];
-        _mtPriceLabel.text = [NSString stringWithFormat:@"+%0.2f",doulePrice];
+        _mtPriceLabel.text = [NSString stringWithFormat:@"+ %0.2f",doulePrice];
+        _mtPriceTitle.text = @"充值：";
     }else{
         _mtPriceLabel.textColor = [UIColor orangeColor];
-        _mtPriceLabel.text = [NSString stringWithFormat:@"%0.2f",doulePrice];
+        _mtPriceLabel.text = [NSString stringWithFormat:@"- %0.2f",fabs(doulePrice)];
+        _mtPriceTitle.text = @"消费：";
     }
     
     //余额

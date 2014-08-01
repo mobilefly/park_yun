@@ -122,7 +122,7 @@
         }
         [self.view addSubview:scrollView];
         
-        [scrollView setContentSize:CGSizeMake(ScreenWidth, 10 + 50 * ceil([_datas count] / 3))];
+        [scrollView setContentSize:CGSizeMake(ScreenWidth, 10 + 50 + 50 * ceil([_datas count] / 3))];
     }else{
         [self showNoDataView:YES];
     }
@@ -145,18 +145,7 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

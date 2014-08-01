@@ -14,6 +14,8 @@
 
     BOOL _isCollect;
     UIButton *_collectBtn;
+    
+    UIScrollView *_scrollView;
 }
 
 @property(strong,nonatomic) NSString *parkId;

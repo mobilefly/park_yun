@@ -10,6 +10,7 @@
 #import "FLYDataService.h"
 #import "FLYMemberTraceModel.h"
 #import "FLYBillCell.h"
+#import "FLYBillDetailViewController.h"
 
 
 @interface FLYBillViewController ()
@@ -39,7 +40,6 @@
     self.tableView.hidden = YES;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
-    
     [self setExtraCellLineHidden:self.tableView];
     
     if ([FLYBaseUtil isEnableInternate]) {
@@ -241,6 +241,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    FLYMemberTraceModel *traceModel = [self.datas objectAtIndex:indexPath.row];
+    
+    
+    FLYBillDetailViewController *detailCtrl = [[FLYBillDetailViewController alloc] init];
+    
+    detailCtrl.orderId = traceModel.order.orderId;
+    
+    [self.navigationController pushViewController:detailCtrl animated:NO];
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

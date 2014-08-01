@@ -14,7 +14,7 @@
 @protocol FLYBaseCtrlDelegate <NSObject>
 @required
 //关闭
-- (void)close;
+- (BOOL)close;
 @end
 
 
@@ -58,6 +58,8 @@
 //隐藏多余分割线
 - (void)setExtraCellLineHidden: (UITableView *)tableView;
 
+- (void)cancel;
 
+- (void)back;
 
 @end

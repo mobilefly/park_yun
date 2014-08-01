@@ -33,6 +33,7 @@
     _tableView.hidden = YES;
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _isClose = NO;
     
     [self.view addSubview:_tableView];
     [self setExtraCellLineHidden:_tableView];
@@ -44,7 +45,7 @@
     [_iflySpeechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
     [_iflySpeechSynthesizer setParameter:@"50" forKey: [IFlySpeechConstant VOLUME]];
     [_iflySpeechSynthesizer setParameter:@"xiaoyan" forKey: [IFlySpeechConstant VOICE_NAME]];
-    [_iflySpeechSynthesizer setParameter:@"16000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
     [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     
     if ([FLYBaseUtil isEnableInternate]) {
@@ -170,15 +171,20 @@
 
 #pragma mark  - IFlySpeechSynthesizerDelegate delegate
 - (void)onCompleted:(IFlySpeechError*) error{
-    //    [self showToast:@"无法发音"];
+    if (_isClose) {
+        [self back];
+    }
 }
 
 #pragma mark  - FLYBaseCtrlDelegate delegate
-- (void)close{
+- (BOOL)close{
+    _isClose = YES;
+    
     if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
         [_iflySpeechSynthesizer stopSpeaking];
+        return NO;
     }
-    [IFlySpeechSynthesizer destroy];
+    return YES;
 }
 
 #pragma mark - other

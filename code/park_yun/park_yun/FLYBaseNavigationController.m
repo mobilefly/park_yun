@@ -49,8 +49,8 @@
     float version = FLYOSVersion();
     if(version > 5.0){
         UIImage *image = [[ThemeManager shareInstance] getThemeImage:@"navigationbar_background.png"];
-        [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
-        //[self.navigationBar setBackgroundColor:Color(86.0,127.0,188.0,0.5)];
+//        [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
+        [self.navigationBar setBackgroundImage:image forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
     } else{
         //调用drawRect
         [self.navigationBar setNeedsDisplay];

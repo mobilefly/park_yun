@@ -15,6 +15,9 @@
 #import "FLYUserCenterViewController.h"
 #import "FLYShakeViewController.h"
 #import "FLYAppDelegate.h"
+#import "UIFactory.h"
+
+#define kTopHeight 60
 
 
 @interface FLYMainViewController ()
@@ -43,41 +46,33 @@
 {
     [super viewDidLoad];
     
-    self.topView.frame = CGRectMake(0, 20, 320, 80);
+    self.topView.frame = CGRectMake(0, 20, 320, kTopHeight);
     self.topView.hidden = NO;
     
-    //查询按钮
-    _searchField.frame = CGRectMake(75, 25, 170, 30);
-    _searchField.layer.cornerRadius = 2.0f;
-    _searchField.layer.masksToBounds = YES;
-    _searchField.layer.borderColor = [[UIColor whiteColor]CGColor];
-    _searchField.layer.borderWidth = 1.0f;
-    UIColor *color = Color(255, 255, 255, 1);
-    _searchField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"周边查询" attributes:@{NSForegroundColorAttributeName: color}];
-
-    UIImageView *searchImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"nearby_list_icon_disable_search.png"]];
-    searchImage.backgroundColor = [UIColor whiteColor];
-    
-    searchImage.frame = CGRectMake(0, 0, 30, 30);
-    _searchField.rightViewMode = UITextFieldViewModeAlways;
-    _searchField.rightView = searchImage;
-    
-
-    ThemeButton *mapButton = [UIFactory createButtonWithBackground:@"mfpparking_ditu_all_up.png" backgroundHightlight:@"mfpparking_ditu_all_down.png"];
-    mapButton.showsTouchWhenHighlighted = YES;
-    mapButton.frame = CGRectMake(258, 14, 52, 52);
+    UIButton *mapButton = [[UIButton alloc] initWithFrame:CGRectMake(20, (kTopHeight - 32)/2, 97, 32)];
+    [mapButton setImage:[UIImage imageNamed:@"mfpparking_shouyedituxs_all_up.png"] forState:UIControlStateNormal];
     [mapButton addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:mapButton];
     
+    ThemeButton *navButton = [UIFactory createButton:@"mfpparking_shouyejia_all_up.png" hightlight:@"mfpparking_shouyejia_all_down.png"];
+    navButton.showsTouchWhenHighlighted = YES;
+    navButton.frame = CGRectMake(ScreenWidth - 10 - 32, (kTopHeight - 32)/2, 32, 32);
+    [navButton addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:navButton];
     
-    ThemeButton *userInfoButton = [UIFactory createButtonWithBackground:@"mfpparking_user_all_up.png" backgroundHightlight:@"mfpparking_user_all_down.png"];
-    userInfoButton.showsTouchWhenHighlighted = YES;
-    userInfoButton.frame = CGRectMake(10, 14, 52, 52);
-    [userInfoButton addTarget:self action:@selector(userInfoAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.topView addSubview:userInfoButton];
+    ThemeButton *searchButton = [UIFactory createButton:@"mfpparking_shouyesearch_all_up.png" hightlight:@"mfpparking_shouyesearch_all_down.png"];
+    searchButton.showsTouchWhenHighlighted = YES;
+    searchButton.frame = CGRectMake(navButton.left - 10 - 32, (kTopHeight - 32)/2, 32, 32);
+    [searchButton addTarget:self action:@selector(searchAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:searchButton];
     
-
-    self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight - 100) pullingDelegate:self];
+    ThemeButton *userButton = [UIFactory createButton:@"mfpparking_shouyeuser_all_up.png" hightlight:@"mfpparking_shouyeuser_all_down.png"];
+    userButton.showsTouchWhenHighlighted = YES;
+    userButton.frame = CGRectMake(searchButton.left - 10 - 32, (kTopHeight - 32)/2, 32, 32);
+    [userButton addTarget:self action:@selector(userInfoAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.topView addSubview:userButton];
+    
+    self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
@@ -88,7 +83,7 @@
     [self setExtraCellLineHidden:self.tableView];
     
 
-    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 100, ScreenWidth, ScreenHeight - 100)];
+    _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
@@ -248,17 +243,18 @@
 
 
 #pragma mark - Action
-- (void)userInfoAction:(id)sender{
+- (void)userInfoAction{
     FLYUserCenterViewController *userCenterController = [[FLYUserCenterViewController alloc] init];
-    
-    
     [self.navigationController pushViewController:userCenterController animated:NO];
 }
 
 //切换地图
-- (void)mapAction:(id)sender {
+- (void)mapAction:(UIButton *)button{
     if (_mapBaseView.alpha == 0) {
         [UIView animateWithDuration:1 animations:^{
+            
+            [button setImage:[UIImage imageNamed:@"mfpparking_shouyeliebiao_all_up.png"] forState:UIControlStateNormal];
+            
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:_tableView cache:YES];
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:_mapBaseView cache:YES];
             _mapBaseView.alpha = 1;
@@ -267,6 +263,9 @@
     }
     
     else if (_tableView.alpha == 0) {
+        
+        [button setImage:[UIImage imageNamed:@"mfpparking_shouyedituxs_all_up.png"] forState:UIControlStateNormal];
+        
         [UIView animateWithDuration:1 animations:^{
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight forView:_tableView cache:YES];
             [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft forView:_mapBaseView cache:YES];
@@ -277,15 +276,15 @@
 }
 
 //跳转搜索页
-- (IBAction)search:(id)sender {
+- (void)searchAction{
     FLYSearchViewController *searchController = [[FLYSearchViewController alloc] init];
-    searchController.searchText = self.searchField.text;
-    
     FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:searchController];
     [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
-    
-    self.searchField.text = @"";
-    [self.searchField resignFirstResponder];
+}
+
+-(void)navAction{
+    FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
+    [self.navigationController pushViewController:shakeCtrl animated:NO];
 }
 
 #pragma mark - PullingRefreshTableViewDelegate
@@ -460,11 +459,9 @@
 
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
-        FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
-        [self.navigationController pushViewController:shakeCtrl animated:NO];
+        [self navAction];
     }
 }
-
 
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {

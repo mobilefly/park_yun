@@ -112,7 +112,7 @@
     [self.view addSubview:_codeBtn];
     
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 10 , 280, 40);
+    _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 30 , 280, 40);
     [_submitBtn primaryStyle];
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];

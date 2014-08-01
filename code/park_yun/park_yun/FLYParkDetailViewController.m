@@ -68,6 +68,7 @@
     }else{
         [self showAlert:@"请打开网络"];
     }
+
 }
 
 - (void)loadData:(id)data{
@@ -91,20 +92,20 @@
             }
             
             _isCollect = [[parkDic objectForKey:@"collectFlag"] isEqualToString:@"0"] ? true:false;
+            [self renderDetail];
         }
     }else{
+        [self showNoDataView:YES];
         NSString *msg = [data objectForKey:@"msg"];
         [self showAlert:msg];
     }
-    [self renderDetail];
-
 }
 
 - (void)renderDetail{
     int scollHeight = 0;
     
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44)];
-    [self.view addSubview:scrollView];
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 -44)];
+    [self.view addSubview:_scrollView];
     
     if (self.photos != nil && [self.photos count] > 0) {
         //默认图片
@@ -127,13 +128,13 @@
         _topic.pics = photoArray;
         //更新
         [_topic upDate];
-        [scrollView addSubview:_topic];
+        [_scrollView addSubview:_topic];
         
         _page = [[UIPageControl alloc] initWithFrame:CGRectMake(0, _topic.height - 10, 0, 0)];
         _page.backgroundColor = [UIColor clearColor];
         _page.numberOfPages = [photoArray count];
         _page.currentPage = 0;
-        [scrollView addSubview:_page];
+        [_scrollView addSubview:_page];
         
         _page.right = ScreenWidth - 2 * Padding;
         
@@ -148,13 +149,13 @@
     parkName.numberOfLines = 0;//表示label可以多行显示
     parkName.lineBreakMode = NSLineBreakByCharWrapping;//换行模式，与上面的计算保持一致。
     [parkName sizeToFit];
-    [scrollView addSubview:parkName];
+    [_scrollView addSubview:parkName];
     
     //分割线
     UIView *sp = [[UIView alloc] init];
     sp.frame = CGRectMake(0, parkName.bottom + 15, 320, 1);
     sp.backgroundColor =  Color(230, 230, 230, 0.6);
-    [scrollView addSubview:sp];
+    [_scrollView addSubview:sp];
     scollHeight += parkName.height + 15 + 15 + 1;
     
     //收藏图片
@@ -171,7 +172,7 @@
     _collectBtn.right = ScreenWidth - 2*Padding;
     _collectBtn.top = _topic.bottom + (sp.bottom - _topic.bottom)/2 - _collectBtn.height / 2;
     [_collectBtn addTarget:self action:@selector(collectAction:) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:_collectBtn];
+    [_scrollView addSubview:_collectBtn];
     
     
     //剩余车位数
@@ -181,7 +182,7 @@
     textParkCapacity.textColor = FontColor;
     [parkName sizeToFit];
     textParkCapacity.numberOfLines = 1;
-    [scrollView addSubview:textParkCapacity];
+    [_scrollView addSubview:textParkCapacity];
     
     UILabel *parkCapacity = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp.bottom + 10, 100, 20)];
     //已签约
@@ -196,7 +197,7 @@
     parkCapacity.numberOfLines = 1;
     [parkName sizeToFit];
     parkCapacity.left = textParkCapacity.right;
-    [scrollView addSubview:parkCapacity];
+    [_scrollView addSubview:parkCapacity];
     
     //停车场地址
     UILabel *parkAddress = [[UILabel alloc] initWithFrame:CGRectMake(Padding, parkCapacity.bottom + 5, 230, 20)];
@@ -211,13 +212,13 @@
     parkAddress.textColor = FontColor;
     parkAddress.numberOfLines = 0;
     [parkAddress sizeToFit];
-    [scrollView addSubview:parkAddress];
+    [_scrollView addSubview:parkAddress];
     
     //分割线
     UIView *sp2 = [[UIView alloc] init];
     sp2.frame = CGRectMake(0, parkAddress.bottom + 10, 320, 1);
     sp2.backgroundColor =  Color(230, 230, 230, 0.6);
-    [scrollView addSubview:sp2];
+    [_scrollView addSubview:sp2];
     
     scollHeight += parkCapacity.height + parkAddress.height + 10 + 5 + 10 + 1;
     
@@ -227,7 +228,7 @@
     [positionBtn addTarget:self action:@selector(positionAction) forControlEvents:UIControlEventTouchUpInside];
     positionBtn.right = ScreenWidth - 2*Padding;
     positionBtn.top = sp.bottom + (sp2.bottom - sp.bottom)/2 - positionBtn.height / 2;
-    [scrollView addSubview:positionBtn];
+    [_scrollView addSubview:positionBtn];
     if (!self.showLocation) {
         positionBtn.hidden = YES;
     }
@@ -238,7 +239,7 @@
     textParkFeedesc.font = [UIFont systemFontOfSize:14.0];
     textParkFeedesc.textColor = FontColor;
     [textParkFeedesc sizeToFit];
-    [scrollView addSubview:textParkFeedesc];
+    [_scrollView addSubview:textParkFeedesc];
     
     UILabel *parkFeedesc = [[UILabel alloc] initWithFrame:CGRectMake(Padding, textParkFeedesc.bottom + 5, ScreenWidth - 2 * Padding, 20)];
     
@@ -252,13 +253,13 @@
     parkFeedesc.textColor = FontColor;
     parkFeedesc.numberOfLines = 0;
     [parkFeedesc sizeToFit];
-    [scrollView addSubview:parkFeedesc];
+    [_scrollView addSubview:parkFeedesc];
     
     //分割线
     UIView *sp3 = [[UIView alloc] init];
     sp3.frame = CGRectMake(0, parkFeedesc.bottom + 10, 320, 1);
     sp3.backgroundColor =  Color(230, 230, 230, 0.6);
-    [scrollView addSubview:sp3];
+    [_scrollView addSubview:sp3];
     
     scollHeight += textParkFeedesc.height + parkFeedesc.height + 10 + 5 + 10 + 1;
     
@@ -273,7 +274,7 @@
 
 
     [discussBtn addTarget:self action:@selector(discussAction) forControlEvents:UIControlEventTouchUpInside];
-    [scrollView addSubview:discussBtn];
+    [_scrollView addSubview:discussBtn];
     
     //停车场详情
     RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, discussBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
@@ -295,11 +296,11 @@
     frame.size.height = (int)optimumSize.height + 5;
     [parkRemark setFrame:frame];
     
-    [scrollView addSubview:parkRemark];
+    [_scrollView addSubview:parkRemark];
     scollHeight += discussBtn.height + parkRemark.height + 15 + 15 + 20;
     
     
-    [scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
+    [_scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
 }
 
 

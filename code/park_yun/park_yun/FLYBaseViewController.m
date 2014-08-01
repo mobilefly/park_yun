@@ -33,6 +33,13 @@
 {
     [super viewDidLoad];
     
+    //透明背景布局问题
+    if(([[[UIDevice currentDevice] systemVersion] doubleValue]>=7.0)) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+        self.extendedLayoutIncludesOpaqueBars = NO;
+        self.modalPresentationCapturesStatusBarAppearance = NO;
+    }
+    
     NSArray *viewController = self.navigationController.viewControllers;
     if(viewController.count > 1 && self.isBackButton){
         UIButton *button = [UIFactory createButton:@"mfpparking_back_all_up.png" hightlight:@"mfpparking_back_all_down.png"];
@@ -49,11 +56,11 @@
         self.navigationItem.leftBarButtonItem = cancelButtonItem;
     }
     
+    
+    //暂无数据
     _noDataView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
     _noDataView.hidden = YES;
     _noDataView.backgroundColor = [UIColor clearColor];
-    
-    //背景图片
     UIImageView *noDataImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_wushujul_all_0_03.png"]];
     noDataImage.frame = CGRectMake((_noDataView.width - 82) / 2, (_noDataView.height - 106) / 2, 82, 106);
     noDataImage.tag = 201;
@@ -64,13 +71,13 @@
 }
 
 - (void)cancelAction{
-    
     if ([self.ctrlDelegate respondsToSelector:@selector(close)]) {
-        [self.ctrlDelegate close];
-        [self performSelector:@selector(cancel) withObject:nil afterDelay:0.5];
-        
+        BOOL flag = [self.ctrlDelegate close];
+        if (flag) {
+            [self cancel];
+        }
     }else{
-        [self dismissViewControllerAnimated:NO completion:NULL];
+        [self cancel];
     }
 }
 
@@ -80,17 +87,13 @@
 
 - (void)backAction{
     
-    if ([self.ctrlDelegate respondsToSelector:@selector(back)]) {
-        [self.ctrlDelegate close];
-        [self performSelector:@selector(back) withObject:nil afterDelay:0.5];
-
-    }else{
-        NSArray *viewController = self.navigationController.viewControllers;
-        if(viewController.count > 2){
-            [self.navigationController popViewControllerAnimated:NO];
-        }else{
-            [self.navigationController popViewControllerAnimated:NO];
+    if ([self.ctrlDelegate respondsToSelector:@selector(close)]) {
+        BOOL flag = [self.ctrlDelegate close];
+        if (flag) {
+            [self back];
         }
+    }else{
+       [self back];
     }
 }
 
@@ -301,7 +304,7 @@
         //切换主题时使用
         barView.leftCapWidth = 5;
         barView.topCapHeight = 5;
-        barView.frame = CGRectMake(5, -40, ScreenWidth - 10, 40);
+        barView.frame = CGRectMake(5, -40 - kNavHeight, ScreenWidth - 10, 40);
         [self.view addSubview:barView];
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -325,7 +328,7 @@
                 [UIView beginAnimations:nil context:nil];
                 [UIView setAnimationDelay:1];
                 [UIView setAnimationDuration:0.6];
-                barView.top = -40;
+                barView.top = -40 - kNavHeight;
                 [UIView commitAnimations];
             }
         }];
@@ -366,13 +369,13 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (barView != nil && barView.top != -40) {
+    if (barView != nil && barView.top != -40 - kNavHeight) {
         [UIView animateWithDuration:0.5 animations:^{
             //延时一秒
             [UIView beginAnimations:nil context:nil];
             [UIView setAnimationDelay:1];
             [UIView setAnimationDuration:0.6];
-            barView.top = -40;
+            barView.top = -40 - kNavHeight;
             [UIView commitAnimations];
         }];
     }

@@ -19,13 +19,13 @@
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 //本机
-#define kHttpDomain @"http://192.168.110.55:8080/park_yun"
+//#define kHttpDomain @"http://192.168.110.55:8080/park_yun"
 //window
 //#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
 //linux
 //#define kHttpDomain @"http://123.85.3.25:8105/park_yun"
 //小朱
-//#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
 
 //------停车场-----
 //周边停车场查询
@@ -56,6 +56,8 @@
 #define kHttpParkCollectRemove @"/member/removeMemberCollect.json"
 //查询账单
 #define kHttpQueryBillList @"/member/queryMemberTraceList.json"
+//查询账单明细
+#define kHttpQueryBillDetail @"/member/queryGoodsOrderList.json"
 //用户反馈
 #define kHttpAddFeedback @"/member/addFeedback.json"
 //查询足迹
@@ -83,6 +85,10 @@
 //商圈列表
 #define kHttpQueryBusinessList @"/common/queryBusinessList.json"
 
+//------离线数据
+//根据城市名，查询是否有离线数据
+#define kHttpQueryOfflineByCityName @"/offline/queryOfflineByCityName.json"
+
 
 //停车场标注
 #define kAnnotationTypePark @"PARK"
@@ -91,6 +97,8 @@
 
 //json flag
 #define kFlagYes @"0"
+
+#define kNavHeight 64
 
 //百度地图
 #define kBaiduKey @"U2NLMulqHTdAa5hnalS2Ps9c"

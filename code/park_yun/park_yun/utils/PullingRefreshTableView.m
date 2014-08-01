@@ -39,6 +39,7 @@
  //Default is at top
 - (id)initWithFrame:(CGRect)frame atTop:(BOOL)top {
     self = [super initWithFrame:frame];
+    
     if (self) {
         self.atTop = top;
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -256,6 +257,9 @@
     if (self) {
         self.pullingDelegate = aPullingDelegate;
     }
+    
+    cgrect = frame;
+    
     return self;
 }
 
@@ -329,6 +333,17 @@
             _footerView.state = kPRStateNormal;
         }
     }
+    
+//    if (offset.y > 44) {
+//        self.top = cgrect.origin.y - 44;
+//        self.height = cgrect.size.height + 44;
+//    }else if(offset.y < 44 && offset.y > 0){
+//        self.top = cgrect.origin.y - offset.y;
+//        self.height = cgrect.size.height + offset.y;
+//    }else{
+//        self.top = cgrect.origin.y;
+//        self.height = cgrect.size.height;
+//    }
 }
 
 - (void)tableViewDidEndDragging:(UIScrollView *)scrollView {
