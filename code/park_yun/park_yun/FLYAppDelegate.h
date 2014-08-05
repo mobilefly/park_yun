@@ -24,5 +24,8 @@
 @property (copy, nonatomic) NSString *city;
 @property(nonatomic,assign) CLLocationCoordinate2D coordinate;
 
+//区停车场数据
+@property (strong, nonatomic) NSMutableArray *cityDatas;
+
 
 @end

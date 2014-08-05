@@ -93,6 +93,10 @@
                         <rect key="frame" x="99" y="10" width="16" height="16"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     </imageView>
+                    <imageView hidden="YES" autoresizesSubviews="NO" userInteractionEnabled="NO" tag="116" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mfpparking_shouyeyjmf_all_0.png" id="8Me-xP-laP">
+                        <rect key="frame" x="178" y="56" width="44" height="16"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </imageView>
                 </subviews>
             </tableViewCellContentView>
         </tableViewCell>
@@ -103,7 +107,8 @@
         <image name="mfpparking_mian_all_0.png" width="16" height="16"/>
         <image name="mfpparking_mqk_all_0.png" width="85" height="65"/>
         <image name="mfpparking_p_all_0.png" width="16" height="16"/>
-        <image name="mfpparking_rmb2_all_0.png" width="58" height="24"/>
+        <image name="mfpparking_rmb2_all_0.png" width="57" height="24"/>
         <image name="mfpparking_shouyelu_all_0.png" width="16" height="16"/>
+        <image name="mfpparking_shouyeyjmf_all_0.png" width="44" height="16"/>
     </resources>
 </document>

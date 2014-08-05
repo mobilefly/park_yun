@@ -33,6 +33,8 @@
     BOOL _isNaving;
     //是否开启语音
     BOOL _isVoice;
+    //导航类型
+    NSString *_navType;
     
     IFlySpeechSynthesizer *_iflySpeechSynthesizer;
 }

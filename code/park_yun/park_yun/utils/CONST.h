@@ -19,13 +19,13 @@
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 //本机
-//#define kHttpDomain @"http://192.168.110.55:8080/park_yun"
+//#define kHttpDomain @"http://192.168.110.53:8080/park_yun"
 //window
-//#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
+#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
 //linux
 //#define kHttpDomain @"http://123.85.3.25:8105/park_yun"
 //小朱
-#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
+//#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
 
 //------停车场-----
 //周边停车场查询
@@ -38,6 +38,8 @@
 #define kHttpQueryParkDetail @"/park/queryParkDetail.json"
 //停车场入口列表
 #define kHttpQueryParkGateList @"/park/queryParkGateList.json"
+//根据城市名查询区域下的停车场信息
+#define kHttpQueryParkByCityNameList @"/park/queryParkByCityNameList.json"
 
 //------会员------
 //登陆

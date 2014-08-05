@@ -9,13 +9,20 @@
 #import "FLYBaseViewController.h"
 #import "FLYParkModel.h"
 #import "JCTopic.h"
+#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
+#import "iflyMSC/IFlySpeechSynthesizer.h"
+#import "iflyMSC/IFlySpeechConstant.h"
 
-@interface FLYParkDetailViewController : FLYBaseViewController<JCTopicDelegate>{
+@interface FLYParkDetailViewController : FLYBaseViewController<JCTopicDelegate,IFlySpeechSynthesizerDelegate,FLYBaseCtrlDelegate>{
 
     BOOL _isCollect;
     UIButton *_collectBtn;
     
     UIScrollView *_scrollView;
+    
+    IFlySpeechSynthesizer *_iflySpeechSynthesizer;
+    
+    BOOL _isClose;
 }
 
 @property(strong,nonatomic) NSString *parkId;

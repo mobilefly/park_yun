@@ -12,6 +12,9 @@
 #import "FLYAnnotationView.h"
 #import "FLYPointAnnotation.h"
 #import "FLYGateViewController.h"
+#import "FLYCityAnnotation.h"
+#import "FLYCityAnnotationView.h"
+#import "FLYRegionParkModel.h"
 
 
 #pragma mark - RouteAnnotation
@@ -57,7 +60,9 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+        _isParkLevel = NO;
         _isReload = YES;
+        _aLevel = @"park";
     }
     return self;
 }
@@ -379,8 +384,6 @@
             planPointCounts += transitStep.pointsCount;
         }
         
-        
-        
         // 添加途经点
         if (plan.wayPoints) {
             for (BMKPlanNode *tempNode in plan.wayPoints) {
@@ -433,7 +436,6 @@
     //移动标记
     if ([annotation isKindOfClass:[FLYPointAnnotation class]]) {
         FLYAnnotationView *annotationView = [[FLYAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"flyAnnotation"];
-        
         annotationView.pinColor = BMKPinAnnotationColorPurple;
         annotationView.animatesDrop = YES;// 设置该标注点动画显示
         annotationView.canShowCallout = false;
@@ -473,9 +475,19 @@
         return annotationView;
     }
     //导航
-    if ([annotation isKindOfClass:[RouteAnnotation class]]) {
+    else if ([annotation isKindOfClass:[RouteAnnotation class]]) {
 		return [self getRouteAnnotationView:mapView viewForAnnotation:(RouteAnnotation*)annotation];
 	}
+    
+    //城市
+    else if ([annotation isKindOfClass:[FLYCityAnnotation class]]) {
+        FLYCityAnnotationView *annotationView = [[FLYCityAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"cityAnnotation"];
+        
+        FLYRegionParkModel *regionModel =  ((FLYCityAnnotation *)annotation).regionModel;
+        annotationView.regionModel = regionModel;
+        return annotationView;
+    }
+    
     //默认
     else if ([annotation isKindOfClass:[BMKPointAnnotation class]]) {
         BMKPinAnnotationView *annotationView = [[BMKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"flyAnnotation"];
@@ -544,7 +556,6 @@
         if ([model.parkFreetime intValue] == -1) {
             freeTimeLabel.text = @"全天免费";
             [freeTimeLabel sizeToFit];
-//            freeLabel.left = freeTimeLabel.right + 2;
             freeLabel.hidden = YES;
         }else{
             freeTimeLabel.text = [model.parkFreetime stringValue];
@@ -668,15 +679,53 @@
 - (void)regionChange:(BMKMapView *)mapView{
     NSLog(@"zoomLevel:%f",mapView.zoomLevel);
     if (mapView.zoomLevel < 16) {
+        if ([_aLevel isEqualToString:@"park"]) {
+            _aLevel = @"city";
+            
+            if (self.annotationDics != nil) {
+                for (NSString *key in self.annotationDics) {
+                    FLYPointAnnotation *annotation = [self.annotationDics objectForKey:key];
+                    [_mapBaseView.mapView removeAnnotation:annotation];
+                }
+                self.annotationDics = nil;
+            }
+            
+            
+            if (self.regionArray == nil) {
+                self.regionArray = [[NSMutableArray alloc] initWithCapacity:20];
+            }
+            
+            FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+            if (appDelegate.cityDatas != nil && [appDelegate.cityDatas count] > 0) {
+                for (FLYRegionParkModel *regionModel in appDelegate.cityDatas) {
+                    FLYCityAnnotation *annotation = [[FLYCityAnnotation alloc]init];
+                    annotation.regionModel = regionModel;
+                    annotation.coordinate = {[regionModel.regionLat doubleValue],[regionModel.regionLng doubleValue]};
+                    [_mapBaseView.mapView addAnnotation:annotation];
+                    
+                    [self.regionArray addObject:annotation];
+                }
+            }
+            
+        }
         return;
+    }else{
+        if ([_aLevel isEqualToString:@"city"]) {
+            _aLevel = @"park";
+            _isParkLevel = YES;
+            
+            for (FLYCityAnnotation *annotation in self.regionArray) {
+                [_mapBaseView.mapView removeAnnotation:annotation];
+            }
+            self.regionArray = nil;
+        }
     }
+    
     //屏幕中心点位置
     double curLat = mapView.region.center.latitude;
     double curLon = mapView.region.center.longitude;
     
-    
     if (lastMarkLat == 0.0 || lastMarkLon == 0.0) {
-        
         lastLoadingLat = curLat;
         lastLoadingLon = curLon;
         lastMarkLat = curLat;
@@ -687,7 +736,6 @@
         BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastMarkLat,lastMarkLon));
         BMKMapPoint point3 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(lastLoadingLat,lastLoadingLon));
 
-        
         //计算距离上次重新绘制距离
         CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
         //计算距离上次重新加载距离
@@ -700,8 +748,15 @@
             _isReload = true;
         }
         
-        if (distance < 1000 || _isReload) {
+        if (_isReload) {
             return;
+        }
+        if (distance < 1000) {
+            if (_isParkLevel) {
+                _isParkLevel = NO;
+            }else{
+                return;
+            }
         }
        
         lastMarkLat = curLat;
@@ -723,7 +778,7 @@
             self.annotationDics = [[NSMutableDictionary alloc] initWithCapacity:50];
         }
         
-        if (distance < 2000) {
+        if (distance < 3000) {
             //未添加过，需要添加
             if ([self.annotationDics objectForKey:park.parkId] == nil) {
                 FLYPointAnnotation *annotation = [[FLYPointAnnotation alloc]init];
@@ -771,7 +826,6 @@
     }else{
         NSString *msg = [data objectForKey:@"msg"];
         [self showAlert:msg];
-
     }
 }
 

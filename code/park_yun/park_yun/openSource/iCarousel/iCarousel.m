@@ -496,6 +496,9 @@ CVReturn displayLinkCallback(CVDisplayLinkRef displayLink,
 			else if ([delegate respondsToSelector:@selector(carousel:transformForItemView:withOffset:)])
 			{
 				NSLog(@"Delegate method carousel:transformForItemView:withOffset: is deprecated, use carousel:transformForItemAtIndex:withOffset:baseTransform: instead.");
+
+                            
+                
 				return [delegate carousel:self transformForItemView:view withOffset:offset];
 			}
 			

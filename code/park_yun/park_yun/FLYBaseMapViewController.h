@@ -65,7 +65,15 @@
     //加载停车场位置
     BOOL _isLoading;
     
+    //重新加载缓存数据
     BOOL _isReload;
+    
+    //重新切换停车场级别
+    BOOL _isParkLevel;
+    
+    //地图Annotation级别
+    NSString *_aLevel;
+        
 }
 
 //绘制标记面板
@@ -82,6 +90,9 @@
 @property (strong, nonatomic)BMKPolyline *routeOverlay;
 //缓存停车场Annotation
 @property (strong, nonatomic)NSMutableDictionary *annotationDics;
+//缓存区域Annotation
+@property (strong, nonatomic)NSMutableArray *regionArray;
+
 //停车场数据（精简查询接口）
 @property (strong, nonatomic)NSMutableArray *locationDatas;
 

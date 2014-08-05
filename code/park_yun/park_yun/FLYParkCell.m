@@ -33,6 +33,7 @@
     _fz = (UILabel *)[self viewWithTag:113];
     _freetimeImage = (UIImageView *)[self viewWithTag:114];
     _typeImage = (UIImageView *)[self viewWithTag:115];
+    _freeImage = (UIImageView *)[self viewWithTag:116];
     
     _parkImage.layer.masksToBounds = YES;
     _parkImage.layer.cornerRadius = 2.0;
@@ -65,18 +66,29 @@
     NSString *freeTime = [self.parkModel.parkFreetime stringValue];
     _free_time.font = [UIFont systemFontOfSize:15.0];
     if (freeTime == nil || [freeTime isEqualToString:@"0"]) {
-        _fz.hidden = YES;
         _free_time.text = @"";
+        
+        _fz.hidden = YES;
         _freetimeImage.hidden = YES;
+        _free_time.hidden = YES;
+        
+        _freeImage.hidden = YES;
     }else if([freeTime isEqualToString:@"-1"]){
         _free_time.font = [UIFont boldSystemFontOfSize:12.0];
-        _free_time.text = @"全天免费";
+        _free_time.text = @"";
+        
         _fz.hidden = YES;
-        _freetimeImage.hidden = NO;
+        _freetimeImage.hidden = YES;
+        _free_time.hidden = YES;
+        
+        _freeImage.hidden = NO;
     }else{
         _free_time.text = freeTime;
         _fz.hidden = NO;
         _freetimeImage.hidden = NO;
+        _free_time.hidden = NO;
+        
+        _freeImage.hidden = YES;
     }
     [_free_time sizeToFit];
     _free_time.bottom = _fz.bottom;
@@ -174,8 +186,6 @@
     _distanceLabel.right = 310;
     _distanceImage.right = _distanceLabel.left;
 }
-
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

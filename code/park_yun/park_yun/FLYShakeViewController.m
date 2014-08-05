@@ -51,14 +51,10 @@
     //初始化数据
     _index = 0;
     _isClose = NO;
+    _navType = @"0";
     _datas = [NSMutableArray array];
+    
     _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 275)];
-    
-    //加载中
-    _loadingView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaojiazaidaizi_all_0.png"]];
-    _loadingView.frame = CGRectMake((_carousel.width - 110) / 2, (_carousel.height - 85) / 2, 110, 85);
-    [self.view addSubview:_loadingView];
-    
     //速率
     _carousel.decelerationRate = 0.5;
     _carousel.type = iCarouselTypeLinear;
@@ -66,6 +62,18 @@
     _carousel.dataSource = self;
     _carousel.hidden = YES;
     [self.view addSubview:_carousel];
+    if (ScreenHeight == 568) {
+        _carousel.top = _carousel.top + 50;
+    }
+    
+    //加载中
+    _loadingView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_yaojiazaidaizi_all_0.png"]];
+    _loadingView.frame = CGRectMake((_carousel.width - 110) / 2, (_carousel.height - 85) / 2, 110, 85);
+    if (ScreenHeight == 568) {
+        _loadingView.top = _loadingView.top + 50;
+    }
+    [self.view addSubview:_loadingView];
+    
     
     //下部蓝色背景
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 100 - 20 - 44, 320, 100)];
@@ -101,10 +109,25 @@
     //停车类型按钮
     _parkTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, (100 - 47) / 2, 47, 47)];
     _parkTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    [_parkTypeBtn setTitle:@"全部" forState:UIControlStateNormal];
+    
     [_parkTypeBtn addTarget:self action:@selector(parkTypeAction:) forControlEvents:UIControlEventTouchUpInside];
     [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_up.png"] forState:UIControlStateNormal];
-    [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_down.png"] forState:UIControlStateHighlighted];
+    [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_down.png"]
+                            forState:UIControlStateHighlighted];
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *navType = [defaults stringForKey:@"navType"];
+    if ([FLYBaseUtil isEmpty:navType] || [navType isEqualToString:@"ALL"]) {
+        _navType = @"0";
+        [_parkTypeBtn setTitle:@"全部" forState:UIControlStateNormal];
+    }else if([navType isEqualToString:@"ROAD"]){
+        _navType = @"1";
+        [_parkTypeBtn setTitle:@"路边" forState:UIControlStateNormal];
+    }else if([navType isEqualToString:@"PARK"]){
+        _navType = @"2";
+        [_parkTypeBtn setTitle:@"路外" forState:UIControlStateNormal];
+    }
+    
     [bottomView addSubview:_parkTypeBtn];
 
     //语音按钮
@@ -112,7 +135,7 @@
     [_voiceBtn addTarget:self action:@selector(voiceAction:) forControlEvents:UIControlEventTouchUpInside];
     [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_down.png"] forState:UIControlStateNormal];
     
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    
     NSString *navVoice = [defaults stringForKey:@"navVoice"];
 
     if ([FLYBaseUtil isNotEmpty:navVoice] && [navVoice isEqualToString:@"NO"]) {
@@ -133,7 +156,7 @@
     if ([FLYBaseUtil isEnableInternate]) {
         [self requestParkData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
     
     self.ctrlDelegate = self;
@@ -152,12 +175,27 @@
 
 #pragma mark Action
 - (void)parkTypeAction:(UIButton *)btn{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     if ([_parkTypeBtn.titleLabel.text isEqualToString:@"全部"]) {
+        _navType = @"1";
+        [defaults setObject:@"ROAD" forKey:@"navType"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [_parkTypeBtn setTitle:@"路边" forState:UIControlStateNormal];
     }else if([_parkTypeBtn.titleLabel.text isEqualToString:@"路边"]){
+        _navType = @"2";
+        [defaults setObject:@"PARK" forKey:@"navType"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         [_parkTypeBtn setTitle:@"路外" forState:UIControlStateNormal];
     }else if([_parkTypeBtn.titleLabel.text isEqualToString:@"路外"]){
+        _navType = @"0";
+        [defaults setObject:@"ALL" forKey:@"navType"];
         [_parkTypeBtn setTitle:@"全部" forState:UIControlStateNormal];
+    }
+    
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self requestParkData];
+    }else{
+        [self showToast:@"请打开网络"];
     }
 }
 
@@ -165,7 +203,6 @@
 - (void)voiceAction:(UIButton *)btn{
     
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    
     if (_isVoice) {
         _isVoice = NO;
         [_voiceBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuyin_all_down.png"] forState:UIControlStateNormal];
@@ -231,27 +268,38 @@
     CLLocationCoordinate2D startCoor = appDelegate.coordinate;
     CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([parkModel.parkLat doubleValue], [parkModel.parkLng doubleValue]);
     
-    // ios6以下，调用google map
-    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
-        NSString *urlString = [[NSString alloc]
-                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
-                               startCoor.latitude,
-                               startCoor.longitude,
-                               endCoor.latitude,
-                               endCoor.longitude];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]){
+        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=driving&src=停哪儿",
+                               startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, parkModel.parkName];
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
-        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         NSURL *url = [NSURL URLWithString:urlString];
         [[UIApplication sharedApplication] openURL:url];
-    } else {
-        // 直接调用ios自己带的apple map
-        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
-        toLocation.name = parkModel.parkName;
-        
-        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
-                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+    }else{
+        [self showToast:@"请先下载安装百度地图"];
     }
+    
+//    // ios6以下，调用google map
+//    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
+//        NSString *urlString = [[NSString alloc]
+//                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
+//                               startCoor.latitude,
+//                               startCoor.longitude,
+//                               endCoor.latitude,
+//                               endCoor.longitude];
+//        
+//        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        NSURL *url = [NSURL URLWithString:urlString];
+//        [[UIApplication sharedApplication] openURL:url];
+//    } else {
+//        // 直接调用ios自己带的apple map
+//        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+//        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
+//        toLocation.name = parkModel.parkName;
+//        
+//        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+//                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+//    }
 }
 
 #pragma mark - request
@@ -260,6 +308,7 @@
     
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
+    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    [NSString stringWithFormat:@"%f",appDelegate.coordinate.latitude] ,
                                    @"lat",
@@ -267,7 +316,7 @@
                                    @"long",
                                    @"200000",
                                    @"range",
-                                   @"0",
+                                   _navType,
                                    @"type",
                                    nil];
     
@@ -302,7 +351,7 @@
                                            @"long",
                                            @"200000",
                                            @"range",
-                                           @"0",
+                                           _navType,
                                            @"type",
                                            @"1",
                                            @"count",
@@ -455,8 +504,10 @@
     }
     
     NSString *seatidea = @"";
+    
     if ([parkModel.parkStatus isEqualToString:@"0"]) {
-        seatidea = [NSString stringWithFormat:@"目前共有空车位%@个",seatidea];
+
+        seatidea = [NSString stringWithFormat:@"目前共有空车位%i个",[parkModel.seatIdle integerValue]];
     }else if([parkModel.parkStatus isEqualToString:@"1"]){
         seatidea = @"空车位未知";
     }else{
@@ -532,14 +583,14 @@
         view.layer.cornerRadius = 5.0;
         view.layer.masksToBounds = YES;
         
-        parknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, view.width - 10, 20)];
+        parknameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 15, view.width - 30, 20)];
         parknameLabel.numberOfLines = 1;
         parknameLabel.tag = 101;
         parknameLabel.textColor = [UIColor darkGrayColor];
         parknameLabel.textAlignment = NSTextAlignmentCenter;
         [view addSubview:parknameLabel];
         
-        addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, parknameLabel.bottom + 5, 160, 35)];
+        addressLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, parknameLabel.bottom + 5, view.width - 20, 35)];
         addressLabel.numberOfLines = 2;
         addressLabel.textAlignment = NSTextAlignmentCenter;
         addressLabel.font = [UIFont systemFontOfSize:13.0];
@@ -691,7 +742,11 @@
 
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
-        [self requestParkData];
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self requestParkData];
+        }else{
+            [self showToast:@"请打开网络"];
+        }
     }
 }
 

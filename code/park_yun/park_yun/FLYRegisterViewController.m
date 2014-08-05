@@ -59,6 +59,10 @@
     [_usernameField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_usernameField];
     
+    if (ScreenHeight == 568) {
+        _usernameField.top = _usernameField.top + 30;
+    }
+    
     _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _usernameField.bottom + 10, 280, 40)];
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.clearButtonMode = YES;

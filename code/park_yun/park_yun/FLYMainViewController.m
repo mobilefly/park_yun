@@ -16,6 +16,7 @@
 #import "FLYShakeViewController.h"
 #import "FLYAppDelegate.h"
 #import "UIFactory.h"
+#import "FLYRegionParkModel.h"
 
 #define kTopHeight 60
 
@@ -40,6 +41,7 @@
     _isFollow = NO;
     _isLocation = NO;
     _isLoading = NO;
+    _isLoadRegion = NO;
 }
 
 - (void)viewDidLoad
@@ -242,6 +244,49 @@
 }
 
 
+- (void)requestCityData:(NSString *)cityName{
+    _isLoadRegion = YES;
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   cityName,
+                                   @"cityName",
+                                   nil];
+
+    //防止循环引用
+    __weak FLYMainViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpQueryParkByCityNameList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadParkCityData:result];
+    } errorBolck:^(){
+        [ref loadParkCityError];
+    }];
+}
+
+- (void)loadParkCityError{
+    _isLoadRegion = NO;
+}
+
+- (void)loadParkCityData:(id)data{
+     _isLoadRegion = NO;
+    
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            NSArray *regions = [result objectForKey:@"regions"];
+            
+            NSMutableArray *regionList = [NSMutableArray arrayWithCapacity:regions.count];
+            for (NSDictionary *regionsDic in regions) {
+                FLYRegionParkModel *regionModel = [[FLYRegionParkModel alloc] initWithDataDic:regionsDic];
+                [regionList addObject:regionModel];
+            }
+            
+            FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+            appDelegate.cityDatas = regionList;
+          
+        }
+    }
+}
+
 #pragma mark - Action
 - (void)userInfoAction{
     FLYUserCenterViewController *userCenterController = [[FLYUserCenterViewController alloc] init];
@@ -416,6 +461,11 @@
         //缓存当前城市
         FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
         appDelegate.city = city;
+        
+        if (!_isLoadRegion && appDelegate.cityDatas == nil) {
+            [self requestCityData:city];
+        }
+        
     }
     else {
         [self showAlert:@"抱歉，未找到结果"];

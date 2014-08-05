@@ -30,6 +30,7 @@
     UIImageView *_freetimeImage;
     
     UIImageView *_typeImage;
+    UIImageView *_freeImage;
 
 }
 

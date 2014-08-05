@@ -58,12 +58,16 @@
     [self.view addSubview:versionLabel];
     
     
+    
     UIImage *bottomImage = [UIImage imageNamed:@"mfpparking_gywmtu_all_0.png"];
     UIImageView *bottomView = [[UIImageView alloc] initWithImage:bottomImage];
     bottomView.left = (ScreenWidth - bottomView.width) / 2;
     bottomView.bottom = ScreenHeight - 60 - 20 - 44;
     [self.view addSubview:bottomView];
     
+    if (ScreenHeight == 568) {
+        bottomView.top = bottomView.top - 40;
+    }
     
     UILabel *copyrightTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, bottomView.bottom + 10, 0, 30)];
     copyrightTitle.font = [UIFont systemFontOfSize:12.0];

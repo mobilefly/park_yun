@@ -10,13 +10,17 @@
 #import "FLYBaseNavigationController.h"
 #import "RTLabel.h"
 #import "FLYDataService.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYMapViewController.h"
 #import "FLYLoginViewController.h"
 #import "FLYRemarkViewController.h"
+#import "FLYGateViewController.h"
+#import <MapKit/MapKit.h>
 
+
+#define BlueColor Color(25, 150, 240 ,1)
 #define FontColor [UIColor darkGrayColor]
 #define Padding 15
+#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 @interface FLYParkDetailViewController ()
 
@@ -37,6 +41,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    _isClose = NO;
+    // 创建语音合成对象,为单例模式
+    _iflySpeechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
+    _iflySpeechSynthesizer.delegate = self;
+    [_iflySpeechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
+    [_iflySpeechSynthesizer setParameter:@"50" forKey: [IFlySpeechConstant VOLUME]];
+    [_iflySpeechSynthesizer setParameter:@"xiaoyan" forKey: [IFlySpeechConstant VOICE_NAME]];
+    [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
+    [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+    
+    self.ctrlDelegate = self;
+    
     [self requestData];
 }
 
@@ -265,19 +282,66 @@
     
     //评论按钮
     UIButton *discussBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    discussBtn.frame = CGRectMake((ScreenWidth - 280) / 2, sp3.bottom + 15, 280, 35);
-    [discussBtn primaryStyle];
-
-    //discussBtn.titleLabel.text = @"查看评论";
+    discussBtn.frame = CGRectMake(20, sp3.bottom + 15, 130, 30);
+    discussBtn.layer.cornerRadius = 4.0;
+    discussBtn.layer.masksToBounds = YES;
+    discussBtn.layer.borderWidth = 1.0;
+    discussBtn.layer.borderColor = [BlueColor CGColor];
+    discussBtn.showsTouchWhenHighlighted = YES;
+    discussBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [discussBtn setTitleColor:BlueColor forState:UIControlStateNormal];
     [discussBtn setTitle:@"查看评论" forState:UIControlStateNormal];
-//    [discussBtn addAwesomeIcon:FAIconRoad beforeTitle:YES];
-
-
     [discussBtn addTarget:self action:@selector(discussAction) forControlEvents:UIControlEventTouchUpInside];
     [_scrollView addSubview:discussBtn];
     
+    //入口引导
+    UIButton *enterBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    enterBtn.frame = CGRectMake(170, sp3.bottom + 15, 130, 30);
+    enterBtn.layer.cornerRadius = 4.0;
+    enterBtn.layer.masksToBounds = YES;
+    enterBtn.layer.borderWidth = 1.0;
+    enterBtn.layer.borderColor = [BlueColor CGColor];
+    enterBtn.showsTouchWhenHighlighted = YES;
+    enterBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [enterBtn setTitleColor:BlueColor forState:UIControlStateNormal];
+    [enterBtn setTitle:@"入口引导" forState:UIControlStateNormal];
+    [enterBtn addTarget:self action:@selector(enterAction) forControlEvents:UIControlEventTouchUpInside];
+    [_scrollView addSubview:enterBtn];
+    
+    //语音播报
+    UIButton *voiceBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    voiceBtn.layer.cornerRadius = 4.0;
+    voiceBtn.layer.masksToBounds = YES;
+    voiceBtn.showsTouchWhenHighlighted = YES;
+    voiceBtn.frame = CGRectMake((ScreenWidth - 280) / 2, discussBtn.bottom + 15, 280, 35);
+    voiceBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [voiceBtn setBackgroundColor:BlueColor];
+    [voiceBtn setTitle:@"语音播报" forState:UIControlStateNormal];
+    [voiceBtn addTarget:self action:@selector(voiceAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [voiceBtn setImage:[UIImage imageNamed:@"mfpparking_xqlaba_all_up.png"] forState:UIControlStateNormal];
+    [voiceBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0.0, 0.0)];
+    
+    [_scrollView addSubview:voiceBtn];
+    
+    //一键导航
+    UIButton *navBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    navBtn.layer.cornerRadius = 4.0;
+    navBtn.layer.masksToBounds = YES;
+    navBtn.showsTouchWhenHighlighted = YES;
+    navBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    navBtn.frame = CGRectMake((ScreenWidth - 280) / 2, voiceBtn.bottom + 15, 280, 35);
+    [navBtn setBackgroundColor:BlueColor];
+    [navBtn setTitle:@"一键导航" forState:UIControlStateNormal];
+    [navBtn addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
+    
+    [navBtn setImage:[UIImage imageNamed:@"mfpparking_xqdh_all_up.png"] forState:UIControlStateNormal];
+    [navBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0.0, 0.0)];
+    
+    [_scrollView addSubview:navBtn];
+    
     //停车场详情
-    RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, discussBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
+    RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, navBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
     
     if ([FLYBaseUtil isNotEmpty:self.park.parkRemark]) {
         parkRemark.text = self.park.parkRemark;
@@ -297,7 +361,7 @@
     [parkRemark setFrame:frame];
     
     [_scrollView addSubview:parkRemark];
-    scollHeight += discussBtn.height + parkRemark.height + 15 + 15 + 20;
+    scollHeight += discussBtn.height + 15 + voiceBtn.height + 15 + navBtn.height + parkRemark.height + 15 + 15 + 20;
     
     
     [_scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
@@ -405,8 +469,126 @@
     [self.navigationController pushViewController:remarkController animated:NO];
 }
 
-#pragma mark - view other
+- (void)voiceAction{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    NSString *parkName = _park.parkName;
+    NSString *parkDistance = @"";
+    
+    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
+    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([_park.parkLat doubleValue],[_park.parkLng doubleValue]));
+    CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
+    if (distance > 1000) {
+        parkDistance = [NSString stringWithFormat:@"%.1f千米",distance / 1000];
+    }else{
+        parkDistance = [NSString stringWithFormat:@"%.0f米",distance];
+    }
+    
+    NSString *seatidea = @"";
+    if ([_park.parkStatus isEqualToString:@"0"]) {
+        seatidea = [NSString stringWithFormat:@"目前共有空车位%i个",[_park.seatIdle integerValue]];
+    }else if([_park.parkStatus isEqualToString:@"1"]){
+        seatidea = @"空车位未知";
+    }else{
+        seatidea = @"空车位未知";
+    }
+    
+    NSString *text = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
+    
+    NSString *freeTime = @"";
+    if (_park.parkFreetime == nil || [_park.parkFreetime intValue] == 0) {
+        freeTime = nil;
+    }else if([_park.parkFreetime intValue] == -1){
+        freeTime = @"全天免费";
+    }else{
+        freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",_park.parkFreetime];
+    }
+    
+    NSString *parkFeedesc = @"";
+    if ([FLYBaseUtil isNotEmpty:_park.parkFeedesc]) {
+        parkFeedesc = [NSString stringWithFormat:@"，收费标准%@",_park.parkFeedesc];
+    }
+    
+    if (freeTime != nil) {
+        text = [NSString stringWithFormat:@"%@，%@，%@",text,freeTime,parkFeedesc];
+    }
+    
+    NSLog(@"%@",text);
+    
+    if (_iflySpeechSynthesizer != nil && !_isClose) {
+        [_iflySpeechSynthesizer startSpeaking:text];
+    }
+}
 
+- (void)navAction{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    
+    CLLocationCoordinate2D startCoor = appDelegate.coordinate;
+    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([_park.parkLat doubleValue], [_park.parkLng doubleValue]);
+    
+    
+    //API http://developer.baidu.com/map/wiki/index.php?title=uri/api/ios#.E5.85.AC.E4.BA.A4.E3.80.81.E9.A9.BE.E8.BD.A6.E3.80.81.E6.AD.A5.E8.A1.8C.E5.AF.BC.E8.88.AA
+    //调用百度地图导航
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]){
+        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=driving&src=停哪儿",
+                               startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, _park.parkName];
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSURL *url = [NSURL URLWithString:urlString];
+        [[UIApplication sharedApplication] openURL:url];
+    }else{
+        [self showToast:@"请先下载安装百度地图"];
+    }
+    
+    //    // ios6以下，调用google map
+    //    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
+    //        NSString *urlString = [[NSString alloc]
+    //                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
+    //                               startCoor.latitude,
+    //                               startCoor.longitude,
+    //                               endCoor.latitude,
+    //                               endCoor.longitude];
+    //
+    //        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    //        NSURL *url = [NSURL URLWithString:urlString];
+    //        [[UIApplication sharedApplication] openURL:url];
+    //    } else {
+    //        // 直接调用ios自己带的apple map
+    //        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
+    //        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
+    //        toLocation.name = _park.parkName;
+    //        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
+    //                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+    //    }
+    
+}
+
+- (void)enterAction{
+    FLYGateViewController *gateCtrl = [[FLYGateViewController alloc] init];
+    gateCtrl.parkModel = self.park;
+    [self.navigationController pushViewController:gateCtrl animated:NO];
+}
+
+
+#pragma mark  - FLYBaseCtrlDelegate delegate
+- (BOOL)close{
+    _isClose = YES;
+    
+    if (_iflySpeechSynthesizer != nil && _iflySpeechSynthesizer.isSpeaking) {
+        [_iflySpeechSynthesizer stopSpeaking];
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark  - IFlySpeechSynthesizerDelegate delegate
+- (void)onCompleted:(IFlySpeechError*) error{
+    if (_isClose) {
+        [self back];
+    }
+}
+
+#pragma mark - view other
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     

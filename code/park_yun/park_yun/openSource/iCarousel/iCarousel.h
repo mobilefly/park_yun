@@ -251,6 +251,7 @@ iCarouselTranformOption;
 
 - (NSUInteger)numberOfPlaceholdersInCarousel:(iCarousel *)carousel;
 - (UIView *)carousel:(iCarousel *)carousel placeholderViewAtIndex:(NSUInteger)index reusingView:(UIView *)view;
+
 - (NSUInteger)numberOfVisibleItemsInCarousel:(iCarousel *)carousel;
 
 //deprecated, use carousel:viewForItemAtIndex:reusingView: and carousel:placeholderViewAtIndex:reusingView: instead

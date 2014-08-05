@@ -61,6 +61,11 @@
     [_oldPwdField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_oldPwdField];
     
+    
+    if (ScreenHeight == 568) {
+        _oldPwdField.top = _oldPwdField.top + 30;
+    }
+    
     _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _oldPwdField.bottom + 10, 280, 40)];
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.clearButtonMode = YES;
