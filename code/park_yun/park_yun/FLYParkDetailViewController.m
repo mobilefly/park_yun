@@ -126,7 +126,7 @@
     
     if (self.photos != nil && [self.photos count] > 0) {
         //默认图片
-        UIImage *placeholderImage = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
+        UIImage *placeholderImage = [UIImage imageNamed:@"mfpparking_jiazai_all_1.png"];
         _topic = [[JCTopic alloc]initWithFrame:CGRectMake(0, 0, ScreenWidth, 128)];
         
         //代理

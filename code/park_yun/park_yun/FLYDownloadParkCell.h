@@ -7,7 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLYCityParkCell.h"
 
-@interface FLYDownloadParkCell : UITableViewCell
+@interface FLYDownloadParkCell : UITableViewCell{
+    //城市名称
+    UILabel *_cityNameLabel;
+    //大小
+    UILabel *_progressLabel;
+    //下载按钮
+    UIButton *_updateBtn;
+    //删除
+    UIButton *_removeBtn;
+}
 
+
+@property(assign,nonatomic)id<FLYOfflineParkDelegate> parkDelegate;
+
+@property(strong,nonatomic)FLYOfflineParkModel *data;
+
+- (IBAction)removeAction:(id)sender;
+
+- (IBAction)updateAction:(id)sender;
 @end

@@ -15,10 +15,19 @@
 
 @interface FLYOfflineParkModel : FLYBaseModel
 
+@property(nonatomic,copy) NSString *regionId;
 @property(nonatomic,copy) NSString *regionCode;
 @property(nonatomic,copy) NSString *regionName;
-@property(nonatomic,copy) NSString *parkCount;
-@property(nonatomic,copy) NSString *maxVersion;
+@property(nonatomic,strong) NSNumber *parkCount;
+@property(nonatomic,strong) NSNumber *maxVersion;
 
+@property(nonatomic,strong) NSNumber *updateVersion;
+
+//0:正常 1.下载中
+@property(nonatomic) int status;
+//YES:可更新 NO:不可更新
+@property(nonatomic) BOOL update;
+//下载比例
+@property(nonatomic) int ratio;
 
 @end

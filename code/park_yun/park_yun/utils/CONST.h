@@ -19,9 +19,9 @@
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 //本机
-//#define kHttpDomain @"http://192.168.110.53:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.53:8080/park_yun"
 //window
-#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
+//#define kHttpDomain @"http://123.85.3.220:8105/park_yun"
 //linux
 //#define kHttpDomain @"http://123.85.3.25:8105/park_yun"
 //小朱
@@ -90,7 +90,10 @@
 //------离线数据
 //根据城市名，查询是否有离线数据
 #define kHttpQueryOfflineByCityName @"/offline/queryOfflineByCityName.json"
-
+//查询停车场离线数据
+#define kHttpQueryOfflineData @"/offline/queryOfflineData.json"
+//查询离线数据是否有更新
+#define kHttpQueryOfflineUpdate @"/offline/queryOfflineUpdate.json"
 
 //停车场标注
 #define kAnnotationTypePark @"PARK"

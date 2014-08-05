@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "FLYOfflineParkModel.h"
 
+@protocol FLYOfflineParkDelegate <NSObject>
+@optional
+//下载
+- (void)download:(FLYOfflineParkModel *)model;
+//更新
+- (void)update:(FLYOfflineParkModel *)model;
+//删除
+- (void)remove:(FLYOfflineParkModel *)model;
+@end
+
 @interface FLYCityParkCell : UITableViewCell{
     //城市名称
     UILabel *_cityNameLabel;
@@ -22,5 +32,7 @@
 
 
 @property(strong,nonatomic)FLYOfflineParkModel *data;
+
+@property(assign,nonatomic)id<FLYOfflineParkDelegate> parkDelegate;
 
 @end

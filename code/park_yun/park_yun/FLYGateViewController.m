@@ -115,8 +115,6 @@
     [FLYBaseUtil alertErrorMsg];
 }
 
-
-
 #pragma mark - UITableViewDataSource delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_datas == nil || [_datas count] == 0) {

@@ -23,7 +23,6 @@
 //@property(unsafe_unretained,nonatomic)id<FLYOfflineCellDelegate> cellDelegate;
 @property(assign,nonatomic)id<FLYOfflineCellDelegate> cellDelegate;
 
-
 @property(strong,nonatomic)BMKOLUpdateElement *data;
 
 - (IBAction)updateAction:(id)sender;

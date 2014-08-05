@@ -36,7 +36,9 @@
 
 #pragma mark - Action
 - (IBAction)downloadAction:(id)sender {
-    
+    if ([self.parkDelegate respondsToSelector:@selector(download:)]) {
+        [self.parkDelegate download:_data];
+    }
 }
 
 

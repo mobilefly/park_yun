@@ -78,8 +78,7 @@
             [self.cellDelegate update:_data.cityID];
         }
     }
-    
-    
+
 }
 
 - (IBAction)removeAction:(id)sender {

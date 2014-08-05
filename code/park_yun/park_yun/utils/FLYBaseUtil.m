@@ -9,6 +9,7 @@
 #import "FLYBaseUtil.h"
 #import "Reachability.h"
 #import "DXAlertView.h"
+#import "FLYToast.h"
 
 @implementation FLYBaseUtil
 
@@ -73,8 +74,10 @@
 }
 
 +(void)alertErrorMsg{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"连接失败" leftButtonTitle:nil rightButtonTitle:@"确认"];
-    [alert show];
+    
+    [FLYToast showWithText:@"连接失败"];
+//    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"连接失败" leftButtonTitle:nil rightButtonTitle:@"确认"];
+//    [alert show];
 }
 
 

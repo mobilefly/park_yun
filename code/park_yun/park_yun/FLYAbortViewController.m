@@ -57,8 +57,6 @@
     versionLabel.left = (ScreenWidth - versionLabel.width) / 2;
     [self.view addSubview:versionLabel];
     
-    
-    
     UIImage *bottomImage = [UIImage imageNamed:@"mfpparking_gywmtu_all_0.png"];
     UIImageView *bottomView = [[UIImageView alloc] initWithImage:bottomImage];
     bottomView.left = (ScreenWidth - bottomView.width) / 2;

@@ -174,7 +174,6 @@
         case 1:
             _downloadView.hidden = NO;
             _cityView.hidden = YES;
-            
             if (_offlineMap != nil) {
                 //获取各城市离线地图更新信息
                 _downloadData = [NSMutableArray arrayWithArray:[_offlineMap getAllUpdateInfo]];
@@ -265,10 +264,7 @@
 
 #pragma mark - BMKOfflineMapDelegate delegate
 - (void)onGetOfflineMapState:(int)type withState:(int)state{
-    
-    
     if (type == TYPE_OFFLINE_UPDATE) {
-        
         if (_downloadData == nil) {
             //获取各城市离线地图更新信息
             _downloadData = [NSMutableArray arrayWithArray:[_offlineMap getAllUpdateInfo]];

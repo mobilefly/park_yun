@@ -7,8 +7,9 @@
 //
 
 #import "FLYBaseViewController.h"
+#import "FLYCityParkCell.h"
 
-@interface FLYOfflineParkViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate>{
+@interface FLYOfflineParkViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate,FLYOfflineParkDelegate>{
     UITextField *_searchText;
     UIButton *_searchBtn;
     
@@ -22,6 +23,9 @@
     
     NSMutableArray *_cityData;
     NSMutableArray *_downloadData;
+    
+    //下载游标
+    NSMutableDictionary *_cursorDic;
 }
 
 - (IBAction)backgroupTap:(id)sender;
