@@ -19,9 +19,6 @@
     BOOL _isMore;
 }
 
-//@property(strong,nonatomic) FLYBussinessModel *bussinessModel;
-
-
 @property(assign,nonatomic) CLLocationCoordinate2D coordinate;
 
 @property(strong,nonatomic) NSString *titleName;

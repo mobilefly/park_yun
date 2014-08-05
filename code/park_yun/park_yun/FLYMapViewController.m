@@ -24,8 +24,8 @@
 }
 
 -(void)_init{
-    _isFollow = NO;
-    _isLocation = NO;
+    _isMapFollow = NO;
+    _isMapLocation = NO;
     _isLoading = NO;
     _isClick = NO;
     _isFirstLoad = YES;
@@ -87,16 +87,16 @@
 - (void)locationNotificcation:(NSNotification *)notification{
     BMKUserLocation *userLocation = notification.object;
     //跟随、定位
-    if (_isFollow) {
+    if (_isMapFollow) {
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
         
-    }else if(_isLocation){
+    }else if(_isMapLocation){
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-        _isLocation = NO;
+        _isMapLocation = NO;
     }
     
     [_mapBaseView.mapView updateLocationData:userLocation];

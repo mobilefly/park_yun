@@ -53,9 +53,9 @@
     double lastLoadingLon;
     
     //是否跟随
-    BOOL _isFollow;
+    BOOL _isMapFollow;
     //是否定位
-    BOOL _isLocation;
+    BOOL _isMapLocation;
     //选中标记弹出框
     UIView *_parkInfoView;
     //当前标记数据

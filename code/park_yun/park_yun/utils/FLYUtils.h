@@ -6,9 +6,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
+#import "FLYParkModel.h"
 
 @interface FLYUtils : NSObject
-
 //获取documents下的文件路径
 + (NSString *)getDocumentsPath:(NSString *)fileName;
 // date 格式化为 string
@@ -25,4 +26,11 @@
 + (NSString *)getDataSizeString:(int) nSize;
 
 + (NSString *)getSmallImage:(NSString *)url width:(NSString *)width height:(NSString *)height;
+
+//行车导航
++ (void)drivingNavigation:(NSString *)name start:(CLLocationCoordinate2D)start end:(CLLocationCoordinate2D) end;
+
+//停车场语音
++ (NSString *)getParkSpeech:(FLYParkModel *)parkModel;
+
 @end

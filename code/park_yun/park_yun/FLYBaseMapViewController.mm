@@ -629,7 +629,7 @@
 #pragma mark - FLYMapDelegate delegate
 //跟随
 - (void)mapFollow:(BOOL)enable{
-    _isFollow = enable;
+    _isMapFollow = enable;
     
     if (enable) {
         _mapBaseView.mapView.showsUserLocation = NO;
@@ -644,7 +644,7 @@
 
 //定位
 - (void)mapLocation{
-    _isLocation = YES;
+    _isMapLocation = YES;
 }
 
 //取消导航

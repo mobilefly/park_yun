@@ -208,7 +208,6 @@
     }else{
          parkCapacity.text = @" - ";
     }
-   
     parkCapacity.font = [UIFont systemFontOfSize:18.0];
     parkCapacity.textColor = [UIColor orangeColor];
     parkCapacity.numberOfLines = 1;
@@ -218,13 +217,11 @@
     
     //停车场地址
     UILabel *parkAddress = [[UILabel alloc] initWithFrame:CGRectMake(Padding, parkCapacity.bottom + 5, 230, 20)];
-    
     if ([FLYBaseUtil isNotEmpty:self.park.parkAddress]) {
         parkAddress.text = [NSString stringWithFormat:@"%@%@",@"地址 : ",self.park.parkAddress];
     }else{
         parkAddress.text = [NSString stringWithFormat:@"%@",@"地址 : -"];
     }
-    
     parkAddress.font = [UIFont systemFontOfSize:14.0];
     parkAddress.textColor = FontColor;
     parkAddress.numberOfLines = 0;
@@ -318,10 +315,8 @@
     [voiceBtn setBackgroundColor:BlueColor];
     [voiceBtn setTitle:@"语音播报" forState:UIControlStateNormal];
     [voiceBtn addTarget:self action:@selector(voiceAction) forControlEvents:UIControlEventTouchUpInside];
-    
     [voiceBtn setImage:[UIImage imageNamed:@"mfpparking_xqlaba_all_up.png"] forState:UIControlStateNormal];
     [voiceBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0.0, 0.0)];
-    
     [_scrollView addSubview:voiceBtn];
     
     //一键导航
@@ -334,22 +329,17 @@
     [navBtn setBackgroundColor:BlueColor];
     [navBtn setTitle:@"一键导航" forState:UIControlStateNormal];
     [navBtn addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
-    
     [navBtn setImage:[UIImage imageNamed:@"mfpparking_xqdh_all_up.png"] forState:UIControlStateNormal];
     [navBtn setImageEdgeInsets:UIEdgeInsetsMake(0.0, -20, 0.0, 0.0)];
-    
     [_scrollView addSubview:navBtn];
     
     //停车场详情
     RTLabel *parkRemark = [[RTLabel alloc] initWithFrame:CGRectMake(Padding, navBtn.bottom + 15, ScreenWidth - 2 * Padding, 0)];
-    
     if ([FLYBaseUtil isNotEmpty:self.park.parkRemark]) {
         parkRemark.text = self.park.parkRemark;
     }else{
-        parkFeedesc.text = @"";
+        parkRemark.text = @"";
     }
-    
-    
     parkRemark.font = [UIFont systemFontOfSize:13.0];
     parkRemark.textColor = FontColor;
     parkRemark.textAlignment = NSTextAlignmentJustified;
@@ -362,7 +352,6 @@
     
     [_scrollView addSubview:parkRemark];
     scollHeight += discussBtn.height + 15 + voiceBtn.height + 15 + navBtn.height + parkRemark.height + 15 + 15 + 20;
-    
     
     [_scrollView setContentSize:CGSizeMake(ScreenWidth, scollHeight)];
 }
@@ -470,97 +459,19 @@
 }
 
 - (void)voiceAction{
-    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    NSString *parkName = _park.parkName;
-    NSString *parkDistance = @"";
-    
-    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
-    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([_park.parkLat doubleValue],[_park.parkLng doubleValue]));
-    CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-    if (distance > 1000) {
-        parkDistance = [NSString stringWithFormat:@"%.1f千米",distance / 1000];
-    }else{
-        parkDistance = [NSString stringWithFormat:@"%.0f米",distance];
-    }
-    
-    NSString *seatidea = @"";
-    if ([_park.parkStatus isEqualToString:@"0"]) {
-        seatidea = [NSString stringWithFormat:@"目前共有空车位%i个",[_park.seatIdle integerValue]];
-    }else if([_park.parkStatus isEqualToString:@"1"]){
-        seatidea = @"空车位未知";
-    }else{
-        seatidea = @"空车位未知";
-    }
-    
-    NSString *text = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
-    
-    NSString *freeTime = @"";
-    if (_park.parkFreetime == nil || [_park.parkFreetime intValue] == 0) {
-        freeTime = nil;
-    }else if([_park.parkFreetime intValue] == -1){
-        freeTime = @"全天免费";
-    }else{
-        freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",_park.parkFreetime];
-    }
-    
-    NSString *parkFeedesc = @"";
-    if ([FLYBaseUtil isNotEmpty:_park.parkFeedesc]) {
-        parkFeedesc = [NSString stringWithFormat:@"，收费标准%@",_park.parkFeedesc];
-    }
-    
-    if (freeTime != nil) {
-        text = [NSString stringWithFormat:@"%@，%@，%@",text,freeTime,parkFeedesc];
-    }
-    
-    NSLog(@"%@",text);
+    NSString *speechText = [FLYUtils getParkSpeech:_park];
     
     if (_iflySpeechSynthesizer != nil && !_isClose) {
-        [_iflySpeechSynthesizer startSpeaking:text];
+        [_iflySpeechSynthesizer startSpeaking:speechText];
     }
 }
 
 - (void)navAction{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-    
     CLLocationCoordinate2D startCoor = appDelegate.coordinate;
     CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([_park.parkLat doubleValue], [_park.parkLng doubleValue]);
     
-    
-    //API http://developer.baidu.com/map/wiki/index.php?title=uri/api/ios#.E5.85.AC.E4.BA.A4.E3.80.81.E9.A9.BE.E8.BD.A6.E3.80.81.E6.AD.A5.E8.A1.8C.E5.AF.BC.E8.88.AA
-    //调用百度地图导航
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]){
-        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=driving&src=停哪儿",
-                               startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, _park.parkName];
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        NSURL *url = [NSURL URLWithString:urlString];
-        [[UIApplication sharedApplication] openURL:url];
-    }else{
-        [self showToast:@"请先下载安装百度地图"];
-    }
-    
-    //    // ios6以下，调用google map
-    //    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
-    //        NSString *urlString = [[NSString alloc]
-    //                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
-    //                               startCoor.latitude,
-    //                               startCoor.longitude,
-    //                               endCoor.latitude,
-    //                               endCoor.longitude];
-    //
-    //        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    //        NSURL *url = [NSURL URLWithString:urlString];
-    //        [[UIApplication sharedApplication] openURL:url];
-    //    } else {
-    //        // 直接调用ios自己带的apple map
-    //        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-    //        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
-    //        toLocation.name = _park.parkName;
-    //        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
-    //                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
-    //    }
-    
+    [FLYUtils drivingNavigation:_park.parkName start:startCoor end:endCoor];
 }
 
 - (void)enterAction{
@@ -608,7 +519,4 @@
 - (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
-
-
-
 @end

@@ -36,10 +36,10 @@
 }
 
 -(void)_init{
-    _firstFlag = YES;
+    _firstLocation = YES;
     _isMore = YES;
-    _isFollow = NO;
-    _isLocation = NO;
+    _isMapFollow = NO;
+    _isMapLocation = NO;
     _isLoading = NO;
     _isLoadRegion = NO;
 }
@@ -409,14 +409,12 @@
     
     
     
-    if (_firstFlag == YES) {
+    if (_firstLocation == YES) {
+        //反查当前城市
+        [self reverseGeo];
+        //第一次定位标示
+        _firstLocation = NO;
         
-        
-//        if ([FLYBaseUtil isEmpty:appDelegate.city]) {
-            [self reverseGeo];
-//        }
-        
-        _firstFlag = NO;
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
@@ -436,20 +434,18 @@
 //更新用户位置
 -(void)updateUserLocation:(BMKUserLocation *)userLocation{
     //跟随、定位
-    if (_isFollow) {
+    if (_isMapFollow) {
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
         
-    }else if(_isLocation){
+    }else if(_isMapLocation){
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-        _isLocation = NO;
+        _isMapLocation = NO;
     }
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:kMapLocationNotification object:userLocation];
-    
     [_mapBaseView.mapView updateLocationData:userLocation];
 }
 
@@ -465,7 +461,6 @@
         if (!_isLoadRegion && appDelegate.cityDatas == nil) {
             [self requestCityData:city];
         }
-        
     }
     else {
         [self showAlert:@"抱歉，未找到结果"];

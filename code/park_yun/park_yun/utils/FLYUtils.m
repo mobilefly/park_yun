@@ -9,6 +9,7 @@
 #import <CommonCrypto/CommonDigest.h>
 #import "RegexKitLite.h"
 #import "NSString+URLEncoding.h"
+#import "FLYToast.h"
 
 @implementation FLYUtils
 
@@ -162,6 +163,73 @@
             result = [NSString stringWithFormat:@"%@_small_%@_%@%@",[url substringToIndex:range.location],width,height,[url substringFromIndex:range.location]];
         }
     }
+    return result;
+}
+
+//行车导航
++ (void)drivingNavigation:(NSString *)name start:(CLLocationCoordinate2D)start end:(CLLocationCoordinate2D) end{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]){
+        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=driving&src=停哪儿",
+                               start.latitude, start.longitude, end.latitude, end.longitude, name];
+        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        NSURL *url = [NSURL URLWithString:urlString];
+        [[UIApplication sharedApplication] openURL:url];
+    }else{
+        [FLYToast showWithText:@"请先下载安装百度地图"];
+    }
+}
+
++ (NSString *)getParkSpeech:(FLYParkModel *)parkModel{
+    NSString *parkName = parkModel.parkName;
+    NSString *parkDistance = @"";
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
+    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
+    CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
+    if (distance > 1000) {
+        parkDistance = [NSString stringWithFormat:@"%.1f千米",distance / 1000];
+    }else{
+        parkDistance = [NSString stringWithFormat:@"%.0f米",distance];
+    }
+    
+    NSString *seatidea = @"";
+    
+    if ([parkModel.parkStatus isEqualToString:@"0"]) {
+        
+        seatidea = [NSString stringWithFormat:@"目前共有空车位%i个",[parkModel.seatIdle integerValue]];
+    }else if([parkModel.parkStatus isEqualToString:@"1"]){
+        seatidea = @"空车位未知";
+    }else{
+        seatidea = @"空车位未知";
+    }
+    
+    NSString *result = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
+    
+    NSString *freeTime = @"";
+    if (parkModel.parkFreetime == nil || [parkModel.parkFreetime intValue] == 0) {
+        freeTime = nil;
+        
+        if ([FLYBaseUtil isNotEmpty:parkModel.parkFeedesc]) {
+            freeTime = [freeTime stringByAppendingFormat:@"，收费标准%@",parkModel.parkFeedesc];
+        }
+    }else if([parkModel.parkFreetime intValue] == -1){
+        freeTime = @"全天免费";
+    }else{
+        freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",parkModel.parkFreetime];
+        
+        if ([FLYBaseUtil isNotEmpty:parkModel.parkFeedesc]) {
+            freeTime = [freeTime stringByAppendingFormat:@"，收费标准%@",parkModel.parkFeedesc];
+        }
+    }
+    
+    if (freeTime != nil) {
+        result = [NSString stringWithFormat:@"%@，%@",result,freeTime];
+    }
+    
+    NSLog(@"%@",result);
+    
     return result;
 }
 

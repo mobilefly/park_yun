@@ -20,11 +20,12 @@
 
 //页面回调
 @property (copy, nonatomic) NSString *reloadFlag;
-//城市
+//当前城市
 @property (copy, nonatomic) NSString *city;
+//当前位置
 @property(nonatomic,assign) CLLocationCoordinate2D coordinate;
 
-//区停车场数据
+//缓存城市停车场数据
 @property (strong, nonatomic) NSMutableArray *cityDatas;
 
 

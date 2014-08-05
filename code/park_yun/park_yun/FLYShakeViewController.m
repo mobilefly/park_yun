@@ -74,7 +74,6 @@
     }
     [self.view addSubview:_loadingView];
     
-    
     //下部蓝色背景
     UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0, ScreenHeight - 100 - 20 - 44, 320, 100)];
     bottomView.backgroundColor = shakeBgColor;
@@ -264,42 +263,10 @@
     FLYParkModel *parkModel = [self.datas objectAtIndex:index];
     
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-
     CLLocationCoordinate2D startCoor = appDelegate.coordinate;
     CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake([parkModel.parkLat doubleValue], [parkModel.parkLng doubleValue]);
     
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]]){
-        NSString *urlString = [NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=driving&src=停哪儿",
-                               startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, parkModel.parkName];
-        urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-        NSURL *url = [NSURL URLWithString:urlString];
-        [[UIApplication sharedApplication] openURL:url];
-    }else{
-        [self showToast:@"请先下载安装百度地图"];
-    }
-    
-//    // ios6以下，调用google map
-//    if (SYSTEM_VERSION_LESS_THAN(@"6.0")) {
-//        NSString *urlString = [[NSString alloc]
-//                               initWithFormat:@"http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f&dirfl=d",
-//                               startCoor.latitude,
-//                               startCoor.longitude,
-//                               endCoor.latitude,
-//                               endCoor.longitude];
-//        
-//        urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//        NSURL *url = [NSURL URLWithString:urlString];
-//        [[UIApplication sharedApplication] openURL:url];
-//    } else {
-//        // 直接调用ios自己带的apple map
-//        MKMapItem *currentLocation = [MKMapItem mapItemForCurrentLocation];
-//        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:[[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil]];
-//        toLocation.name = parkModel.parkName;
-//        
-//        [MKMapItem openMapsWithItems:@[currentLocation, toLocation]
-//                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
-//    }
+    [FLYUtils drivingNavigation:parkModel.parkName start:startCoor end:endCoor];
 }
 
 #pragma mark - request
@@ -489,54 +456,15 @@
 }
 
 -(void)speakAction:(FLYParkModel *)parkModel{
-    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
-    NSString *parkName = parkModel.parkName;
-    NSString *parkDistance = @"";
     
-    BMKMapPoint point1 = BMKMapPointForCoordinate(appDelegate.coordinate);
-    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake([parkModel.parkLat doubleValue],[parkModel.parkLng doubleValue]));
-    CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-    if (distance > 1000) {
-        parkDistance = [NSString stringWithFormat:@"%.1f千米",distance / 1000];
-    }else{
-        parkDistance = [NSString stringWithFormat:@"%.0f米",distance];
-    }
-    
-    NSString *seatidea = @"";
-    
-    if ([parkModel.parkStatus isEqualToString:@"0"]) {
+    NSString *speechText = [FLYUtils getParkSpeech:parkModel];
 
-        seatidea = [NSString stringWithFormat:@"目前共有空车位%i个",[parkModel.seatIdle integerValue]];
-    }else if([parkModel.parkStatus isEqualToString:@"1"]){
-        seatidea = @"空车位未知";
-    }else{
-        seatidea = @"空车位未知";
-    }
-    
-    NSString *text = [NSString stringWithFormat:@"%@距离%@，%@",parkName,parkDistance,seatidea];
-    
-    NSString *freeTime = @"";
-    if (parkModel.parkFreetime == nil || [parkModel.parkFreetime intValue] == 0) {
-        freeTime = nil;
-    }else if([parkModel.parkFreetime intValue] == -1){
-        freeTime = @"全天免费";
-    }else{
-        freeTime = [NSString stringWithFormat:@"免费停车时长%@分钟",parkModel.parkFreetime];
-    }
-    
-    if (freeTime != nil) {
-        text = [NSString stringWithFormat:@"%@，%@",text,freeTime];
-    }
-    
-    NSLog(@"%@",text);
-    
     if (_iflySpeechSynthesizer != nil && !_isClose) {
         if (_isVoice) {
-            [_iflySpeechSynthesizer startSpeaking:text];
+            [_iflySpeechSynthesizer startSpeaking:speechText];
         }
     }
-    
 }
 
 //动画

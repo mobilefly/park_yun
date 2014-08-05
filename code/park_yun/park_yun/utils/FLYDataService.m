@@ -7,6 +7,7 @@
 //
 
 #import "FLYDataService.h"
+#import "FLYToast.h"
 
 @implementation FLYDataService
 
@@ -16,10 +17,6 @@
                      completeBolck:(RequestFinishBlock)block
                      errorBolck:(RequestErrorBlock)error{
     
-    //取得认证信息
-//    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-//    NSString *token = [defaults stringForKey:@"token"];
-
     //拼接url
     urlstring = [kHttpDomain stringByAppendingFormat:@"%@",urlstring];
     
