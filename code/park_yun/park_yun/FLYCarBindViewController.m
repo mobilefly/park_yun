@@ -7,8 +7,8 @@
 //
 
 #import "FLYCarBindViewController.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYDataService.h"
+#import "UIButton+Bootstrap.h"
 
 #define kCarBackgroundColor Color(249,249,249,1)
 #define kCarBorderColor Color(204,204,204,1)
@@ -143,7 +143,7 @@
          if ([FLYBaseUtil isEnableInternate]) {
              [self requestUpload];
          }else{
-             [self showAlert:@"请打开网络"];
+             [self showToast:@"请打开网络"];
          }
     }
 }

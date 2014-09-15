@@ -7,8 +7,8 @@
 //
 
 #import "FLYGateCell.h"
-#import "UIImageView+WebCache.h"
 #import "UIFactory.h"
+#import "UIImageView+WebCache.h"
 
 @implementation FLYGateCell
 

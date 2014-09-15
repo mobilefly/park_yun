@@ -7,10 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLYBaseMapViewController.h"
 #import "PullingRefreshTableView.h"
 #import "ThemeButton.h"
-#import "FLYBaseMapViewController.h"
-
 
 @interface FLYMainViewController : FLYBaseMapViewController<PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource,BMKMapViewDelegate,BMKLocationServiceDelegate,BMKGeoCodeSearchDelegate>{
     
@@ -30,6 +29,8 @@
     BMKGeoCodeSearch *_codeSearcher;
     //位置服务
     BMKLocationService *_locationService;
+    
+//    NSMutableArray *_regionList;
 }
 
 
@@ -41,6 +42,5 @@
 @property (nonatomic) BOOL refreshing;
 
 @property (weak, nonatomic) IBOutlet UIView *topView;
-
 
 @end

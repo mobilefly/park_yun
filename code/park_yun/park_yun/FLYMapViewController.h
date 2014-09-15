@@ -22,5 +22,4 @@
 //传入标记数据
 @property (strong, nonatomic)id dataModel;
 
-
 @end

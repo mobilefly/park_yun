@@ -8,13 +8,15 @@
 
 #import "FLYParkDetailViewController.h"
 #import "FLYBaseNavigationController.h"
-#import "RTLabel.h"
-#import "FLYDataService.h"
 #import "FLYMapViewController.h"
 #import "FLYLoginViewController.h"
 #import "FLYRemarkViewController.h"
 #import "FLYGateViewController.h"
+#import "FLYDataService.h"
+#import "FLYDBUtil.h"
+#import "RTLabel.h"
 #import <MapKit/MapKit.h>
+
 
 
 #define BlueColor Color(25, 150, 240 ,1)
@@ -32,7 +34,11 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"停车场详情";
+        if ([FLYBaseUtil isOffline]) {
+            self.title = @"停车场详情(离线)";
+        }else{
+            self.title = @"停车场详情";
+        }
         self.showLocation = YES;
     }
     return self;
@@ -58,7 +64,13 @@
 }
 
 - (void)requestData{
-    if ([FLYBaseUtil isEnableInternate]) {
+    //离线请求数据库
+    if ([FLYBaseUtil isOffline]) {
+        self.park = [FLYDBUtil queryParkDetail:_parkId];
+        if (self.park != nil) {
+            [self renderDetail];
+        }
+    }else if ([FLYBaseUtil isEnableInternate]) {
         if ([FLYBaseUtil isNotEmpty:_parkId]) {
             [self showHUD:@"加载中" isDim:NO];
             NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -83,9 +95,8 @@
             }];
         }
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
-
 }
 
 - (void)loadData:(id)data{
@@ -204,9 +215,13 @@
     UILabel *parkCapacity = [[UILabel alloc] initWithFrame:CGRectMake(Padding, sp.bottom + 10, 100, 20)];
     //已签约
     if ([self.park.parkStatus isEqualToString:@"0"]) {
-         parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.park.seatIdle,@"个"];
+        if ([self.park.seatIdle intValue] == -1) {
+            parkCapacity.text = @" - ";
+        }else{
+            parkCapacity.text = [NSString stringWithFormat:@"%@%@",self.park.seatIdle,@"个"];
+        }
     }else{
-         parkCapacity.text = @" - ";
+         parkCapacity.text =  @" - ";
     }
     parkCapacity.font = [UIFont systemFontOfSize:18.0];
     parkCapacity.textColor = [UIColor orangeColor];

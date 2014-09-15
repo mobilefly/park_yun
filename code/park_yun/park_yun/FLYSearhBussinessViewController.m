@@ -7,10 +7,11 @@
 //
 
 #import "FLYSearhBussinessViewController.h"
-#import "FLYDataService.h"
-#import "FLYParkModel.h"
 #import "FLYParkDetailViewController.h"
 #import "FLYParkCell.h"
+#import "FLYParkModel.h"
+#import "FLYDataService.h"
+#import "FLYDBUtil.h"
 
 @interface FLYSearhBussinessViewController ()
 
@@ -22,7 +23,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"商圈周边查询";
+//        self.title = @"商圈周边查询";
     }
     return self;
 }
@@ -31,7 +32,13 @@
 {
     [super viewDidLoad];
     
-    self.title = self.titleName;
+    if ([FLYBaseUtil isOffline]) {
+        self.title = [NSString  stringWithFormat:@"%@(离线)",self.titleName];
+    }else{
+        self.title = self.titleName;
+    }
+    
+    
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
@@ -44,12 +51,18 @@
     
     [self setExtraCellLineHidden:self.tableView];
     
-    if ([FLYBaseUtil isEnableInternate]) {
+    
+    if ([FLYBaseUtil isOffline]) {
         [self requestParkData];
-        [self showHUD:@"加载中" isDim:NO];
     }else{
-        [self showAlert:@"请打开网络"];
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self showHUD:@"加载中" isDim:NO];
+            [self requestParkData];
+        }else{
+            [self showToast:@"请打开网络"];
+        }
     }
+    
 
 }
 
@@ -57,25 +70,47 @@
 #pragma mark - request
 //停车场位置
 - (void)requestParkData{
-    _isMore = NO;
-    _dataIndex = 0;
-    self.datas = nil;
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",self.coordinate.latitude],
-                                   @"lat",
-                                   [NSString stringWithFormat:@"%f",self.coordinate.longitude],
-                                   @"long",
-                                   @"2000",
-                                   @"range",
-                                   nil];
     
-    //防止循环引用
-    __weak FLYSearhBussinessViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadParkData:result];
-    } errorBolck:^(){
-        [ref loadParkError];
-    }];
+    //离线请求数据库
+    if ([FLYBaseUtil isOffline]) {
+        NSString *city = [FLYBaseUtil getCity];
+        NSMutableArray *parkList = [FLYDBUtil queryParkList:self.coordinate.latitude lng:self.coordinate.longitude city:city rang:2000];
+        self.datas = parkList;
+        
+        if (self.datas != nil && [self.datas count] > 0) {
+            self.tableView.hidden = NO;
+            [self showNoDataView:NO];
+        }else{
+            self.tableView.hidden = YES;
+            [self showNoDataView:YES];
+        }
+        
+        [self.tableView tableViewDidFinishedLoading];
+        [self.tableView setReachedTheEnd:YES];
+        [self.tableView reloadData];
+    }else{
+        _isMore = NO;
+        _dataIndex = 0;
+        self.datas = nil;
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [NSString stringWithFormat:@"%f",self.coordinate.latitude],
+                                       @"lat",
+                                       [NSString stringWithFormat:@"%f",self.coordinate.longitude],
+                                       @"long",
+                                       @"2000",
+                                       @"range",
+                                       nil];
+        
+        //防止循环引用
+        __weak FLYSearhBussinessViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadParkData:result];
+        } errorBolck:^(){
+            [ref loadParkError];
+        }];
+    }
+    
+    
 }
 
 //加载更多停车场列表

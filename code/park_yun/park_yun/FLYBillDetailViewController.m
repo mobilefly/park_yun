@@ -7,9 +7,9 @@
 //
 
 #import "FLYBillDetailViewController.h"
-#import "FLYDataService.h"
-#import "FLYGoodsOrderModel.h"
 #import "FLYBillDetailCell.h"
+#import "FLYGoodsOrderModel.h"
+#import "FLYDataService.h"
 
 #define bgColor Color(230, 230, 230 ,1)
 
@@ -46,7 +46,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestBillDetailData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

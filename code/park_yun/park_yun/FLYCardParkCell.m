@@ -35,7 +35,7 @@
     NSDate *date = [FLYUtils dateFromFomate:self.cardParkModel.cpExpdate formate:@"yyyyMMdd"];
     NSString *datetText = [FLYUtils stringFromFomate:date formate:@"yyyy.MM.dd"];
     
-    float currentTimeMillis = [[ NSDate date ] timeIntervalSince1970 ];
+    float currentTimeMillis = [[ NSDate date ] timeIntervalSince1970];
     if ([date timeIntervalSince1970] > currentTimeMillis) {
         _cpExpdateLabel.text = datetText;
         _cpExpdateLabel.textColor = Color(180, 180, 180, 1);

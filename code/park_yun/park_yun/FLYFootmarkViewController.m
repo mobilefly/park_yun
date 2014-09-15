@@ -7,12 +7,11 @@
 //
 
 #import "FLYFootmarkViewController.h"
-#import "FLYDataService.h"
+#import "FLYParkDetailViewController.h"
 #import "FLYFootmarkCell.h"
 #import "FLYMemberTraceModel.h"
 #import "FLYParkModel.h"
-#import "FLYParkDetailViewController.h"
-
+#import "FLYDataService.h"
 
 @interface FLYFootmarkViewController ()
 
@@ -49,7 +48,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestFootmarkData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

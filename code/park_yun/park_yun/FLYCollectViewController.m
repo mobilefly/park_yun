@@ -7,10 +7,10 @@
 //
 
 #import "FLYCollectViewController.h"
-#import "FLYDataService.h"
-#import "FLYCollectModel.h"
-#import "FLYCollectCell.h"
 #import "FLYParkDetailViewController.h"
+#import "FLYCollectCell.h"
+#import "FLYCollectModel.h"
+#import "FLYDataService.h"
 #import "FLYAppDelegate.h"
 
 
@@ -48,7 +48,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestCollectData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

@@ -8,11 +8,11 @@
 
 #import "FLYRemarkViewController.h"
 #import "FLYAddRemarkViewController.h"
-#import "FLYDataService.h"
-#import "FLYRemarkModel.h"
-#import "FLYRemarkCell.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYLoginViewController.h"
+#import "FLYRemarkCell.h"
+#import "FLYRemarkModel.h"
+#import "FLYDataService.h"
 #import "FLYAppDelegate.h"
 
 
@@ -52,7 +52,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestRemarkData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

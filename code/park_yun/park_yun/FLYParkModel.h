@@ -52,6 +52,7 @@
 @property(nonatomic,copy) NSString *parkSubtype;
 @property(nonatomic,copy) NSString *parkAddress;
 @property(nonatomic,copy) NSString *parkRemark;
+@property(nonatomic,copy) NSString *parkCapdesc;
 @property(nonatomic,strong) NSNumber *seatIdle;
 @property(nonatomic,strong) FLYPhotoModel *photo;
 

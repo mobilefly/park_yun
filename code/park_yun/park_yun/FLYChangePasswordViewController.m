@@ -7,10 +7,10 @@
 //
 
 #import "FLYChangePasswordViewController.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYDataService.h"
 #import "DXAlertView.h"
 #import "NSString+MD5HexDigest.h"
+#import "UIButton+Bootstrap.h"
 
 @interface FLYChangePasswordViewController ()
 
@@ -47,7 +47,7 @@
     passverifyIcon.frame = CGRectMake(9, 8, 22, 24);
     [passverifyIconView addSubview:passverifyIcon];
     
-    _oldPwdField = [[UITextField alloc] initWithFrame:CGRectMake(20, 10, 280, 40)];
+    _oldPwdField = [[UITextField alloc] initWithFrame:CGRectMake(20, 20, 280, 40)];
     _oldPwdField.borderStyle = UITextBorderStyleRoundedRect;
     _oldPwdField.clearButtonMode = YES;
     _oldPwdField.secureTextEntry = YES;
@@ -62,11 +62,11 @@
     [self.view addSubview:_oldPwdField];
     
     
-    if (ScreenHeight == 568) {
-        _oldPwdField.top = _oldPwdField.top + 30;
-    }
+//    if (ScreenHeight == 568) {
+//        _oldPwdField.top = _oldPwdField.top + 30;
+//    }
     
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _oldPwdField.bottom + 10, 280, 40)];
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _oldPwdField.bottom + 20, 280, 40)];
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
@@ -80,7 +80,7 @@
     [_passwordField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_passwordField];
     
-    _passverifyField = [[UITextField alloc] initWithFrame:CGRectMake(20, _passwordField.bottom + 10, 280, 40)];
+    _passverifyField = [[UITextField alloc] initWithFrame:CGRectMake(20, _passwordField.bottom + 20, 280, 40)];
     _passverifyField.clearButtonMode = YES;
     _passverifyField.borderStyle = UITextBorderStyleRoundedRect;
     _passverifyField.secureTextEntry = YES;
@@ -95,7 +95,7 @@
     [self.view addSubview:_passverifyField];
     
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(20,_passverifyField.bottom + 50 , 280, 40);
+    _submitBtn.frame = CGRectMake(20,_passverifyField.bottom + 30 , 280, 40);
     [_submitBtn primaryStyle];
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];

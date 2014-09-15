@@ -98,6 +98,8 @@
 
 - (void)loadLocationData:(id)data;
 
+- (void)requestLocationData;
+
 @end
 
 

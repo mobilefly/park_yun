@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMapKit.h"
 #import "FLYMainViewController.h"
-
+#import "BMapKit.h"
 
 @interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
     BMKMapManager* _mapManager;    

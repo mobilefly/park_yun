@@ -21,4 +21,7 @@
 @property(nonatomic,copy) NSString *bussinessLng;
 @property(nonatomic,copy) NSString *bussinessLat;
 
+@property(nonatomic,copy) NSString *bussinessDesc;
+@property(nonatomic,copy) NSString *bussinessSort;
+
 @end

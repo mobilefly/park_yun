@@ -42,29 +42,92 @@
 
 - (void)layoutSubviews{
     
-    NSString *goodName = self.traceModel.order.goodsOrder.goName;
     
-    _orderNameLabel.text = @"";
-
-    if ([self.traceModel.order.orderType isEqualToString:@"03"]) {
-        if ([FLYBaseUtil isNotEmpty:goodName]) {
-            _orderNameLabel.text = goodName;
+    if(self.traceModel.order != nil && [FLYBaseUtil isNotEmpty:self.traceModel.order.orderId]){
+        NSString *goodName = self.traceModel.order.goodsOrder.goName;
+        
+        _orderNameLabel.text = @"";
+        
+        if ([self.traceModel.order.orderType isEqualToString:@"03"]) {
+            if ([FLYBaseUtil isNotEmpty:goodName]) {
+                _orderNameLabel.text = goodName;
+            }
         }
+        //充值
+        else if([self.traceModel.order.orderType isEqualToString:@"01"]) {
+            _orderNameLabel.text = @"账户充值";
+            _orderInfoImage.hidden = NO;
+        }
+        else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
+            _orderNameLabel.text = @"办理停车场畅听卡";
+            _orderInfoImage.hidden = YES;
+        }
+        //充值(优惠劵)
+        else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
+            _orderNameLabel.text = @"账户充值";
+            _orderInfoImage.hidden = NO;
+        }
+
+        //支付方式
+        //00余额
+        if ([self.traceModel.order.orderPayflag isEqualToString:@"00"]) {
+            _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_time_all_0.png"];
+            NSString *addTime = self.traceModel.order.orderAddtime;
+            NSString *payTime = self.traceModel.order.orderPaytime;
+            //
+            if ([FLYBaseUtil isNotEmpty:addTime] && [FLYBaseUtil isNotEmpty:payTime]) {
+                NSDate *beginDate = [FLYUtils dateFromFomate:addTime formate:@"yyyyMMddHHmmss"];
+                NSDate *endDate = [FLYUtils dateFromFomate:payTime formate:@"yyyyMMddHHmmss"];
+                _orderInfoLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
+            }
+        }
+        //01支付宝
+        else if ([self.traceModel.order.orderPayflag isEqualToString:@"01"]) {
+            _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_zfb_all_0.png"];
+            _orderInfoLabel.text = @"支付宝充值";
+        }
+        //02银联
+        else if([self.traceModel.order.orderPayflag isEqualToString:@"02"]){
+            _orderInfoImage.image = [UIImage imageNamed:@""];
+            _orderInfoLabel.text = @"银联充值";
+        }
+        //03微信
+        else if([self.traceModel.order.orderPayflag isEqualToString:@"03"]){
+            _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_wx_all_0.png"];
+            _orderInfoLabel.text = @"微信充值";
+        }
+        else{
+            _orderInfoImage.image = nil;
+            _orderInfoLabel.text = @"";
+        }
+    }else{
+        NSString *parkName = self.traceModel.mtParkname;
+        NSString *beginTime = self.traceModel.mtParkbegin;
+        NSString *endTime = self.traceModel.mtParkend;
+        _orderNameLabel.text = [NSString stringWithFormat:@"%@%@",parkName,@"（停车）"];
+        
+        NSDate *beginDate = [FLYUtils dateFromFomate:beginTime formate:@"yyyyMMddHHmmss"];
+        NSDate *endDate = [FLYUtils dateFromFomate:endTime formate:@"yyyyMMddHHmmss"];
+        _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_time_all_0.png"];
+        _orderInfoLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
+        
     }
-    //充值
-    else if([self.traceModel.order.orderType isEqualToString:@"01"]) {
-        _orderNameLabel.text = @"账户充值";
-        _orderInfoImage.hidden = NO;
+    
+    //时间
+    NSString *mtPaydate = self.traceModel.mtPaydate;
+    if (mtPaydate != nil && mtPaydate.length > 0) {
+        _monthLabel.text = [mtPaydate substringWithRange:NSMakeRange(4,2)];
+        _dayLabel.text = [mtPaydate substringWithRange:NSMakeRange(6,2)];
+        
+        NSString *payDateHour = [mtPaydate substringWithRange:NSMakeRange(8,2)];
+        NSString *payDateMin = [mtPaydate substringWithRange:NSMakeRange(10,2)];
+        _mtPaydateLabel.text = [NSString stringWithFormat:@"%@:%@",payDateHour,payDateMin];
     }
-    else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
-        _orderNameLabel.text = @"办理停车场畅听卡";
-        _orderInfoImage.hidden = YES;
-    }
-    //充值(优惠劵)
-    else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
-        _orderNameLabel.text = @"账户充值";
-        _orderInfoImage.hidden = NO;
-    }
+    _dateView.hidden = !self.showDate;
+    
+    //余额
+    double douleBalance = [self.traceModel.mtBalance doubleValue] / 100;
+    _mtBalanceLabel.text = [NSString stringWithFormat:@"%0.2f",douleBalance];
     
     //消费
     double doulePrice = [self.traceModel.mtPrice doubleValue];
@@ -78,51 +141,6 @@
         _mtPriceLabel.textColor = [UIColor orangeColor];
         _mtPriceLabel.text = [NSString stringWithFormat:@"- %0.2f",fabs(doulePrice)];
         _mtPriceTitle.text = @"消费：";
-    }
-    
-    //余额
-    double douleBalance = [self.traceModel.mtBalance doubleValue] / 100;
-    _mtBalanceLabel.text = [NSString stringWithFormat:@"%0.2f",douleBalance];
-    
-    NSString *mtPaydate = self.traceModel.mtPaydate;
-    if (mtPaydate != nil && mtPaydate.length > 0) {
-        _monthLabel.text = [mtPaydate substringWithRange:NSMakeRange(4,2)];
-        _dayLabel.text = [mtPaydate substringWithRange:NSMakeRange(6,2)];
-        
-        NSString *payDateHour = [mtPaydate substringWithRange:NSMakeRange(8,2)];
-        NSString *payDateMin = [mtPaydate substringWithRange:NSMakeRange(10,2)];
-        _mtPaydateLabel.text = [NSString stringWithFormat:@"%@:%@",payDateHour,payDateMin];
-    }
-    
-
-    _dateView.hidden = !self.showDate;
-
-    //00余额
-    if ([self.traceModel.order.orderPayflag isEqualToString:@"00"]) {
-        _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_time_all_0.png"];
-        NSString *addTime = self.traceModel.order.orderAddtime;
-        NSString *payTime = self.traceModel.order.orderPaytime;
-//        
-        if ([FLYBaseUtil isNotEmpty:addTime] && [FLYBaseUtil isNotEmpty:payTime]) {
-            NSDate *beginDate = [FLYUtils dateFromFomate:addTime formate:@"yyyyMMddHHmmss"];
-            NSDate *endDate = [FLYUtils dateFromFomate:payTime formate:@"yyyyMMddHHmmss"];
-            _orderInfoLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
-        }
-    }
-    //01支付宝
-    else if ([self.traceModel.order.orderPayflag isEqualToString:@"01"]) {
-        _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_zfb_all_0.png"];
-        _orderInfoLabel.text = @"支付宝充值";
-    }
-    //02银联
-    else if([self.traceModel.order.orderPayflag isEqualToString:@"02"]){
-        _orderInfoImage.image = [UIImage imageNamed:@""];
-        _orderInfoLabel.text = @"银联充值";
-    }
-    //03微信
-    else{
-        _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_wx_all_0.png"];
-        _orderInfoLabel.text = @"微信充值";
     }
     
 }

@@ -45,7 +45,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestCardParkData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

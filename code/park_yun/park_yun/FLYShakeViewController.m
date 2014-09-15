@@ -7,12 +7,12 @@
 //
 
 #import "FLYShakeViewController.h"
-#import "FLYDataService.h"
+#import "FLYGateViewController.h"
 #import "FLYParkModel.h"
+#import "FLYDataService.h"
 #import "UIFactory.h"
 #import "UIButton+Bootstrap.h"
 #import <AudioToolbox/AudioToolbox.h>
-#import "FLYGateViewController.h"
 #import <MapKit/MapKit.h>
 
 
@@ -271,8 +271,8 @@
 
 #pragma mark - request
 - (void)requestParkData{
-    _isLoading = YES;
     
+    _isLoading = YES;
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
     

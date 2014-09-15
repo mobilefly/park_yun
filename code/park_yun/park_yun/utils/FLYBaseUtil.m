@@ -11,6 +11,18 @@
 #import "DXAlertView.h"
 #import "FLYToast.h"
 
+
+//NSUserDefaults
+//1.token 用户令牌
+//2.memberId 用户ID
+//3.memberPhone 用户账号
+//4.memberName 用户姓名
+//5.memberCarno 用户默认车牌号
+//6.memberType 用户类型
+//7.offline 离线浏览模式
+//8.city    上次缓存城市
+//9.regionVersion   版本
+
 @implementation FLYBaseUtil
 
 +(BOOL)checkUserLogin{
@@ -30,6 +42,34 @@
         return false;
     }
     return true;
+}
+
++(BOOL)isOffline{
+    BOOL flag = NO;
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *offline = [defaults stringForKey:@"offline"];
+    //离线请求数据库
+    if ([FLYBaseUtil isNotEmpty:offline] && [offline isEqualToString:@"YES"]) {
+        flag = YES;
+    }
+    return flag;
+}
+
++(NSString *)getCity{
+    NSString *city = nil;
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if ([FLYBaseUtil isNotEmpty:appDelegate.city]) {
+        city = appDelegate.city;
+    }else{
+        city = [defaults stringForKey:@"city"];
+    }
+    
+    if ([FLYBaseUtil isEmpty:city]) {
+        city = @"武汉市";
+    }
+    return city;
 }
 
 
@@ -59,12 +99,12 @@
 }
 
 // 是否wifi
-+(BOOL) isEnableWIFI {
++(BOOL)isEnableWIFI {
     return ([[Reachability reachabilityForLocalWiFi] currentReachabilityStatus] != NotReachable);
 }
 
 // 是否打开网络
-+(BOOL) isEnableInternate {
++(BOOL)isEnableInternate {
     return ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable);
 }
 
@@ -74,10 +114,7 @@
 }
 
 +(void)alertErrorMsg{
-    
     [FLYToast showWithText:@"连接失败"];
-//    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"连接失败" leftButtonTitle:nil rightButtonTitle:@"确认"];
-//    [alert show];
 }
 
 

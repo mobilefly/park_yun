@@ -8,8 +8,11 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYBussinessViewController : FLYBaseViewController
+@interface FLYBussinessViewController : FLYBaseViewController{
+    NSString *_city;
+}
 
 @property (strong, nonatomic)NSMutableArray *datas;
+
 
 @end

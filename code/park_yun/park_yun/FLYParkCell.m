@@ -106,6 +106,10 @@
         _seatIdle.text = @"-";
     }
     
+    if ([_seatIdle.text isEqualToString:@"-1"]) {
+        _seatIdle.text = @"-";
+    }
+    
     //收费评级
     if ([self.parkModel.parkFeelevel isEqualToString:@"0"]) {
         _feelevelImage.image = [UIImage imageNamed:@"mfpparking_rmb_all_0.png"];
@@ -146,7 +150,7 @@
         if (scoreint > 2) {
             UIImageView *startView = [[UIImageView alloc] initWithImage:start2];
             if (tempStar != nil) {
-                startView.left = tempStar.right;
+                startView.left = tempStar.right + 2;
             }
             [_scoreView addSubview:startView];
             scoreint = scoreint - 2;
@@ -154,7 +158,7 @@
         }else{
             UIImageView *startView = [[UIImageView alloc] initWithImage:start1];
             if (tempStar != nil) {
-                startView.left = tempStar.right;
+                startView.left = tempStar.right + 2;
             }
             [_scoreView addSubview:startView];
             break;

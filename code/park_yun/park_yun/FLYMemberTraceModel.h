@@ -17,6 +17,13 @@
 //mtMemberid	string	用户UID
 //mtPaydate	string	交易时间
 
+//mtType	string	交易类型(11预付卡消费,12 畅停卡消费)
+//mtPark	string	停车场代码
+//mtParkname	string	停车场名称
+//mtParkbegin	string	进场时间
+//mtParkend	string	离场时间
+//mtParktime	int	停车时长(单位为分钟)
+
 @interface FLYMemberTraceModel : FLYBaseModel
 
 
@@ -26,6 +33,13 @@
 @property(nonatomic,copy) NSString *mtCode;
 @property(nonatomic,copy) NSString *mtMemberid;
 @property(nonatomic,copy) NSString *mtPaydate;
+@property(nonatomic,copy) NSString *mtType;
+@property(nonatomic,copy) NSString *mtPark;
+@property(nonatomic,copy) NSString *mtParkname;
+@property(nonatomic,copy) NSString *mtParkbegin;
+@property(nonatomic,copy) NSString *mtParkend;
+@property(nonatomic,copy) NSString *mtParktime;
+
 
 @property(nonatomic,strong) FLYOrderModel *order;
 

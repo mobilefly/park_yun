@@ -7,10 +7,10 @@
 //
 
 #import "FLYRegisterViewController.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYDataService.h"
 #import "DXAlertView.h"
 #import "NSString+MD5HexDigest.h"
+#import "UIButton+Bootstrap.h"
 
 @interface FLYRegisterViewController ()
 

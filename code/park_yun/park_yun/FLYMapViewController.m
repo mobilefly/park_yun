@@ -18,7 +18,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self _init];
-        self.title = @"停车场地图";
+        
+        if ([FLYBaseUtil isOffline]) {
+            self.title = @"停车场地图(离线)";
+        }else{
+            self.title = @"停车场地图";
+        }
     }
     return self;
 }
@@ -103,37 +108,20 @@
 
 }
 
-#pragma mark - request
-//停车场位置
-- (void)requestLocationData{
-    _isReload = NO;
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.latitude] ,
-                                   @"lat",
-                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.longitude],
-                                   @"long",
-                                   @"10000",
-                                   @"range",
-                                   nil];
-    //防止循环引用
-    __weak FLYMapViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryNearbySimplifyList params:params httpMethod:@"POST" completeBolck:^(id result){
-        if (ref != nil) {
-             [ref loadLocationData:result];
-        }
-    } errorBolck:^(){
-
-    }];
-}
-
 #pragma mark - BMKMapViewDelegate delegate
 - (void)mapView:(BMKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
     
     if (_isReload) {
         if (!_isLoading) {
             _isLoading = YES;
-            [self requestLocationData];
+            
+            if ([FLYBaseUtil isOffline]) {
+                [self requestLocationData];
+            }else{
+                if ([FLYBaseUtil isEnableInternate]) {
+                    [self requestLocationData];
+                }
+            }
         }
         return;
     }

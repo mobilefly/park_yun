@@ -7,11 +7,11 @@
 //
 
 #import "FLYOfflineParkViewController.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYDownloadParkCell.h"
-#import "FLYDataService.h"
 #import "FLYOfflineParkModel.h"
+#import "FLYDataService.h"
 #import "FMDB.h"
+#import "UIButton+Bootstrap.h"
 
 @interface FLYOfflineParkViewController ()
 
@@ -140,7 +140,7 @@
         _segment.selectedSegmentIndex = 0;
         [self switchAction];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 
@@ -226,7 +226,7 @@
                            parkModel.parkName,
                            parkModel.parkRegionid,
                            parkModel.parkCapacity,
-                           parkModel.parkCapacity,
+                           parkModel.parkCapdesc,
                            parkModel.parkLat,
                            parkModel.parkLng,
                            parkModel.parkFeedesc,
@@ -346,7 +346,8 @@
     //开启事务
     [db beginTransaction];
     @try {
-        flag = [db executeUpdate:@"delete from PARK where PARK_REGIONID = ?",regionId];
+        //NSString *regionLike = [NSString stringWithFormat:@"%@%@",regionId,@"%"];
+        flag = [db executeUpdate:@"delete from PARK where PARK_REGIONID in (select REGION_ID from REGION where REGION_PARENTID = ? or REGION_ID = ?) ",regionId,regionId];
         if (!flag) {
             NSLog(@"PARK:删除失败");
         }else{
@@ -624,7 +625,5 @@
 - (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
-
-
 
 @end

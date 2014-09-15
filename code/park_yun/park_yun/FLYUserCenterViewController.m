@@ -7,7 +7,6 @@
 //
 
 #import "FLYUserCenterViewController.h"
-#import "UIButton+Bootstrap.h"
 #import "FLYLoginViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYRechargeViewController.h"
@@ -19,6 +18,7 @@
 #import "FLYCollectViewController.h"
 #import "FLYCarManagerViewController.h"
 #import "FLYDataService.h"
+#import "UIButton+Bootstrap.h"
 
 @interface FLYUserCenterViewController ()
 
@@ -172,7 +172,7 @@
             }];
         }
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 

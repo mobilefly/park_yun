@@ -44,7 +44,7 @@
 + (NSString *)fomateString:(NSString *)datestring {
     NSString *formate = @"yyyyMMddHHmmss";
     NSDate *createDate = [FLYUtils dateFromFomate:datestring formate:formate];
-    NSString *text = [FLYUtils stringFromFomate:createDate formate:@"dd/MM HH:mm"];
+    NSString *text = [FLYUtils stringFromFomate:createDate formate:@"MM/dd HH:mm"];
     return text;
 }
 

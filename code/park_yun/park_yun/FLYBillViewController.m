@@ -7,11 +7,10 @@
 //
 
 #import "FLYBillViewController.h"
-#import "FLYDataService.h"
-#import "FLYMemberTraceModel.h"
-#import "FLYBillCell.h"
 #import "FLYBillDetailViewController.h"
-
+#import "FLYMemberTraceModel.h"
+#import "FLYDataService.h"
+#import "FLYBillCell.h"
 
 @interface FLYBillViewController ()
 
@@ -46,7 +45,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestBillData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 
@@ -243,12 +242,11 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     FLYMemberTraceModel *traceModel = [self.datas objectAtIndex:indexPath.row];
     
-    
-    FLYBillDetailViewController *detailCtrl = [[FLYBillDetailViewController alloc] init];
-    
-    detailCtrl.orderId = traceModel.order.orderId;
-    
-    [self.navigationController pushViewController:detailCtrl animated:NO];
+    if(traceModel.order != nil && [FLYBaseUtil isNotEmpty:traceModel.order.orderId]){
+        FLYBillDetailViewController *detailCtrl = [[FLYBillDetailViewController alloc] init];
+        detailCtrl.orderId = traceModel.order.orderId;
+        [self.navigationController pushViewController:detailCtrl animated:NO];
+    }
     
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }

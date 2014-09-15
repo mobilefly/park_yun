@@ -16,6 +16,12 @@
 
 +(BOOL)checkUserBindCar;
 
+//是否离线 YES离线 NO在线
++(BOOL)isOffline;
+
+//获取当前城市
++(NSString *)getCity;
+
 //清楚用户状态
 +(void)clearUserInfo;
 

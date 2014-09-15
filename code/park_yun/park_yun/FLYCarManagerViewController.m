@@ -7,10 +7,11 @@
 //
 
 #import "FLYCarManagerViewController.h"
-#import "FLYDataService.h"
-#import "FLYCarnoModel.h"
-#import "DXAlertView.h"
 #import "FLYCarBindViewController.h"
+#import "FLYCarnoModel.h"
+#import "FLYDataService.h"
+#import "DXAlertView.h"
+
 
 @interface FLYCarManagerViewController ()
 
@@ -44,8 +45,6 @@
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
     
-    
-    
     UIButton *editButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"编辑" target:self action:@selector(editAction)];
     UIBarButtonItem *editButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
     self.navigationItem.rightBarButtonItem = editButtonItem;
@@ -56,7 +55,7 @@
         [self showHUD:@"加载中" isDim:NO];
         [self requestCarNoData];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
 }
 
@@ -208,8 +207,6 @@
         [_tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:index] withRowAnimation:UITableViewRowAnimationFade];
         
         [_tableView reloadData];
-
-        
     }else{
         [self hideHUD];
         NSString *msg = [data objectForKey:@"msg"];
@@ -239,20 +236,29 @@
         cell.accessoryType = UITableViewCellAccessoryNone;
     }
     
+    
     if (indexPath.row == [self.datas count]) {
         cell.textLabel.text = @"添加车牌号";
         cell.detailTextLabel.text = @"";
         cell.imageView.image = [UIImage imageNamed:@"mfpparking_clgldelete_all_0.png"];
     }else{
         FLYCarnoModel *model = [self.datas objectAtIndex:indexPath.row];
-        cell.textLabel.text = model.mcCarno;
-        if ([_defaultCarno isEqualToString:model.mcCarno]) {
-            cell.detailTextLabel.text = @"默认车辆";
-            cell.imageView.image = [UIImage imageNamed:@"mfpparking_clglgou_all_0.png"];
-        }else{
-            cell.detailTextLabel.text = @"设为默认车辆";
+        
+        if ([model.mcFlag isEqualToString:@"1"]) {
+            cell.textLabel.text = model.mcCarno;
+            cell.detailTextLabel.text = @"待审核";
             cell.imageView.image = [UIImage imageNamed:@"mfpparking_empty.png"];
+        }else if([model.mcFlag isEqualToString:@"0"]){
+            cell.textLabel.text = model.mcCarno;
+            if ([_defaultCarno isEqualToString:model.mcCarno]) {
+                cell.detailTextLabel.text = @"默认车辆";
+                cell.imageView.image = [UIImage imageNamed:@"mfpparking_clglgou_all_0.png"];
+            }else{
+                cell.detailTextLabel.text = @"设为默认车辆";
+                cell.imageView.image = [UIImage imageNamed:@"mfpparking_empty.png"];
+            }
         }
+        
     }
     return cell;
 }
@@ -284,7 +290,12 @@
 }
 
 -(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return @"解绑";
+    FLYCarnoModel *model = [self.datas objectAtIndex:indexPath.row];
+    if ([model.mcFlag isEqualToString:@"1"]) {
+        return @"删除";
+    }else{
+        return @"解绑";
+    }
 }
 
 #pragma mark - UITableViewDelegate delegate

@@ -15,6 +15,8 @@
 #import "FLYCityAnnotation.h"
 #import "FLYCityAnnotationView.h"
 #import "FLYRegionParkModel.h"
+#import "FLYDBUtil.h"
+#import "FLYDataService.h"
 
 
 #pragma mark - RouteAnnotation
@@ -730,6 +732,7 @@
         lastLoadingLon = curLon;
         lastMarkLat = curLat;
         lastMarkLon = curLon;
+        
         _isReload = true;
     }else{
         BMKMapPoint point1 = BMKMapPointForCoordinate(mapView.region.center);
@@ -742,7 +745,7 @@
         CLLocationDistance distance2 = BMKMetersBetweenMapPoints(point1,point3);
         NSLog(@"distance:%f",distance);
         
-        if(distance2 > 9000){
+        if(distance2 > 9000 && ![FLYBaseUtil isOffline]){
             lastLoadingLat = curLat;
             lastLoadingLon = curLon;
             _isReload = true;
@@ -828,6 +831,36 @@
         [self showAlert:msg];
     }
 }
+
+#pragma mark - request
+//停车场位置
+- (void)requestLocationData{
+    if ([FLYBaseUtil isOffline]) {
+        _isReload = NO;
+        NSString *city = [FLYBaseUtil getCity];
+        self.locationDatas = [FLYDBUtil queryParkList:city];
+        _isLoading = NO;
+    }else{
+        _isReload = NO;
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.latitude] ,
+                                       @"lat",
+                                       [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.longitude],
+                                       @"long",
+                                       @"10000",
+                                       @"range",
+                                       nil];
+        
+        //防止循环引用
+        __weak FLYBaseMapViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryNearbySimplifyList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadLocationData:result];
+        } errorBolck:^(){
+            
+        }];
+    }
+}
+
 
 #pragma mark - other
 

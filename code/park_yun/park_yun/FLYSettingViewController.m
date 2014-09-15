@@ -30,7 +30,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStyleGrouped];
+
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
@@ -38,54 +39,101 @@
     [self setExtraCellLineHidden:tableView];
 }
 
+#pragma mark - Action
+- (void)offlineSwitchAction:(UISwitch *)button{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (button.on) {
+        [defaults setObject:@"YES" forKey:@"offline"];
+    }else{
+        [defaults setObject:@"NO" forKey:@"offline"];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
+#pragma mark - UITableViewDataSource delegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    if (section == 0) {
+        return 2;
+    }else{
+        return 3;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 50;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"SettingCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil) {
+    UITableViewCell *cell = nil;
+    
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.text = @"离线数据管理";
+        }else if(indexPath.row == 1){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell.textLabel.textColor = [UIColor grayColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = @"离线浏览";
+            
+            UISwitch *switchview = [[UISwitch alloc] initWithFrame:CGRectZero];
+            [switchview addTarget:self action:@selector(offlineSwitchAction:) forControlEvents:UIControlEventValueChanged];
+            cell.accessoryView = switchview;
+            
+            if ([FLYBaseUtil isOffline]) {
+                [switchview setOn:YES];
+            }else{
+                [switchview setOn:NO];
+            }
+            
+        }
+    }else if(indexPath.section == 1){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-    }
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    cell.textLabel.textColor = [UIColor grayColor];
-    if (indexPath.row == 0) {
-        cell.textLabel.text = @"离线数据管理";
-    }else if(indexPath.row == 1){
-        cell.textLabel.text = @"意见反馈";
-    }else if(indexPath.row == 2){
-        cell.textLabel.text = @"修改密码";
-    }else if(indexPath.row == 3){
-        cell.textLabel.text = @"关于我们";
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.textLabel.textColor = [UIColor grayColor];
+        if(indexPath.row == 0){
+            cell.textLabel.text = @"意见反馈";
+        }else if(indexPath.row == 1){
+            cell.textLabel.text = @"修改密码";
+        }else if(indexPath.row == 2){
+            cell.textLabel.text = @"关于我们";
+        }
     }
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        FLYOfflineParkViewController *offlineCtrl = [[FLYOfflineParkViewController alloc] init];
-        [self.navigationController pushViewController:offlineCtrl animated:NO];
-        
-    }else if (indexPath.row == 1){
-        FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
-        [self.navigationController pushViewController:feedBackCtrl animated:NO];
-    }else if (indexPath.row == 2){
-        if (![FLYBaseUtil checkUserLogin]) {
-            [self showAlert:@"请先登陆用户"];
-        }else{
-            FLYChangePasswordViewController *changePwdCtrl = [[FLYChangePasswordViewController alloc] init];
-            [self.navigationController pushViewController:changePwdCtrl animated:NO];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            FLYOfflineParkViewController *offlineCtrl = [[FLYOfflineParkViewController alloc] init];
+            [self.navigationController pushViewController:offlineCtrl animated:NO];
+            
         }
-    }else if (indexPath.row == 3){
-        FLYAbortViewController *abortCtrl = [[FLYAbortViewController alloc] init];
-        [self.navigationController pushViewController:abortCtrl animated:NO];
+    }else if (indexPath.section == 1){
+        if (indexPath.row == 0){
+            FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:feedBackCtrl animated:NO];
+        }else if (indexPath.row == 1){
+            if (![FLYBaseUtil checkUserLogin]) {
+                [self showAlert:@"请先登陆用户"];
+            }else{
+                FLYChangePasswordViewController *changePwdCtrl = [[FLYChangePasswordViewController alloc] init];
+                [self.navigationController pushViewController:changePwdCtrl animated:NO];
+            }
+        }else if (indexPath.row == 2){
+            FLYAbortViewController *abortCtrl = [[FLYAbortViewController alloc] init];
+            [self.navigationController pushViewController:abortCtrl animated:NO];
+        }
     }
+    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 

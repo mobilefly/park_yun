@@ -8,12 +8,13 @@
 
 #import "FLYSearchViewController.h"
 #import "FLYBaseNavigationController.h"
-#import "FLYDataService.h"
-#import "FLYBussinessModel.h"
 #import "FLYSearhBussinessViewController.h"
-#import "FLYAPPDelegate.h"
 #import "FLYBussinessViewController.h"
 #import "FLYBussinessCell.h"
+#import "FLYBussinessModel.h"
+#import "FLYDataService.h"
+#import "FLYAPPDelegate.h"
+#import "FLYDBUtil.h"
 
 #define blueColor Color(86, 127, 188 ,1)
 #define bgColor Color(230, 230, 230 ,1)
@@ -29,7 +30,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"周边查询";
+        if([FLYBaseUtil isOffline]){
+            self.title = @"周边查询(离线)";
+        }else{
+            self.title = @"周边查询";
+        }
+        
+        
+        
         self.isBackButton = NO;
         self.isCancelButton = YES;
     }
@@ -87,13 +95,20 @@
     //查询商圈
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     
-    if ([FLYBaseUtil isEnableInternate]) {
+
+    //离线
+    if ([FLYBaseUtil isOffline]) {
+        [self requestBussines:appDelegate.city];
+        if ([FLYBaseUtil isEnableInternate]){
+            [self searchAction:@""];
+        }
+    } else if ([FLYBaseUtil isEnableInternate]) {
         [self searchAction:@""];
         if ([FLYBaseUtil isNotEmpty:appDelegate.city]) {
             [self requestBussines:appDelegate.city];
         }
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
     
 }
@@ -175,20 +190,37 @@
 
 #pragma mark - reuqest
 - (void)requestBussines:(NSString *)city{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   city,
-                                   @"city",
-                                   @"10",
-                                   @"count",
-                                   nil];
+
+    //离线请求数据库
+    if ([FLYBaseUtil isOffline]) {
+        NSString *city = [FLYBaseUtil getCity];
+        
+        NSMutableArray *bussinessList = [FLYDBUtil queryBussinessList:city start:0 count:8];
+        self.bussinessDatas = bussinessList;
+        if ([self.bussinessDatas count] >= 8) {
+            _isMore = YES;
+            [self.bussinessDatas removeObjectAtIndex:7];
+        }
+        [self renderBussiness];
+        self.tableView.hidden = NO;
+        [self.tableView reloadData];
+    }else{
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       city,
+                                       @"city",
+                                       @"10",
+                                       @"count",
+                                       nil];
+        
+        //防止循环引用
+        __weak FLYSearchViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryBusinessList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadData:result];
+        } errorBolck:^(){
+            [ref loadDataError];
+        }];
+    }
     
-    //防止循环引用
-    __weak FLYSearchViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryBusinessList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadData:result];
-    } errorBolck:^(){
-        [ref loadDataError];
-    }];
 }
 
 - (void)loadDataError{
@@ -209,7 +241,7 @@
             }
             
             self.bussinessDatas = businessList;
-            if ([businesss count] > 8) {
+            if ([businesss count] >= 8) {
                 _isMore = YES;
                 [self.bussinessDatas removeObjectAtIndex:7];
             }

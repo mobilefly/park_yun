@@ -7,8 +7,8 @@
 //
 
 #import "FLYGateViewController.h"
-#import "FLYDataService.h"
 #import "FLYParkGateModel.h"
+#import "FLYDataService.h"
 
 @interface FLYGateViewController ()
 
@@ -52,7 +52,7 @@
         [self requestGateData];
         [self showHUD:@"加载中" isDim:NO];
     }else{
-        [self showAlert:@"请打开网络"];
+        [self showToast:@"请打开网络"];
     }
     
     self.ctrlDelegate = self;

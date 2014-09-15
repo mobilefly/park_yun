@@ -7,16 +7,22 @@
 //
 
 #import "FLYMainViewController.h"
-#import "FLYParkCell.h"
-#import "FLYDataService.h"
 #import "FLYParkDetailViewController.h"
 #import "FLYBaseNavigationController.h"
 #import "FLYSearchViewController.h"
 #import "FLYUserCenterViewController.h"
 #import "FLYShakeViewController.h"
-#import "FLYAppDelegate.h"
-#import "UIFactory.h"
+#import "FLYParkCell.h"
 #import "FLYRegionParkModel.h"
+#import "FLYParseRegionXml.h"
+#import "FLYParseBussinessXml.h"
+#import "FLYDataService.h"
+#import "DXAlertView.h"
+#import "FLYDBUtil.h"
+#import "UIFactory.h"
+#import "FLYAppDelegate.h"
+
+
 
 #define kTopHeight 60
 
@@ -47,6 +53,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    //加载区域数据到数据库
+    [self parseRegionData];
+    //加载商圈数据到数据库
+    [self parseBussinessData];
     
     self.topView.frame = CGRectMake(0, 20, 320, kTopHeight);
     self.topView.hidden = NO;
@@ -104,54 +115,58 @@
 }
 
 #pragma mark - request
-//停车场位置
-- (void)requestLocationData{
-    _isReload = NO;
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.latitude] ,
-                                   @"lat",
-                                   [NSString stringWithFormat:@"%f",_mapBaseView.mapView.region.center.longitude],
-                                   @"long",
-                                   @"10000",
-                                   @"range",
-                                   nil];
-    
-    //防止循环引用
-    __weak FLYMainViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryNearbySimplifyList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadLocationData:result];
-    } errorBolck:^(){
-    
-    }];
-}
+
 
 //停车场位置
 - (void)requestParkData{
-    
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-    
     _reloadLoaction = appDelegate.coordinate;
-    
-    _isMore = NO;
-    _dataIndex = 0;
-    self.datas = nil;
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%f",_reloadLoaction.latitude] ,
-                                   @"lat",
-                                   [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
-                                   @"long",
-                                   @"200000",
-                                   @"range",
-                                   nil];
-    
-    //防止循环引用
-    __weak FLYMainViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadParkData:result];
-    } errorBolck:^(){
-        [ref loadParkError];
-    }];
+
+    //离线请求数据库
+    if ([FLYBaseUtil isOffline]) {
+        NSString *city = [FLYBaseUtil getCity];
+        
+        NSMutableArray *parkList = [FLYDBUtil queryParkList:_reloadLoaction.latitude lng:_reloadLoaction.longitude city:city];
+        
+        self.datas = parkList;
+
+        if (self.datas != nil && [self.datas count] > 0) {
+            self.tableView.hidden = NO;
+            [self showNoDataView:NO];
+        }else{
+            self.tableView.hidden = YES;
+            [self showNoDataView:YES];
+        }
+        
+        [self.tableView tableViewDidFinishedLoading];
+        [self.tableView setReachedTheEnd:YES];
+        [self.tableView reloadData];
+        [self hideHUD];
+
+    }
+    //请求服务器
+    else{
+        _isMore = NO;
+        _dataIndex = 0;
+        self.datas = nil;
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       [NSString stringWithFormat:@"%f",_reloadLoaction.latitude] ,
+                                       @"lat",
+                                       [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
+                                       @"long",
+                                       @"200000",
+                                       @"range",
+                                       nil];
+        
+        //防止循环引用
+        __weak FLYMainViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadParkData:result];
+        } errorBolck:^(){
+            [ref loadParkError];
+        }];
+    }
+
 }
 
 //加载更多停车场列表
@@ -161,7 +176,6 @@
         
         int start = _dataIndex;
        
-        
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSString stringWithFormat:@"%f",_reloadLoaction.latitude],
                                        @"lat",
@@ -212,11 +226,13 @@
                 FLYParkModel *photoModel = [[FLYParkModel alloc] initWithDataDic:parkDic];
                 [parkList addObject:photoModel];
             }
+
             if (self.datas == nil) {
                 self.datas = parkList;
             }else{
                 [self.datas addObjectsFromArray:parkList];
             }
+            
             
             if (self.datas != nil && [self.datas count] > 0) {
                 self.tableView.hidden = NO;
@@ -234,7 +250,6 @@
 
     }
     
-    
     [self.tableView tableViewDidFinishedLoading];
 
     if (!_isMore && self.datas != nil && [self.datas count] > 0) {
@@ -245,20 +260,27 @@
 
 
 - (void)requestCityData:(NSString *)cityName{
-    _isLoadRegion = YES;
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   cityName,
-                                   @"cityName",
-                                   nil];
-
-    //防止循环引用
-    __weak FLYMainViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpQueryParkByCityNameList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadParkCityData:result];
-    } errorBolck:^(){
-        [ref loadParkCityError];
-    }];
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    if ([FLYBaseUtil isOffline]) {
+        NSString *city = [FLYBaseUtil getCity];
+        appDelegate.cityDatas = [FLYDBUtil queryCityList:city];
+    }else{
+        _isLoadRegion = YES;
+        if ([FLYBaseUtil isEnableInternate]) {
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                           cityName,
+                                           @"cityName",
+                                           nil];
+            
+            //防止循环引用
+            __weak FLYMainViewController *ref = self;
+            [FLYDataService requestWithURL:kHttpQueryParkByCityNameList params:params httpMethod:@"POST" completeBolck:^(id result){
+                [ref loadParkCityData:result];
+            } errorBolck:^(){
+                [ref loadParkCityError];
+            }];
+        }
+    }
 }
 
 - (void)loadParkCityError{
@@ -282,7 +304,6 @@
             
             FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
             appDelegate.cityDatas = regionList;
-          
         }
     }
 }
@@ -402,12 +423,9 @@
 - (void)didUpdateUserLocation:(BMKUserLocation *)userLocation;
 {
     [self updateUserLocation:userLocation];
-    
     //反查城市
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     appDelegate.coordinate = userLocation.location.coordinate;
-    
-    
     
     if (_firstLocation == YES) {
         //反查当前城市
@@ -418,17 +436,31 @@
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
-
-        if ([FLYBaseUtil isEnableInternate]) {
+        
+        //离线
+        if ([FLYBaseUtil isOffline]) {
             [self requestParkData];
-            [self requestLocationData];
-            [self showHUD:@"加载中" isDim:NO];
-        }else{
-            [self showAlert:@"请打开网络"];
+        }
+        //在线
+        else{
+            if ([FLYBaseUtil isEnableInternate]) {
+                [self showHUD:@"加载中" isDim:NO];
+                [self requestParkData];
+                [self requestLocationData];
+            }else{
+                //提示离线浏览
+                DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"当前网络未打开\n是否切换离线版本" leftButtonTitle:@"取消" rightButtonTitle:@"确认"];
+                [alert show];
+                
+                alert.rightBlock = ^() {
+                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                    [defaults setObject:@"YES" forKey:@"offline"];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    [self requestParkData];
+                };
+            }
         }
     }
-    
-    
 }
 
 //更新用户位置
@@ -453,34 +485,45 @@
 - (void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error{
     if (error == BMK_SEARCH_NO_ERROR) {
         NSString *city = result.addressDetail.city;
-        
         //缓存当前城市
         FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
         appDelegate.city = city;
+        
+        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:city forKey:@"city"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         if (!_isLoadRegion && appDelegate.cityDatas == nil) {
             [self requestCityData:city];
         }
     }
     else {
-        [self showAlert:@"抱歉，未找到结果"];
+        //[self showAlert:@"抱歉，未找到结果"];
     }
 }
 
 - (void)reverseGeo{
-    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-    
-    //发起反向地理编码检索
-    BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-    reverseGeoCodeSearchOption.reverseGeoPoint = appDelegate.coordinate;
-    BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
-    if(flag)
-    {
-        NSLog(@"反geo检索发送成功");
-    }
-    else
-    {
-        NSLog(@"反geo检索发送失败");
+    //离线浏览并且没开网络
+    if (![FLYBaseUtil isEnableInternate] && [FLYBaseUtil isOffline]) {
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        NSString *city = [FLYBaseUtil getCity];
+        if (!_isLoadRegion && appDelegate.cityDatas == nil) {
+            [self requestCityData:city];
+        }
+    }else{
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        //发起反向地理编码检索
+        BMKReverseGeoCodeOption *reverseGeoCodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
+        reverseGeoCodeSearchOption.reverseGeoPoint = appDelegate.coordinate;
+        BOOL flag = [_codeSearcher reverseGeoCode:reverseGeoCodeSearchOption];
+        if(flag)
+        {
+            NSLog(@"反geo检索发送成功");
+        }
+        else
+        {
+            NSLog(@"反geo检索发送失败");
+        }
     }
 }
 
@@ -490,7 +533,15 @@
     if (_isReload) {
         if (!_isLoading) {
             _isLoading = YES;
-            [self requestLocationData];
+            
+            if ([FLYBaseUtil isOffline]) {
+                [self requestLocationData];
+            }else{
+                if ([FLYBaseUtil isEnableInternate]) {
+                    [self requestLocationData];
+                }
+            }
+            
         }
         return;
     }
@@ -508,6 +559,22 @@
     }
 }
 
+#pragma mark - parseXml
+- (void)parseRegionData{
+    if (![FLYDBUtil checkRegionTable]) {
+        FLYParseRegionXml *regionParse = [[FLYParseRegionXml alloc] init];
+        [FLYDBUtil batchSaveRegion:[regionParse parseRegionData]];
+    }
+}
+
+- (void)parseBussinessData{
+    if (![FLYDBUtil checkBussinessTable]) {
+        FLYParseBussinessXml *bussinessParse = [[FLYParseBussinessXml alloc] init];
+        [FLYDBUtil batchSaveBussiness:[bussinessParse parseBussinessData]];
+    }
+}
+
+
 #pragma mark - view other
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -515,8 +582,6 @@
     [_mapBaseView.mapView viewWillAppear];
     // 此处记得不用的时候需要置nil，否则影响内存的释放
     _mapBaseView.mapView.delegate = self;
-
-//    _codeSearcher.delegate = self;
     
     [self becomeFirstResponder];
 }

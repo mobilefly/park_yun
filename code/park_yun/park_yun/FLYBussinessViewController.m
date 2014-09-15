@@ -7,10 +7,12 @@
 //
 
 #import "FLYBussinessViewController.h"
-#import "FLYBussinessModel.h"
-#import "FLYAppDelegate.h"
-#import "FLYDataService.h"
+
 #import "FLYSearhBussinessViewController.h"
+#import "FLYBussinessModel.h"
+#import "FLYDataService.h"
+#import "FLYDBUtil.h"
+#import "FLYAppDelegate.h"
 
 
 #define bgColor Color(230, 230, 230 ,1)
@@ -25,8 +27,14 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-        self.title = [NSString stringWithFormat:@"商圈(%@)",appDelegate.city] ;
+        _city = [FLYBaseUtil getCity];
+        
+        if ([FLYBaseUtil isOffline]) {
+            self.title = [NSString stringWithFormat:@"%@商圈(离线)", _city];
+        }else{
+            self.title = [NSString stringWithFormat:@"%@商圈", _city];
+        }
+ 
     }
     return self;
 }
@@ -36,16 +44,21 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = bgColor;
-    
-    //查询商圈
-    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
-    if ([FLYBaseUtil isNotEmpty:appDelegate.city]) {
+
+    //离线请求数据库
+    if ([FLYBaseUtil isOffline]) {
+        NSMutableArray *bussinessList = [FLYDBUtil queryBussinessList:_city];
+        self.datas = bussinessList;
+        [self renderBussiness];
+    }else{
         if ([FLYBaseUtil isEnableInternate]) {
-            [self requestBussines:appDelegate.city];
+            [self requestBussines:_city];
         }else{
-            [self showAlert:@"请打开网络"];
+            [self showToast:@"请打开网络"];
         }
     }
+    
+
 }
 
 #pragma mark - reuqest
@@ -79,14 +92,14 @@
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
         if (result != nil) {
-            NSArray *businesss = [result objectForKey:@"businesss"];
-            NSMutableArray *businessList = [NSMutableArray arrayWithCapacity:businesss.count];
-            for (NSDictionary *bussinessDic in businesss) {
+            NSArray *bussinesss = [result objectForKey:@"businesss"];
+            NSMutableArray *bussinessList = [NSMutableArray arrayWithCapacity:bussinesss.count];
+            for (NSDictionary *bussinessDic in bussinesss) {
                 FLYBussinessModel *bussinessModel = [[FLYBussinessModel alloc] initWithDataDic:bussinessDic];
-                [businessList addObject:bussinessModel];
+                [bussinessList addObject:bussinessModel];
             }
             
-            self.datas = businessList;
+            self.datas = bussinessList;
             [self renderBussiness];
         }
     }else{

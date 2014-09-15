@@ -7,8 +7,8 @@
 //
 
 #import "FLYBaseViewController.h"
-#import "BMapKit.h"
 #import "FLYCityCell.h"
+#import "BMapKit.h"
 
 @interface FLYOfflineMapViewController : FLYBaseViewController<UITableViewDelegate,UITableViewDataSource,BMKOfflineMapDelegate,FLYOfflineCellDelegate>{
     UITextField *_searchText;
