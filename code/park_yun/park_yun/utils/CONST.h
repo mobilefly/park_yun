@@ -23,7 +23,7 @@
 //linux
 //#define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-#define kHttpDomain @"http://192.168.110.117:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
 
 //------停车场-----
 //周边停车场查询
@@ -80,6 +80,14 @@
 #define kHttpAddRemark @"/member/addRemark.json"
 //查询评论
 #define kHttpQueryRemarkList @"/member/queryRemarkList.json"
+//获取验证码
+#define kHttpQueryVCode @"/member/sendMsg.json"
+
+//------充值
+//获取充值优惠信息
+#define kHttpQueryOffInfo @"/order/queryOffInfo.json"
+//生成支付宝用户充值订单接口
+#define kHttpAddAlipay @"/order/addAlipayRechargeOrder.json"
 
 //------其他------
 //商圈列表

@@ -112,7 +112,8 @@
             NSString *username = [defaults stringForKey:@"memberName"];
             [loginBtn warningStyle];
             
-            NSString *str = [NSString stringWithFormat:@"注销（%@）",username == nil ? @"会员":username];
+            
+            NSString *str = [NSString stringWithFormat:@"注销（%@）",[FLYBaseUtil isEmpty:username] ? @"会员":username];
             [loginBtn setTitle:str forState:UIControlStateNormal];
             
             flag = YES;
@@ -191,9 +192,17 @@
 }
 
 //注销
-- (void)requestLogout:(NSString *)token{
+- (void)requestLogout:(NSString *)token memberId:(NSString *)memberId{
     if ([FLYBaseUtil isNotEmpty:token]) {
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:token forKey:@"token" ];
+//        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:token forKey:@"token" ];
+        
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       token,
+                                       @"token",
+                                       memberId,
+                                       @"userId",
+                                       nil];
+        
         [FLYDataService requestWithURL:kHttpLogout params:params httpMethod:@"POST" completeBolck:^(id result){
         } errorBolck:^(){
             
@@ -215,6 +224,7 @@
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *token = [defaults stringForKey:@"token"];
+        NSString *memberId = [defaults stringForKey:@"memberId"];
         
         [FLYBaseUtil clearUserInfo];
         [button primaryStyle];
@@ -226,7 +236,7 @@
         _balanceLabel.text = @"";
         _middleView.top = 0;
         
-        [self requestLogout:token];
+        [self requestLogout:token memberId:memberId];
 
     }else{
         FLYLoginViewController *loginController = [[FLYLoginViewController alloc] init];

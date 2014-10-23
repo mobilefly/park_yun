@@ -8,7 +8,12 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYRechargeViewController : FLYBaseViewController
+@interface FLYRechargeViewController : FLYBaseViewController{
+    UILabel *infoLabel;
+    UILabel *amountLabel;
+    NSString *privateKey;
+    NSString *publicKey;
+}
 
 @property (weak, nonatomic) IBOutlet UITextField *moneyText;
 

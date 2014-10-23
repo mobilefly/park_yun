@@ -55,7 +55,7 @@
     _usernameField.leftView = usernameIconView;
     _usernameField.leftViewMode = UITextFieldViewModeAlways;
     _usernameField.placeholder = @"请输入手机号";
-    _usernameField.keyboardType = UIKeyboardTypeASCIICapable;
+    _usernameField.keyboardType = UIKeyboardTypePhonePad;
     _usernameField.font = [UIFont systemFontOfSize:14.0];
     _usernameField.returnKeyType = UIReturnKeyNext;
     _usernameField.tag = 101;
@@ -145,8 +145,32 @@
     _codeBtn.enabled = NO;
     [_codeBtn disabledStyle];
     
+    if ([FLYBaseUtil isNotEmpty:_usernameField.text]) {
+        
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithCapacity:10];
+        //向词典中动态添加数据
+        [params setObject:_usernameField.text forKey:@"phoneNum"];
+        [params setObject:@"2" forKey:@"type"];
+        
+         __weak FLYFindPasswordViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpQueryVCode params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadVCode:result];
+        } errorBolck:^(){
+            [ref loadError];
+        }];
+    }
+   
     //每60秒请求未读数
     _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeAction:) userInfo:nil repeats:YES];
+}
+
+- (void)loadVCode:(id)data{
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        [self showMessage:@"验证码已发送"];
+    }else{
+        [self showMessage:@"获取验证码失败"];
+    }
 }
 
 - (void)timeAction:(NSTimer *)timer{

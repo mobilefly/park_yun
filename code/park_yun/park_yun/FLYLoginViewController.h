@@ -14,6 +14,7 @@
     NSString *_ts;
     NSString *_key;
     NSString *_usertext;
+    NSString *_deviceId;
     BOOL _isLogin;
 }
 @property (weak, nonatomic) IBOutlet UITextField *username;

@@ -139,6 +139,10 @@
         _ts = [NSString stringWithFormat:@"%.0f",[[NSDate date] timeIntervalSince1970]];
         _key = [NSString stringWithFormat:@"%@,%@,%@",_uuid,_ts,_passMd5];
         
+        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+        NSString *deviceToken = [defaults stringForKey:@"deviceToken"];
+        _deviceId = [SecurityUtil encodeBase64String:deviceToken];
+        
         NSData *keyValue = [_key dataUsingEncoding:NSUTF8StringEncoding];
         
         Byte keyByte[] = {0x0f, 0x07, 0x0d, 0x00, 0x07, 0x07, 0x02, 0x0c, 0x06, 0x06, 0x0f, 0x0e, 0x03, 0x02, 0x0a,0x0d, 0x0b, 0x0d, 0x0b, 0x03, 0x02, 0x05, 0x03, 0x0e, 0x0c, 0x00, 0x0d, 0x08, 0x0f, 0x0d, 0x0b, 0x09};
@@ -149,6 +153,8 @@
         NSData *cipherTextData =[keyValue AES256EncryptWithKey:keyData];
         
         _key = [SecurityUtil encodeBase64Data:cipherTextData];
+        
+        
         [self requestLogin];
     }
     
@@ -157,8 +163,6 @@
 #pragma mark - request
 //停车场位置
 - (void)requestLogin{
-    
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    _usertext,
                                    @"username",
@@ -168,6 +172,8 @@
                                    @"ts",
                                    _key,
                                    @"key",
+                                   _deviceId,
+                                   @"deviceId",
                                    nil];
     [self showHUD:@"登陆中" isDim:NO];
     

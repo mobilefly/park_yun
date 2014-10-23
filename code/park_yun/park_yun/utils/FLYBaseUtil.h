@@ -40,4 +40,13 @@
 //
 +(void)alertErrorMsg;
 
+//判断是否为整形：
++(BOOL)isPureInt:(NSString*)string;
+
+//判断是否为浮点形：
++ (BOOL)isPureFloat:(NSString*)string;
+
+//判断是否为数字
++ (BOOL)isPureNumber:(NSString*)string;
+
 @end
