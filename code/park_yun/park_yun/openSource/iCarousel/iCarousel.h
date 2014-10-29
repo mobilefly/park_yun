@@ -255,8 +255,8 @@ iCarouselTranformOption;
 - (NSUInteger)numberOfVisibleItemsInCarousel:(iCarousel *)carousel;
 
 //deprecated, use carousel:viewForItemAtIndex:reusingView: and carousel:placeholderViewAtIndex:reusingView: instead
-- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index __deprecated;
-- (UIView *)carousel:(iCarousel *)carousel placeholderViewAtIndex:(NSUInteger)index __deprecated;
+- (UIView *)carousel:(iCarousel *)carousel viewForItemAtIndex:(NSUInteger)index;
+- (UIView *)carousel:(iCarousel *)carousel placeholderViewAtIndex:(NSUInteger)index;
 
 @end
 
@@ -280,7 +280,7 @@ iCarouselTranformOption;
 - (CGFloat)carousel:(iCarousel *)carousel valueForTransformOption:(iCarouselTranformOption)option withDefault:(CGFloat)value;
 
 //deprecated, use transformForItemAtIndex:withOffset:baseTransform: instead
-- (CATransform3D)carousel:(iCarousel *)carousel transformForItemView:(UIView *)view withOffset:(CGFloat)offset __deprecated;
+- (CATransform3D)carousel:(iCarousel *)carousel transformForItemView:(UIView *)view withOffset:(CGFloat)offset;
 
 #ifdef ICAROUSEL_IOS
 
