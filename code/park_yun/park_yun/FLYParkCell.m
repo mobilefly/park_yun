@@ -122,10 +122,15 @@
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
     NSString *photoUrl = self.parkModel.photo.photoPath;
-    if ([FLYBaseUtil isNotEmpty:photoUrl]) {
-        NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
-        NSLog(@"%@",smallUrl);
-        [_parkImage setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+    
+    if (![FLYBaseUtil isNoPic]) {
+        if ([FLYBaseUtil isNotEmpty:photoUrl]) {
+            NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+            NSLog(@"%@",smallUrl);
+            [_parkImage sd_setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+        }else{
+            _parkImage.image = defaultParkPhoto;
+        }
     }else{
         _parkImage.image = defaultParkPhoto;
     }

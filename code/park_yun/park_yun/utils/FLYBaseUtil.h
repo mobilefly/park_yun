@@ -19,6 +19,9 @@
 //是否离线 YES离线 NO在线
 +(BOOL)isOffline;
 
+//无图模式
++(BOOL)isNoPic;
+
 //获取当前城市
 +(NSString *)getCity;
 

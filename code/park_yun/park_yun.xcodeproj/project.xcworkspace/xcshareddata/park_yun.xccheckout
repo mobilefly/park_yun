@@ -10,31 +10,31 @@
 	<string>park_yun</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>0E0A5304-A40E-4143-9FD3-90243DC26EAA</key>
+		<key>BF9683D7C102B7BDD58B322113E761276AFD27D1</key>
 		<string>https://github.com/mobilefly/park_yun.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>code/park_yun/park_yun.xcodeproj/project.xcworkspace</string>
+	<string>code/park_yun/park_yun.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>0E0A5304-A40E-4143-9FD3-90243DC26EAA</key>
+		<key>BF9683D7C102B7BDD58B322113E761276AFD27D1</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/mobilefly/park_yun.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0E0A5304-A40E-4143-9FD3-90243DC26EAA</string>
+	<string>BF9683D7C102B7BDD58B322113E761276AFD27D1</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>0E0A5304-A40E-4143-9FD3-90243DC26EAA</string>
+			<string>BF9683D7C102B7BDD58B322113E761276AFD27D1</string>
 			<key>IDESourceControlWCCName</key>
-			<string>park_yun</string>
+			<string>park_where</string>
 		</dict>
 	</array>
 </dict>

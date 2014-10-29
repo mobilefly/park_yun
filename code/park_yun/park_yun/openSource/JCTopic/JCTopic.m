@@ -104,7 +104,8 @@
     }
 }
 -(void)click:(id)sender{
-    [JCdelegate didClick:[self.pics objectAtIndex:[sender tag]]];
+    NSUInteger index = [(UIView *)sender tag];
+    [JCdelegate didClick:[self.pics objectAtIndex:index]];
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     

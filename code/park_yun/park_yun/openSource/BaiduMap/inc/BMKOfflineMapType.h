@@ -28,6 +28,8 @@
 @property (nonatomic) int cityType;
 ///子城市列表
 @property (nonatomic, retain) NSArray*  childCities;
+
+
 @end
 
 

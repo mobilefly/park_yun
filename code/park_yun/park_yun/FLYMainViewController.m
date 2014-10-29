@@ -95,7 +95,8 @@
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
-
+    NSLog(@"%f",ScreenWidth);
+    NSLog(@"%f",ScreenHeight);
     _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;

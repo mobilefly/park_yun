@@ -119,7 +119,7 @@
     NSLog(@"Registfail%@",error);
 }
 
-#pragma mark callback
+#pragma mark payCallback
 //独立客户端回调函数
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
 	
@@ -138,25 +138,25 @@
 		if (result.statusCode == 9000)
         {
             //交易成功
-            NSString* key = @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB";
+            NSString* key = kAplipayPublicKey;
             id<DataVerifier> verifier;
             verifier = CreateRSADataVerifier(key);
             if ([verifier verifyString:result.resultString withSign:result.signString])
             {
-                [self toPayResult:@"充值成功"];
-                NSLog(@"充值成功");
+                [self toPayResult:@"支付成功"];
+                NSLog(@"支付成功");
             }
         }
         else
         {
-            [self toPayResult:@"充值失败"];
-            NSLog(@"充值失败");
+            [self toPayResult:@"支付失败"];
+            NSLog(@"支付失败");
         }
     }
     else
     {
-        [self toPayResult:@"充值失败"];
-        NSLog(@"充值失败");
+        [self toPayResult:@"支付失败"];
+        NSLog(@"支付失败");
     }
     
 }

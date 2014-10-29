@@ -55,6 +55,17 @@
     return flag;
 }
 
++(BOOL)isNoPic{
+    BOOL flag = NO;
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *offline = [defaults stringForKey:@"noPic"];
+    //离线请求数据库
+    if ([FLYBaseUtil isNotEmpty:offline] && [offline isEqualToString:@"YES"]) {
+        flag = YES;
+    }
+    return flag;
+}
+
 +(NSString *)getCity{
     NSString *city = nil;
     

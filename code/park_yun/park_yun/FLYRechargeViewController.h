@@ -8,9 +8,10 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYRechargeViewController : FLYBaseViewController{
+@interface FLYRechargeViewController : FLYBaseViewController<UIActionSheetDelegate,UITextFieldDelegate>{
     UILabel *infoLabel;
-    UILabel *amountLabel;
+    UITextField *amountLabel;
+    UIButton *okBtn;
     NSString *privateKey;
     NSString *publicKey;
 }

@@ -33,26 +33,27 @@ typedef enum _BaiduMobStatLogStrategy {
 
 /**
  *  设置应用的appkey (在[百度移动统计](http://mtj.baidu.com)获取)，在其他api调用以前必须先调用该api.
+ *  此处AppId即为应用的appKey
  */
 -(void) startWithAppId:(NSString*) appId;
 
 /**
- *  记录一次事件的点击，eventId请在网站上创建。未创建的evenId记录将无效。 [百度移动统计](http://mtj.baidu.com)
+ *  记录一次事件的点击，eventId请在网站上创建。未创建的evenId记录将无效。eventId与eventLabel必须是有内容的字符串，不可为nil或者空字符串。 [百度移动统计](http://mtj.baidu.com)
  */
 -(void) logEvent:(NSString*) eventId eventLabel:(NSString*)eventLabel;
 /**
  *  v3.0 新增
- *  记录一次事件的时长，eventId请在网站上创建。未创建的evenId记录将无效。
+ *  记录一次事件的时长，eventId请在网站上创建。未创建的evenId记录将无效。eventId与eventLabel必须是有内容的字符串，不可为nil或者空字符串。
  */
 -(void) logEventWithDurationTime:(NSString*) eventId eventLabel:(NSString*)eventLabel durationTime: (unsigned long)duration;
 /**
  *  v3.0 新增 
- *  记录一次事件的开始，eventId请在网站上创建。未创建的evenId记录将无效。
+ *  记录一次事件的开始，eventId请在网站上创建。未创建的evenId记录将无效。eventId与eventLabel必须是有内容的字符串，不可为nil或者空字符串。
  */
 -(void) eventStart:(NSString*) eventId eventLabel:(NSString*)eventLabel;
 /**
  *  v3.0 新增 
- *  记录一次事件的结束，eventId请在网站上创建。未创建的evenId记录将无效。
+ *  记录一次事件的结束，eventId请在网站上创建。未创建的evenId记录将无效。eventId与eventLabel必须是有内容的字符串，不可为nil或者空字符串。
  */
 -(void) eventEnd:(NSString*) eventId eventLabel:(NSString*)eventLabel;
 /**

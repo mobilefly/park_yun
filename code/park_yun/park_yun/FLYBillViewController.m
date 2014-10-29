@@ -100,7 +100,7 @@
         
         //防止循环引用
         __weak FLYBillViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [FLYDataService requestWithURL:kHttpQueryBillList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadBillData:result];
         } errorBolck:^(){
             [ref loadBillError];

@@ -50,7 +50,7 @@
     
     NSString *photoUrl = _parkGateModel.photo.photoPath;
     if ([FLYBaseUtil isNotEmpty:photoUrl]) {
-        [_gateImage setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:defaultImage];
+        [_gateImage sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:defaultImage];
     }else{
         _gateImage.image = defaultImage;
     }

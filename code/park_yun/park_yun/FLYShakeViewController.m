@@ -54,7 +54,7 @@
     _navType = @"0";
     _datas = [NSMutableArray array];
     
-    _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 275)];
+    _carousel = [[iCarousel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 300)];
     //速率
     _carousel.decelerationRate = 0.5;
     _carousel.type = iCarouselTypeLinear;
@@ -505,7 +505,7 @@
     FLYParkModel *parkModel = [self.datas objectAtIndex:index];
     
 	if (view == nil){
-		view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 60, 255)];
+		view = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - 60, 260)];
         view.layer.borderWidth = 1;
         view.layer.borderColor = [shakeBorderColor CGColor];
         view.layer.cornerRadius = 5.0;

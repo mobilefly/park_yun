@@ -17,6 +17,8 @@
 #import "AlixPayResult.h"
 #import "DataSigner.h"
 #import "DataVerifier.h"
+#import "RegexKitLite.h"
+
 
 
 
@@ -38,11 +40,12 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIButton *okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    
+    okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     okBtn.frame = CGRectMake(30, 100 , 260, 45);
-    [okBtn primaryStyle];
+    [okBtn disabledStyle];
     [okBtn setTitle:@"确定充值" forState:UIControlStateNormal];
-    [okBtn addTarget:self action:@selector(requestAlipayOrder) forControlEvents:UIControlEventTouchUpInside];
+    [okBtn addTarget:self action:@selector(paymentAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:okBtn];
     
     infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(35, 175, 255, 0)];
@@ -53,10 +56,12 @@
     infoLabel.text = @"";
     [self.view addSubview:infoLabel];
     
-    amountLabel = (UILabel *)[self.view viewWithTag:101];
+    amountLabel = (UITextField *)[self.view viewWithTag:101];
+    amountLabel.delegate = self;
     
     [self requestOffInfo];
 }
+
 
 #pragma mark - request
 -(void)requestAlipayOrder{
@@ -129,6 +134,7 @@
             order.productDescription = subject; //商品描述
             order.amount = amount; //商品价格
             order.notifyURL = [notifyUrl URLEncodedString]; //回调URL
+//            order.notifyURL = notifyUrl;
             NSString *orderInfo = [order description];
             
             id<DataSigner> signer = CreateRSADataSigner(privateKey);
@@ -137,7 +143,7 @@
             NSString *orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",orderInfo, signedString, @"RSA"];
             
             NSLog(@"%@",orderString);
-            [AlixLibService payOrder:orderString AndScheme:@"FLyAlipayParkSmart" seletor:@selector(paymentResult:) target:self];
+            [AlixLibService payOrder:orderString AndScheme:@"FLyAlipayParkSmart" seletor:@selector(alipayPaymentResult:) target:self];
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
@@ -147,7 +153,7 @@
 
 
 //wap回调函数
--(void)paymentResult:(NSString *)resultd
+-(void)alipayPaymentResult:(NSString *)resultd
 {
     //结果处理
     AlixPayResult *result = [[AlixPayResult alloc] initWithString:resultd];
@@ -216,6 +222,93 @@
 #pragma mark - Action
 - (IBAction)backgroupTap:(id)sender {
     [self.moneyText resignFirstResponder];
+}
+
+//支付方式选择
+- (void)paymentAction:(UIButton *)btn{
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"支付宝" otherButtonTitles:@"微信支付", nil];
+    [actionSheet showInView:self.view];
+}
+
+
+#pragma mark - UIActionSheetDelegate delegate
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    //支付宝
+    if (buttonIndex == 0) {
+        [self requestAlipayOrder];
+    }
+    //微信支付
+    else if (buttonIndex == 1){
+        [FLYToast showWithText:@"暂不支持"];
+    }
+    //取消
+    else if (buttonIndex == 2){
+        return;
+    }
+}
+
+#pragma mark - UITextFieldDelegate delegate
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    
+    NSMutableString *amountText = [NSMutableString stringWithString:textField.text];
+    [amountText replaceCharactersInRange:range withString:string];
+    
+//    if (range.length > 0) {
+//        //截取中间部分
+//        if (range.location + range.length < textField.text.length) {
+//            NSRange rbegin = NSMakeRange(0, range.location);
+//            NSRange rend = NSMakeRange(range.location + range.length, textField.text.length);
+//            amountText = [NSString stringWithFormat:@"%@%@",[textField.text substringWithRange:rbegin],[textField.text substringWithRange:rend]];
+//        }
+//        //从后截取
+//        else{
+//            NSRange rbegin = NSMakeRange(0, range.location);
+//            amountText = [textField.text substringWithRange:rbegin];
+//        }
+//    }else{
+//        amountText = [NSString stringWithFormat:@"%@%@",amountLabel.text,string];
+//    }
+    
+    if (![FLYBaseUtil isEmpty:amountText] && [FLYBaseUtil isPureNumber:amountText]) {
+        [okBtn primaryStyle];
+        okBtn.enabled = true;
+    }else{
+        [okBtn disabledStyle];
+        okBtn.enabled = false;
+    }
+    
+    return [self shouldChangeMoney:textField inRange:range replacementString:string];
+
+}
+
+//金额检测
+-(BOOL)shouldChangeMoney:(UITextField *)input inRange:(NSRange)range replacementString:(NSString *)string{
+    NSArray * temp = [string arrayOfCaptureComponentsMatchedByRegex:@"[.]"];
+    if (temp.count > 1) {
+        return NO;
+    }
+    if (temp.count > 0) {
+        if ([[input text] arrayOfCaptureComponentsMatchedByRegex:@"[.]"].count>0) {
+            return NO;
+        }
+    }
+    
+    if ([input.text isEqualToString:@"0"] && (![string isEqualToString:@"."] && ![string isEqualToString:@""])) {
+        return NO;
+    }
+    
+    NSMutableString * str = [NSMutableString stringWithString:[input text]];
+    [str replaceCharactersInRange:range withString:string];
+    
+    NSRange r = [str rangeOfString:@"."];
+    int loc = r.location;
+    int pos = str.length - 3;
+    if ((loc != NSNotFound) && (loc < pos)) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 #pragma mark - other
