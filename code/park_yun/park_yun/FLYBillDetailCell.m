@@ -25,7 +25,7 @@
     _bgView.layer.masksToBounds = YES;
     
     _goodLabel.text = self.goModel.goName;
-    _priceLabel.text = [NSString stringWithFormat:@"金额:%0.2f",[self.goModel.goPrice doubleValue] / 100];
+    _priceLabel.text = [NSString stringWithFormat:@"金额: %0.2f元",[self.goModel.goPrice doubleValue] / 100];
     
     [_priceLabel sizeToFit];
     _priceLabel.right = 290;

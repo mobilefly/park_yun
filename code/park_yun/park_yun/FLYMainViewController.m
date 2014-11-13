@@ -86,7 +86,7 @@
     [self.topView addSubview:userButton];
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight) pullingDelegate:self];
-    self.tableView.pullingDelegate=self;
+    self.tableView.pullingDelegate = self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -95,8 +95,6 @@
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
-    NSLog(@"%f",ScreenWidth);
-    NSLog(@"%f",ScreenHeight);
     _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;
@@ -111,13 +109,11 @@
     _codeSearcher = [[BMKGeoCodeSearch alloc]init];
     _codeSearcher.delegate = self;
     
-    [self setNoDataViewFrame:_mapBaseView.frame];
+    [self setBackgroupViewFrame:_mapBaseView.frame];
     
 }
 
 #pragma mark - request
-
-
 //停车场位置
 - (void)requestParkData{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
@@ -155,16 +151,17 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                        @"long",
-                                       @"200000",
+                                       @"20000",
                                        @"range",
                                        nil];
         
         //防止循环引用
         __weak FLYMainViewController *ref = self;
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref showTimeoutView:NO];
             [ref loadParkData:result];
         } errorBolck:^(){
-            [ref loadParkError];
+            [ref loadParkError:YES];
         }];
     }
 
@@ -182,7 +179,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                        @"long",
-                                       @"200000",
+                                       @"20000",
                                        @"range",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
@@ -193,22 +190,28 @@
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadParkData:result];
         } errorBolck:^(){
-            [ref loadParkError];
+            [ref loadParkError:NO];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
 
-- (void)loadParkError{
+
+- (void)loadParkError:(BOOL)firstLoad{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    
+    if (firstLoad) {
+        [self showTimeoutView:YES];
+    }else{
+        [FLYBaseUtil alertErrorMsg];
+    }
+    
 }
 
 //停车场列表
 - (void)loadParkData:(id)data{
     _dataIndex = _dataIndex + 20;
-    //    [super showLoading:NO];
     [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
@@ -438,28 +441,36 @@
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
         
-        //离线
-        if ([FLYBaseUtil isOffline]) {
+        [self preRequestParkData];
+    }
+}
+
+-(void)preRequestParkData{
+    //离线
+    if ([FLYBaseUtil isOffline]) {
+        [self requestParkData];
+    }
+    //在线
+    else{
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self showHUD:@"加载中" isDim:NO];
             [self requestParkData];
-        }
-        //在线
-        else{
-            if ([FLYBaseUtil isEnableInternate]) {
-                [self showHUD:@"加载中" isDim:NO];
+            [self requestLocationData];
+        }else{
+            //提示离线浏览
+            DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"当前网络未打开\n是否切换离线版本" leftButtonTitle:@"取消" rightButtonTitle:@"确认"];
+            [alert show];
+            
+            alert.rightBlock = ^() {
+                NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+                [defaults setObject:@"YES" forKey:@"offline"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                 [self requestParkData];
-                [self requestLocationData];
-            }else{
-                //提示离线浏览
-                DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"当前网络未打开\n是否切换离线版本" leftButtonTitle:@"取消" rightButtonTitle:@"确认"];
-                [alert show];
-                
-                alert.rightBlock = ^() {
-                    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-                    [defaults setObject:@"YES" forKey:@"offline"];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    [self requestParkData];
-                };
-            }
+            };
+            
+            alert.dismissBlock = ^(){
+                [self showTimeoutView:YES];
+            };
         }
     }
 }
@@ -573,6 +584,15 @@
         FLYParseBussinessXml *bussinessParse = [[FLYParseBussinessXml alloc] init];
         [FLYDBUtil batchSaveBussiness:[bussinessParse parseBussinessData]];
     }
+}
+
+#pragma mark - super
+-(void)noDataClickAction:(UITapGestureRecognizer*)gesture{
+    [self preRequestParkData];
+}
+
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self preRequestParkData];
 }
 
 

@@ -13,12 +13,12 @@
 
 - (void)awakeFromNib
 {
-     _parkNameLabel = (UILabel *)[self viewWithTag:101];
-     _startTimeLabel = (UILabel *)[self viewWithTag:102];
-     _endTimeLabel = (UILabel *)[self viewWithTag:103];
-     _payLabel = (UILabel *)[self viewWithTag:104];
-     _durationLabel = (UILabel *)[self viewWithTag:105];
-     _parkImage = (UIImageView *)[self viewWithTag:106];
+    _parkNameLabel = (UILabel *)[self viewWithTag:101];
+    _startTimeLabel = (UILabel *)[self viewWithTag:102];
+    _endTimeLabel = (UILabel *)[self viewWithTag:103];
+    _payLabel = (UILabel *)[self viewWithTag:104];
+    _durationLabel = (UILabel *)[self viewWithTag:105];
+    _parkImage = (UIImageView *)[self viewWithTag:106];
     
     _parkImage.layer.masksToBounds = YES;
     _parkImage.layer.cornerRadius = 2.0;
@@ -41,7 +41,11 @@
     }
     
     if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkend]) {
-         _endTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkend];
+        if ([self.traceModel.traceParkend isEqualToString:@"未离场"]) {
+            _endTimeLabel.text = self.traceModel.traceParkend;
+        }else{
+            _endTimeLabel.text = [FLYUtils fomateString:self.traceModel.traceParkend];
+        }
     }else{
          _endTimeLabel.text = @"";
     }
@@ -53,22 +57,29 @@
         _payLabel.text = @"暂无数据";
     }
     
-    //    photoUrl
-    if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkbegin] && [FLYBaseUtil isNotEmpty:self.traceModel.traceParkend]) {
+    //进场时间、离场时间
+    if ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkbegin] &&
+        ([FLYBaseUtil isNotEmpty:self.traceModel.traceParkend] && ![self.traceModel.traceParkend isEqualToString:@"未离场"])
+    ) {
         NSDate *beginDate = [FLYUtils dateFromFomate:self.traceModel.traceParkbegin formate:@"yyyyMMddHHmmss"];
         NSDate *endDate = [FLYUtils dateFromFomate:self.traceModel.traceParkend formate:@"yyyyMMddHHmmss"];
         _durationLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
     }else{
-        _durationLabel.text = @"";
+        _payLabel.text = @"--";
+        _durationLabel.text = @"--";
     }
     
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
-    if ([FLYBaseUtil isNotEmpty:self.traceModel.photoUrl]) {
-        NSString *photoUrl = self.traceModel.photoUrl;
-        if ([FLYBaseUtil isNotEmpty:photoUrl]) {
-            NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
-            [_parkImage sd_setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+    if (![FLYBaseUtil isNoPic]) {
+        if ([FLYBaseUtil isNotEmpty:self.traceModel.photoUrl]) {
+            NSString *photoUrl = self.traceModel.photoUrl;
+            if ([FLYBaseUtil isNotEmpty:photoUrl]) {
+                NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+                [_parkImage sd_setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+            }else{
+                _parkImage.image = defaultParkPhoto;
+            }
         }else{
             _parkImage.image = defaultParkPhoto;
         }

@@ -17,13 +17,14 @@
 - (BOOL)close;
 @end
 
-
 @interface FLYBaseViewController : UIViewController<MBProgressHUDDelegate>{
     UIView *_loadView;
     UIWindow *_tipWindow;
     ThemeImageView *barView;
-
+    //没有数据背景
     UIView *_noDataView;
+    //连接超时背景
+    UIView *_timeoutView;
     BOOL _isHudLoad;
 }
 
@@ -36,7 +37,8 @@
 @property(assign,nonatomic)id<FLYBaseCtrlDelegate> ctrlDelegate;
 
 -(void)showNoDataView:(BOOL)show;
--(void)setNoDataViewFrame:(CGRect)rect;
+-(void)showTimeoutView:(BOOL)show;
+-(void)setBackgroupViewFrame:(CGRect)rect;
 
 //提示
 - (void)showLoading:(BOOL)show;

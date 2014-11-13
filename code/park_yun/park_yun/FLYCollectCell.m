@@ -38,9 +38,14 @@
     //图片
     UIImage *defaultParkPhoto = [UIImage imageNamed:@"mfpparking_jiazai_all_0.png"];
     NSString *photoUrl = self.collectModel.photoUrl;
-    if ([FLYBaseUtil isNotEmpty:photoUrl]) {
-        NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
-        [_parkImage sd_setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+    
+    if (![FLYBaseUtil isNoPic]) {
+        if ([FLYBaseUtil isNotEmpty:photoUrl]) {
+            NSString *smallUrl = [FLYUtils getSmallImage:photoUrl width:@"120" height:@"90"];
+            [_parkImage sd_setImageWithURL:[NSURL URLWithString:smallUrl] placeholderImage:defaultParkPhoto];
+        }else{
+            _parkImage.image = defaultParkPhoto;
+        }
     }else{
         _parkImage.image = defaultParkPhoto;
     }
@@ -65,7 +70,6 @@
     //加盟标示
     if ([self.collectModel.park.parkStatus isEqualToString:@"0"]) {
         _statusImage.hidden = NO;
-        
     }else if([self.collectModel.park.parkStatus isEqualToString:@"1"]){
         _statusImage.hidden = YES;
         _seatIdleLabel.text = @"-";

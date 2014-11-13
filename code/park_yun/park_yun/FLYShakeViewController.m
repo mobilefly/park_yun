@@ -148,7 +148,7 @@
     [bottomView addSubview:_voiceBtn];
 
     
-    [self setNoDataViewFrame:_carousel.frame];
+    [self setBackgroupViewFrame:_carousel.frame];
     
     _isNaving = YES;
     

@@ -128,7 +128,7 @@
             
             UILabel *totalLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, orderCodeTitle.bottom + 10, 0, 20)];
             totalLabel.font = [UIFont systemFontOfSize:13.0];
-            totalLabel.text = [NSString stringWithFormat:@"%.2f",[_orderModel.orderTotalprice doubleValue] / 100];
+            totalLabel.text = [NSString stringWithFormat:@"%.2f元",[_orderModel.orderTotalprice doubleValue] / 100];
             totalLabel.textColor = [UIColor darkGrayColor];
             [totalLabel sizeToFit];
             totalLabel.right = detailView.width - 10;
@@ -142,7 +142,7 @@
             
             UILabel *offLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, totalTitle.bottom + 10, 0, 20)];
             offLabel.font = [UIFont systemFontOfSize:13.0];
-            offLabel.text = [NSString stringWithFormat:@"- %.2f",[_orderModel.orderOffprice doubleValue] / 100];
+            offLabel.text = [NSString stringWithFormat:@"- %.2f元",[_orderModel.orderOffprice doubleValue] / 100];
             offLabel.textColor = [UIColor darkGrayColor];
             [offLabel sizeToFit];
             offLabel.right = detailView.width - 10;
@@ -156,14 +156,14 @@
             
             UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, offTitle.bottom + 10, 0, 20)];
             priceLabel.font = [UIFont systemFontOfSize:13.0];
-            priceLabel.text = [NSString stringWithFormat:@"%.2f",fabs([_orderModel.orderPrice doubleValue]) / 100];
+            priceLabel.text = [NSString stringWithFormat:@"%.2f元",fabs([_orderModel.orderPrice doubleValue]) / 100];
             priceLabel.textColor = [UIColor darkGrayColor];
             [priceLabel sizeToFit];
             priceLabel.right = detailView.width - 10;
             [detailView addSubview:priceLabel];
             
             if ([_orderModel.orderPrice doubleValue]  > 0) {
-                priceLabel.textColor = [UIColor greenColor];
+                priceLabel.textColor = [UIColor blueColor];
             }else{
                 priceLabel.textColor = [UIColor redColor];
             }

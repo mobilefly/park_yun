@@ -12,6 +12,7 @@
 #import "FLYToast.h"
 
 
+
 @interface FLYBaseViewController ()
 
 @end
@@ -64,9 +65,29 @@
     UIImageView *noDataImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_wushujul_all_0_03.png"]];
     noDataImage.frame = CGRectMake((_noDataView.width - 82) / 2, (_noDataView.height - 106) / 2, 82, 106);
     noDataImage.tag = 201;
-    
     [_noDataView addSubview:noDataImage];
+    
+    //点击事件
+    UITapGestureRecognizer *noDataTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noDataClickAction:)];
+    [_noDataView addGestureRecognizer:noDataTap];
+    
+    
+    //连接超时
+    _timeoutView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44)];
+    _timeoutView.hidden = YES;
+    _timeoutView.backgroundColor = [UIColor clearColor];
+    UIImageView *timeoutImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_timeout.png"]];
+    timeoutImage.frame = CGRectMake((_timeoutView.width - 82) / 2, (_timeoutView.height - 106) / 2, 82, 106);
+    timeoutImage.tag = 202;
+    [_timeoutView addSubview:timeoutImage];
+    
+    //点击事件
+    UITapGestureRecognizer *timeoutTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(timeoutClickAction:)];
+    [_timeoutView addGestureRecognizer:timeoutTap];
+    
+    
     [self.view addSubview:_noDataView];
+    [self.view addSubview:_timeoutView];
     
 }
 
@@ -120,19 +141,37 @@
     self.navigationItem.titleView = titleLabel;
 }
 
+#pragma mark - Action
+-(void)noDataClickAction:(UITapGestureRecognizer*)gesture{
+    //父类复写改方法
+}
+
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    //父类复写改方法
+}
+
+
 
 
 #pragma mark - 提示
--(void)setNoDataViewFrame:(CGRect)rect{
+-(void)setBackgroupViewFrame:(CGRect)rect{
     _noDataView.frame = rect;
     //背景图片
     UIImageView *noDataImage = (UIImageView *) [_noDataView viewWithTag:201];
     noDataImage.frame = CGRectMake((_noDataView.width - 82) / 2, (_noDataView.height - 106) / 2, 82, 106);
-    noDataImage.tag = 201;
+    
+    _timeoutView.frame = rect;
+    //背景图片
+    UIImageView *timeoutImage = (UIImageView *) [_timeoutView viewWithTag:202];
+    timeoutImage.frame = CGRectMake((_timeoutView.width - 82) / 2, (_timeoutView.height - 106) / 2, 82, 106);
 }
 
 -(void)showNoDataView:(BOOL)show{
     _noDataView.hidden = !show;
+}
+
+-(void)showTimeoutView:(BOOL)show{
+    _timeoutView.hidden = !show;
 }
 
 - (void)showLoading:(BOOL)show{

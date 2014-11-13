@@ -294,8 +294,6 @@
 		749B4E5719F758600021586F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 749B4E4619F758600021586F /* SBJsonWriter.m */; };
 		749B4E5819F758600021586F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E4719F758600021586F /* libcrypto.a */; };
 		749B4E5919F758600021586F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E4819F758600021586F /* libssl.a */; };
-		749B93271A00DD7000D5E90A /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		749B93281A00DD7000D5E90A /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93241A00DD0500D5E90A /* libBaiduMobStat.a */; };
 		749B932C1A00E26800D5E90A /* nearby_map_content@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 749B932B1A00E26800D5E90A /* nearby_map_content@3x.png */; };
 		74A0863A197F896E00F148ED /* FLYFindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A08638197F896E00F148ED /* FLYFindPasswordViewController.m */; };
 		74A0863B197F896E00F148ED /* FLYFindPasswordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74A08639197F896E00F148ED /* FLYFindPasswordViewController.xib */; };
@@ -369,6 +367,9 @@
 		74EE14121987AF3500FB0C86 /* mfpparking_shouyeuser_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74EE140A1987AF3500FB0C86 /* mfpparking_shouyeuser_all_up@2x.png */; };
 		74FB19801990722D0063DC03 /* mfpparking_jiazai_all_1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74FB197F1990722D0063DC03 /* mfpparking_jiazai_all_1@2x.png */; };
 		74FB19831990D1D00063DC03 /* FLYDBUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FB19821990D1D00063DC03 /* FLYDBUtil.m */; };
+		74FB332B1A143B6300CC1338 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
+		74FB332C1A143B6300CC1338 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
+		74FB332E1A1442BE00CC1338 /* mfpparking_timeout@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74FB332D1A1442BE00CC1338 /* mfpparking_timeout@2x.png */; };
 		74FC62221966DEB400A8289A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62211966DEB400A8289A /* FontAwesome.ttf */; };
 		74FC62251966E0B200A8289A /* FLYBaseMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 74FC62241966E0B200A8289A /* FLYBaseMap.m */; };
 		74FC62281966E39800A8289A /* mfpparking_2d_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74FC62261966E39800A8289A /* mfpparking_2d_all_0@2x.png */; };
@@ -1600,6 +1601,7 @@
 		74FB197F1990722D0063DC03 /* mfpparking_jiazai_all_1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_jiazai_all_1@2x.png"; sourceTree = "<group>"; };
 		74FB19811990D1D00063DC03 /* FLYDBUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYDBUtil.h; sourceTree = "<group>"; };
 		74FB19821990D1D00063DC03 /* FLYDBUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYDBUtil.m; sourceTree = "<group>"; };
+		74FB332D1A1442BE00CC1338 /* mfpparking_timeout@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_timeout@2x.png"; sourceTree = "<group>"; };
 		74FC62211966DEB400A8289A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		74FC62231966E0B200A8289A /* FLYBaseMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBaseMap.h; sourceTree = "<group>"; };
 		74FC62241966E0B200A8289A /* FLYBaseMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBaseMap.m; sourceTree = "<group>"; };
@@ -1616,8 +1618,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				749B93271A00DD7000D5E90A /* libbaidumapapi.a in Frameworks */,
-				749B93281A00DD7000D5E90A /* libBaiduMobStat.a in Frameworks */,
+				74FB332B1A143B6300CC1338 /* libbaidumapapi.a in Frameworks */,
+				74FB332C1A143B6300CC1338 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -3647,6 +3649,7 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				74FB332D1A1442BE00CC1338 /* mfpparking_timeout@2x.png */,
 				749B932B1A00E26800D5E90A /* nearby_map_content@3x.png */,
 				742B6CB6198F711200DA17E7 /* nearby_map_content@2x.png */,
 				74FB197F1990722D0063DC03 /* mfpparking_jiazai_all_1@2x.png */,
@@ -3865,6 +3868,7 @@
 				ORGANIZATIONNAME = "无线飞翔";
 				TargetAttributes = {
 					74C561951960609200F218CD = {
+						DevelopmentTeam = 64DG5AEN74;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
@@ -3935,6 +3939,7 @@
 				74A60C2C196597580046457B /* btn_close_selected.png in Resources */,
 				748F320F1963CE48005071E0 /* mfpparking_user_all_down@2x.png in Resources */,
 				745E744D19656D9C00BB0AB9 /* mfpparking_location_all_up@2x.png in Resources */,
+				74FB332E1A1442BE00CC1338 /* mfpparking_timeout@2x.png in Resources */,
 				7410D0021967AEF000A41AA5 /* mfpparking_tcc2_all_0@2x.png in Resources */,
 				7430656B196E818B006026B7 /* FLYDownloadCell.xib in Resources */,
 				74926B301973A94500833F99 /* compose_checkbox_checked.png in Resources */,
