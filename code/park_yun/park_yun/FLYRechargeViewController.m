@@ -43,6 +43,7 @@
     
     okBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     okBtn.frame = CGRectMake(30, 100 , 260, 45);
+    okBtn.enabled = NO;
     [okBtn disabledStyle];
     [okBtn setTitle:@"确定充值" forState:UIControlStateNormal];
     [okBtn addTarget:self action:@selector(paymentAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -62,8 +63,7 @@
     [self requestOffInfo];
 }
 
-
-#pragma mark - request
+#pragma mark - 数据请求
 -(void)requestAlipayOrder{
     [amountLabel resignFirstResponder];
 
@@ -99,9 +99,6 @@
             [ref loadDataError];
         }];
     }
-    
-    
-    
 }
 
 -(void)loadAlipayOrderData:(id)data amount:(NSString *)amount{
@@ -159,7 +156,6 @@
     AlixPayResult *result = [[AlixPayResult alloc] initWithString:resultd];
 	if (result)
     {
-		
 		if (result.statusCode == 9000)
         {
 			//用公钥验证签名 严格验证请使用result.resultString与result.signString验签
@@ -187,12 +183,10 @@
     
 }
 
-
 -(void)loadDataError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
-
 
 //获取优惠信息
 -(void)requestOffInfo{
@@ -219,7 +213,7 @@
     }
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (IBAction)backgroupTap:(id)sender {
     [self.moneyText resignFirstResponder];
 }
@@ -311,7 +305,7 @@
     return YES;
 }
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

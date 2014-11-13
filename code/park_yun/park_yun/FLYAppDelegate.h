@@ -23,7 +23,6 @@
 @property (copy, nonatomic) NSString *city;
 //当前位置
 @property(nonatomic,assign) CLLocationCoordinate2D coordinate;
-
 //缓存城市停车场数据
 @property (strong, nonatomic) NSMutableArray *cityDatas;
 

@@ -64,7 +64,7 @@
 
 }
 
-#pragma mark - Action
+#pragma mark - 按钮请求
 - (void)voiceAction:(UIButton *)button{
     if ([self.gateDelegate respondsToSelector:@selector(voice:)]) {
         [self.gateDelegate voice:_parkGateModel.gateDesc];

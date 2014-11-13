@@ -145,7 +145,7 @@
     }
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 - (void)requestBalance{
     _spinner.hidden = NO;
     [_spinner startAnimating];
@@ -210,7 +210,7 @@
     }
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)carManagerAction:(UIButton *)button{
     FLYCarManagerViewController *carManagerCtrl = [[FLYCarManagerViewController alloc] init];
     [self.navigationController pushViewController:carManagerCtrl animated:NO];
@@ -315,7 +315,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

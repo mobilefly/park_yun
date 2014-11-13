@@ -105,7 +105,7 @@
     
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 //BMKMapTypeStandard   = 1,               ///< 标准地图
 //BMKMapTypeTrafficOn  = 2,               ///< 实时路况
 //BMKMapTypeSatellite  = 4,               ///< 卫星地图

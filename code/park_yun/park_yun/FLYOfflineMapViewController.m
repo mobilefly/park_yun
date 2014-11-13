@@ -51,7 +51,7 @@
     [_searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     _searchBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [_searchBtn primaryStyle];
-    [_searchBtn addTarget:self action:@selector(searchCity) forControlEvents:UIControlEventTouchUpInside];
+    [_searchBtn addTarget:self action:@selector(searchCityAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_searchBtn];
     
     NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"城市列表",@"下载管理",nil];
@@ -88,7 +88,7 @@
     
     //查询当前城市离线包
     if ([FLYBaseUtil isNotEmpty:_searchText.text]) {
-        [self searchCity];
+        [self searchCityAction];
     }
 }
 
@@ -141,7 +141,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - Actions
+#pragma mark - 控件事件
 -(void)segmentAction:(UISegmentedControl *)segment{
     NSInteger index = segment.selectedSegmentIndex;
     switch (index) {
@@ -190,7 +190,7 @@
     [_searchText resignFirstResponder];
 }
 
-- (void)searchCity{
+- (void)searchCityAction{
     
     [_searchText resignFirstResponder];
     
@@ -204,11 +204,11 @@
                 
                 [self switchAction];
             }else{
-                [FLYBaseUtil alertMsg:@"未查询到离线数据包"];
+                [FLYBaseUtil showMsg:@"未查询到离线数据包"];
             }
         }
     }else{
-        [FLYBaseUtil alertMsg:@"请输入城市名称"];
+        [FLYBaseUtil showMsg:@"请输入城市名称"];
     }
 
 }
@@ -236,7 +236,7 @@
         
         [self switchAction];
     }else{
-        [FLYBaseUtil alertMsg:@"该地图包已下载"];
+        [FLYBaseUtil showMsg:@"该地图包已下载"];
     }
     
 }
@@ -302,7 +302,7 @@
     }
 }
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

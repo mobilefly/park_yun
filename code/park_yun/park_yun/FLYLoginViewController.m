@@ -15,9 +15,6 @@
 #import "NSString+MD5HexDigest.h"
 #import "NSData+AES.h"
 
-
-
-
 #define fontColor Color(64,64,64,1)
 #define bordColor Color(230,230,230,1)
 
@@ -74,6 +71,7 @@
     [super didReceiveMemoryWarning];
 }
 
+#pragma mark - 控件事件
 - (IBAction)passwordChange:(id)sender {
     if (self.password.text.length > 0) {
         self.passwordBtn.hidden = NO;
@@ -157,10 +155,9 @@
         
         [self requestLogin];
     }
-    
 }
 
-#pragma mark - request
+#pragma mark - 事件请求
 //停车场位置
 - (void)requestLogin{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -191,7 +188,7 @@
 - (void)loadLoginError{
     _isLogin = NO;
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 //
@@ -224,7 +221,7 @@
     }
 }
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 -(void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }

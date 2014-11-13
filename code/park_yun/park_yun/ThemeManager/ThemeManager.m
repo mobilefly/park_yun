@@ -90,7 +90,7 @@ static ThemeManager *sigleton = nil;
 }
 
 
-#pragma mark - segleton settting
+#pragma mark - singleton settting
 + (id) allocWithZone:(NSZone *)zone{
     @synchronized (self) {
         if (sigleton == nil) {

@@ -79,7 +79,7 @@
     [self.view addSubview:_submitBtn];
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 - (void)requestUpload{
     [self showHUDProgress:@"文件上传中" isDim:NO];
     
@@ -110,7 +110,7 @@
 
 - (void)loadLoginError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 //
@@ -131,7 +131,7 @@
      [self.navigationController popViewControllerAnimated:NO];
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)submitAction:(UIButton *)button{
     if ([FLYBaseUtil isEmpty:_carnoField.text]) {
         [self showAlert:@"请输入车牌号"];
@@ -165,7 +165,6 @@
 }
 
 #pragma mark - UIActionSheetDelegate delegate
-
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     UIImagePickerControllerSourceType sourceType;
@@ -218,8 +217,7 @@
     [_carnoField resignFirstResponder];
 }
 
-
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

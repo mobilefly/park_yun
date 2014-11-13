@@ -108,8 +108,7 @@
     //停车类型按钮
     _parkTypeBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, (100 - 47) / 2, 47, 47)];
     _parkTypeBtn.titleLabel.font = [UIFont systemFontOfSize:13.0];
-    
-    [_parkTypeBtn addTarget:self action:@selector(parkTypeAction:) forControlEvents:UIControlEventTouchUpInside];
+    [_parkTypeBtn addTarget:self action:@selector(changeParkTypeAction:) forControlEvents:UIControlEventTouchUpInside];
     [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_up.png"] forState:UIControlStateNormal];
     [_parkTypeBtn setBackgroundImage:[UIImage imageNamed:@"mfpparking_yaoyuanjian_all_down.png"]
                             forState:UIControlStateHighlighted];
@@ -172,8 +171,8 @@
     [view.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
-#pragma mark Action
-- (void)parkTypeAction:(UIButton *)btn{
+#pragma mark - 按钮点击
+- (void)changeParkTypeAction:(UIButton *)btn{
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     if ([_parkTypeBtn.titleLabel.text isEqualToString:@"全部"]) {
         _navType = @"1";
@@ -198,7 +197,7 @@
     }
 }
 
-
+//开启关闭语音
 - (void)voiceAction:(UIButton *)btn{
     
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
@@ -223,6 +222,7 @@
     }
 }
 
+//开启停止巡航
 - (void)navAction{
     if ([_autonavLabel.text isEqualToString:@"开始巡航"] || [_autonavLabel.text isEqualToString:@"停止巡航"]) {
         _loadTimer = [NSTimer scheduledTimerWithTimeInterval:30.0 target:self selector:@selector(requestMoreParkData) userInfo:nil repeats:YES];
@@ -245,7 +245,7 @@
     [self navAction];
 }
 
-- (void)gateAction:(UIButton *)button{
+- (void)toGateAction:(UIButton *)button{
     UIView *view = [button superview];
     int index = [_carousel indexOfItemView:view];
     
@@ -256,7 +256,7 @@
     [self.navigationController pushViewController:gateCtrl animated:NO];
 }
 
-- (void)autoNavAction:(UIButton *)button{
+- (void)toAutoNavAction:(UIButton *)button{
     UIView *view = [button superview];
     int index = [_carousel indexOfItemView:view];
     
@@ -269,7 +269,18 @@
     [FLYUtils drivingNavigation:parkModel.parkName start:startCoor end:endCoor];
 }
 
-#pragma mark - request
+//语音导航
+-(void)speakAction:(FLYParkModel *)parkModel{
+    NSString *speechText = [FLYUtils getParkSpeech:parkModel];
+    
+    if (_iflySpeechSynthesizer != nil && !_isClose) {
+        if (_isVoice) {
+            [_iflySpeechSynthesizer startSpeaking:speechText];
+        }
+    }
+}
+
+#pragma mark - 数据请求
 - (void)requestParkData{
     
     _isLoading = YES;
@@ -455,18 +466,6 @@
     }
 }
 
--(void)speakAction:(FLYParkModel *)parkModel{
-    
-    
-    NSString *speechText = [FLYUtils getParkSpeech:parkModel];
-
-    if (_iflySpeechSynthesizer != nil && !_isClose) {
-        if (_isVoice) {
-            [_iflySpeechSynthesizer startSpeaking:speechText];
-        }
-    }
-}
-
 //动画
 -(void)scaleAnimation{
     UIView *view = [_carousel itemViewAtIndex:0];
@@ -581,7 +580,7 @@
         [enterBtn primaryStyle];
         [enterBtn setTitle:@"入口引导" forState:UIControlStateNormal];
         enterBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        [enterBtn addTarget:self action:@selector(gateAction:) forControlEvents:UIControlEventTouchUpInside];
+        [enterBtn addTarget:self action:@selector(toGateAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:enterBtn];
 
         navBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -590,7 +589,7 @@
         [navBtn primaryStyle];
         [navBtn setTitle:@"开始导航" forState:UIControlStateNormal];
         navBtn.titleLabel.font = [UIFont systemFontOfSize:14.0];
-        [navBtn addTarget:self action:@selector(autoNavAction:) forControlEvents:UIControlEventTouchUpInside];
+        [navBtn addTarget:self action:@selector(toAutoNavAction:) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:navBtn];
     }
     
@@ -696,7 +695,7 @@
     }
 }
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
 }

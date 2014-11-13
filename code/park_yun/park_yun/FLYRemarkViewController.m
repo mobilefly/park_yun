@@ -56,7 +56,7 @@
     }
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 -(void)addAction{
     if ([FLYBaseUtil checkUserLogin]) {
         FLYAddRemarkViewController *addRemarkCtrl = [[FLYAddRemarkViewController alloc] init];
@@ -71,7 +71,7 @@
     
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 -(void)requestRemarkData{
     _isMore = NO;
     self.datas = nil;
@@ -136,7 +136,7 @@
 
 -(void)loadDataError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadRemarkData:(id)data{
@@ -193,9 +193,7 @@
     }else if(self.datas == nil || [self.datas count] == 0){
         [self.tableView setReachedTheEnd:YES];
     }
-        
 }
-
 
 - (void)loadMaxRemarkData:(id)data{
     NSString *flag = [data objectForKey:@"flag"];
@@ -246,7 +244,6 @@
     [self performSelector:@selector(requestMoreRemarkData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -258,7 +255,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -299,10 +296,7 @@
     return cell;
 }
 
-
-
-#pragma mark - other
-
+#pragma mark - Override UIViewController
 - (void)viewWillAppear:(BOOL)animated{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.reloadFlag isEqualToString:@"AddRemark"]) {

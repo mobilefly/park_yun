@@ -93,6 +93,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    //设置消息推送数字为0
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
@@ -119,42 +120,34 @@
     NSLog(@"Registfail%@",error);
 }
 
-#pragma mark payCallback
+#pragma mark 支付宝回调
 //独立客户端回调函数
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	
 	[self parse:url application:application];
 	return YES;
 }
 
+//处理来源回调信息
 - (void)parse:(NSURL *)url application:(UIApplication *)application {
-    
     //结果处理
     AlixPayResult* result = [self handleOpenURL:url];
-    
-	if (result)
-    {
-		
-		if (result.statusCode == 9000)
-        {
+	if (result){
+		if (result.statusCode == 9000){
             //交易成功
             NSString* key = kAplipayPublicKey;
             id<DataVerifier> verifier;
             verifier = CreateRSADataVerifier(key);
-            if ([verifier verifyString:result.resultString withSign:result.signString])
-            {
+            if ([verifier verifyString:result.resultString withSign:result.signString]){
                 [self toPayResult:@"支付成功"];
                 NSLog(@"支付成功");
             }
         }
-        else
-        {
+        else{
             [self toPayResult:@"支付失败"];
             NSLog(@"支付失败");
         }
     }
-    else
-    {
+    else{
         [self toPayResult:@"支付失败"];
         NSLog(@"支付失败");
     }

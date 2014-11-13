@@ -68,7 +68,7 @@
     [_noDataView addSubview:noDataImage];
     
     //点击事件
-    UITapGestureRecognizer *noDataTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(noDataClickAction:)];
+    UITapGestureRecognizer *noDataTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(nodataClickAction:)];
     [_noDataView addGestureRecognizer:noDataTap];
     
     
@@ -141,17 +141,14 @@
     self.navigationItem.titleView = titleLabel;
 }
 
-#pragma mark - Action
--(void)noDataClickAction:(UITapGestureRecognizer*)gesture{
+#pragma mark - 控件事件
+-(void)nodataClickAction:(UITapGestureRecognizer*)gesture{
     //父类复写改方法
 }
 
 -(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
     //父类复写改方法
 }
-
-
-
 
 #pragma mark - 提示
 -(void)setBackgroupViewFrame:(CGRect)rect{
@@ -393,14 +390,14 @@
     _isHudLoad = NO;
 }
 
-#pragma mark - tableView
+#pragma mark - UITableView
 - (void)setExtraCellLineHidden: (UITableView *)tableView{
     UIView *view = [[UIView alloc] init];
     view.backgroundColor = [UIColor clearColor];
     [tableView setTableFooterView:view];
 }
 
-#pragma mark - view other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

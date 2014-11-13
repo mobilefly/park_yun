@@ -33,7 +33,6 @@
 {
     [super viewDidLoad];
     
-    
     _contentView = [[UITextView alloc] init];
     _contentView.layer.borderWidth = 1;
     _contentView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
@@ -198,47 +197,53 @@
     return returnValue;
 }
 
-
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)submitAction:(UIButton *)button{
     if ([FLYBaseUtil isEmpty:_contentView.text] || [_contentView.text isEqualToString:@"请输入评论内容"]) {
         [self showToast:@"请填写评论内容"];
     }else{
         _okButton.enabled = NO;
         
-        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-        NSString *userid = [defaults stringForKey:@"memberId"];
-        NSString *token = [defaults stringForKey:@"token"];
-        
-//        NSString *emojiText = [self replaceEmoji:_contentView.text];
-        
-//        NSLog(@"%@",emojiText);
-        
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       userid,
-                                       @"userid",
-                                       token,
-                                       @"token",
-                                       [NSString stringWithFormat:@"%@", _contentView.text],
-                                       @"content",
-                                       _parkId,
-                                       @"parkid",
-                                       [NSString stringWithFormat:@"%i",_ratingControl.rating],
-                                       @"scores1",
-                                       [NSString stringWithFormat:@"%i",_rating2Control.rating],
-                                       @"scores2",
-                                       [NSString stringWithFormat:@"%i",_rating3Control.rating],
-                                       @"scores3",
-                                       nil];
-
-        //防止循环引用
-        __weak FLYAddRemarkViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpAddRemark params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref loadRemarkData:result];
-        } errorBolck:^(){
-            [ref loadRemarkError];
-        }];
+        if ([FLYBaseUtil isEnableInternate]) {
+            [self requestData];
+        }else{
+            [self showToast:@"请打开网络"];
+        }
     }
+}
+
+#pragma mark - 数据请求
+- (void)requestData{
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *userid = [defaults stringForKey:@"memberId"];
+    NSString *token = [defaults stringForKey:@"token"];
+    
+    //        NSString *emojiText = [self replaceEmoji:_contentView.text];
+    //        NSLog(@"%@",emojiText);
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   userid,
+                                   @"userid",
+                                   token,
+                                   @"token",
+                                   [NSString stringWithFormat:@"%@", _contentView.text],
+                                   @"content",
+                                   _parkId,
+                                   @"parkid",
+                                   [NSString stringWithFormat:@"%i",_ratingControl.rating],
+                                   @"scores1",
+                                   [NSString stringWithFormat:@"%i",_rating2Control.rating],
+                                   @"scores2",
+                                   [NSString stringWithFormat:@"%i",_rating3Control.rating],
+                                   @"scores3",
+                                   nil];
+    
+    //防止循环引用
+    __weak FLYAddRemarkViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpAddRemark params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadRemarkData:result];
+    } errorBolck:^(){
+        [ref loadRemarkError];
+    }];
 }
 
 - (void)loadRemarkData:(id)data{
@@ -264,12 +269,11 @@
 }
 
 - (void)loadRemarkError{
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
     _okButton.enabled = YES;
 }
 
 #pragma mark - Rating
-
 - (void)updateRating:(UIButton *)sender
 {
     UILabel *label = (UILabel *)[sender.superview viewWithTag:sender.tag + 1];
@@ -290,7 +294,7 @@
     }
 }
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

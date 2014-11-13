@@ -39,9 +39,10 @@
 // 是否打开网络
 +(BOOL)isEnableInternate;
 
-+(void)alertMsg:(NSString *)msg;
-//
-+(void)alertErrorMsg;
++(void)showMsg:(NSString *)msg;
+
+//网络异常
++(void)networkError;
 
 //判断是否为整形：
 +(BOOL)isPureInt:(NSString*)string;

@@ -102,7 +102,7 @@
     [self.view addSubview:_submitBtn];
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)didEndAction:(UITextField *)textField{
     if (textField.tag == 101) {
         [_oldPwdField resignFirstResponder];
@@ -117,6 +117,56 @@
 }
 
 - (void)submitAction{
+    [_oldPwdField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_passverifyField resignFirstResponder];
+    
+    if ([FLYBaseUtil isEmpty:_oldPwdField.text]) {
+        [self showToast:@"请输入原密码"];
+        return;
+    }else if([FLYBaseUtil isEmpty:_passwordField.text] || [FLYBaseUtil isEmpty:_passverifyField.text]){
+        [self showToast:@"请输入新密码"];
+        return;
+    }else if (![_passwordField.text isEqualToString:_passverifyField.text]) {
+        [self showToast:@"两次新密码输入不相同"];
+        return;
+    }
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:@"token"];
+    NSString *userid = [defaults stringForKey:@"memberId"];
+    
+    //kHttpMemberRegister
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   token,
+                                   @"token",
+                                   userid,
+                                   @"userid",
+                                   [_oldPwdField.text md5HexDigest],
+                                   @"pwd",
+                                   [_passwordField.text md5HexDigest],
+                                   @"newPwd",
+                                   nil];
+    [self showHUD:@"注册中" isDim:NO];
+    
+    [_submitBtn setEnabled:NO];
+    //防止循环引用
+    __weak FLYChangePasswordViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpUpdatePassword params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadData:result];
+    } errorBolck:^(){
+        [ref loadError];
+    }];
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_oldPwdField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_passverifyField resignFirstResponder];
+}
+
+#pragma mark - 数据请求
+- (void)requestData{
     [_oldPwdField resignFirstResponder];
     [_passwordField resignFirstResponder];
     [_passverifyField resignFirstResponder];
@@ -185,17 +235,10 @@
 - (void)loadError{
     [_submitBtn setEnabled:YES];
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
-#pragma mark - Action
-- (IBAction)backgroundTap:(id)sender {
-    [_oldPwdField resignFirstResponder];
-    [_passwordField resignFirstResponder];
-    [_passverifyField resignFirstResponder];
-}
-
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -57,7 +57,7 @@
     }
 }
 
-#pragma mark - view other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

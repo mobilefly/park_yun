@@ -92,7 +92,19 @@
     }];
 }
 
+#pragma mark - 控件事件
 -(void)submitAction:(UIButton *)button{
+    [self requestFeedbackData];
+}
+
+- (IBAction)backgroundTap:(id)sender {
+    [_phoneFiled resignFirstResponder];
+    [_contentView resignFirstResponder];
+}
+
+
+#pragma mark - 数据请求
+- (void)requestFeedbackData{
     if ([FLYBaseUtil isEmpty:_contentView.text] || [_contentView.text isEqualToString:@"在此处输入你的反馈意见"]) {
         [self showToast:@"请填写意见"];
     }else{
@@ -145,15 +157,12 @@
 }
 
 - (void)loadLoginError{
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
-- (IBAction)backgroundTap:(id)sender {
-    [_phoneFiled resignFirstResponder];
-    [_contentView resignFirstResponder];
-}
 
-#pragma mark - other
+
+#pragma mark - Override UIViewController
 -(void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }

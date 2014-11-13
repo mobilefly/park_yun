@@ -22,10 +22,7 @@
 #import "UIFactory.h"
 #import "FLYAppDelegate.h"
 
-
-
 #define kTopHeight 60
-
 
 @interface FLYMainViewController ()
 @end
@@ -62,29 +59,34 @@
     self.topView.frame = CGRectMake(0, 20, 320, kTopHeight);
     self.topView.hidden = NO;
     
+    //切换地图按钮
     UIButton *mapButton = [[UIButton alloc] initWithFrame:CGRectMake(20, (kTopHeight - 32)/2, 97, 32)];
     [mapButton setImage:[UIImage imageNamed:@"mfpparking_shouyedituxs_all_up.png"] forState:UIControlStateNormal];
     [mapButton addTarget:self action:@selector(mapAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:mapButton];
     
+    //自动导航按钮
     ThemeButton *navButton = [UIFactory createButton:@"mfpparking_shouyejia_all_up.png" hightlight:@"mfpparking_shouyejia_all_down.png"];
     navButton.showsTouchWhenHighlighted = YES;
     navButton.frame = CGRectMake(ScreenWidth - 10 - 32, (kTopHeight - 32)/2, 32, 32);
-    [navButton addTarget:self action:@selector(navAction) forControlEvents:UIControlEventTouchUpInside];
+    [navButton addTarget:self action:@selector(toNavAction) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:navButton];
     
+    //搜索停车场按钮
     ThemeButton *searchButton = [UIFactory createButton:@"mfpparking_shouyesearch_all_up.png" hightlight:@"mfpparking_shouyesearch_all_down.png"];
     searchButton.showsTouchWhenHighlighted = YES;
     searchButton.frame = CGRectMake(navButton.left - 10 - 32, (kTopHeight - 32)/2, 32, 32);
-    [searchButton addTarget:self action:@selector(searchAction) forControlEvents:UIControlEventTouchUpInside];
+    [searchButton addTarget:self action:@selector(toSearchAction) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:searchButton];
     
+    //用户中心按钮
     ThemeButton *userButton = [UIFactory createButton:@"mfpparking_shouyeuser_all_up.png" hightlight:@"mfpparking_shouyeuser_all_down.png"];
     userButton.showsTouchWhenHighlighted = YES;
     userButton.frame = CGRectMake(searchButton.left - 10 - 32, (kTopHeight - 32)/2, 32, 32);
-    [userButton addTarget:self action:@selector(userInfoAction) forControlEvents:UIControlEventTouchUpInside];
+    [userButton addTarget:self action:@selector(toUserCenterAction) forControlEvents:UIControlEventTouchUpInside];
     [self.topView addSubview:userButton];
     
+    //周边停车场列表
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight) pullingDelegate:self];
     self.tableView.pullingDelegate = self;
     self.tableView.dataSource = self;
@@ -95,17 +97,18 @@
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
+    //地图
     _mapBaseView = [[FLYBaseMap alloc]initWithFrame:CGRectMake(0, 20 + kTopHeight, ScreenWidth, ScreenHeight - 20 - kTopHeight)];
     _mapBaseView.alpha = 0;
     _mapBaseView.mapDelegate = self;
     [self.view addSubview:_mapBaseView];
     
-    //定位
+    //定位服务
     _locationService = [[BMKLocationService alloc]init];
     _locationService.delegate = self;
-    //启动LocationService
     [_locationService startUserLocationService];
     
+    //地图检索服务
     _codeSearcher = [[BMKGeoCodeSearch alloc]init];
     _codeSearcher.delegate = self;
     
@@ -113,9 +116,11 @@
     
 }
 
-#pragma mark - request
-//停车场位置
+#pragma mark - 数据请求
+//停车场列表数据
 - (void)requestParkData{
+    [self showTimeoutView:NO];
+    
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     _reloadLoaction = appDelegate.coordinate;
 
@@ -158,7 +163,6 @@
         //防止循环引用
         __weak FLYMainViewController *ref = self;
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref showTimeoutView:NO];
             [ref loadParkData:result];
         } errorBolck:^(){
             [ref loadParkError:YES];
@@ -167,7 +171,7 @@
 
 }
 
-//加载更多停车场列表
+//加载更多停车场列表数据
 - (void)requestMoreParkData{
     if (_isMore) {
         _isMore = NO;
@@ -204,7 +208,7 @@
     if (firstLoad) {
         [self showTimeoutView:YES];
     }else{
-        [FLYBaseUtil alertErrorMsg];
+        [FLYBaseUtil networkError];
     }
     
 }
@@ -262,7 +266,7 @@
     }
 }
 
-
+//根据城市名查询区域下的停车场信息（离线查询）
 - (void)requestCityData:(NSString *)cityName{
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
     if ([FLYBaseUtil isOffline]) {
@@ -312,12 +316,7 @@
     }
 }
 
-#pragma mark - Action
-- (void)userInfoAction{
-    FLYUserCenterViewController *userCenterController = [[FLYUserCenterViewController alloc] init];
-    [self.navigationController pushViewController:userCenterController animated:NO];
-}
-
+#pragma mark - 控件事件
 //切换地图
 - (void)mapAction:(UIButton *)button{
     if (_mapBaseView.alpha == 0) {
@@ -345,14 +344,20 @@
     }
 }
 
+//个人中心
+- (void)toUserCenterAction{
+    FLYUserCenterViewController *userCenterController = [[FLYUserCenterViewController alloc] init];
+    [self.navigationController pushViewController:userCenterController animated:NO];
+}
+
 //跳转搜索页
-- (void)searchAction{
+- (void)toSearchAction{
     FLYSearchViewController *searchController = [[FLYSearchViewController alloc] init];
     FLYBaseNavigationController *baseNav = [[FLYBaseNavigationController alloc] initWithRootViewController:searchController];
     [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
 }
 
--(void)navAction{
+-(void)toNavAction{
     FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
     [self.navigationController pushViewController:shakeCtrl animated:NO];
 }
@@ -368,7 +373,6 @@
     [self performSelector:@selector(requestMoreParkData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -380,7 +384,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -441,11 +445,11 @@
         BMKCoordinateRegion adjustedRegion = [_mapBaseView.mapView regionThatFits:viewRegion];
         [_mapBaseView.mapView setRegion:adjustedRegion animated:YES];
         
-        [self preRequestParkData];
+        [self prepareRequestParkData];
     }
 }
 
--(void)preRequestParkData{
+-(void)prepareRequestParkData{
     //离线
     if ([FLYBaseUtil isOffline]) {
         [self requestParkData];
@@ -567,11 +571,11 @@
 
 -(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
-        [self navAction];
+        [self toNavAction];
     }
 }
 
-#pragma mark - parseXml
+#pragma mark - 解析初始化XML数据
 - (void)parseRegionData{
     if (![FLYDBUtil checkRegionTable]) {
         FLYParseRegionXml *regionParse = [[FLYParseRegionXml alloc] init];
@@ -586,17 +590,16 @@
     }
 }
 
-#pragma mark - super
--(void)noDataClickAction:(UITapGestureRecognizer*)gesture{
-    [self preRequestParkData];
-}
-
+#pragma mark - Override FLYBaseViewController
 -(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
-    [self preRequestParkData];
+    [self prepareRequestParkData];
 }
 
+-(void)nodataClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestParkData];
+}
 
-#pragma mark - view other
+#pragma mark - Override UIViewController
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     

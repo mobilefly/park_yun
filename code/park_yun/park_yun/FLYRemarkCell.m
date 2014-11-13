@@ -15,24 +15,27 @@
 {
     //手机号
     _phoneLabel = (UILabel *)[self viewWithTag:102];
-    
+    //评级
     _ratingview = (UIView *)[self viewWithTag:103];
     //内容
     _contentLabel = (UILabel *)[self viewWithTag:104];
     _contentLabel.textAlignment = NSTextAlignmentJustified;
-
+    //评论时间
     _timeLabel = (UILabel *)[self viewWithTag:105];
 }
 
-
 - (void)layoutSubviews{
-    _phoneLabel.text = self.remarkModel.member.memberPhone;
     
-    //U0001f42f
+    if([self.remarkModel.member.memberPhone length] == 11){
+        NSString *phoneBegin = [self.remarkModel.member.memberPhone substringToIndex:3];
+        NSString *phoneEnd = [self.remarkModel.member.memberPhone substringFromIndex:7];
+        _phoneLabel.text = [NSString stringWithFormat:@"%@****%@",phoneBegin,phoneEnd];
+    }else{
+        _phoneLabel.text = self.remarkModel.member.memberPhone;
+    }
     
     _contentLabel.frame = CGRectMake(20, _phoneLabel.bottom + 10, 280, 0) ;
     _contentLabel.text = [NSString stringWithFormat:@"%@", self.remarkModel.remarkContent];
-    
     
     [_contentLabel sizeToFit];
     

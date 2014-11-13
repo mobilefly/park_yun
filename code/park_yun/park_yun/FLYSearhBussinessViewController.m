@@ -38,8 +38,6 @@
         self.title = self.titleName;
     }
     
-    
-    
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
     self.tableView.dataSource = self;
@@ -48,10 +46,14 @@
     self.tableView.hidden = YES;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
-    
     [self setExtraCellLineHidden:self.tableView];
-    
-    
+
+    [self prepareRequestParkData];
+}
+
+
+#pragma mark - 数据请求
+- (void)prepareRequestParkData{
     if ([FLYBaseUtil isOffline]) {
         [self requestParkData];
     }else{
@@ -59,17 +61,15 @@
             [self showHUD:@"加载中" isDim:NO];
             [self requestParkData];
         }else{
+            [self showTimeoutView:YES];
             [self showToast:@"请打开网络"];
         }
     }
-    
-
 }
 
-
-#pragma mark - request
 //停车场位置
 - (void)requestParkData{
+    [self showTimeoutView:NO];
     
     //离线请求数据库
     if ([FLYBaseUtil isOffline]) {
@@ -106,10 +106,9 @@
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadParkData:result];
         } errorBolck:^(){
-            [ref loadParkError];
+            [ref loadParkError:YES];
         }];
     }
-    
     
 }
 
@@ -117,9 +116,7 @@
 - (void)requestMoreParkData{
     if (_isMore) {
         _isMore = NO;
-        
         int start = _dataIndex;
-        
         
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        [NSString stringWithFormat:@"%f",self.coordinate.latitude],
@@ -137,7 +134,7 @@
         [FLYDataService requestWithURL:kHttpQueryNearbyList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadParkData:result];
         } errorBolck:^(){
-            [ref loadParkError];
+            [ref loadParkError:NO];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
@@ -145,9 +142,12 @@
 }
 
 
-- (void)loadParkError{
+- (void)loadParkError:(BOOL)firstLoad{
+    if (firstLoad) {
+        [self showTimeoutView:YES];
+    }
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 //停车场列表
@@ -215,7 +215,6 @@
     [self performSelector:@selector(requestMoreParkData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -226,8 +225,7 @@
     [self.tableView tableViewDidEndDragging:scrollView];
 }
 
-
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -270,7 +268,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - other
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestParkData];
+}
+
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

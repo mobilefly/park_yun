@@ -36,8 +36,6 @@
             self.title = @"周边查询";
         }
         
-        
-        
         self.isBackButton = NO;
         self.isCancelButton = YES;
     }
@@ -113,12 +111,19 @@
     
 }
 
-#pragma mark - Action
+#pragma mark - 按钮请求
 - (void)voiceAction{
     //启动识别服务
     [_iflyRecognizerView start];
-    
     _searchBar.text = @"";
+}
+
+- (IBAction)cancelAction:(id)sender {
+    [self.searchBar resignFirstResponder];
+}
+
+- (IBAction)backgroupTap:(id)sender {
+    [self.searchBar resignFirstResponder];
 }
 
 //POI查询
@@ -188,7 +193,7 @@
 
 
 
-#pragma mark - reuqest
+#pragma mark - 数据请求
 - (void)requestBussines:(NSString *)city{
 
     //离线请求数据库
@@ -224,7 +229,7 @@
 }
 
 - (void)loadDataError{
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadData:(id)data{
@@ -402,7 +407,39 @@
     [self.searchBar resignFirstResponder];
 }
 
-#pragma mark - view other
+#pragma mark  - delegate IFlyRecognizerViewDelegate
+/*识别结果返回代理
+ @param resultArray 识别结果
+ @ param isLast 表示是否最后一次结果
+ */
+- (void)onResult: (NSArray *)resultArray isLast:(BOOL) isLast {
+    if (!isLast) {
+        NSMutableString *result = [[NSMutableString alloc] init];
+        NSDictionary *dic = [resultArray objectAtIndex:0];
+        for (NSString *key in dic) {
+            
+            NSString *keyWord =  [key stringByReplacingOccurrencesOfString:@"，" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"！" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"？" withString:@" "];
+            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"。" withString:@" "];
+            [result appendFormat:@"%@",keyWord];
+        }
+        _searchBar.text = [NSString stringWithFormat:@"%@%@",_searchBar.text,result];
+    }else{
+        if ([FLYBaseUtil isNotEmpty:_searchBar.text]) {
+            [self.searchBar becomeFirstResponder];
+        }
+    }
+}
+
+/*识别会话错误返回代理
+ @ param error 错误码
+ */
+- (void)onError: (IFlySpeechError *) error {
+    //    [self showToast:@"无法识别"];
+}
+
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -434,45 +471,6 @@
     NSLog(@"%s",__FUNCTION__);
 }
 
-#pragma mark - Action
-- (IBAction)cancelAction:(id)sender {
-    [self.searchBar resignFirstResponder];
-}
 
-- (IBAction)backgroupTap:(id)sender {
-    [self.searchBar resignFirstResponder];
-}
-
-#pragma mark  - delegate IFlyRecognizerViewDelegate
-/*识别结果返回代理
- @param resultArray 识别结果
- @ param isLast 表示是否最后一次结果
- */
-- (void)onResult: (NSArray *)resultArray isLast:(BOOL) isLast {
-    if (!isLast) {
-        NSMutableString *result = [[NSMutableString alloc] init];
-        NSDictionary *dic = [resultArray objectAtIndex:0];
-        for (NSString *key in dic) {
-
-            NSString *keyWord =  [key stringByReplacingOccurrencesOfString:@"，" withString:@" "];
-            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"！" withString:@" "];
-            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"？" withString:@" "];
-            keyWord =  [keyWord stringByReplacingOccurrencesOfString:@"。" withString:@" "];
-            [result appendFormat:@"%@",keyWord];
-        }
-        _searchBar.text = [NSString stringWithFormat:@"%@%@",_searchBar.text,result];
-    }else{
-        if ([FLYBaseUtil isNotEmpty:_searchBar.text]) {
-            [self.searchBar becomeFirstResponder];
-        }
-    }
-}
-
-/*识别会话错误返回代理
- @ param error 错误码
- */
-- (void)onError: (IFlySpeechError *) error {
-//    [self showToast:@"无法识别"];
-}
 
 @end

@@ -42,16 +42,22 @@
     [self.view addSubview:_tableView];
     [self setExtraCellLineHidden:_tableView];
     
+    [self prepareRequestBillDetailData];
+}
+
+#pragma mark - 数据请求
+-(void)prepareRequestBillDetailData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
         [self requestBillDetailData];
     }else{
+        [self showTimeoutView:YES];
         [self showToast:@"请打开网络"];
     }
 }
 
-#pragma mark - request
 -(void)requestBillDetailData{
+    [self showTimeoutView:NO];
 
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
@@ -76,8 +82,10 @@
 }
 
 -(void)loadBillError{
+    [self showTimeoutView:YES];
+    
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadBillData:(id)data{
@@ -167,10 +175,7 @@
             }else{
                 priceLabel.textColor = [UIColor redColor];
             }
-            
-            
             _tableView.tableHeaderView = headView;
-            
             [_tableView reloadData];
         }
     }else{
@@ -204,9 +209,12 @@
     return 65;
 }
 
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestBillDetailData];
+}
 
-
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

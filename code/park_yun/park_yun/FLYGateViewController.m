@@ -48,26 +48,29 @@
     [_iflySpeechSynthesizer setParameter:@"8000" forKey: [IFlySpeechConstant SAMPLE_RATE]];
     [_iflySpeechSynthesizer setParameter:nil forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     
+    [self prepareRequestGateData];
+    self.ctrlDelegate = self;
+}
+
+
+
+#pragma mark - 数据请求
+-(void)prepareRequestGateData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self requestGateData];
         [self showHUD:@"加载中" isDim:NO];
     }else{
+        [self showTimeoutView:YES];
         [self showToast:@"请打开网络"];
     }
-    
-    self.ctrlDelegate = self;
-
 }
 
-#pragma mark -delegate
-
 -(void)requestGateData{
-
+    [self showTimeoutView:NO];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    self.parkModel.parkId,
                                    @"parkid",
                                    nil];
-    
     //防止循环引用
     __weak FLYGateViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryParkGateList params:params httpMethod:@"POST" completeBolck:^(id result){
@@ -111,8 +114,9 @@
 }
 
 -(void)loadDataError{
+    [self showTimeoutView:YES];
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 #pragma mark - UITableViewDataSource delegate
@@ -136,11 +140,6 @@
     cell.parkGateModel = [_datas objectAtIndex:indexPath.row];
 
     return cell;
-}
-
-#pragma mark - FLYGateDelegate
-- (void)voice:(NSString *)title{
-    [_iflySpeechSynthesizer startSpeaking:title];
 }
 
 #pragma mark - UITableViewDelegate delegate
@@ -167,6 +166,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - FLYGateDelegate
+- (void)voice:(NSString *)title{
+    [_iflySpeechSynthesizer startSpeaking:title];
+}
+
 #pragma mark  - IFlySpeechSynthesizerDelegate delegate
 - (void)onCompleted:(IFlySpeechError*) error{
     if (_isClose) {
@@ -185,7 +189,12 @@
     return YES;
 }
 
-#pragma mark - other
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestGateData];
+}
+
+#pragma mark - Override UIViewController
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }

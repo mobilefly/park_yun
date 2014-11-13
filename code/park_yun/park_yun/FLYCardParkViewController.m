@@ -49,7 +49,7 @@
     }
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 -(void)requestCardParkData{
     _isMore = NO;
     _dataIndex = 0;
@@ -115,7 +115,7 @@
 
 -(void)loadDataError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadCardParkData:(id)data{
@@ -180,7 +180,6 @@
     [self performSelector:@selector(requestMoreCardParkData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -192,7 +191,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -236,7 +235,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -285,7 +284,7 @@
     currentMaxDisplayedCell = 0;
 }
 
-#pragma -mark Setters for four customisable variables
+#pragma mark - Setters for four customisable variables
 -(void)setCellZoomXScaleFactor:(NSNumber *)xZoomFactor{
     _xZoomFactor = xZoomFactor;
 }
@@ -299,7 +298,7 @@
     _initialAlpha = initialAlpha;
 }
 
-#pragma -mark Getters for four customisable variable. Provide default if not set.
+#pragma mark - Getters for four customisable variable. Provide default if not set.
 -(NSNumber *)cellZoomXScaleFactor{
     if (_xZoomFactor == nil){
         _xZoomFactor = [NSNumber numberWithFloat:1.25];
@@ -336,7 +335,4 @@
     }
     return _initialAlpha;
 }
-
-
-
 @end

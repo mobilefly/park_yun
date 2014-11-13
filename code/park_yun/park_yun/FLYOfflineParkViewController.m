@@ -51,7 +51,7 @@
     [_searchBtn setTitle:@"搜索" forState:UIControlStateNormal];
     _searchBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     [_searchBtn primaryStyle];
-    [_searchBtn addTarget:self action:@selector(searchCity) forControlEvents:UIControlEventTouchUpInside];
+    [_searchBtn addTarget:self action:@selector(searchCityAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_searchBtn];
     
      NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"城市列表",@"下载管理",nil];
@@ -86,7 +86,7 @@
     
     //查询当前城市离线包
     if ([FLYBaseUtil isNotEmpty:_searchText.text]) {
-        [self searchCity];
+        [self searchCityAction];
     }
     //查询下载管理列表
     [self queryVersionList];
@@ -130,8 +130,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - Action
-- (void)searchCity{
+#pragma mark - 控件事件
+- (void)searchCityAction{
     [_searchText resignFirstResponder];
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
@@ -376,7 +376,7 @@
     }
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 - (void)requestUpdate{
     
     NSString *cityCode = @"";
@@ -457,7 +457,7 @@
 
 - (void)loadError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadCityData:(id)data{
@@ -615,7 +615,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

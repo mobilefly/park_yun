@@ -124,7 +124,7 @@
 }
 
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)didEndAction:(UITextField *)textField{
     if (textField.tag == 101) {
         [_usernameField resignFirstResponder];
@@ -255,7 +255,7 @@
 - (void)loadError{
     [_submitBtn setEnabled:YES];
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (IBAction)backgroundTap:(id)sender {
@@ -266,7 +266,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

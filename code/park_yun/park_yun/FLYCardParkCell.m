@@ -17,9 +17,6 @@
     _mcCarnoLabel = (UILabel *)[self viewWithTag:102];
     _cardCodeLabel = (UILabel *)[self viewWithTag:103];
     _cpExpdateLabel = (UILabel *)[self viewWithTag:104];
-    
-//    parkCardModel
-    
 }
 
 - (void)layoutSubviews{

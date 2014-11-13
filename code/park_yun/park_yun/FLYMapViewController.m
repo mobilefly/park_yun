@@ -128,7 +128,7 @@
     [super regionChange:mapView];
 }
 
-#pragma mark - view other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -144,7 +144,6 @@
     _mapBaseView.mapDelegate = self;
 
 }
-
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];

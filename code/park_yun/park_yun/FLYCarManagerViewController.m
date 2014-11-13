@@ -51,17 +51,10 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    if ([FLYBaseUtil isEnableInternate]) {
-        [self showHUD:@"加载中" isDim:NO];
-        [self requestCarNoData];
-    }else{
-        [self showToast:@"请打开网络"];
-    }
+    [self prepareRequestCarNoData];
 }
 
-
-
-#pragma mark - request
+#pragma mark - 控件事件
 -(void)editAction{
     if ([_tableView isEditing]) {
         [_tableView setEditing:NO animated:NO];
@@ -70,8 +63,20 @@
     }
 }
 
+#pragma mark - 数据请求
+-(void)prepareRequestCarNoData{
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self showHUD:@"加载中" isDim:NO];
+        [self requestCarNoData];
+    }else{
+        [self showTimeoutView:YES];
+        [self showToast:@"请打开网络"];
+    }
+}
+
 
 -(void)requestCarNoData{
+    [self showTimeoutView:NO];
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
@@ -87,13 +92,16 @@
     [FLYDataService requestWithURL:kHttpQueryCarnoList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadCarnoData:result];
     } errorBolck:^(){
-        [ref loadDataError];
+        [ref loadDataError:YES];
     }];
 }
 
--(void)loadDataError{
+-(void)loadDataError:(BOOL)isFirst{
+    if (isFirst) {
+        [self showTimeoutView:YES];
+    }
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadCarnoData:(id)data{
@@ -140,7 +148,7 @@
     [FLYDataService requestWithURL:kHttpChangeCarno params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadChangeData:result carno:model.mcCarno];
     } errorBolck:^(){
-        [ref loadDataError];
+        [ref loadDataError:NO];
     }];
 }
 
@@ -180,7 +188,7 @@
     [FLYDataService requestWithURL:kHttpRemoveCarno params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadDeleteData:result index:index] ;
     } errorBolck:^(){
-        [ref loadDataError];
+        [ref loadDataError:NO];
     }];
 }
 
@@ -270,7 +278,6 @@
     return YES;
 }
 
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (editingStyle == UITableViewCellEditingStyleDelete) {
@@ -317,7 +324,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - other
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestCarNoData];
+}
+
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

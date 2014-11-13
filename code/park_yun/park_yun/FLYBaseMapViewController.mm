@@ -283,7 +283,7 @@
     return view;
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 //详情
 - (void)detailAction:(UIButton *)button{
     FLYParkDetailViewController *detail = [[FLYParkDetailViewController alloc] init];
@@ -832,7 +832,7 @@
     }
 }
 
-#pragma mark - request
+#pragma mark - 数据请求
 //停车场位置
 - (void)requestLocationData{
     if ([FLYBaseUtil isOffline]) {
@@ -862,7 +862,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

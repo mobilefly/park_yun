@@ -24,8 +24,7 @@
 }
 
 #pragma mark - NSXMLParserDelegate delegate
-//第一个代理方法：
-- (void) parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict
+- (void)parser:(NSXMLParser *)parser didStartElement:(NSString *)elementName namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qualifiedName attributes:(NSDictionary *)attributeDict
 {
     //判断是否是ROW
     if ([elementName isEqualToString:@"ROW"]) {
@@ -34,13 +33,11 @@
     }
 }
 
-//第二个代理方法：
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
     _tempElement = string;
 }
 
-//第三个代理方法：
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
     FLYBussinessModel *bussinessModel = _bussinessList[[_bussinessList count] - 1];

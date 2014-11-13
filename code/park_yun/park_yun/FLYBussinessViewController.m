@@ -22,7 +22,6 @@
 @end
 
 @implementation FLYBussinessViewController
-
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -57,11 +56,9 @@
             [self showToast:@"请打开网络"];
         }
     }
-    
-
 }
 
-#pragma mark - reuqest
+#pragma mark - 数据请求
 - (void)requestBussines:(NSString *)city{
     [self showHUD:@"加载中" isDim:NO];
     
@@ -83,7 +80,7 @@
 
 - (void)loadDataError{
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadData:(id)data{
@@ -141,6 +138,7 @@
     }
 }
 
+#pragma mark - 控件事件
 - (void)location:(UIButton *)button{
     long tag = button.tag;
     long index = tag - 100;
@@ -153,8 +151,7 @@
     [self.navigationController pushViewController:bussinessCtrl animated:NO];
 }
 
-
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

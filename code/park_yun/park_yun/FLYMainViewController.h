@@ -21,16 +21,13 @@
     BOOL _isMore;
     //加载区域数据
     BOOL _isLoadRegion;
-    
     //第一次加载数据坐标
     CLLocationCoordinate2D _reloadLoaction;
-    
     //地址查询服务
     BMKGeoCodeSearch *_codeSearcher;
     //位置服务
     BMKLocationService *_locationService;
     
-//    NSMutableArray *_regionList;
 }
 
 
@@ -40,7 +37,7 @@
 @property (strong, nonatomic) PullingRefreshTableView *tableView;
 //下拉刷新
 @property (nonatomic) BOOL refreshing;
-
+//顶部按钮栏
 @property (weak, nonatomic) IBOutlet UIView *topView;
 
 @end

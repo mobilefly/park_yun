@@ -117,7 +117,6 @@
 		744947CE19F8E6D90069C569 /* FLYPayResultViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 744947CC19F8E6D90069C569 /* FLYPayResultViewController.xib */; };
 		744B74511978E3D300D51485 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74501978E3D300D51485 /* iCarousel.m */; };
 		744B74551978E43F00D51485 /* FLYShakeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 744B74541978E43F00D51485 /* FLYShakeViewController.m */; };
-		744B74571978E76800D51485 /* page@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74561978E76800D51485 /* page@2x.png */; };
 		744B745A1978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */; };
 		744B745B1978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */; };
 		744B745D19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */; };
@@ -623,7 +622,6 @@
 		744B74501978E3D300D51485 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		744B74531978E43F00D51485 /* FLYShakeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYShakeViewController.h; sourceTree = "<group>"; };
 		744B74541978E43F00D51485 /* FLYShakeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYShakeViewController.m; sourceTree = "<group>"; };
-		744B74561978E76800D51485 /* page@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "page@2x.png"; sourceTree = "<group>"; };
 		744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaorkzd_all_down@2x.png"; sourceTree = "<group>"; };
 		744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaorkzd_all_up@2x.png"; sourceTree = "<group>"; };
 		744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_yaolocation_all_0@2x.png"; sourceTree = "<group>"; };
@@ -3649,9 +3647,9 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				74FB332D1A1442BE00CC1338 /* mfpparking_timeout@2x.png */,
 				749B932B1A00E26800D5E90A /* nearby_map_content@3x.png */,
 				742B6CB6198F711200DA17E7 /* nearby_map_content@2x.png */,
+				74FB332D1A1442BE00CC1338 /* mfpparking_timeout@2x.png */,
 				74FB197F1990722D0063DC03 /* mfpparking_jiazai_all_1@2x.png */,
 				7421C037198BA0EB00CF3851 /* mfpparking_xqdh_all_up@2x.png */,
 				7421C038198BA0EB00CF3851 /* mfpparking_xqlaba_all_up@2x.png */,
@@ -3688,7 +3686,6 @@
 				744B745C19790BFB00D51485 /* mfpparking_yaolocation_all_0@2x.png */,
 				744B74581978F70000D51485 /* mfpparking_yaorkzd_all_down@2x.png */,
 				744B74591978F70000D51485 /* mfpparking_yaorkzd_all_up@2x.png */,
-				744B74561978E76800D51485 /* page@2x.png */,
 				745D6EB21977CB680085E238 /* mfpparking_bdcpsc_all_0@2x.png */,
 				745D6EA81977ADB40085E238 /* mfpparking_empty@2x.png */,
 				745D6EA21977A3BD0085E238 /* mfpparking_clgldelete_all_0@2x.png */,
@@ -3728,8 +3725,6 @@
 				745263D3196D195D00037E3E /* mfpparking_zd_all_up@2x.png */,
 				745263D4196D195D00037E3E /* mfpparking_zj_all_down@2x.png */,
 				745263D5196D195D00037E3E /* mfpparking_zj_all_up@2x.png */,
-				745263C0196D13BB00037E3E /* Default-568h@2x.png */,
-				745263C1196D13BB00037E3E /* Default@2x.png */,
 				741F2C36196B95CE00E1B809 /* mfpparking_accountlogin_all_down@2x.png */,
 				741F2C37196B95CE00E1B809 /* mfpparking_accountlogin_all_up@2x.png */,
 				741F2C38196B95CE00E1B809 /* mfpparking_inputaccount_all_0@2x.png */,
@@ -3765,13 +3760,11 @@
 				745E744719655AF100BB0AB9 /* mfpparking_star_all_up@2x.png */,
 				745E743E19654C1C00BB0AB9 /* navigationbar_background.png */,
 				745E743F19654C1C00BB0AB9 /* navigationbar_background@2x.png */,
-				745E74381965468F00BB0AB9 /* fontColor.plist */,
 				745E74341965458400BB0AB9 /* mfpparking_back_all_up@2x.png */,
 				7412602B1966422200EF6A8E /* nearby_list_icon_disable_search@2x.png */,
 				745E74351965458400BB0AB9 /* mfpparking_back_all_down@2x.png */,
 				745E742C1965388C00BB0AB9 /* timeline_new_status_background@2x.png */,
 				745E742D1965388C00BB0AB9 /* timeline_new_status_background.png */,
-				745E742A1965383700BB0AB9 /* msgcome.wav */,
 				748F332D19640DE1005071E0 /* mfpparking_mqk_all_0@2x.png */,
 				748F332B19640528005071E0 /* mfpparking_jiazai_all_0@2x.png */,
 				748F33251963FD92005071E0 /* mfpparking_star_all_0@2x.png */,
@@ -3787,8 +3780,12 @@
 				748F320A1963CE48005071E0 /* mfpparking_ditu_all_up@2x.png */,
 				748F320B1963CE48005071E0 /* mfpparking_user_all_down@2x.png */,
 				748F320C1963CE48005071E0 /* mfpparking_user_all_up@2x.png */,
+				745263C0196D13BB00037E3E /* Default-568h@2x.png */,
+				745263C1196D13BB00037E3E /* Default@2x.png */,
 				74D0411E1963BC24005B2F76 /* icon@2x.png */,
 				74D0411F1963BC24005B2F76 /* icon.png */,
+				745E74381965468F00BB0AB9 /* fontColor.plist */,
+				745E742A1965383700BB0AB9 /* msgcome.wav */,
 				748F32911963E491005071E0 /* pull */,
 			);
 			path = images;
@@ -3980,7 +3977,6 @@
 				7410CFF21967946A00A41AA5 /* mfpparking_dw_all_up@2x.png in Resources */,
 				745263C8196D188B00037E3E /* FLYUserCenterViewController.xib in Resources */,
 				74EE140C1987AF3500FB0C86 /* mfpparking_shouyesearch_all_down@2x.png in Resources */,
-				744B74571978E76800D51485 /* page@2x.png in Resources */,
 				7410CFF31967946A00A41AA5 /* mfpparking_gs1_all_0@2x.png in Resources */,
 				745E744019654C1C00BB0AB9 /* navigationbar_background.png in Resources */,
 				745263DD196D195D00037E3E /* mfpparking_sc_all_up@2x.png in Resources */,

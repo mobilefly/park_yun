@@ -33,7 +33,7 @@
     [super viewDidLoad];
     
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
-    self.tableView.pullingDelegate=self;
+    self.tableView.pullingDelegate = self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
@@ -44,16 +44,22 @@
     [self setExtraCellLineHidden:self.tableView];
     
     
+    [self prepareRequestFootmarkData];
+}
+
+#pragma mark - request
+-(void)prepareRequestFootmarkData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
         [self requestFootmarkData];
     }else{
+        [self showTimeoutView:YES];
         [self showToast:@"请打开网络"];
     }
 }
 
-#pragma mark - request
 -(void)requestFootmarkData{
+    [self showTimeoutView:NO];
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -77,11 +83,11 @@
     [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadFootmarkData:result];
     } errorBolck:^(){
-        [ref loadDataError];
+        [ref loadDataError:YES];
     }];
 }
 
--(void)requestMorFootmarkData{
+-(void)requestMoreFootmarkData{
     //FLYMemberTraceModel
     
     if (_isMore) {
@@ -110,7 +116,7 @@
         [FLYDataService requestWithURL:kHttpFootmarkList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadFootmarkData:result];
         } errorBolck:^(){
-            [ref loadDataError];
+            [ref loadDataError:NO];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
@@ -118,9 +124,12 @@
 }
 
 
--(void)loadDataError{
+-(void)loadDataError:(BOOL)isFirst{
+    if (isFirst) {
+        [self showTimeoutView:YES];
+    }
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadFootmarkData:(id)data{
@@ -182,10 +191,9 @@
 }
 //上拉加载数据
 - (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
-    [self performSelector:@selector(requestMorFootmarkData) withObject:nil afterDelay:1.f];
+    [self performSelector:@selector(requestMoreFootmarkData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -196,8 +204,7 @@
     [self.tableView tableViewDidEndDragging:scrollView];
 }
 
-
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -241,8 +248,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestFootmarkData];
+}
 
-#pragma mark - other
+
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

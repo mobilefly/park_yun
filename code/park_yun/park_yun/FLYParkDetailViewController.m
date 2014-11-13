@@ -63,7 +63,11 @@
     [self requestData];
 }
 
+
+#pragma mark - 数据请求
 - (void)requestData{
+    [self showTimeoutView:NO];
+    
     //离线请求数据库
     if ([FLYBaseUtil isOffline]) {
         self.park = [FLYDBUtil queryParkDetail:_parkId];
@@ -91,7 +95,7 @@
             [FLYDataService requestWithURL:kHttpQueryParkDetail params:params httpMethod:@"POST" completeBolck:^(id result){
                 [ref loadData:result];
             } errorBolck:^(){
-                [ref loadDataError];
+                [ref loadError];
             }];
         }
     }else{
@@ -385,7 +389,7 @@
 }
 
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)positionAction{
     FLYMapViewController *mapController = [[FLYMapViewController alloc] init];
     NSNumberFormatter *numFormat = [[NSNumberFormatter alloc] init];
@@ -426,19 +430,20 @@
         [FLYDataService requestWithURL:kHttpParkCollectRemove params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadRemoveData:result];
         } errorBolck:^(){
-            [ref loadDataError];
         }];
     }else{
         [FLYDataService requestWithURL:kHttpParkCollectAdd params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadAddData:result];
         } errorBolck:^(){
-            [ref loadDataError];
         }];
     }
 }
 
--(void)loadDataError{
-    [FLYBaseUtil alertErrorMsg];
+-(void)loadError{
+    [self showTimeoutView:YES];
+    
+    [self hideHUD];
+    [FLYBaseUtil networkError];
 }
 
 -(void)loadRemoveData:(id)data{
@@ -514,7 +519,12 @@
     }
 }
 
-#pragma mark - view other
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self requestData];
+}
+
+#pragma mark - Override UIViewController
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     

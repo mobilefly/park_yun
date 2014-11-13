@@ -119,12 +119,12 @@
     return ([[Reachability reachabilityForInternetConnection] currentReachabilityStatus] != NotReachable);
 }
 
-+(void)alertMsg:(NSString *)msg{
++(void)showMsg:(NSString *)msg{
     DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:msg leftButtonTitle:nil rightButtonTitle:@"确认"];
     [alert show];
 }
 
-+(void)alertErrorMsg{
++(void)networkError{
     [FLYToast showWithText:@"连接失败"];
 }
 

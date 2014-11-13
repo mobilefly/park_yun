@@ -39,7 +39,7 @@
     [self setExtraCellLineHidden:tableView];
 }
 
-#pragma mark - Action
+#pragma mark - 控件事件
 - (void)offlineSwitchAction:(UISwitch *)button{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (button.on) {
@@ -63,7 +63,7 @@
 
 
 
-#pragma mark - UITableViewDataSource delegate
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
 }
@@ -170,7 +170,7 @@
 }
 
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     

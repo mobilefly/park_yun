@@ -48,11 +48,11 @@
     if ([self.parkModel.parkType isEqualToString:@"1"]) {
         _typeImage.hidden = NO;
         _parkLabel.left = _typeImage.right + 2;
-        _parkLabel.width = 120;
+        _parkLabel.width = 140;
     }else{
         _typeImage.hidden = YES;
         _parkLabel.left = _typeImage.left;
-        _parkLabel.width = 138;
+        _parkLabel.width = 140;
     }
     
     //停车场名称

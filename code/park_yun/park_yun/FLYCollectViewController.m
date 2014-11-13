@@ -33,7 +33,6 @@
 {
     [super viewDidLoad];
     
-    
     self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 20 - 44) pullingDelegate:self];
     self.tableView.pullingDelegate=self;
     self.tableView.dataSource = self;
@@ -44,15 +43,20 @@
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
+    [self prepareRequestCollectData];
+}
+
+#pragma mark - 数据请求
+-(void)prepareRequestCollectData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
         [self requestCollectData];
     }else{
+        [self showTimeoutView:YES];
         [self showToast:@"请打开网络"];
     }
 }
 
-#pragma mark - request
 -(void)requestCollectData{
     _isMore = NO;
     _dataIndex = 0;
@@ -80,7 +84,7 @@
     [FLYDataService requestWithURL:kHttpQueryMemberCollectList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadCollectData:result];
     } errorBolck:^(){
-        [ref loadDataError];
+        [ref loadDataError:YES];
     }];
 }
 
@@ -116,7 +120,7 @@
         [FLYDataService requestWithURL:kHttpQueryMemberCollectList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadCollectData:result];
         } errorBolck:^(){
-            [ref loadDataError];
+            [ref loadDataError:NO];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
@@ -124,9 +128,13 @@
 }
 
 
--(void)loadDataError{
+-(void)loadDataError:(BOOL)isFirst{
+    if (isFirst) {
+        [self showTimeoutView:YES];
+    }
+    
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadCollectData:(id)data{
@@ -191,7 +199,6 @@
     [self performSelector:@selector(requestMoreCollectData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -203,7 +210,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -248,8 +255,12 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestCollectData];
+}
 
-#pragma mark - other
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

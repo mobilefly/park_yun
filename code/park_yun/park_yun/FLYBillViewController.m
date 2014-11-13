@@ -41,16 +41,23 @@
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
+    [self prepareRequestBillData];
+}
+
+#pragma mark - 数据请求
+-(void)prepareRequestBillData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self showHUD:@"加载中" isDim:NO];
         [self requestBillData];
     }else{
+        [self showTimeoutView:YES];
         [self showToast:@"请打开网络"];
     }
 }
 
-#pragma mark - request
 -(void)requestBillData{
+    [self showTimeoutView:NO];
+    
     _isMore = NO;
     _dataIndex = 0;
     self.datas = nil;
@@ -71,7 +78,7 @@
     [FLYDataService requestWithURL:kHttpQueryBillList params:params httpMethod:@"POST" completeBolck:^(id result){
         [ref loadBillData:result];
     } errorBolck:^(){
-        [ref loadBillError];
+        [ref loadBillError:YES];
     }];
 }
 
@@ -103,7 +110,7 @@
         [FLYDataService requestWithURL:kHttpQueryBillList params:params httpMethod:@"POST" completeBolck:^(id result){
             [ref loadBillData:result];
         } errorBolck:^(){
-            [ref loadBillError];
+            [ref loadBillError:NO];
         }];
     }else{
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
@@ -111,9 +118,12 @@
 }
 
 
--(void)loadBillError{
+-(void)loadBillError:(BOOL)isFirst{
+    if (isFirst) {
+        [self showTimeoutView:YES];
+    }
     [self hideHUD];
-    [FLYBaseUtil alertErrorMsg];
+    [FLYBaseUtil networkError];
 }
 
 - (void)loadBillData:(id)data{
@@ -178,7 +188,6 @@
     [self performSelector:@selector(requestMoreBillData) withObject:nil afterDelay:1.f];
 }
 
-#pragma mark - Scroll
 //滑动中
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
@@ -190,7 +199,7 @@
 }
 
 
-#pragma mark - Table view data source
+#pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -235,23 +244,25 @@
         }
         
     }
-    
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     FLYMemberTraceModel *traceModel = [self.datas objectAtIndex:indexPath.row];
-    
     if(traceModel.order != nil && [FLYBaseUtil isNotEmpty:traceModel.order.orderId]){
         FLYBillDetailViewController *detailCtrl = [[FLYBillDetailViewController alloc] init];
         detailCtrl.orderId = traceModel.order.orderId;
         [self.navigationController pushViewController:detailCtrl animated:NO];
     }
-    
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-#pragma mark - delegate
+#pragma mark - Override FLYBaseViewController
+-(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+    [self prepareRequestBillData];
+}
+
+#pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

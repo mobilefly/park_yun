@@ -58,13 +58,13 @@
 
 }
 
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
     [super setSelected:selected animated:animated];
 
 }
 
+#pragma mark - 控件事件
 - (IBAction)updateAction:(id)sender {
     if (self.data.status != 1 && self.data.ratio != 100) {
         if ([self.cellDelegate respondsToSelector:@selector(download:)]) {
