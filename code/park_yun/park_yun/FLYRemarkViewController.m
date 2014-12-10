@@ -298,6 +298,8 @@
 
 #pragma mark - Override UIViewController
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     FLYAppDelegate *appDelegate = (FLYAppDelegate *)[[UIApplication sharedApplication] delegate];
     if ([appDelegate.reloadFlag isEqualToString:@"AddRemark"]) {
         appDelegate.reloadFlag = nil;

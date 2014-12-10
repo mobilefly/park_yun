@@ -389,7 +389,7 @@
         // 添加途经点
         if (plan.wayPoints) {
             for (BMKPlanNode *tempNode in plan.wayPoints) {
-                RouteAnnotation *item = [[RouteAnnotation alloc]init];
+                RouteAnnotation *item = [[RouteAnnotation alloc] init];
                 item = [[RouteAnnotation alloc]init];
                 item.coordinate = tempNode.pt;
                 item.type = 5;

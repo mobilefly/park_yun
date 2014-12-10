@@ -47,6 +47,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     if (_isFirstLoad) {
         _isFirstLoad = NO;
         if ([_type isEqualToString:kAnnotationTypePark]) {

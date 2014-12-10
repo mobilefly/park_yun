@@ -102,6 +102,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
     BOOL flag = false;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

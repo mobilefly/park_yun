@@ -234,6 +234,7 @@ static const NSUInteger kDomainSection = 1;
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    
 	[self retain];
 	[sharedDialog release];
 	sharedDialog = nil;

@@ -85,9 +85,10 @@
             [self showNoDataView:YES];
         }
         
+        [self.tableView reloadData];
         [self.tableView tableViewDidFinishedLoading];
         [self.tableView setReachedTheEnd:YES];
-        [self.tableView reloadData];
+       
     }else{
         _isMore = NO;
         _dataIndex = 0;

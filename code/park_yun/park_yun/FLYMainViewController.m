@@ -140,9 +140,9 @@
             [self showNoDataView:YES];
         }
         
+        [self.tableView reloadData];
         [self.tableView tableViewDidFinishedLoading];
         [self.tableView setReachedTheEnd:YES];
-        [self.tableView reloadData];
         [self hideHUD];
 
     }

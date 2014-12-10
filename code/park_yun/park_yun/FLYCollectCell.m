@@ -70,6 +70,7 @@
     //加盟标示
     if ([self.collectModel.park.parkStatus isEqualToString:@"0"]) {
         _statusImage.hidden = NO;
+        _seatIdleLabel.text = [self.collectModel.park.seatIdle stringValue];
     }else if([self.collectModel.park.parkStatus isEqualToString:@"1"]){
         _statusImage.hidden = YES;
         _seatIdleLabel.text = @"-";
@@ -80,6 +81,8 @@
     
     //容量
     _capacityLabel.text = [self.collectModel.park.parkCapacity stringValue];
+   
+    
     [_sepLabel sizeToFit];
     [_seatIdleLabel sizeToFit];
     [_capacityLabel sizeToFit];

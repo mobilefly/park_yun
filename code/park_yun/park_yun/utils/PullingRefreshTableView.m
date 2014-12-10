@@ -387,7 +387,7 @@
 
 - (void)tableViewDidFinishedLoadingWithMessage:(NSString *)msg{
 
-    //    if (_headerView.state == kPRStateLoading) {
+//        if (_headerView.state == kPRStateLoading) {
     if (_headerView.loading) {
         _headerView.loading = NO;
         [_headerView setState:kPRStateNormal animated:NO];
@@ -404,7 +404,7 @@
             }
         }];
     }
-    //    if (_footerView.state == kPRStateLoading) {
+//        if (_footerView.state == kPRStateLoading) {
     else if (_footerView.loading) {
         _footerView.loading = NO;
         [_footerView setState:kPRStateNormal animated:NO];
