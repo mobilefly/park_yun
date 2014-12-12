@@ -294,6 +294,11 @@
 		7499642F1A3A7E9C0069F185 /* FLYCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499642D1A3A7E9C0069F185 /* FLYCouponCell.m */; };
 		749964301A3A7E9C0069F185 /* FLYCouponCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7499642E1A3A7E9C0069F185 /* FLYCouponCell.xib */; };
 		749964321A3A7EDE0069F185 /* icon_hongbao@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 749964311A3A7EDE0069F185 /* icon_hongbao@2x.png */; };
+		749964351A3AC48D0069F185 /* FLYMessageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 749964341A3AC48D0069F185 /* FLYMessageModel.m */; };
+		7499643A1A3AC62A0069F185 /* FLYMessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 749964381A3AC62A0069F185 /* FLYMessageViewController.m */; };
+		7499643B1A3AC62A0069F185 /* FLYMessageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 749964391A3AC62A0069F185 /* FLYMessageViewController.xib */; };
+		7499643F1A3AC6C80069F185 /* FLYMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499643D1A3AC6C80069F185 /* FLYMessageCell.m */; };
+		749964401A3AC6C80069F185 /* FLYMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7499643E1A3AC6C80069F185 /* FLYMessageCell.xib */; };
 		749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E3019F758600021586F /* AlipayRsaLib.a */; };
 		749B4E4D19F758600021586F /* Alixpay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 749B4E3219F758600021586F /* Alixpay.bundle */; };
 		749B4E4F19F758600021586F /* AlixPaylib_arc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E3419F758600021586F /* AlixPaylib_arc.a */; };
@@ -342,6 +347,8 @@
 		74A60C2C196597580046457B /* btn_close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C26196597580046457B /* btn_close_selected.png */; };
 		74A60C2D196597580046457B /* btn_close_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C27196597580046457B /* btn_close_selected@2x.png */; };
 		74A60C2E196597580046457B /* DXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A60C29196597580046457B /* DXAlertView.m */; };
+		74AAA0A61A3AED0300055689 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
+		74AAA0A71A3AED0300055689 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		74BEF9641974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF9631974BE2B003E8BDF /* mfpparking_wushujul_all_0_03@2x.png */; };
 		74BEF9731974DADD003E8BDF /* CPMotionRecognizingWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9701974DADD003E8BDF /* CPMotionRecognizingWindow.m */; };
 		74BEF9741974DADD003E8BDF /* UIResponder+MotionRecognizers.m in Sources */ = {isa = PBXBuildFile; fileRef = 74BEF9721974DADD003E8BDF /* UIResponder+MotionRecognizers.m */; };
@@ -368,8 +375,6 @@
 		74D041211963BC24005B2F76 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 74D0411F1963BC24005B2F76 /* icon.png */; };
 		74D041281963BCE8005B2F76 /* FLYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D041261963BCE8005B2F76 /* FLYMainViewController.m */; };
 		74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D041271963BCE8005B2F76 /* FLYMainViewController.xib */; };
-		74ED75331A381D7000C77D25 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		74ED75341A381D7000C77D25 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		74EE13FF1987546000FB0C86 /* FLYBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */; };
 		74EE14021987976800FB0C86 /* FLYBussinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE14011987976800FB0C86 /* FLYBussinessCell.m */; };
 		74EE140B1987AF3500FB0C86 /* mfpparking_shouyeuser_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74EE14031987AF3500FB0C86 /* mfpparking_shouyeuser_all_down@2x.png */; };
@@ -1458,6 +1463,14 @@
 		7499642D1A3A7E9C0069F185 /* FLYCouponCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYCouponCell.m; sourceTree = "<group>"; };
 		7499642E1A3A7E9C0069F185 /* FLYCouponCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYCouponCell.xib; sourceTree = "<group>"; };
 		749964311A3A7EDE0069F185 /* icon_hongbao@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_hongbao@2x.png"; sourceTree = "<group>"; };
+		749964331A3AC48D0069F185 /* FLYMessageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYMessageModel.h; sourceTree = "<group>"; };
+		749964341A3AC48D0069F185 /* FLYMessageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYMessageModel.m; sourceTree = "<group>"; };
+		749964371A3AC62A0069F185 /* FLYMessageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYMessageViewController.h; sourceTree = "<group>"; };
+		749964381A3AC62A0069F185 /* FLYMessageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYMessageViewController.m; sourceTree = "<group>"; };
+		749964391A3AC62A0069F185 /* FLYMessageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYMessageViewController.xib; sourceTree = "<group>"; };
+		7499643C1A3AC6C80069F185 /* FLYMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYMessageCell.h; sourceTree = "<group>"; };
+		7499643D1A3AC6C80069F185 /* FLYMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYMessageCell.m; sourceTree = "<group>"; };
+		7499643E1A3AC6C80069F185 /* FLYMessageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYMessageCell.xib; sourceTree = "<group>"; };
 		749B4E2619F757720021586F /* AlixPaylib_arc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = AlixPaylib_arc.a; path = libs/alipay/AlixPaylib_arc.a; sourceTree = "<group>"; };
 		749B4E2819F7577A0021586F /* Alixpay.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Alixpay.bundle; path = libs/alipay/Alixpay.bundle; sourceTree = "<group>"; };
 		749B4E3019F758600021586F /* AlipayRsaLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = AlipayRsaLib.a; sourceTree = "<group>"; };
@@ -1647,8 +1660,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				74ED75331A381D7000C77D25 /* libbaidumapapi.a in Frameworks */,
-				74ED75341A381D7000C77D25 /* libBaiduMobStat.a in Frameworks */,
+				74AAA0A61A3AED0300055689 /* libbaidumapapi.a in Frameworks */,
+				74AAA0A71A3AED0300055689 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -1724,6 +1737,7 @@
 				74BEF98D19751B03003E8BDF /* Collect */,
 				745D6E9B19778E390085E238 /* Car */,
 				7489C3B41A396FB500B62FDE /* Coupon */,
+				749964361A3AC5A40069F185 /* Message */,
 			);
 			name = Member;
 			sourceTree = "<group>";
@@ -2317,6 +2331,8 @@
 				742B6CAA198F2FD300DA17E7 /* FLYRegionParkModel.m */,
 				749964291A3A79A70069F185 /* FLYCouponModel.h */,
 				7499642A1A3A79A70069F185 /* FLYCouponModel.m */,
+				749964331A3AC48D0069F185 /* FLYMessageModel.h */,
+				749964341A3AC48D0069F185 /* FLYMessageModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3210,6 +3226,19 @@
 			path = xml;
 			sourceTree = "<group>";
 		};
+		749964361A3AC5A40069F185 /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				749964371A3AC62A0069F185 /* FLYMessageViewController.h */,
+				749964381A3AC62A0069F185 /* FLYMessageViewController.m */,
+				749964391A3AC62A0069F185 /* FLYMessageViewController.xib */,
+				7499643C1A3AC6C80069F185 /* FLYMessageCell.h */,
+				7499643D1A3AC6C80069F185 /* FLYMessageCell.m */,
+				7499643E1A3AC6C80069F185 /* FLYMessageCell.xib */,
+			);
+			name = Message;
+			sourceTree = "<group>";
+		};
 		749B4E2F19F758600021586F /* alipay */ = {
 			isa = PBXGroup;
 			children = (
@@ -3960,6 +3989,7 @@
 				74EE140E1987AF3500FB0C86 /* mfpparking_shouyedituxs_all_up@2x.png in Resources */,
 				7489C3C81A397B2400B62FDE /* img_hongbao_bg@2x.png in Resources */,
 				7489C3BC1A39706000B62FDE /* FLYCouponViewController.xib in Resources */,
+				749964401A3AC6C80069F185 /* FLYMessageCell.xib in Resources */,
 				745263DB196D195D00037E3E /* mfpparking_lx_all_up@2x.png in Resources */,
 				748F332A1963FD92005071E0 /* mfpparking_star2_all_0@2x.png in Resources */,
 				745E745919658A7000BB0AB9 /* navigationbar_button_background@2x.png in Resources */,
@@ -3984,6 +4014,7 @@
 				743D26D7196E3F5000CE1A1C /* FLYOfflineMapViewController.xib in Resources */,
 				7410CFFC1967AEE400A41AA5 /* mfpparking_lb4_all_0@2x.png in Resources */,
 				7412602A196641DA00EF6A8E /* nearby_list_icon_disable_search@2x.png in Resources */,
+				7499643B1A3AC62A0069F185 /* FLYMessageViewController.xib in Resources */,
 				74926B311973A94500833F99 /* compose_checkbox_checked@2x.png in Resources */,
 				748F331C1963F8FD005071E0 /* mfpparking_mian_all_0@2x.png in Resources */,
 				745263FB196D2BC800037E3E /* mfpparking_rechargeedit_all_0@2x.png in Resources */,
@@ -4239,6 +4270,7 @@
 				749B4E5719F758600021586F /* SBJsonWriter.m in Sources */,
 				7491F1361988819B00222523 /* FLYBillDetailViewController.m in Sources */,
 				746E4995198B479D00C93F88 /* FLYOfflineParkModel.m in Sources */,
+				7499643A1A3AC62A0069F185 /* FLYMessageViewController.m in Sources */,
 				74415C2D19861CEF005DD554 /* CDataScanner.m in Sources */,
 				74A2ABAB1A007C310007EF51 /* UIImage+WebP.m in Sources */,
 				745E7427196506C100BB0AB9 /* ThemeLabel.m in Sources */,
@@ -4290,6 +4322,7 @@
 				7465704F1980982E0076397A /* FLYRemarkCell.m in Sources */,
 				74A2ABA11A007C310007EF51 /* SDImageCache.m in Sources */,
 				746E49A3198B6E6C00C93F88 /* FMDatabaseAdditions.m in Sources */,
+				7499643F1A3AC6C80069F185 /* FLYMessageCell.m in Sources */,
 				7420AAE71960F7F9000DD75F /* ASIDataDecompressor.m in Sources */,
 				744947CD19F8E6D90069C569 /* FLYPayResultViewController.m in Sources */,
 				746E7D56196AF02800C3E638 /* PullingRefreshTableView.m in Sources */,
@@ -4299,6 +4332,7 @@
 				74526401196D3BF300037E3E /* FLYBillViewController.m in Sources */,
 				74FC62251966E0B200A8289A /* FLYBaseMap.m in Sources */,
 				748F3338196412F1005071E0 /* FLYPhotoModel.m in Sources */,
+				749964351A3AC48D0069F185 /* FLYMessageModel.m in Sources */,
 				745263A7196CE17200037E3E /* SecurityUtil.m in Sources */,
 				746E49A5198B6E6C00C93F88 /* FMDatabaseQueue.m in Sources */,
 				74415C3519861CEF005DD554 /* CJSONScanner.m in Sources */,
@@ -4470,7 +4504,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4505,7 +4539,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

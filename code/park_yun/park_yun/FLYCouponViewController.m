@@ -150,8 +150,6 @@
 }
 
 -(void)requestMoreCouponData{
-    //FLYMemberTraceModel
-    
     if (_isMore) {
         _isMore = NO;
         

@@ -55,8 +55,8 @@
 @property(nonatomic,copy) NSString *tracePreamt;
 @property(nonatomic,copy) NSString *traceCartype;
 @property(nonatomic,copy) NSString *traceParkbegin;
-@property(nonatomic,copy) NSNumber *traceAmt;
-@property(nonatomic,copy) NSNumber *traceParkamt;
+@property(nonatomic,strong) NSNumber *traceAmt;
+@property(nonatomic,strong) NSNumber *traceParkamt;
 @property(nonatomic,copy) NSString *tracePayflag;
 @property(nonatomic,copy) NSString *traceParkname;
 @property(nonatomic,copy) NSString *traceParktime;

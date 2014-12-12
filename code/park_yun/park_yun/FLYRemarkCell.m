@@ -20,8 +20,10 @@
     //内容
     _contentLabel = (UILabel *)[self viewWithTag:104];
     _contentLabel.textAlignment = NSTextAlignmentJustified;
+    
     //评论时间
     _timeLabel = (UILabel *)[self viewWithTag:105];
+    _timeLabel.textAlignment = NSTextAlignmentRight;
 }
 
 - (void)layoutSubviews{
@@ -34,9 +36,8 @@
         _phoneLabel.text = self.remarkModel.member.memberPhone;
     }
     
-    _contentLabel.frame = CGRectMake(20, _phoneLabel.bottom + 10, 280, 0) ;
+    _contentLabel.frame = CGRectMake(10, _phoneLabel.bottom + 10, 300, 0) ;
     _contentLabel.text = [NSString stringWithFormat:@"%@", self.remarkModel.remarkContent];
-    
     [_contentLabel sizeToFit];
     
     int rating = round([self.remarkModel.remarkTotal intValue] / 3.0);
@@ -69,10 +70,14 @@
         }
     }
     
-    _timeLabel.text = [FLYUtils fomateString:self.remarkModel.remarkTime formate:@"yyyy-MM-dd HH:mm"];
-    [_timeLabel sizeToFit];
     _timeLabel.top = _contentLabel.bottom + 10;
-    _timeLabel.right = ScreenWidth - 20;
+    _timeLabel.text = [FLYUtils fomateString:self.remarkModel.remarkTime formate:@"yyyy-MM-dd HH:mm"];
+    
+    UIView *sp = [[UIView alloc] init];
+    sp.frame = CGRectMake(0, _timeLabel.bottom + 5, 320, 1);
+    sp.backgroundColor =  Color(230, 230, 230, 0.6);
+    [self addSubview:sp];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

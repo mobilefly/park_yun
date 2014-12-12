@@ -25,6 +25,12 @@
                               target:(id)target
                               action:(SEL)action;
 
+//创建导航栏上的文字
++ (UIButton *)createNavigationTitle:(CGRect)frame
+                               title:(NSString *)title
+                              target:(id)target
+                              action:(SEL)action;
+
 + (ThemeImageView *)createImageView:(NSString *)imageName;
 
 + (ThemeLabel *)createLabel:(NSString *)colorName;

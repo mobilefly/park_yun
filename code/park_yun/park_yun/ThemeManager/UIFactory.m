@@ -33,8 +33,21 @@
     button.titleLabel.font = [UIFont systemFontOfSize:13.0f];
     button.leftCapWidth = 3;
     
+    return button;
+}
+
++ (UIButton *)createNavigationTitle:(CGRect)frame
+                              title:(NSString *)title
+                             target:(id)target
+                             action:(SEL)action{
     
-    
+    UIButton *button = [[UIButton alloc] initWithFrame:frame];
+    button.frame = frame;
+    [button setTitle:title forState:UIControlStateNormal];
+    [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+
     return button;
 }
 

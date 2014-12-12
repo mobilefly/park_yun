@@ -32,7 +32,6 @@
 @property(nonatomic,strong) NSNumber *orderOffprice;
 @property(nonatomic,strong) NSNumber *orderTotalprice;
 
-
 @property(nonatomic,strong) FLYGoodsOrderModel *goodsOrder;
 
 @end

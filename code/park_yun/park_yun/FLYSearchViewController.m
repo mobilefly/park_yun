@@ -76,7 +76,7 @@
     
     _poiSearcher = [[BMKPoiSearch alloc]init];
     
-    UIButton *voiceButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"语音" target:self action:@selector(voiceAction)];
+    UIButton *voiceButton = [UIFactory createNavigationTitle:CGRectMake(0, 0, 40, 30) title:@"语音" target:self action:@selector(voiceAction)];
     UIBarButtonItem *voiceButtonItem = [[UIBarButtonItem alloc] initWithCustomView:voiceButton];
     self.navigationItem.rightBarButtonItem = voiceButtonItem;
     

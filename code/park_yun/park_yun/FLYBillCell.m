@@ -59,7 +59,7 @@
             _orderInfoImage.hidden = NO;
         }
         else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
-            _orderNameLabel.text = @"办理停车场畅听卡";
+            _orderNameLabel.text = @"办理停车场畅停卡";
             _orderInfoImage.hidden = YES;
         }
         //充值(优惠劵)

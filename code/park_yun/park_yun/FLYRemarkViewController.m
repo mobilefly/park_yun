@@ -38,13 +38,13 @@
     self.tableView.pullingDelegate=self;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.hidden = YES;
     self.tableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.tableView];
     [self setExtraCellLineHidden:self.tableView];
     
-    UIButton *addButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"评论" target:self action:@selector(addAction)];
+    UIButton *addButton = [UIFactory createNavigationTitle:CGRectMake(0, 0, 40, 30) title:@"评论" target:self action:@selector(addAction)];
     UIBarButtonItem *addButtonItem = [[UIBarButtonItem alloc] initWithCustomView:addButton];
     self.navigationItem.rightBarButtonItem = addButtonItem;
     
@@ -263,20 +263,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.datas == nil || [self.datas count] == 0) {
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    }else{
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    }
     return [self.datas count];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    int height = 26 + 20 + 25;
+    int height = 9 + 17 + 10 + 10 + 15 + 7;
     FLYRemarkModel *model = [self.datas objectAtIndex:indexPath.row];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 280, 0)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 320, 0)];
     label.textAlignment = NSTextAlignmentJustified;
     label.font = [UIFont systemFontOfSize:13.0];
     label.text = model.remarkContent;

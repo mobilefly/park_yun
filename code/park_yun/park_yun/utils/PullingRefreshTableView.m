@@ -67,12 +67,10 @@
 //        _dateLabel.hidden = YES;
         [self addSubview:_dateLabel];
         
-//        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 30, 40, 50) ];
-        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 50) ];
+//        _arrowView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 40, 50) ];
         self.clipsToBounds = YES;
-        [_arrowView setImage:[UIImage imageNamed:@"drop_down_renovate"]];
-        
-        [self addSubview:_arrowView];
+//        [_arrowView setImage:[UIImage imageNamed:@"drop_down_renovate"]];
+//        [self addSubview:_arrowView];
         
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         [self addSubview:_activityView];

@@ -20,7 +20,6 @@
 @property(nonatomic,copy) NSString *regionName;
 @property(nonatomic,strong) NSNumber *parkCount;
 @property(nonatomic,strong) NSNumber *maxVersion;
-
 @property(nonatomic,strong) NSNumber *updateVersion;
 
 //0:正常 1.下载中

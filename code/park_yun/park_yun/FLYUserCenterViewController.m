@@ -18,6 +18,7 @@
 #import "FLYCollectViewController.h"
 #import "FLYCarManagerViewController.h"
 #import "FLYCouponViewController.h"
+#import "FLYMessageViewController.h"
 #import "FLYDataService.h"
 #import "UIButton+Bootstrap.h"
 
@@ -51,7 +52,7 @@
     self.navigationItem.rightBarButtonItem = settingItem;
     
     
-    //顶部会员，车牌信息，绑定畅听卡功能等
+    //顶部会员，车牌信息，绑定畅停卡功能等
     _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 55)];
     _topView.hidden = YES;
     [self.scroolView addSubview:_topView];
@@ -353,7 +354,7 @@
     
     if ([self checkUserLogin]) {
         if(![memberType isEqualToString:@"3"]){
-            [self showAlert:@"不是畅听卡用户"];
+            [self showAlert:@"未绑定畅停卡,请先购买畅停卡"];
         }else{
             FLYCardParkViewController *cardParkController = [[FLYCardParkViewController alloc]init];
             [self.navigationController pushViewController:cardParkController animated:NO];
@@ -374,7 +375,7 @@
 - (IBAction)footmarkAction:(id)sender {
     if ([self checkUserLogin]) {
         if(![FLYBaseUtil checkUserBindCar]){
-            [self showAlert:@"未绑定任何车牌"];
+            [self showAlert:@"未绑定任何车牌\n请先去车辆管理绑定车牌"];
         }else{
             FLYFootmarkViewController *footmarkController = [[FLYFootmarkViewController alloc]init];
             [self.navigationController pushViewController:footmarkController animated:NO];
@@ -456,7 +457,10 @@
     if (indexPath.row == 0) {
         [self showAlert:@"敬请期待"];
     }else if(indexPath.row == 1){
-        [self showAlert:@"敬请期待"];
+        if ([self checkUserLogin]) {
+            FLYMessageViewController *messageController = [[FLYMessageViewController alloc] init];
+            [self.navigationController pushViewController:messageController animated:NO];
+        }
     }else if(indexPath.row == 2){
         if ([self checkUserLogin]) {
             FLYCouponViewController *couponController = [[FLYCouponViewController alloc] init];

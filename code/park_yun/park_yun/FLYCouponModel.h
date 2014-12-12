@@ -23,12 +23,12 @@
 @interface FLYCouponModel : FLYBaseModel
 
 @property(nonatomic,copy) NSString *cdId;
-@property(nonatomic,strong) NSString *cdCaid;
-@property(nonatomic,strong) NSString *cdPhone;
+@property(nonatomic,copy) NSString *cdCaid;
+@property(nonatomic,copy) NSString *cdPhone;
 @property(nonatomic,copy) NSString *cdNo;
 @property(nonatomic,copy) NSString *cdBegindate;
 @property(nonatomic,copy) NSString *cdEnddate;
-@property(nonatomic,copy) NSNumber *cdAmount;
+@property(nonatomic,strong) NSNumber *cdAmount;
 @property(nonatomic,copy) NSString *cdFlag;
 @property(nonatomic,copy) NSString *EFlag;
 

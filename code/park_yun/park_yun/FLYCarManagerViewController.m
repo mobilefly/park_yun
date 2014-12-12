@@ -45,7 +45,7 @@
     _tableView.hidden = YES;
     [self.view addSubview:_tableView];
     
-    UIButton *editButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"编辑" target:self action:@selector(editAction)];
+    UIButton *editButton = [UIFactory createNavigationTitle:CGRectMake(0, 0, 40, 30) title:@"编辑" target:self action:@selector(editAction)];
     UIBarButtonItem *editButtonItem = [[UIBarButtonItem alloc] initWithCustomView:editButton];
     self.navigationItem.rightBarButtonItem = editButtonItem;
 }

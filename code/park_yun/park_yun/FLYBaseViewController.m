@@ -52,7 +52,7 @@
     }
     
     if (self.isCancelButton) {
-        UIButton *cancelButton = [UIFactory createNavigationButton:CGRectMake(0, 0, 45, 30) title:@"关闭" target:self action:@selector(cancelAction)];
+        UIButton *cancelButton = [UIFactory createNavigationTitle:CGRectMake(0, 0, 40, 30) title:@"关闭" target:self action:@selector(cancelAction)];
         UIBarButtonItem *cancelButtonItem = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
         self.navigationItem.leftBarButtonItem = cancelButtonItem;
     }
