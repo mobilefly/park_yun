@@ -28,7 +28,7 @@
 - (void)_initView{
     CGRect bounds = self.bounds;
     _tableView = [[PullingRefreshTableView alloc] initWithFrame:bounds style:UITableViewStyleGrouped];
-    _tableView.pullingDelegate=self;
+    _tableView.pullingDelegate = self;
     _tableView.dataSource = self;
     _tableView.delegate = self;
 }
@@ -64,14 +64,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    // Return the number of rows in the section.
     return 20;
 }
 

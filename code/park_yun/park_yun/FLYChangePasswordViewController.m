@@ -51,8 +51,6 @@
     _oldPwdField.borderStyle = UITextBorderStyleRoundedRect;
     _oldPwdField.clearButtonMode = YES;
     _oldPwdField.secureTextEntry = YES;
-    _oldPwdField.leftView = oldPwdIconView;
-    _oldPwdField.leftViewMode = UITextFieldViewModeAlways;
     _oldPwdField.placeholder = @"请输入原密码";
     _oldPwdField.keyboardType = UIKeyboardTypeASCIICapable;
     _oldPwdField.font = [UIFont systemFontOfSize:14.0];
@@ -61,17 +59,10 @@
     [_oldPwdField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
     [self.view addSubview:_oldPwdField];
     
-    
-//    if (ScreenHeight == 568) {
-//        _oldPwdField.top = _oldPwdField.top + 30;
-//    }
-    
     _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _oldPwdField.bottom + 20, 280, 40)];
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
-    _passwordField.leftView = passwordIconView;
-    _passwordField.leftViewMode = UITextFieldViewModeAlways;
     _passwordField.placeholder = @"请输入新密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
     _passwordField.font = [UIFont systemFontOfSize:14.0];
@@ -84,8 +75,6 @@
     _passverifyField.clearButtonMode = YES;
     _passverifyField.borderStyle = UITextBorderStyleRoundedRect;
     _passverifyField.secureTextEntry = YES;
-    _passverifyField.leftView = passverifyIconView;
-    _passverifyField.leftViewMode = UITextFieldViewModeAlways;
     _passverifyField.placeholder = @"请确认新密码";
     _passverifyField.keyboardType = UIKeyboardTypeASCIICapable;
     _passverifyField.font = [UIFont systemFontOfSize:14.0];

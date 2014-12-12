@@ -35,7 +35,13 @@
     tableView.delegate = self;
     tableView.dataSource = self;
     [self.view addSubview:tableView];
-    
+    //去除左边15点留白
+    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [tableView setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
     [self setExtraCellLineHidden:tableView];
 }
 
@@ -61,8 +67,6 @@
 }
 
 
-
-
 #pragma mark - UITableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
@@ -79,7 +83,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 50;
+    return 44;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -90,11 +94,13 @@
         if (indexPath.row == 0) {
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
             cell.textLabel.text = @"离线数据管理";
         }else if(indexPath.row == 1){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"离线浏览";
             
@@ -112,7 +118,8 @@
     }else if(indexPath.section == 1){
         if(indexPath.row == 0){
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            cell.textLabel.textColor = [UIColor grayColor];
+            cell.textLabel.textColor = [UIColor darkGrayColor];
+            cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.textLabel.text = @"无图模式";
             
@@ -130,7 +137,9 @@
     }else if(indexPath.section == 2){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.textLabel.textColor = [UIColor grayColor];
+        cell.textLabel.textColor = [UIColor darkGrayColor];
+        cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
+        
         if(indexPath.row == 0){
             cell.textLabel.text = @"意见反馈";
         }else if(indexPath.row == 1){
@@ -169,6 +178,15 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
 
 #pragma mark - Override UIViewController
 - (void)didReceiveMemoryWarning{

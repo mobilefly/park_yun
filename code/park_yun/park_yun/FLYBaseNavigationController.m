@@ -24,8 +24,6 @@
     return self;
 }
 
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -49,7 +47,6 @@
     float version = FLYOSVersion();
     if(version > 5.0){
         UIImage *image = [[ThemeManager shareInstance] getThemeImage:@"navigationbar_background.png"];
-//        [self.navigationBar setBackgroundImage:image forBarMetrics:UIBarMetricsDefault];
         [self.navigationBar setBackgroundImage:image forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
     } else{
         //调用drawRect

@@ -13,17 +13,15 @@
 
 #define kNavigationBarTitleLabel @"kNavigationBarTitleLabel"
 
-
-
 //颜色
 #define Color(r,g,b,a) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a]
 
 //本机
 //#define kHttpDomain @"http://192.168.110.97:8080/park_yun"
 //linux
-#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+//#define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-//#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
 
 //------停车场-----
 //周边停车场查询
@@ -82,6 +80,14 @@
 #define kHttpQueryRemarkList @"/member/queryRemarkList.json"
 //获取验证码
 #define kHttpQueryVCode @"/member/sendMsg.json"
+//获取未读消息数
+#define kHttpQueryMessageUnread @"/member/queryMessageUnread.json"
+//获取未使用优惠劵数量
+#define kHttpQueryCouponUnuse @"/member/queryCouponUnuse.json"
+//获取优惠劵列表
+#define kHttpQueryCouponList @"/member/queryCouponList.json"
+//优惠劵充值
+#define kHttpCouponOrder @"/member/couponOrder.json"
 
 //------充值
 //获取充值优惠信息

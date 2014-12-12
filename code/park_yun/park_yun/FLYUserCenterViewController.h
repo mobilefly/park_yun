@@ -8,7 +8,7 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYUserCenterViewController : FLYBaseViewController{
+@interface FLYUserCenterViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate,UIActionSheetDelegate>{
     UIView *_topView;
     
     //默认车牌号
@@ -19,8 +19,15 @@
     UIButton *_carBtn;
     
     UIActivityIndicatorView *_spinner;
+    
+    UITableView *_tableView;
+    
+    UIButton *msgBadgeBtn;
+    
+    UIButton *couponBadgeBtn;
 }
 @property (weak, nonatomic) IBOutlet UIView *middleView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scroolView;
 
 - (IBAction)billAction:(id)sender;
 - (IBAction)memberInfoAction:(id)sender;

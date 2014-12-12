@@ -30,27 +30,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIView *usernameIconView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)] ;
-    UIView *passwordIconView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)] ;
-    UIView *passverifyIconView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 40, 40)] ;
-    
-    UIImageView *usernameIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_inputaccount_all_0.png"]];
-    usernameIcon.frame = CGRectMake(9, 8, 22, 24);
-    [usernameIconView addSubview:usernameIcon];
-    
-    UIImageView *passwordIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_inputpwd_all_0.png"]];
-    passwordIcon.frame = CGRectMake(9, 8, 22, 24);
-    [passwordIconView addSubview:passwordIcon];
-    
-    UIImageView *passverifyIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_inputpwd_all_0.png"]];
-    passverifyIcon.frame = CGRectMake(9, 8, 22, 24);
-    [passverifyIconView addSubview:passverifyIcon];
+
     
     _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20, 10, 280, 40)];
     _usernameField.borderStyle = UITextBorderStyleRoundedRect;
     _usernameField.clearButtonMode = YES;
-    _usernameField.leftView = usernameIconView;
-    _usernameField.leftViewMode = UITextFieldViewModeAlways;
     _usernameField.placeholder = @"请输入手机号";
     _usernameField.keyboardType = UIKeyboardTypePhonePad;
     _usernameField.font = [UIFont systemFontOfSize:14.0];
@@ -67,8 +51,6 @@
     _passwordField.borderStyle = UITextBorderStyleRoundedRect;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
-    _passwordField.leftView = passwordIconView;
-    _passwordField.leftViewMode = UITextFieldViewModeAlways;
     _passwordField.placeholder = @"请输入密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
     _passwordField.font = [UIFont systemFontOfSize:14.0];
@@ -81,9 +63,7 @@
     _passverifyField.borderStyle = UITextBorderStyleRoundedRect;
     _passverifyField.clearButtonMode = YES;
     _passverifyField.secureTextEntry = YES;
-    _passverifyField.leftView = passverifyIconView;
-    _passverifyField.leftViewMode = UITextFieldViewModeAlways;
-    _passverifyField.placeholder = @"请确认输入密码";
+    _passverifyField.placeholder = @"请确认密码";
     _passverifyField.keyboardType = UIKeyboardTypeASCIICapable;
     _passverifyField.font = [UIFont systemFontOfSize:14.0];
     _passverifyField.returnKeyType = UIReturnKeyNext;
@@ -170,7 +150,13 @@
     if ([flag isEqualToString:kFlagYes]) {
         [self showMessage:@"验证码已发送"];
     }else{
-        [self showMessage:@"获取验证码失败"];
+        NSString *msg = [data objectForKey:@"msg"];
+        [self showMessage:msg];
+        //取消定时器
+        [_timer invalidate];
+        _codeBtn.enabled = YES;
+        [_codeBtn primaryStyle];
+        [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
     }
 }
 
