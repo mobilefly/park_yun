@@ -11,8 +11,10 @@
 #import "BMapKit.h"
 
 @interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
-    BMKMapManager* _mapManager;    
+    BMKMapManager* _mapManager;
 }
+
+@property (strong, nonatomic) NSMutableArray *shopArray;
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) FLYMainViewController *rootController;

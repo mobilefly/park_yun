@@ -10,6 +10,15 @@
 
 @interface FLYDBUtil : NSObject
 
+//查询区域省份
++(NSMutableArray *)queryRegionOfProvice;
+
+//查询区域城市
++(NSMutableArray *)queryRegionOfCity:(NSString *)provice;
+
+//查询区域区
++(NSMutableArray *)queryRegionOfArea:(NSString *)city;
+
 //停车场按区域统计
 + (NSMutableArray *)queryCityList:(NSString *)city;
 

@@ -19,9 +19,9 @@
 //本机
 //#define kHttpDomain @"http://192.168.110.97:8080/park_yun"
 //linux
-#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+//#define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-//#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
+#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
 
 //------停车场-----
 //周边停车场查询
@@ -90,8 +90,12 @@
 #define kHttpQueryCouponList @"/member/queryCouponList.json"
 //优惠劵充值
 #define kHttpCouponOrder @"/member/couponOrder.json"
+//根据区域查询停车场列表
+#define kHttpQueryParkListByRegion @"/common/queryParkListByRegion.json"
+//查询停车场畅停卡收费标准
+#define kHttpQueryParkCardList @"/park/queryParkCardList.json"
 
-//------充值
+//------充值------
 //获取充值优惠信息
 #define kHttpQueryOffInfo @"/order/queryOffInfo.json"
 //生成支付宝用户充值订单接口

@@ -16,6 +16,77 @@
 
 @implementation FLYDBUtil
 
+//查询区域省份
++(NSMutableArray *)queryRegionOfProvice{
+    
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:20];
+    //获取Document文件夹下的数据库文件，没有则创建
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *dbPath = [docPath stringByAppendingPathComponent:@"park.db"];
+    //获取数据库并打开
+    FMDatabase *db  = [FMDatabase databaseWithPath:dbPath];
+    if (![db open]) {
+        NSLog(@"数据库打开失败");
+        return list;
+    }
+    
+    FMResultSet *resultSet = nil;
+    resultSet = [db executeQuery:@"select t.* from REGION t where t.REGION_PARENTID = '' and length(t.REGION_CODE) = 2 order by t.REGION_SORT ASC,t.REGION_CODE ASC"];
+    
+    while ([resultSet next]){
+        NSString *region_id = [resultSet stringForColumn:@"REGION_ID"];
+        NSString *region_name = [resultSet stringForColumn:@"REGION_NAME"];
+        NSString *region_parentid = [resultSet stringForColumn:@"REGION_PARENTID"];
+        
+        FLYRegionModel *model = [[FLYRegionModel alloc] init];
+        model.regionId = region_id;
+        model.regionName = region_name;
+        model.regionParentid = region_parentid;
+        [list addObject:model];
+    }
+    [db close];
+    return list;
+    
+}
+
+//查询区域城市
++(NSMutableArray *)queryRegionOfCity:(NSString *)provice{
+    
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:20];
+    //获取Document文件夹下的数据库文件，没有则创建
+    NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *dbPath = [docPath stringByAppendingPathComponent:@"park.db"];
+    //获取数据库并打开
+    FMDatabase *db  = [FMDatabase databaseWithPath:dbPath];
+    if (![db open]) {
+        NSLog(@"数据库打开失败");
+        return list;
+    }
+    
+    FMResultSet *resultSet = nil;
+    resultSet = [db executeQuery:@"select t.* from REGION t where t.REGION_PARENTID = ? order by t.REGION_SORT ASC,t.REGION_CODE ASC",provice];
+    
+    while ([resultSet next]){
+        NSString *region_id = [resultSet stringForColumn:@"REGION_ID"];
+        NSString *region_name = [resultSet stringForColumn:@"REGION_NAME"];
+        NSString *region_parentid = [resultSet stringForColumn:@"REGION_PARENTID"];
+        
+        FLYRegionModel *model = [[FLYRegionModel alloc] init];
+        model.regionId = region_id;
+        model.regionName = region_name;
+        model.regionParentid = region_parentid;
+        [list addObject:model];
+    }
+    [db close];
+    return list;
+    
+}
+
+//查询区域区
++(NSMutableArray *)queryRegionOfArea:(NSString *)city{
+    return [self queryRegionOfCity:city];
+}
+
 + (NSMutableArray *)queryCityList:(NSString *)city{
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:20];
     

@@ -35,7 +35,8 @@
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-    _tempElement = string;
+    //去掉空格与换行符
+    _tempElement = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName

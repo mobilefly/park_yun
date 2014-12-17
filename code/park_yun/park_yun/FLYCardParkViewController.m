@@ -123,7 +123,7 @@
     [self hideHUD];
     
     [self.tableView setReachedTheEnd:NO];
-
+    
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];

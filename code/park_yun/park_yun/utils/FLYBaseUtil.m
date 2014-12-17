@@ -147,5 +147,22 @@
     return ([FLYBaseUtil isPureInt:string] || [FLYBaseUtil isPureFloat:string]);
 }
 
++ (NSMutableArray *)getDelegateShop{
+    NSMutableArray *result;
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *) [UIApplication sharedApplication].delegate;
+    if(appDelegate.shopArray != nil){
+        result = appDelegate.shopArray;
+    }else{
+        result = [[NSMutableArray alloc] initWithCapacity:20];
+    }
+    return result;
+}
+
++ (void)setDelegateShop:(NSMutableArray *)shopArray{
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *) [UIApplication sharedApplication].delegate;
+    appDelegate.shopArray = shopArray;
+}
+
+
 
 @end

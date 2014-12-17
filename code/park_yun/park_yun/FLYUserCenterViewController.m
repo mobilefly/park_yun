@@ -14,11 +14,12 @@
 #import "FLYBillViewController.h"
 #import "FLYOfflineMapViewController.h"
 #import "FLYFootmarkViewController.h"
-#import "FLYCardParkViewController.h"
+#import "FLYParkCardViewController.h"
 #import "FLYCollectViewController.h"
 #import "FLYCarManagerViewController.h"
 #import "FLYCouponViewController.h"
 #import "FLYMessageViewController.h"
+#import "FLYCardParkViewController.h"
 #import "FLYDataService.h"
 #import "UIButton+Bootstrap.h"
 
@@ -50,7 +51,6 @@
     [settingBtn addTarget:self action:@selector(settingAction:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *settingItem = [[UIBarButtonItem alloc] initWithCustomView:settingBtn];
     self.navigationItem.rightBarButtonItem = settingItem;
-    
     
     //顶部会员，车牌信息，绑定畅停卡功能等
     _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 55)];
@@ -467,7 +467,10 @@
             [self.navigationController pushViewController:couponController animated:NO];
         }
     }else if(indexPath.row == 3){
-        [self showAlert:@"敬请期待"];
+        if ([self checkUserLogin]) {
+            FLYParkCardViewController *parkCardController = [[FLYParkCardViewController alloc] init];
+            [self.navigationController pushViewController:parkCardController animated:NO];
+        }
     }
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }

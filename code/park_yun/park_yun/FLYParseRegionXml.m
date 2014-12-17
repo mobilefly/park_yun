@@ -35,11 +35,13 @@
 
 - (void)parser:(NSXMLParser *)parser foundCharacters:(NSString *)string
 {
-    _tempElement = string;
+     //去掉空格与换行符
+    _tempElement = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 }
 
 - (void)parser:(NSXMLParser *)parser didEndElement:(NSString *)elementName
   namespaceURI:(NSString *)namespaceURI qualifiedName:(NSString *)qName {
+    
     FLYRegionModel *regionModel = _regionList[[_regionList count] - 1];
     if ([elementName isEqualToString:@"REGION_ID"]) {
         regionModel.regionId = _tempElement;

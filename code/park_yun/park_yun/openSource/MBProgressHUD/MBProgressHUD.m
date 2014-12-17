@@ -41,8 +41,8 @@
 #endif
 
 
-static const CGFloat kPadding = 4.f;
-static const CGFloat kLabelFontSize = 16.f;
+static const CGFloat kPadding = 8.f;
+static const CGFloat kLabelFontSize = 14.f;
 static const CGFloat kDetailsLabelFontSize = 12.f;
 
 

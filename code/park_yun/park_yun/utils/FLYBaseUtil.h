@@ -53,4 +53,8 @@
 //判断是否为数字
 + (BOOL)isPureNumber:(NSString*)string;
 
++ (NSMutableArray *)getDelegateShop;
+
++ (void)setDelegateShop:(NSMutableArray *)shopArray;
+
 @end

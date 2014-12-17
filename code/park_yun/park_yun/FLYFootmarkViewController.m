@@ -43,7 +43,6 @@
     
     [self setExtraCellLineHidden:self.tableView];
     
-    
     [self prepareRequestFootmarkData];
 }
 
@@ -122,7 +121,6 @@
         [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
     }
 }
-
 
 -(void)loadDataError:(BOOL)isFirst{
     if (isFirst) {
