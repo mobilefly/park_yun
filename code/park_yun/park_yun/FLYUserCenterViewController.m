@@ -103,7 +103,7 @@
     [self.scroolView addSubview:loginBtn];
     
     //更多选项TableView
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 44 * 4) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 44 * 3) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.scrollEnabled = NO;
@@ -399,7 +399,7 @@
 
 #pragma mark - UITableView
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 3;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -413,10 +413,12 @@
     cell.textLabel.textColor = [UIColor darkGrayColor];
     cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
     
+//    if(indexPath.row == 0){
+//        cell.imageView.image = [UIImage imageNamed:@"icon_member.png"];
+//        cell.textLabel.text = @"个人信息";
+//    }else
+    
     if(indexPath.row == 0){
-        cell.imageView.image = [UIImage imageNamed:@"icon_member.png"];
-        cell.textLabel.text = @"个人信息";
-    }else if(indexPath.row == 1){
         cell.imageView.image = [UIImage imageNamed:@"icon_message.png"];
         cell.textLabel.text = @"消息中心";
         
@@ -432,7 +434,7 @@
         [cell.contentView addSubview:badgeView];
         
         
-    }else if(indexPath.row == 2){
+    }else if(indexPath.row == 1){
         cell.imageView.image = [UIImage imageNamed:@"icon_coupon.png"];
         cell.textLabel.text = @"我的红包";
         
@@ -446,7 +448,7 @@
         [badgeView addSubview:couponBadgeBtn];
         [cell.contentView addSubview:badgeView];
 
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 2){
         cell.imageView.image = [UIImage imageNamed:@"icon_membercard.png"];
         cell.textLabel.text = @"购买畅停卡";
     }
@@ -454,19 +456,20 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        [self showAlert:@"敬请期待"];
-    }else if(indexPath.row == 1){
+//    if (indexPath.row == 0) {
+//        [self showAlert:@"敬请期待"];
+//    }else
+    if(indexPath.row == 0){
         if ([self checkUserLogin]) {
             FLYMessageViewController *messageController = [[FLYMessageViewController alloc] init];
             [self.navigationController pushViewController:messageController animated:NO];
         }
-    }else if(indexPath.row == 2){
+    }else if(indexPath.row == 1){
         if ([self checkUserLogin]) {
             FLYCouponViewController *couponController = [[FLYCouponViewController alloc] init];
             [self.navigationController pushViewController:couponController animated:NO];
         }
-    }else if(indexPath.row == 3){
+    }else if(indexPath.row == 2){
         if ([self checkUserLogin]) {
             FLYParkCardViewController *parkCardController = [[FLYParkCardViewController alloc] init];
             [self.navigationController pushViewController:parkCardController animated:NO];

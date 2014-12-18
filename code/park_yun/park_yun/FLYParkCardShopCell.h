@@ -7,6 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FLYShopModel.h"
+
+
+@protocol FLYParkCardShopDelegate <NSObject>
+@optional
+//增加数量
+- (void)increase:(FLYShopModel *)model;
+//减少数量
+- (void)reduce:(FLYShopModel *)model;
+//删除
+- (void)delete:(FLYShopModel *)model;
+@end
 
 @interface FLYParkCardShopCell : UITableViewCell{
     UILabel *_parkNameLabel;
@@ -17,5 +29,11 @@
     UILabel *_amountLabel;
     UIButton *_deleteBtn;
 }
+
+
+@property(nonatomic,strong)FLYShopModel *shopModel;
+
+@property(assign,nonatomic)id<FLYParkCardShopDelegate> shopDelegate;
+
 
 @end

@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7402D6811A3E7B76004412A0 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		7402D6821A3E7B76004412A0 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		7402D6861A3E7C85004412A0 /* FLYParkCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D6841A3E7C85004412A0 /* FLYParkCardViewController.m */; };
 		7402D6871A3E7C85004412A0 /* FLYParkCardViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7402D6851A3E7C85004412A0 /* FLYParkCardViewController.xib */; };
 		7402D68A1A3E7ECC004412A0 /* FLYCardParkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D6891A3E7ECC004412A0 /* FLYCardParkViewController.m */; };
@@ -243,6 +241,8 @@
 		746E49A8198B6F3400C93F88 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 746E49A7198B6F3400C93F88 /* libsqlite3.dylib */; };
 		746E7D4A196ACEBF00C3E638 /* FLYBaseMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D49196ACEBF00C3E638 /* FLYBaseMapViewController.mm */; };
 		746E7D56196AF02800C3E638 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */; };
+		7478C4341A42B69F00594999 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
+		7478C4351A42B69F00594999 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E619668230008B7AB6 /* FLYBussinessModel.m */; };
 		748208EA1966AE92008B7AB6 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */; };
 		748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */; };
@@ -1701,8 +1701,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7402D6811A3E7B76004412A0 /* libbaidumapapi.a in Frameworks */,
-				7402D6821A3E7B76004412A0 /* libBaiduMobStat.a in Frameworks */,
+				7478C4341A42B69F00594999 /* libbaidumapapi.a in Frameworks */,
+				7478C4351A42B69F00594999 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -4584,7 +4584,7 @@
 		74C561C31960609200F218CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4602,7 +4602,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4619,7 +4619,7 @@
 		74C561C41960609200F218CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4637,7 +4637,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

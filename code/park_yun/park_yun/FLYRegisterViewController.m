@@ -7,10 +7,13 @@
 //
 
 #import "FLYRegisterViewController.h"
+#import "FLYMemberModel.h"
 #import "FLYDataService.h"
 #import "DXAlertView.h"
+#import "SecurityUtil.h"
 #import "NSString+MD5HexDigest.h"
 #import "UIButton+Bootstrap.h"
+
 
 @interface FLYRegisterViewController ()
 
@@ -97,6 +100,11 @@
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_submitBtn];
+    
+    //获取
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *deviceToken = [defaults stringForKey:@"deviceToken"];
+    _deviceId = [SecurityUtil encodeBase64String:deviceToken];
 }
 
 #pragma mark - 控件事件
@@ -174,6 +182,7 @@
 
 
 - (void)submitAction{
+    
     [_usernameField resignFirstResponder];
     [_passwordField resignFirstResponder];
     [_passverifyField resignFirstResponder];
@@ -201,35 +210,56 @@
                                    @"password",
                                    _codeFiled.text,
                                    @"checkNo",
+                                   _deviceId,
+                                   @"deviceId",
                                    nil];
+    
+    
     [self showHUD:@"注册中" isDim:NO];
     
     [_submitBtn setEnabled:NO];
     //防止循环引用
     __weak FLYRegisterViewController *ref = self;
     [FLYDataService requestWithURL:kHttpMemberRegister params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadLoginData:result];
+        [ref loadRegisterData:result];
     } errorBolck:^(){
         [ref loadError];
     }];
     
 }
 
-- (void)loadLoginData:(id)data{
+- (void)loadRegisterData:(id)data{
     [_submitBtn setEnabled:YES];
     [self hideHUD];
     
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            //存储登陆信息
+            NSDictionary *memberDic = [result objectForKey:@"member"];
+            FLYMemberModel *memberModel = [[FLYMemberModel alloc] initWithDataDic:memberDic];
+            NSString *token = [result objectForKey:@"token"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberId forKey:@"memberId"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberPhone forKey:@"memberPhone"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberName forKey:@"memberName"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberCarno forKey:@"memberCarno"];
+            [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberType forKey:@"memberType"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        
         
         DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"注册成功" leftButtonTitle:nil rightButtonTitle:@"确认"];
         [alert show];
         
         alert.rightBlock = ^() {
-            [self.navigationController popViewControllerAnimated:NO];
+            [self dismissViewControllerAnimated:NO completion:NULL];
+
         };
         alert.dismissBlock = ^() {
-            [self.navigationController popViewControllerAnimated:NO];
+            [self dismissViewControllerAnimated:NO completion:NULL];
         };
         
     }else{

@@ -64,6 +64,11 @@
     
     self.registerBtn.top = loginBtn.bottom + 20;
     self.forgetpassBtn.top = loginBtn.bottom + 20;
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -203,7 +208,6 @@
             NSDictionary *memberDic = [result objectForKey:@"member"];
             FLYMemberModel *memberModel = [[FLYMemberModel alloc] initWithDataDic:memberDic];
             NSString *token = [result objectForKey:@"token"];
-            
             
             [[NSUserDefaults standardUserDefaults] setObject:token forKey:@"token"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberId forKey:@"memberId"];

@@ -7,8 +7,9 @@
 //
 
 #import "FLYBaseViewController.h"
+#import "FLYParkCardShopCell.h"
 
-@interface FLYParkCardShopViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate>{
+@interface FLYParkCardShopViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate,FLYParkCardShopDelegate>{
     UITableView *_tableView;
     UILabel *_carNoLabel;
     UILabel *_totalPirceLabel;

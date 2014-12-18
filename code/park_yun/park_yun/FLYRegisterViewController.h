@@ -17,6 +17,8 @@
     UIButton *_submitBtn;
     
     NSTimer *_timer;
+    
+    NSString *_deviceId;
 }
 - (IBAction)backgroundTap:(id)sender;
 
