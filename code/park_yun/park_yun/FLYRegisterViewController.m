@@ -14,6 +14,8 @@
 #import "NSString+MD5HexDigest.h"
 #import "UIButton+Bootstrap.h"
 
+#define bgColor Color(241,241,241,1)
+#define textBorderColor Color(206,206,206,1)
 
 @interface FLYRegisterViewController ()
 
@@ -33,71 +35,69 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     
-    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(20, 10, 280, 40)];
-    _usernameField.borderStyle = UITextBorderStyleRoundedRect;
-    _usernameField.clearButtonMode = YES;
+    step = 0;
+    
+    self.view.backgroundColor = bgColor;
+    
+    //返回事件
+    self.ctrlDelegate = self;
+
+    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 300, 40)];
+    _usernameField.borderStyle = UITextBorderStyleNone;
     _usernameField.placeholder = @"请输入手机号";
+    _usernameField.textAlignment = NSTextAlignmentLeft;
     _usernameField.keyboardType = UIKeyboardTypePhonePad;
-    _usernameField.font = [UIFont systemFontOfSize:14.0];
+    _usernameField.font = [UIFont systemFontOfSize:15.0];
     _usernameField.returnKeyType = UIReturnKeyNext;
-    _usernameField.tag = 101;
-    [_usernameField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    _usernameField.backgroundColor = [UIColor whiteColor];
+    _usernameField.layer.borderColor = [textBorderColor CGColor];
+    _usernameField.layer.borderWidth = 1.0f;
+    _usernameField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_phone.png"]];
+    _usernameField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_usernameField];
     
-    if (ScreenHeight == 568) {
-        _usernameField.top = _usernameField.top + 30;
-    }
     
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(20, _usernameField.bottom + 10, 280, 40)];
-    _passwordField.borderStyle = UITextBorderStyleRoundedRect;
+    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 180, 40)];
+    _codeFiled.borderStyle = UITextBorderStyleNone;
+    _codeFiled.placeholder = @"验证码";
+    _codeFiled.textAlignment = NSTextAlignmentCenter;
+    _codeFiled.keyboardType = UIKeyboardTypePhonePad;
+    _codeFiled.font = [UIFont systemFontOfSize:15.0];
+    _codeFiled.returnKeyType = UIReturnKeyDone;
+    _codeFiled.layer.borderColor = [textBorderColor CGColor];
+    _codeFiled.layer.borderWidth = 1.0f;
+    _codeFiled.hidden = YES;
+    [self.view addSubview:_codeFiled];
+    
+    _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, 20, 100, 40);
+    [_codeBtn primaryStyle];
+    [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
+    _codeBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
+    _codeBtn.hidden = YES;
+    [_codeBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_codeBtn];
+    
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10 , 20, 300, 40)];
+    _passwordField.borderStyle = UITextBorderStyleNone;
+    _passwordField.textAlignment = NSTextAlignmentCenter;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
     _passwordField.placeholder = @"请输入密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
-    _passwordField.font = [UIFont systemFontOfSize:14.0];
+    _passwordField.font = [UIFont systemFontOfSize:15.0];
     _passwordField.returnKeyType = UIReturnKeyNext;
-    _passwordField.tag = 102;
-    [_passwordField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
+    _passwordField.layer.borderColor = [textBorderColor CGColor];
+    _passwordField.layer.borderWidth = 1.0f;
+    _passwordField.hidden = YES;
     [self.view addSubview:_passwordField];
-    
-    _passverifyField = [[UITextField alloc] initWithFrame:CGRectMake(20, _passwordField.bottom + 10, 280, 40)];
-    _passverifyField.borderStyle = UITextBorderStyleRoundedRect;
-    _passverifyField.clearButtonMode = YES;
-    _passverifyField.secureTextEntry = YES;
-    _passverifyField.placeholder = @"请确认密码";
-    _passverifyField.keyboardType = UIKeyboardTypeASCIICapable;
-    _passverifyField.font = [UIFont systemFontOfSize:14.0];
-    _passverifyField.returnKeyType = UIReturnKeyNext;
-    _passverifyField.tag = 103;
-    [_passverifyField addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    [self.view addSubview:_passverifyField];
-    
-    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(20, _passverifyField.bottom + 10, 160, 40)];
-    _codeFiled.borderStyle = UITextBorderStyleRoundedRect;
-    _codeFiled.placeholder = @"验证码";
-    _codeFiled.textAlignment = NSTextAlignmentCenter;
-    _codeFiled.keyboardType = UIKeyboardTypeASCIICapable;
-    _codeFiled.font = [UIFont systemFontOfSize:14.0];
-    _codeFiled.returnKeyType = UIReturnKeyDone;
-    _codeFiled.tag = 104;
-    [_codeFiled addTarget:self action:@selector(didEndAction:) forControlEvents:UIControlEventEditingDidEndOnExit];
-    [self.view addSubview:_codeFiled];
-    
-    _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, _passverifyField.bottom + 10, 100, 40);
-    [_codeBtn infoStyle];
-    [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
-    _codeBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-    [_codeBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchDown];
-    [self.view addSubview:_codeBtn];
 
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(20,_codeBtn.bottom + 30 , 280, 40);
+    _submitBtn.frame = CGRectMake(10,_codeBtn.bottom + 30 , 300, 40);
     [_submitBtn primaryStyle];
-    [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    [_submitBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_submitBtn];
     
@@ -105,25 +105,10 @@
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *deviceToken = [defaults stringForKey:@"deviceToken"];
     _deviceId = [SecurityUtil encodeBase64String:deviceToken];
+    
 }
 
 #pragma mark - 控件事件
-- (void)didEndAction:(UITextField *)textField{
-    if (textField.tag == 101) {
-        [_usernameField resignFirstResponder];
-        [_passwordField becomeFirstResponder];
-    }else if (textField.tag == 102) {
-        [_passwordField resignFirstResponder];
-        [_passverifyField becomeFirstResponder];
-    }else if (textField.tag == 103) {
-        [_passverifyField resignFirstResponder];
-        [_codeFiled becomeFirstResponder];
-    }else if (textField.tag == 104) {
-        [_codeFiled resignFirstResponder];
-        [self submitAction];
-    }
-}
-
 - (void)refreshAction:(UIButton *)button{
     if ([FLYBaseUtil isNotEmpty:_usernameField.text]) {
         _codeBtn.enabled = NO;
@@ -183,49 +168,69 @@
 
 - (void)submitAction{
     
-    [_usernameField resignFirstResponder];
-    [_passwordField resignFirstResponder];
-    [_passverifyField resignFirstResponder];
-    [_codeFiled resignFirstResponder];
+    [self responderKeybord];
     
-    if ([FLYBaseUtil isEmpty:_usernameField.text]) {
-        [self showToast:@"请输入手机号"];
-        return;
-    }else if([FLYBaseUtil isEmpty:_passwordField.text] || [FLYBaseUtil isEmpty:_passverifyField.text]){
-        [self showToast:@"请输入密码"];
-        return;
-    }else if ([FLYBaseUtil isEmpty:_codeFiled.text]) {
-        [self showToast:@"请输入验证码"];
-        return;
-    }else if (![_passwordField.text isEqualToString:_passverifyField.text]) {
-        [self showToast:@"两次密码输入不相同"];
-        return;
+    if(step == 0){
+        
+        if ([FLYBaseUtil isEmpty:_usernameField.text]) {
+            [self showToast:@"请输入手机号"];
+            return;
+        }else if(_usernameField.text.length != 11){
+            [self showToast:@"手机号长度不对"];
+            return;
+        }
+        
+        _usernameField.hidden = YES;
+        _codeFiled.hidden = NO;
+        _codeBtn.hidden = NO;
+        
+        step++;
+    }else if(step == 1){
+        
+        if ([FLYBaseUtil isEmpty:_codeFiled.text]) {
+            [self showToast:@"请输入验证码"];
+            return;
+        }
+        
+        _codeFiled.hidden = YES;
+        _codeBtn.hidden = YES;
+        _passwordField.hidden = NO;
+        [_submitBtn setTitle:@"完成" forState:UIControlStateNormal];
+        
+        step++;
+        
+    
+    }else if(step == 2){
+
+        if([FLYBaseUtil isEmpty:_passwordField.text]){
+            [self showToast:@"请输入密码"];
+            return;
+        }
+        
+        //kHttpMemberRegister
+        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                       _usernameField.text,
+                                       @"phone",
+                                       [_passwordField.text md5HexDigest],
+                                       @"password",
+                                       _codeFiled.text,
+                                       @"checkNo",
+                                       _deviceId,
+                                       @"deviceId",
+                                       nil];
+        
+        
+        [self showHUD:@"注册中" isDim:NO];
+        
+        [_submitBtn setEnabled:NO];
+        //防止循环引用
+        __weak FLYRegisterViewController *ref = self;
+        [FLYDataService requestWithURL:kHttpMemberRegister params:params httpMethod:@"POST" completeBolck:^(id result){
+            [ref loadRegisterData:result];
+        } errorBolck:^(){
+            [ref loadError];
+        }];
     }
-    
-    //kHttpMemberRegister
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                   _usernameField.text,
-                                   @"phone",
-                                   [_passwordField.text md5HexDigest],
-                                   @"password",
-                                   _codeFiled.text,
-                                   @"checkNo",
-                                   _deviceId,
-                                   @"deviceId",
-                                   nil];
-    
-    
-    [self showHUD:@"注册中" isDim:NO];
-    
-    [_submitBtn setEnabled:NO];
-    //防止循环引用
-    __weak FLYRegisterViewController *ref = self;
-    [FLYDataService requestWithURL:kHttpMemberRegister params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadRegisterData:result];
-    } errorBolck:^(){
-        [ref loadError];
-    }];
-    
 }
 
 - (void)loadRegisterData:(id)data{
@@ -250,17 +255,8 @@
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
-        
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"注册成功" leftButtonTitle:nil rightButtonTitle:@"确认"];
-        [alert show];
-        
-        alert.rightBlock = ^() {
-            [self dismissViewControllerAnimated:NO completion:NULL];
-
-        };
-        alert.dismissBlock = ^() {
-            [self dismissViewControllerAnimated:NO completion:NULL];
-        };
+        [self showToast:@"注册成功"];
+        [self dismissViewControllerAnimated:NO completion:NULL];
         
     }else{
         NSString *msg = [data objectForKey:@"msg"];
@@ -278,8 +274,37 @@
 - (IBAction)backgroundTap:(id)sender {
     [_usernameField resignFirstResponder];
     [_passwordField resignFirstResponder];
-    [_passverifyField resignFirstResponder];
     [_codeFiled resignFirstResponder];
+}
+
+-(void)responderKeybord{
+    [_usernameField resignFirstResponder];
+    [_passwordField resignFirstResponder];
+    [_codeFiled resignFirstResponder];
+}
+
+#pragma mark  - FLYBaseCtrlDelegate delegate
+- (BOOL)close{
+    [self responderKeybord];
+    
+    if (step == 0) {
+        return YES;
+    }else if(step == 1){
+        _usernameField.hidden = NO;
+        _codeFiled.hidden = YES;
+        _codeBtn.hidden = YES;
+        
+        step--;
+        return NO;
+    }else if(step == 2){
+        _codeFiled.hidden = NO;
+        _codeBtn.hidden = NO;
+        _passwordField.hidden = YES;
+        
+        step--;
+        return NO;
+    }
+    return YES;
 }
 
 #pragma mark - Override UIViewController

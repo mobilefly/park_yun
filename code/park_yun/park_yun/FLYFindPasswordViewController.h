@@ -8,15 +8,17 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYFindPasswordViewController : FLYBaseViewController{
+@interface FLYFindPasswordViewController : FLYBaseViewController<FLYBaseCtrlDelegate>{
     UITextField *_usernameField;
     UITextField *_passwordField;
-    UITextField *_passverifyField;
     UITextField *_codeFiled;
     UIButton *_codeBtn;
     UIButton *_submitBtn;
     
     NSTimer *_timer;
+    
+    int step;
+    
 }
 - (IBAction)backgroundTap:(id)sender;
 

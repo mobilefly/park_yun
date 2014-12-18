@@ -157,7 +157,7 @@
         
         _key = [SecurityUtil encodeBase64Data:cipherTextData];
         
-        
+
         [self requestLogin];
     }
 }

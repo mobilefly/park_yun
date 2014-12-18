@@ -73,7 +73,7 @@
     }
     if (cha > 60) {
         timeString = [NSString stringWithFormat:@"%@%d分", timeString , ts / 60];
-        ts = ts % 60;
+//        ts = ts % 60;
     }
     return timeString;
 }

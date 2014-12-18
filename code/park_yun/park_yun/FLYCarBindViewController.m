@@ -167,7 +167,7 @@
 #pragma mark - UIActionSheetDelegate delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     
-    UIImagePickerControllerSourceType sourceType;
+    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
     
     //拍照
     if (buttonIndex == 0) {

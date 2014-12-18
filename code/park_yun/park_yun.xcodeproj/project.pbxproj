@@ -241,8 +241,9 @@
 		746E49A8198B6F3400C93F88 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 746E49A7198B6F3400C93F88 /* libsqlite3.dylib */; };
 		746E7D4A196ACEBF00C3E638 /* FLYBaseMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D49196ACEBF00C3E638 /* FLYBaseMapViewController.mm */; };
 		746E7D56196AF02800C3E638 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */; };
-		7478C4341A42B69F00594999 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
-		7478C4351A42B69F00594999 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
+		7478C43B1A42D27B00594999 /* icon_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7478C43A1A42D27B00594999 /* icon_phone@2x.png */; };
+		7478C43C1A42E18300594999 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
+		7478C43D1A42E18300594999 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E619668230008B7AB6 /* FLYBussinessModel.m */; };
 		748208EA1966AE92008B7AB6 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */; };
 		748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */; };
@@ -833,6 +834,7 @@
 		746E7D49196ACEBF00C3E638 /* FLYBaseMapViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FLYBaseMapViewController.mm; sourceTree = "<group>"; };
 		746E7D54196AF02800C3E638 /* PullingRefreshTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PullingRefreshTableView.h; sourceTree = "<group>"; };
 		746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullingRefreshTableView.m; sourceTree = "<group>"; };
+		7478C43A1A42D27B00594999 /* icon_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_phone@2x.png"; sourceTree = "<group>"; };
 		748208E519668230008B7AB6 /* FLYBussinessModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessModel.h; sourceTree = "<group>"; };
 		748208E619668230008B7AB6 /* FLYBussinessModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBussinessModel.m; sourceTree = "<group>"; };
 		748208E81966AE92008B7AB6 /* UIButton+Bootstrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Bootstrap.h"; sourceTree = "<group>"; };
@@ -1701,8 +1703,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7478C4341A42B69F00594999 /* libbaidumapapi.a in Frameworks */,
-				7478C4351A42B69F00594999 /* libBaiduMobStat.a in Frameworks */,
+				7478C43C1A42E18300594999 /* libbaidumapapi.a in Frameworks */,
+				7478C43D1A42E18300594999 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -3800,6 +3802,7 @@
 		74D041121963B629005B2F76 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				7478C43A1A42D27B00594999 /* icon_phone@2x.png */,
 				74538A7A1A3FE3E00085D9F6 /* icon_shopping_down@2x.png */,
 				74538A781A3FE3860085D9F6 /* icon_shopping_up@2x.png */,
 				749CCAA01A3EE9AB008F7577 /* mfpparking_gmctkcut_all_0@2x.png */,
@@ -4145,6 +4148,7 @@
 				745E744919655AF100BB0AB9 /* mfpparking_star_all_up@2x.png in Resources */,
 				745263F9196D2B2500037E3E /* FLYRechargeViewController.xib in Resources */,
 				74A60C2D196597580046457B /* btn_close_selected@2x.png in Resources */,
+				7478C43B1A42D27B00594999 /* icon_phone@2x.png in Resources */,
 				748F33221963FC0E005071E0 /* mfpparking_rmb3_all_0@2x.png in Resources */,
 				7489C3C61A39746900B62FDE /* icon_message@2x.png in Resources */,
 				741E8983197E1228003E9D9B /* FLYGateCell.xib in Resources */,

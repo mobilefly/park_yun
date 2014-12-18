@@ -8,10 +8,9 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYRegisterViewController : FLYBaseViewController{
+@interface FLYRegisterViewController : FLYBaseViewController<FLYBaseCtrlDelegate>{
     UITextField *_usernameField;
     UITextField *_passwordField;
-    UITextField *_passverifyField;
     UITextField *_codeFiled;
     UIButton *_codeBtn;
     UIButton *_submitBtn;
@@ -19,6 +18,8 @@
     NSTimer *_timer;
     
     NSString *_deviceId;
+    
+    int step;
 }
 - (IBAction)backgroundTap:(id)sender;
 
