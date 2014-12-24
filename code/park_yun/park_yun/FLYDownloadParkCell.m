@@ -29,6 +29,7 @@
     if (self.data != nil) {
         _cityNameLabel.text = self.data.regionName;
         _progressLabel.text = [NSString stringWithFormat:@"%i%@",self.data.ratio,@"%"];
+        
         //已暂停
         if(self.data.status == 0){
             [_updateBtn setTitle:@"更新" forState:UIControlStateNormal];
@@ -40,6 +41,9 @@
                 _updateBtn.enabled = NO;
                 [_updateBtn disabledStyle];
             }
+        }else{
+            _updateBtn.enabled = NO;
+            [_updateBtn disabledStyle];
         }
         
         if (self.data.status == 0) {

@@ -9,14 +9,10 @@
 #import "FLYBaseViewController.h"
 #import "ASIFormDataRequest.h"
 
-@interface FLYCarBindViewController : FLYBaseViewController<UINavigationControllerDelegate,UIImagePickerControllerDelegate,UIActionSheetDelegate,ASIProgressDelegate>{
+@interface FLYCarBindViewController : FLYBaseViewController{
     UITextField *_carnoField;
-    UIButton *_uploadBtn;
-    UIImageView *_photoView;
     UILabel *_detailLabel;
     UIButton *_submitBtn;
-    
-    BOOL _isUpload;
 }
 
 - (IBAction)backgroundTap:(id)sender;

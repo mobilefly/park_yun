@@ -117,6 +117,7 @@
 }
 
 #pragma mark - 数据请求
+
 //停车场列表数据
 - (void)requestParkData{
     [self showTimeoutView:NO];
@@ -156,7 +157,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                        @"long",
-                                       @"20000",
+                                       kMapDistance,
                                        @"range",
                                        nil];
         
@@ -183,7 +184,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",_reloadLoaction.longitude],
                                        @"long",
-                                       @"20000",
+                                       kMapDistance,
                                        @"range",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",

@@ -11,6 +11,7 @@
 #import "FLYChangePasswordViewController.h"
 #import "FLYAbortViewController.h"
 #import "FLYOfflineParkViewController.h"
+#import "FLYDataService.h"
 
 @interface FLYSettingViewController ()
 
@@ -30,19 +31,63 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight) style:UITableViewStyleGrouped];
 
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - 44) style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
     //去除左边15点留白
-    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
-        [tableView setSeparatorInset:UIEdgeInsetsZero];
+    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [_tableView setSeparatorInset:UIEdgeInsetsZero];
     }
-    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
-        [tableView setLayoutMargins:UIEdgeInsetsZero];
+    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
-    [self setExtraCellLineHidden:tableView];
+    [self setExtraCellLineHidden:_tableView];
+    
+    
+    FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+    if(appDelegate.version_index == 0){
+        [self prepareRequestVersion];
+    }
+    
+}
+
+#pragma mark - 数据请求
+- (void)prepareRequestVersion{
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self requestVersion];
+    }
+}
+
+- (void)requestVersion{
+    
+    
+    //防止循环引用
+    __weak FLYSettingViewController *ref = self;
+    
+    [FLYDataService requestWithURL:[NSString stringWithFormat:kItunesVersion,kAppId] httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadVersionData:result];
+    } errorBolck:^(){
+    }];
+}
+
+- (void)loadVersionData:(id)data{
+    NSArray *result = [data objectForKey:@"results"];
+    if(result != nil && [result count] >0){
+        NSString *newVersion = [[result objectAtIndex:0] objectForKey:@"version"];
+        
+        NSDictionary *infoDictionary =[[NSBundle mainBundle]infoDictionary];
+        NSString *appVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+        
+        FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+        if([newVersion isEqualToString:appVersion]){
+            appDelegate.version_index = 1;
+        }else{
+            appDelegate.version_index = 2;
+        }
+        [_tableView reloadData];
+    }
 }
 
 #pragma mark - 控件事件
@@ -78,7 +123,7 @@
     }else if(section == 1){
         return 1;
     }else{
-        return 3;
+        return 5;
     }
 }
 
@@ -141,11 +186,28 @@
         cell.textLabel.font = [UIFont systemFontOfSize: 15.0];
         
         if(indexPath.row == 0){
-            cell.textLabel.text = @"意见反馈";
-        }else if(indexPath.row == 1){
             cell.textLabel.text = @"修改密码";
+        }else if(indexPath.row == 1){
+            cell.textLabel.text = @"意见反馈";
         }else if(indexPath.row == 2){
-            cell.textLabel.text = @"关于我们";
+            
+            FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+            int version_index = appDelegate.version_index;
+
+            if(version_index == 1){
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.textLabel.text = @"当前最新版本";
+            }else if(version_index == 2){
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.textLabel.text = @"有新版本下载（更新）";
+            }else{
+                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                cell.textLabel.text = @"检测版本";
+            }
+        }else if(indexPath.row == 3){
+            cell.textLabel.text = @"给软件评分";
+        }else if(indexPath.row == 4){
+            cell.textLabel.text = @"关于停哪儿";
         }
     }
     return cell;
@@ -160,16 +222,28 @@
         }
     }else if (indexPath.section == 2){
         if (indexPath.row == 0){
-            FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
-            [self.navigationController pushViewController:feedBackCtrl animated:NO];
-        }else if (indexPath.row == 1){
             if (![FLYBaseUtil checkUserLogin]) {
                 [self showAlert:@"请先登陆用户"];
             }else{
                 FLYChangePasswordViewController *changePwdCtrl = [[FLYChangePasswordViewController alloc] init];
                 [self.navigationController pushViewController:changePwdCtrl animated:NO];
             }
+        }else if (indexPath.row == 1){
+            FLYFeedbackViewController *feedBackCtrl = [[FLYFeedbackViewController alloc] init];
+            [self.navigationController pushViewController:feedBackCtrl animated:NO];
         }else if (indexPath.row == 2){
+            
+            FLYAppDelegate *appDelegate = (FLYAppDelegate *)[UIApplication sharedApplication].delegate;
+            int version_index = appDelegate.version_index;
+            if(version_index != 1){
+                NSString *url = [NSString stringWithFormat:kItunesDownload,kAppId];
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+            }
+           
+        }else if (indexPath.row == 3){
+            NSString *url = [NSString stringWithFormat:kItunesComment,kAppId];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+        }else if (indexPath.row == 4){
             FLYAbortViewController *abortCtrl = [[FLYAbortViewController alloc] init];
             [self.navigationController pushViewController:abortCtrl animated:NO];
         }
@@ -197,8 +271,5 @@
 -(void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
-
-
-
 
 @end

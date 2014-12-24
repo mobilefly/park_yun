@@ -9,6 +9,11 @@
 #import "FLYBaseViewController.h"
 
 @interface FLYRegisterViewController : FLYBaseViewController<FLYBaseCtrlDelegate>{
+    UIView *_topView;
+    UILabel *_firstLabel;
+    UILabel *_secondLabel;
+    UILabel *_thirdLabel;
+    
     UITextField *_usernameField;
     UITextField *_passwordField;
     UITextField *_codeFiled;

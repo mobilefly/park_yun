@@ -88,7 +88,7 @@
     
     // 登陆按钮
     UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    loginBtn.frame = CGRectMake((ScreenWidth - 260) / 2, 0 , 260, 40);
+    loginBtn.frame = CGRectMake((ScreenWidth - 300) / 2, 0 , 300, 40);
     loginBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
     if ([FLYBaseUtil checkUserLogin]) {
         [loginBtn warningStyle];
@@ -349,16 +349,16 @@
 
 //会员卡信息
 - (IBAction)memberInfoAction:(id)sender {
-    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-    NSString *memberType = [defaults stringForKey:@"memberType"];
+//    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+//    NSString *memberType = [defaults stringForKey:@"memberType"];
     
     if ([self checkUserLogin]) {
-        if(![memberType isEqualToString:@"3"]){
-            [self showAlert:@"未绑定畅停卡,请先购买畅停卡"];
-        }else{
+//        if(![memberType isEqualToString:@"3"]){
+//            [self showAlert:@"未绑定畅停卡,请先购买畅停卡"];
+//        }else{
             FLYCardParkViewController *cardParkController = [[FLYCardParkViewController alloc]init];
             [self.navigationController pushViewController:cardParkController animated:NO];
-        }
+//        }
     }
     
 }
@@ -374,12 +374,12 @@
 //足迹
 - (IBAction)footmarkAction:(id)sender {
     if ([self checkUserLogin]) {
-        if(![FLYBaseUtil checkUserBindCar]){
-            [self showAlert:@"未绑定任何车牌\n请先去车辆管理绑定车牌"];
-        }else{
+//        if(![FLYBaseUtil checkUserBindCar]){
+//            [self showAlert:@"未绑定任何车牌\n请先去车辆管理绑定车牌"];
+//        }else{
             FLYFootmarkViewController *footmarkController = [[FLYFootmarkViewController alloc]init];
             [self.navigationController pushViewController:footmarkController animated:NO];
-        }
+//        }
     }
 }
 

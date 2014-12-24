@@ -136,7 +136,7 @@
                                    [_passwordField.text md5HexDigest],
                                    @"newPwd",
                                    nil];
-    [self showHUD:@"注册中" isDim:NO];
+    [self showHUD:@"提交中" isDim:NO];
     
     [_submitBtn setEnabled:NO];
     //防止循环引用

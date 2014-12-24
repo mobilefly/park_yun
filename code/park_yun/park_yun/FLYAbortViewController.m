@@ -41,20 +41,22 @@
     titleLabel.left = (ScreenWidth - titleLabel.width) / 2;
     [self.view addSubview:titleLabel];
     
-    UILabel *versionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabel.bottom + 20, 0, 30)];
-    versionTitle.font = [UIFont systemFontOfSize:12.0];
+    UILabel *versionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabel.bottom + 20, ScreenWidth, 30)];
+    versionTitle.font = [UIFont systemFontOfSize:14.0];
     versionTitle.textColor = [UIColor lightGrayColor];
     versionTitle.text = @"当前版本号";
-    [versionTitle sizeToFit];
-    versionTitle.left = (ScreenWidth - versionTitle.width) / 2;
+    versionTitle.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:versionTitle];
     
-    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, versionTitle.bottom + 2, 0, 30)];
-    versionLabel.font = [UIFont systemFontOfSize:12.0];
+    
+    NSDictionary *infoDictionary =[[NSBundle mainBundle]infoDictionary];
+    NSString *appVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+    
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, versionTitle.bottom + 2, ScreenWidth, 30)];
+    versionLabel.font = [UIFont systemFontOfSize:14.0];
     versionLabel.textColor = [UIColor lightGrayColor];
-    versionLabel.text = @"停哪儿ios版v1.0.0";
-    [versionLabel sizeToFit];
-    versionLabel.left = (ScreenWidth - versionLabel.width) / 2;
+    versionLabel.text = [NSString stringWithFormat:@"停哪儿ios版 - V%@",appVersion];;
+    versionLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:versionLabel];
     
     UIImage *bottomImage = [UIImage imageNamed:@"mfpparking_gywmtu_all_0.png"];

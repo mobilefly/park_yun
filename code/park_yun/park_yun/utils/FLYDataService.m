@@ -86,6 +86,8 @@
 
     return request;
 }
+
+
 + (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
                             params:(NSMutableDictionary *)params
                           progress:(id)progress
@@ -138,6 +140,42 @@
     [request startAsynchronous];
     
     return request;
+}
+
++ (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
+                              httpMethod:(NSString *)httpMethod
+                           completeBolck:(RequestFinishBlock)block
+                              errorBolck:(RequestErrorBlock)error{
+    NSLog(@"%@",urlstring);
+    NSURL *url = [NSURL URLWithString:urlstring];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:url];
+    //设置超时时间
+    [request setTimeOutSeconds:15];
+    [request setRequestMethod:httpMethod];
+    
+    __block ASIFormDataRequest *req = request;
+    //设置请求完成的BLOCK
+    [request setCompletionBlock:^{
+        NSData *data = req.responseData;
+        id result = nil;
+        
+        result = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+        
+        if (block != nil) {
+            block(result);
+        }
+    }];
+    
+    [request setFailedBlock:^{
+        if (error != nil) {
+            error();
+        }
+    }];
+    
+    [request startAsynchronous];
+    
+    return request;
+    
 }
 
 @end

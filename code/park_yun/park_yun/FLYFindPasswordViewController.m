@@ -12,8 +12,11 @@
 #import "NSString+MD5HexDigest.h"
 #import "UIButton+Bootstrap.h"
 
-#define bgColor Color(241,241,241,1)
-#define textBorderColor Color(206,206,206,1)
+#define topBgColor Color(252,253,253,1)
+#define bgColor Color(247,247,247,1)
+#define textBorderColor Color(214,212,208,1)
+#define spColor Color(189,193,196,1)
+#define blueColor Color(66,139,202,1)
 
 @interface FLYFindPasswordViewController ()
 
@@ -41,21 +44,66 @@
     //返回事件
     self.ctrlDelegate = self;
     
-    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 300, 40)];
+    _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 40)];
+    _topView.backgroundColor = topBgColor;
+    
+    UIView *sp = [[UIView alloc] init];
+    sp.frame = CGRectMake(0, _topView.bottom + 1, ScreenWidth, 0.5);
+    sp.backgroundColor =  spColor;
+    [self.view addSubview:sp];
+    
+    _firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 85, 40)];
+    _firstLabel.textAlignment = NSTextAlignmentCenter;
+    _firstLabel.font = [UIFont systemFontOfSize:13.0];
+    _firstLabel.text = @"1.输入手机号";
+    _firstLabel.textColor = blueColor;
+    [self.view addSubview:_firstLabel];
+    
+    UILabel *rightLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(_firstLabel.right, 0, 25, 40)];
+    rightLabel1.textAlignment = NSTextAlignmentCenter;
+    rightLabel1.font = [UIFont systemFontOfSize:13.0];
+    rightLabel1.text = @">";
+    rightLabel1.textColor = [UIColor lightGrayColor];
+    [self.view addSubview:rightLabel1];
+    
+    _secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabel1.right, 0, 85, 40)];
+    _secondLabel.textAlignment = NSTextAlignmentCenter;
+    _secondLabel.font = [UIFont systemFontOfSize:13.0];
+    _secondLabel.text = @"2.输入验证码";
+    _secondLabel.textColor = [UIColor grayColor];
+    [self.view addSubview:_secondLabel];
+    
+    UILabel *rightLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(_secondLabel.right, 0, 25, 40)];
+    rightLabel2.textAlignment = NSTextAlignmentCenter;
+    rightLabel2.font = [UIFont systemFontOfSize:13.0];
+    rightLabel2.text = @">";
+    rightLabel2.textColor = [UIColor lightGrayColor];
+    [self.view addSubview:rightLabel2];
+    
+    _thirdLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabel2.right, 0, 85, 40)];
+    _thirdLabel.textAlignment = NSTextAlignmentCenter;
+    _thirdLabel.font = [UIFont systemFontOfSize:13.0];
+    _thirdLabel.text = @"3.设置密码";
+    _thirdLabel.textColor = [UIColor grayColor];
+    [self.view addSubview:_thirdLabel];
+    
+    _usernameField = [[UITextField alloc] initWithFrame:CGRectMake(10, sp.bottom + 20, 300, 40)];
     _usernameField.borderStyle = UITextBorderStyleNone;
-    _usernameField.placeholder = @"请输入手机号";
+    _usernameField.placeholder = @"请输入您的手机号码";
     _usernameField.textAlignment = NSTextAlignmentLeft;
     _usernameField.keyboardType = UIKeyboardTypePhonePad;
     _usernameField.font = [UIFont systemFontOfSize:15.0];
     _usernameField.returnKeyType = UIReturnKeyNext;
     _usernameField.backgroundColor = [UIColor whiteColor];
     _usernameField.layer.borderColor = [textBorderColor CGColor];
-    _usernameField.layer.borderWidth = 1.0f;
+    _usernameField.layer.borderWidth = 0.5f;
+    _usernameField.layer.cornerRadius = 2.0;
+    _usernameField.layer.masksToBounds = YES;
     _usernameField.leftView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_phone.png"]];
     _usernameField.leftViewMode = UITextFieldViewModeAlways;
     [self.view addSubview:_usernameField];
     
-    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 180, 40)];
+    _codeFiled = [[UITextField alloc] initWithFrame:CGRectMake(10, sp.bottom + 20, 180, 40)];
     _codeFiled.borderStyle = UITextBorderStyleNone;
     _codeFiled.placeholder = @"验证码";
     _codeFiled.textAlignment = NSTextAlignmentCenter;
@@ -63,12 +111,14 @@
     _codeFiled.font = [UIFont systemFontOfSize:15.0];
     _codeFiled.returnKeyType = UIReturnKeyDone;
     _codeFiled.layer.borderColor = [textBorderColor CGColor];
-    _codeFiled.layer.borderWidth = 1.0f;
+    _codeFiled.layer.borderWidth = 0.5f;
+    _codeFiled.layer.cornerRadius = 2.0;
+    _codeFiled.layer.masksToBounds = YES;
     _codeFiled.hidden = YES;
     [self.view addSubview:_codeFiled];
     
     _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, 20, 100, 40);
+    _codeBtn.frame = CGRectMake(_codeFiled.right + 20, sp.bottom + 20, 100, 40);
     [_codeBtn primaryStyle];
     [_codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     [_codeBtn setTitle:@"60" forState:UIControlStateDisabled];
@@ -77,22 +127,24 @@
     [_codeBtn addTarget:self action:@selector(refreshAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_codeBtn];
     
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10 , 20, 300, 40)];
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10 , sp.bottom + 20, 300, 40)];
     _passwordField.borderStyle = UITextBorderStyleNone;
     _passwordField.textAlignment = NSTextAlignmentCenter;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
-    _passwordField.placeholder = @"请输入新密码";
+    _passwordField.placeholder = @"请输入密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
     _passwordField.font = [UIFont systemFontOfSize:15.0];
     _passwordField.returnKeyType = UIReturnKeyNext;
     _passwordField.layer.borderColor = [textBorderColor CGColor];
-    _passwordField.layer.borderWidth = 1.0f;
+    _passwordField.layer.borderWidth = 0.5f;
+    _passwordField.layer.cornerRadius = 2.0;
+    _passwordField.layer.masksToBounds = YES;
     _passwordField.hidden = YES;
     [self.view addSubview:_passwordField];
     
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(10,_codeBtn.bottom + 30 , 300, 40);
+    _submitBtn.frame = CGRectMake(10,_usernameField.bottom + 20 , 300, 40);
     [_submitBtn primaryStyle];
     [_submitBtn setTitle:@"下一步" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];
@@ -168,6 +220,8 @@
         _usernameField.hidden = YES;
         _codeFiled.hidden = NO;
         _codeBtn.hidden = NO;
+        _firstLabel.textColor = [UIColor grayColor];
+        _secondLabel.textColor = blueColor;
         
         step++;
         
@@ -181,12 +235,12 @@
         _codeFiled.hidden = YES;
         _codeBtn.hidden = YES;
         _passwordField.hidden = NO;
+        _secondLabel.textColor = [UIColor grayColor];
+        _thirdLabel.textColor = blueColor;
         [_submitBtn setTitle:@"完成" forState:UIControlStateNormal];
-        
         step++;
         
     }else if(step == 2){
-
         NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                        _usernameField.text,
                                        @"phone",

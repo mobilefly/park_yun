@@ -215,6 +215,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberName forKey:@"memberName"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberCarno forKey:@"memberCarno"];
             [[NSUserDefaults standardUserDefaults] setObject:memberModel.memberType forKey:@"memberType"];
+            [[NSUserDefaults standardUserDefaults] setObject:self.password.text forKey:@"memberPassword"];
             [[NSUserDefaults standardUserDefaults] synchronize];
 
             [self dismissViewControllerAnimated:NO completion:NULL];

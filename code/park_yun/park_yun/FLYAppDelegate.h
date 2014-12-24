@@ -12,6 +12,8 @@
 
 @interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
     BMKMapManager* _mapManager;
+   
+    
 }
 
 @property (strong, nonatomic) NSMutableArray *shopArray;
@@ -28,5 +30,7 @@
 //缓存城市停车场数据
 @property (strong, nonatomic) NSMutableArray *cityDatas;
 
+// 0.版本检测中 1.最新版本 2.有新版本下载
+@property (nonatomic) int version_index;
 
 @end

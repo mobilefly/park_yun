@@ -48,7 +48,7 @@
 #pragma mark - 数据请求
 -(void)prepareRequestBillDetailData{
     if ([FLYBaseUtil isEnableInternate]) {
-        [self showHUD:@"加载中" isDim:NO];
+        [self showHUD:@"提交中" isDim:NO];
         [self requestBillDetailData];
     }else{
         [self showTimeoutView:YES];

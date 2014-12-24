@@ -26,4 +26,9 @@ typedef void(^RequestErrorBlock)();
                      completeBolck:(RequestFinishBlock)block
                         errorBolck:(RequestErrorBlock)error;
 
++ (ASIHTTPRequest *)requestWithURL:(NSString *)urlstring
+                        httpMethod:(NSString *)httpMethod
+                     completeBolck:(RequestFinishBlock)block
+                        errorBolck:(RequestErrorBlock)error;
+
 @end

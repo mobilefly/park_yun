@@ -315,9 +315,12 @@
     }
     //切换默认车牌
     else{
+        
         FLYCarnoModel *model = [self.datas objectAtIndex:indexPath.row];
         if ([_defaultCarno isEqualToString:model.mcCarno]) {
             [self showToast:@"已设为默认车辆"];
+        }else if([model.mcFlag isEqualToString:@"1"]){
+            [self showToast:@"车牌正在审核中"];
         }else{
             [self requestChangeCarno:model];
         }

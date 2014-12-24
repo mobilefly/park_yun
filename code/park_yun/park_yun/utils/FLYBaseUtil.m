@@ -92,6 +92,7 @@
     [defaults setObject:nil forKey:@"memberName"];
     [defaults setObject:nil forKey:@"memberCarno"];
     [defaults setObject:nil forKey:@"memberType"];
+    [defaults setObject:nil forKey:@"memberPassword"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 

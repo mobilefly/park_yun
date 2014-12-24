@@ -13,6 +13,8 @@
 		7402D68E1A3E87E6004412A0 /* DownSheetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D68D1A3E87E6004412A0 /* DownSheetModel.m */; };
 		7402D6941A3E8888004412A0 /* DownSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D6931A3E8888004412A0 /* DownSheetCell.m */; };
 		7402D6961A3E93A9004412A0 /* icon_down_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402D6951A3E93A9004412A0 /* icon_down_selected@2x.png */; };
+		740A83541A4A96AD00CCF526 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
+		740A83551A4A96AD00CCF526 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		74109163198A3EBD009F3B4B /* FLYAbortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74109162198A3EBD009F3B4B /* FLYAbortViewController.m */; };
 		74109166198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74109164198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png */; };
 		74109167198A3F97009F3B4B /* mfpparking_gywmtu_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74109165198A3F97009F3B4B /* mfpparking_gywmtu_all_0@2x.png */; };
@@ -242,8 +244,6 @@
 		746E7D4A196ACEBF00C3E638 /* FLYBaseMapViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D49196ACEBF00C3E638 /* FLYBaseMapViewController.mm */; };
 		746E7D56196AF02800C3E638 /* PullingRefreshTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 746E7D55196AF02800C3E638 /* PullingRefreshTableView.m */; };
 		7478C43B1A42D27B00594999 /* icon_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7478C43A1A42D27B00594999 /* icon_phone@2x.png */; };
-		7478C43C1A42E18300594999 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
-		7478C43D1A42E18300594999 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		748208E719668230008B7AB6 /* FLYBussinessModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E619668230008B7AB6 /* FLYBussinessModel.m */; };
 		748208EA1966AE92008B7AB6 /* UIButton+Bootstrap.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208E91966AE92008B7AB6 /* UIButton+Bootstrap.m */; };
 		748208ED1966AF08008B7AB6 /* NSString+FontAwesome.m in Sources */ = {isa = PBXBuildFile; fileRef = 748208EC1966AF08008B7AB6 /* NSString+FontAwesome.m */; };
@@ -1703,8 +1703,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7478C43C1A42E18300594999 /* libbaidumapapi.a in Frameworks */,
-				7478C43D1A42E18300594999 /* libBaiduMobStat.a in Frameworks */,
+				740A83541A4A96AD00CCF526 /* libbaidumapapi.a in Frameworks */,
+				740A83551A4A96AD00CCF526 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -4603,10 +4603,10 @@
 					"${SDK_DIR}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphoneos",
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4638,10 +4638,10 @@
 					"${SDK_DIR}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphoneos",
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

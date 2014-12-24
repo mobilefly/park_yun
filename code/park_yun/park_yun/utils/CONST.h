@@ -21,7 +21,7 @@
 //linux
 #define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-//#define kHttpDomain @"http://192.168.110.178:8080/park_yun"
+//#define kHttpDomain @"http://192.168.110.178:8080/park_service"
 
 //------停车场-----
 //周边停车场查询
@@ -115,10 +115,21 @@
 //查询离线数据是否有更新
 #define kHttpQueryOfflineUpdate @"/offline/queryOfflineUpdate.json"
 
+//itunes
+//应用ID
+#define kAppId 945599697
+//itunes 评论地址
+#define kItunesComment @"itms-apps://itunes.apple.com/app/id%d"
+//itunes 下载地址
+#define kItunesDownload @"http://itunes.apple.com/us/app/id%d"
+//itunes 检测版本
+#define kItunesVersion @"http://itunes.apple.com/lookup?id=%d"
+
 //停车场标注
 #define kAnnotationTypePark @"PARK"
 //地图显示范围
 #define kMapRange 0.005f
+#define kMapDistance @"5000"
 
 //json flag
 #define kFlagYes @"0"

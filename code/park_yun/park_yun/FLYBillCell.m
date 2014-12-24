@@ -33,8 +33,12 @@
     _mtBalanceLabel = (UILabel *)[self viewWithTag:109];
     
     _dateView = (UIView *)[self viewWithTag:110];
+    
     _dayLabel = (UILabel *)[self viewWithTag:111];
+    _dayLabel.textAlignment = NSTextAlignmentCenter;
+    
     _monthLabel = (UILabel *)[self viewWithTag:112];
+    _monthLabel.textAlignment = NSTextAlignmentCenter;
     
     UIColor *bgColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"mfpparking_kuang_all_0.png"]];
     _dateView.backgroundColor = bgColor;
@@ -96,6 +100,11 @@
             _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_wx_all_0.png"];
             _orderInfoLabel.text = @"微信充值";
         }
+        else if([self.traceModel.order.orderPayflag isEqualToString:@"99"]){
+            _orderInfoImage.image = [UIImage imageNamed:@"icon_hongbao.png"];
+            _orderInfoLabel.text = @"优惠劵";
+        }
+        
         else{
             _orderInfoImage.image = nil;
             _orderInfoLabel.text = @"";
@@ -134,7 +143,7 @@
     doulePrice = doulePrice / 100;
     
     if (doulePrice > 0) {
-        _mtPriceLabel.textColor = [UIColor greenColor];
+        _mtPriceLabel.textColor = Color(66,139,202,1);
         _mtPriceLabel.text = [NSString stringWithFormat:@"+ %0.2f",doulePrice];
         _mtPriceTitle.text = @"充值：";
     }else{

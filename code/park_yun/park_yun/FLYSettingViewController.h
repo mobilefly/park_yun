@@ -8,6 +8,8 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYSettingViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate>
+@interface FLYSettingViewController : FLYBaseViewController<UITableViewDataSource,UITableViewDelegate>{
+    UITableView *_tableView;
+}
 
 @end
