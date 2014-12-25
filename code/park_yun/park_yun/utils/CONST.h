@@ -19,9 +19,9 @@
 //本机
 //#define kHttpDomain @"http://192.168.110.97:8080/park_yun"
 //linux
-//#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+#define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-#define kHttpDomain @"http://192.168.110.178:8080/park_service"
+//#define kHttpDomain @"http://192.168.110.178:8080/park_service"
 
 //------停车场-----
 //周边停车场查询

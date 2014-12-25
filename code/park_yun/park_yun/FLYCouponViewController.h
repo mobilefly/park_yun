@@ -12,6 +12,8 @@
     UIView *_curView;
     UIView *_hisView;
     UISegmentedControl *_segment;
+    UIImageView *_curNoDataImage;
+    UIImageView *_hisNoDataImage;
 }
 
 //列表

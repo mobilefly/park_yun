@@ -301,8 +301,8 @@
 		74926B431973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74926B401973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png */; };
 		74926B461973C0A900833F99 /* FLYCardParkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74926B451973C0A900833F99 /* FLYCardParkModel.m */; };
 		74926B491973C11D00833F99 /* FLYMemberCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 74926B481973C11D00833F99 /* FLYMemberCard.m */; };
-		749942E31A4B9876006D7BD9 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		749942E41A4B9876006D7BD9 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
+		749942E51A4BBED3006D7BD9 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
+		749942E61A4BBED3006D7BD9 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		7499642B1A3A79A70069F185 /* FLYCouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499642A1A3A79A70069F185 /* FLYCouponModel.m */; };
 		7499642F1A3A7E9C0069F185 /* FLYCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499642D1A3A7E9C0069F185 /* FLYCouponCell.m */; };
 		749964301A3A7E9C0069F185 /* FLYCouponCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7499642E1A3A7E9C0069F185 /* FLYCouponCell.xib */; };
@@ -1699,8 +1699,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				749942E31A4B9876006D7BD9 /* libbaidumapapi.a in Frameworks */,
-				749942E41A4B9876006D7BD9 /* libBaiduMobStat.a in Frameworks */,
+				749942E51A4BBED3006D7BD9 /* libbaidumapapi.a in Frameworks */,
+				749942E61A4BBED3006D7BD9 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -4598,7 +4598,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4633,7 +4633,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

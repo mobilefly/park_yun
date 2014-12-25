@@ -51,6 +51,18 @@
     _hisView.hidden = YES;
     [self.view addSubview:_hisView];
     
+    //暂无数据背景
+    _curNoDataImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_wushujul_all_0_03.png"]];
+    _curNoDataImage.frame = CGRectMake((_curView.width - 82) / 2, (_curView.height - 106) / 2 - 20, 82, 106);
+    _curNoDataImage.hidden = YES;
+    [_curView addSubview:_curNoDataImage];
+    
+    //暂无数据背景
+    _hisNoDataImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"mfpparking_wushujul_all_0_03.png"]];
+    _hisNoDataImage.frame = CGRectMake((_hisView.width - 82) / 2, (_hisView.height - 106) / 2 - 20, 82, 106);
+    _hisNoDataImage.hidden = YES;
+    [_hisView addSubview:_hisNoDataImage];
+    
     self.curTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, _curView.height)];
     self.curTableView.dataSource = self;
     self.curTableView.delegate = self;
@@ -208,7 +220,15 @@
                 FLYCouponModel *couponModel = [[FLYCouponModel alloc] initWithDataDic:couponDic];
                 [couponList addObject:couponModel];
             }
-
+            
+            if(couponList == nil || [couponList count] == 0){
+                _curNoDataImage.hidden = NO;
+                self.curTableView.hidden = YES;
+            }else{
+                _curNoDataImage.hidden = YES;
+                self.curTableView.hidden = NO;
+            }
+            
             self.curDatas = couponList;
             [self.curTableView reloadData];
         }
@@ -231,6 +251,15 @@
                 FLYCouponModel *couponModel = [[FLYCouponModel alloc] initWithDataDic:couponDic];
                 [couponList addObject:couponModel];
             }
+            
+            if(couponList == nil || [couponList count] == 0){
+                _hisNoDataImage.hidden = NO;
+                self.hisTableView.hidden = YES;
+            }else{
+                _hisNoDataImage.hidden = YES;
+                self.hisTableView.hidden = NO;
+            }
+            
             self.hisDatas = couponList;
             [self.hisTableView reloadData];
         }
