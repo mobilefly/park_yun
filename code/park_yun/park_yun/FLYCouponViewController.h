@@ -8,17 +8,21 @@
 
 #import "FLYBaseViewController.h"
 
-@interface FLYCouponViewController : FLYBaseViewController<FLYBaseCtrlDelegate,PullingRefreshTableViewDelegate,UITableViewDelegate,UITableViewDataSource>{
-    //最后一次数据加载索引
-    int _dataIndex;
-    //数据是否全部加载完
-    BOOL _isMore;
+@interface FLYCouponViewController : FLYBaseViewController<UITableViewDelegate,UITableViewDataSource>{
+    UIView *_curView;
+    UIView *_hisView;
+    UISegmentedControl *_segment;
 }
 
 //列表
-@property (strong,nonatomic) PullingRefreshTableView *tableView;
+@property (strong,nonatomic) UITableView *curTableView;
+@property (strong,nonatomic) UITableView *hisTableView;
+
 //table数据
-@property (strong,nonatomic) NSMutableArray *datas;
+@property (strong,nonatomic) NSMutableArray *curDatas;
+
+@property (strong,nonatomic) NSMutableArray *hisDatas;
+
 //下拉刷新
 @property (nonatomic) BOOL refreshing;
 

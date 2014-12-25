@@ -98,7 +98,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",self.coordinate.longitude],
                                        @"long",
-                                       @"2000",
+                                       kMapNearbyDistance,
                                        @"range",
                                        nil];
         
@@ -124,7 +124,7 @@
                                        @"lat",
                                        [NSString stringWithFormat:@"%f",self.coordinate.longitude],
                                        @"long",
-                                       @"2000",
+                                       kMapNearbyDistance,
                                        @"range",
                                        [NSString stringWithFormat:@"%d",start],
                                        @"start",
@@ -270,7 +270,7 @@
 }
 
 #pragma mark - Override FLYBaseViewController
--(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+- (void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
     [self prepareRequestParkData];
 }
 
@@ -280,7 +280,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
 

@@ -10,17 +10,17 @@
 #import "FLYCouponModel.h"
 
 @interface FLYCouponCell : UITableViewCell{
-    UIImageView *_iconImage;
-    UILabel *_amountTitleLabel;
+    UIView *_leftView;
+    UIView *_rightView;
     UILabel *_amountLabel;
-    UILabel *_unitLabel;
-    UIButton *_statusBtn;
-    UILabel *_couponTitleLabel;
-    UILabel *_couponLabel;
-    UILabel *_dateLabel;
+    UILabel *_limitLabel;
+    UILabel *_beginLabel;
+    UILabel *_endLabel;
+    UILabel *_useLabel;
 
 }
 
 @property(nonatomic,strong)FLYCouponModel *couponModel;
+@property(nonatomic)int index;
 
 @end

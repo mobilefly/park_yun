@@ -84,7 +84,7 @@
     [self.view addSubview:_passverifyField];
     
     _submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    _submitBtn.frame = CGRectMake(20,_passverifyField.bottom + 30 , 280, 40);
+    _submitBtn.frame = CGRectMake(20,_passverifyField.bottom + 20 , 280, 40);
     [_submitBtn primaryStyle];
     [_submitBtn setTitle:@"提交" forState:UIControlStateNormal];
     [_submitBtn addTarget:self action:@selector(submitAction) forControlEvents:UIControlEventTouchUpInside];

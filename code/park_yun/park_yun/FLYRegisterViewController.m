@@ -334,7 +334,7 @@
     [_codeFiled resignFirstResponder];
 }
 
--(void)responderKeybord{
+- (void)responderKeybord{
     [_usernameField resignFirstResponder];
     [_passwordField resignFirstResponder];
     [_codeFiled resignFirstResponder];

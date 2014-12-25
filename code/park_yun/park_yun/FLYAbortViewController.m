@@ -36,12 +36,12 @@
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, iconView.bottom + 5, 0, 30)];
     titleLabel.font = [UIFont systemFontOfSize:14.0];
     titleLabel.textColor = [UIColor lightGrayColor];
-    titleLabel.text = @"Where to park";
+    titleLabel.text = @"停哪儿";
     [titleLabel sizeToFit];
     titleLabel.left = (ScreenWidth - titleLabel.width) / 2;
     [self.view addSubview:titleLabel];
     
-    UILabel *versionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabel.bottom + 20, ScreenWidth, 30)];
+    UILabel *versionTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabel.bottom + 30, ScreenWidth, 25)];
     versionTitle.font = [UIFont systemFontOfSize:14.0];
     versionTitle.textColor = [UIColor lightGrayColor];
     versionTitle.text = @"当前版本号";
@@ -51,11 +51,10 @@
     
     NSDictionary *infoDictionary =[[NSBundle mainBundle]infoDictionary];
     NSString *appVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
-    
-    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, versionTitle.bottom + 2, ScreenWidth, 30)];
+    UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, versionTitle.bottom + 2, ScreenWidth, 25)];
     versionLabel.font = [UIFont systemFontOfSize:14.0];
     versionLabel.textColor = [UIColor lightGrayColor];
-    versionLabel.text = [NSString stringWithFormat:@"停哪儿ios版 - V%@",appVersion];;
+    versionLabel.text = [NSString stringWithFormat:@"iPhone - v%@",appVersion];;
     versionLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:versionLabel];
     

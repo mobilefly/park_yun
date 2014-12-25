@@ -9,54 +9,52 @@
 #import "FLYCouponCell.h"
 #import "FLYCouponModel.h"
 
+#define redColor Color(238,82,117,1)
+#define orangeColor Color(253,169,21,1)
+#define greenColor Color(146,194,40,1)
+#define blueColor Color(75,179,222,1)
+
 @implementation FLYCouponCell
 
 - (void)awakeFromNib {
-    _iconImage = (UIImageView *)[self viewWithTag:101];
-    _amountTitleLabel = (UILabel *)[self viewWithTag:102];
+    _leftView = (UIView *)[self viewWithTag:101];
+    _rightView = (UIView *)[self viewWithTag:102];
     _amountLabel = (UILabel *)[self viewWithTag:103];
-    _unitLabel = (UILabel *)[self viewWithTag:104];
-    _statusBtn = (UIButton *)[self viewWithTag:105];
-    _couponTitleLabel = (UILabel *)[self viewWithTag:106];
-    _couponLabel = (UILabel *)[self viewWithTag:107];
-    _dateLabel = (UILabel *)[self viewWithTag:108];
+    _limitLabel = (UILabel *)[self viewWithTag:104];
+    _beginLabel = (UILabel *)[self viewWithTag:105];
+    _endLabel = (UILabel *)[self viewWithTag:106];
+    _useLabel = (UILabel *)[self viewWithTag:107];
+    
+    _limitLabel.textAlignment = NSTextAlignmentCenter;
+    _beginLabel.textAlignment = NSTextAlignmentCenter;
+    _endLabel.textAlignment = NSTextAlignmentCenter;
+    _useLabel.textAlignment = NSTextAlignmentCenter;
+
 }
 
 - (void)layoutSubviews{
-    
-    _iconImage.frame = CGRectMake(8, 6, 23, 22);
-    
-    [_amountTitleLabel sizeToFit];
-    _amountTitleLabel.left = _iconImage.right + 5;
+    if (self.index % 4 == 0) {
+        _leftView.backgroundColor = redColor;
+    }else if(self.index % 4 == 1){
+        _leftView.backgroundColor = orangeColor;
+    }else if(self.index % 4 == 2){
+        _leftView.backgroundColor = greenColor;
+    }else if(self.index % 4 == 3){
+        _leftView.backgroundColor = blueColor;
+    }
     
     _amountLabel.text = [NSString stringWithFormat:@"%0.2f",[self.couponModel.cdAmount doubleValue] / 100.0];
-    [_amountLabel sizeToFit];
-    _amountLabel.left = _amountTitleLabel.right;
-    
-    [_unitLabel sizeToFit];
-    _unitLabel.left = _amountLabel.right + 5;
+    _beginLabel.text = self.couponModel.cdBegindate;
+    _endLabel.text = self.couponModel.cdEnddate;
     
     
-    if([self.couponModel.cdFlag isEqual:@"1"]){
-        [_statusBtn setTitle:@"已使用" forState:UIControlStateNormal];
-        [_statusBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-    }else if([self.couponModel.EFlag isEqual:@"1"]){
-        [_statusBtn setTitle:@"已过期" forState:UIControlStateNormal];
-        [_statusBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    if ([self.couponModel.cdFlag isEqualToString:@"1"]) {
+        _useLabel.text = @"已使用";
+    }else if([self.couponModel.EFlag isEqualToString:@"1"]){
+        _useLabel.text = @"已过期";
     }else{
-        [_statusBtn setTitle:@"未使用" forState:UIControlStateNormal];
-        [_statusBtn setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        _useLabel.text = @"立即使用";
     }
-    //设置矩形四个圆角半径
-    [_statusBtn.layer setMasksToBounds:YES];
-    [_statusBtn.layer setCornerRadius:5.0];
-    
-    [_couponTitleLabel sizeToFit];
-    
-    _couponLabel.left = _couponTitleLabel.right + 5;
-    _couponLabel.text = self.couponModel.cdNo;
-    [_couponLabel sizeToFit];
-    _dateLabel.text = [NSString stringWithFormat:@"%@-%@",self.couponModel.cdBegindate,self.couponModel.cdEnddate];
     
 }
 

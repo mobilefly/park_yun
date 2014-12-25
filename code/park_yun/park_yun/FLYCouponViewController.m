@@ -12,6 +12,8 @@
 #import "FLYDataService.h"
 #import "DXAlertView.h"
 
+#define bgColor Color(239,239,239,244)
+
 @interface FLYCouponViewController ()
 
 @end
@@ -30,39 +32,48 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //设置导航栏背景
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"img_hongbao_bg_c.png"]];
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"img_hongbao_bg.png"] forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
+    self.view.backgroundColor = bgColor;
     
-    //返回事件
-    self.ctrlDelegate = self;
+    NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"当前",@"历史",nil];
     
-    self.tableView = [[PullingRefreshTableView alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, ScreenHeight - 20 - 44 - 50) pullingDelegate:self];
-    self.tableView.pullingDelegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    self.tableView.hidden = YES;
-    self.tableView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.tableView];
-    [self setExtraCellLineHidden:self.tableView];
+    //初始化UISegmentedControl
+    _segment = [[UISegmentedControl alloc]initWithItems:segmentedArray];
+    _segment.frame = CGRectMake(60, 15 , 200, 30);
+    _segment.selectedSegmentIndex = 0;//设置默认选择项索引
+    _segment.tintColor= [UIColor colorWithRed:51/255.0 green:119/255.0 blue:172/255.0 alpha:1];
+    [_segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
+    [self.view addSubview:_segment];
+    
+    _curView = [[UIView alloc] initWithFrame:CGRectMake(0, _segment.bottom + 15, ScreenWidth, ScreenHeight - 44 - 80)];
+    [self.view addSubview:_curView];
+    
+    _hisView = [[UIView alloc] initWithFrame:CGRectMake(0, _segment.bottom + 15, ScreenWidth, ScreenHeight - 44 - 80)];
+    _hisView.hidden = YES;
+    [self.view addSubview:_hisView];
+    
+    self.curTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, _curView.height)];
+    self.curTableView.dataSource = self;
+    self.curTableView.delegate = self;
+    self.curTableView.backgroundColor = [UIColor clearColor];
+    self.curTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.curTableView.tag = 101;
+    [_curView addSubview:self.curTableView];
+    
+    self.hisTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, _curView.height)];
+    self.hisTableView.dataSource = self;
+    self.hisTableView.delegate = self;
+    self.hisTableView.backgroundColor = [UIColor clearColor];
+    self.hisTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.hisTableView.tag = 102;
+    [_hisView addSubview:self.hisTableView];
     
     [self prepareRequestCouponData];
 }
 
 #pragma mark - 数据请求
--(void)prepareRequestCouponData{
+-(void)prepareUseCouponData:(NSIndexPath *)index{
     if ([FLYBaseUtil isEnableInternate]) {
-        [self showHUD:@"加载中" isDim:NO];
-        [self requestCouponData];
-    }else{
-        [self showTimeoutView:YES];
-        [self showToast:@"请打开网络"];
-    }
-}
-
--(void)prepareRequestUserCoupon:(NSIndexPath *)index{
-    if ([FLYBaseUtil isEnableInternate]) {
-        [self showHUD:@"请求中" isDim:NO];
+        [self showHUD:@"使用中" isDim:NO];
         [self requestUseCoupon:index];
     }else{
         [self showTimeoutView:YES];
@@ -74,7 +85,7 @@
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
     NSString *userid = [defaults stringForKey:@"memberId"];
-    FLYCouponModel *model = [self.datas objectAtIndex:index.row];
+    FLYCouponModel *model = [self.curDatas objectAtIndex:index.row];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    token,
@@ -101,22 +112,11 @@
 
 -(void)loadCouponUseData:(id)data index:(NSIndexPath *)index{
     [self hideHUD];
-    [self.tableView setReachedTheEnd:NO];
     
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
-        
-        FLYCouponModel *model = [self.datas objectAtIndex:index.row];
-        model.cdFlag = @"1";
-        
-        FLYCouponCell *cell = (FLYCouponCell *)[self.tableView cellForRowAtIndexPath:index];
-        cell.couponModel = model;
-        
-        //刷新
-        NSArray *indexArray = [NSArray arrayWithObject:index];
-        [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
-
         [self showToast:@"红包使用成功"];
+        [self prepareRequestCouponData];
     }else{
         NSString *msg = [data objectForKey:@"msg"];
         [self showAlert:msg];
@@ -124,10 +124,45 @@
 }
 
 
--(void)requestCouponData{
-    _isMore = NO;
-    _dataIndex = 0;
-    self.datas = nil;
+-(void)prepareRequestCouponData{
+    if ([FLYBaseUtil isEnableInternate]) {
+        [self showHUD:@"加载中" isDim:NO];
+        [self requestCurCouponData];
+        [self requestHisCouponData];
+    }else{
+        [self showTimeoutView:YES];
+        [self showToast:@"请打开网络"];
+    }
+}
+
+-(void)requestCurCouponData{
+    self.curDatas = nil;
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults stringForKey:@"token"];
+    NSString *userid = [defaults stringForKey:@"memberId"];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   token,
+                                   @"token",
+                                   userid,
+                                   @"userid",
+                                   @"0",
+                                   @"cdFlag",
+                                   @"100",
+                                   @"count",
+                                   nil];
+    
+    //防止循环引用
+    __weak FLYCouponViewController *ref = self;
+    [FLYDataService requestWithURL:kHttpQueryCouponList params:params httpMethod:@"POST" completeBolck:^(id result){
+        [ref loadCurCouponData:result];
+    } errorBolck:^(){
+        [ref loadDataError:YES];
+    }];
+}
+
+-(void)requestHisCouponData{
+    self.hisDatas = nil;
     
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
@@ -138,60 +173,28 @@
                                    @"token",
                                    userid,
                                    @"userid",
+                                   @"1",
+                                   @"cdFlag",
+                                   @"100",
+                                   @"count",
                                    nil];
     
     //防止循环引用
     __weak FLYCouponViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryCouponList params:params httpMethod:@"POST" completeBolck:^(id result){
-        [ref loadCouponData:result];
+        [ref loadHisCouponData:result];
     } errorBolck:^(){
-        [ref loadDataError:YES];
+        
     }];
 }
 
--(void)requestMoreCouponData{
-    if (_isMore) {
-        _isMore = NO;
-        
-        int start = _dataIndex;
-        
-        NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
-        NSString *token = [defaults stringForKey:@"token"];
-        NSString *userid = [defaults stringForKey:@"memberId"];
-        
-        NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                       token,
-                                       @"token",
-                                       userid,
-                                       @"userid",
-                                       [NSString stringWithFormat:@"%d",start],
-                                       @"start",
-                                       nil];
-        
-        //防止循环引用
-        __weak FLYCouponViewController *ref = self;
-        [FLYDataService requestWithURL:kHttpQueryCouponList params:params httpMethod:@"POST" completeBolck:^(id result){
-            [ref loadCouponData:result];
-        } errorBolck:^(){
-            [ref loadDataError:NO];
-        }];
-    }else{
-        [self.tableView tableViewDidFinishedLoadingWithMessage:nil];
-    }
-}
-
 -(void)loadDataError:(BOOL)isFirst{
-    if (isFirst) {
-        [self showTimeoutView:YES];
-    }
     [self hideHUD];
     [FLYBaseUtil networkError];
 }
 
-- (void)loadCouponData:(id)data{
-    _dataIndex = _dataIndex + 20;
+- (void)loadCurCouponData:(id)data{
     [self hideHUD];
-    [self.tableView setReachedTheEnd:NO];
     
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
@@ -199,66 +202,43 @@
         if (result != nil) {
             NSArray *coupons = [result objectForKey:@"cdList"];
             
-            if ([coupons count] >= 20) {
-                _isMore = YES;
-            }
             
             NSMutableArray *couponList = [NSMutableArray arrayWithCapacity:coupons.count];
             for (NSDictionary *couponDic in coupons) {
                 FLYCouponModel *couponModel = [[FLYCouponModel alloc] initWithDataDic:couponDic];
                 [couponList addObject:couponModel];
             }
-            if (self.datas == nil) {
-                self.datas = couponList;
-            }else{
-                [self.datas addObjectsFromArray:couponList];
-            }
+
+            self.curDatas = couponList;
+            [self.curTableView reloadData];
+        }
+    }else{
+        NSString *msg = [data objectForKey:@"msg"];
+        [self showAlert:msg];
+    }
+}
+
+
+- (void)loadHisCouponData:(id)data{
+    NSString *flag = [data objectForKey:@"flag"];
+    if ([flag isEqualToString:kFlagYes]) {
+        NSDictionary *result = [data objectForKey:@"result"];
+        if (result != nil) {
+            NSArray *coupons = [result objectForKey:@"cdList"];
             
-            if (self.datas != nil && [self.datas count] > 0) {
-                self.tableView.hidden = NO;
-                [self showNoDataView:NO];
-            }else{
-                self.tableView.hidden = YES;
-                [self showNoDataView:YES];
+            NSMutableArray *couponList = [NSMutableArray arrayWithCapacity:coupons.count];
+            for (NSDictionary *couponDic in coupons) {
+                FLYCouponModel *couponModel = [[FLYCouponModel alloc] initWithDataDic:couponDic];
+                [couponList addObject:couponModel];
             }
-            [self.tableView reloadData];
+            self.hisDatas = couponList;
+            [self.hisTableView reloadData];
         }
     }else{
         NSString *msg = [data objectForKey:@"msg"];
         [self showAlert:msg];
     }
     
-    
-    [self.tableView tableViewDidFinishedLoading];
-    
-    if (!_isMore && self.datas != nil && [self.datas count] > 0) {
-        [self.tableView setReachedTheEnd:YES];
-        [super showMessage:@"加载完成"];
-    }
-}
-
-
-
-
-#pragma mark - PullingRefreshTableViewDelegate
-//下拉开始
-- (void)pullingTableViewDidStartRefreshing:(PullingRefreshTableView *)tableView{
-    self.refreshing = YES;
-    [self performSelector:@selector(requestCouponData) withObject:nil afterDelay:1.f];
-}
-//上拉加载数据
-- (void)pullingTableViewDidStartLoading:(PullingRefreshTableView *)tableView{
-    [self performSelector:@selector(requestMoreCouponData) withObject:nil afterDelay:1.f];
-}
-
-//滑动中
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
-    [self.tableView tableViewDidScroll:scrollView];
-}
-//结束滑动
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
-    [self.tableView tableViewDidEndDragging:scrollView];
 }
 
 #pragma mark - UITableView
@@ -269,59 +249,72 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (self.datas == nil || [self.datas count] == 0) {
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
+    if (tableView.tag == 101) {
+        return [self.curDatas count];
     }else{
-        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        return [self.hisDatas count];
     }
-    return [self.datas count];
+   
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 80;
+    return 90;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *identifier = @"CouponCell";
-    FLYCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (cell == nil){
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCouponCell" owner:self options:nil] lastObject];
+    if (tableView.tag == 101) {
+        static NSString *identifier = @"CouponCell";
+        FLYCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (cell == nil){
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCouponCell" owner:self options:nil] lastObject];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.couponModel = [self.curDatas objectAtIndex:indexPath.row];
+        cell.index = indexPath.row;
+        return cell;
+    }else{
+        static NSString *identifier = @"CouponCell";
+        FLYCouponCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (cell == nil){
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"FLYCouponCell" owner:self options:nil] lastObject];
+        }
+        //不可选中
+        cell.userInteractionEnabled = NO;
+        cell.couponModel = [self.hisDatas objectAtIndex:indexPath.row];
+        cell.index = indexPath.row;
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.couponModel = [self.datas objectAtIndex:indexPath.row];
-    return cell;
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    FLYCouponModel *collect = [self.datas objectAtIndex:indexPath.row];
-    if([collect.EFlag isEqual:@"0"] && [collect.cdFlag isEqual:@"0"] ){
-        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:@"是否使用红包" leftButtonTitle:@"确认" rightButtonTitle:@"取消"];
-        [alert show];
-        
-        alert.leftBlock = ^(){
-            [self prepareRequestUserCoupon:indexPath];
-        };
-        alert.rightBlock = ^() {
-            
-        };
-        alert.dismissBlock = ^() {
-            
-        };
+    FLYCouponModel *collect = [self.curDatas objectAtIndex:indexPath.row];
+    if (tableView.tag == 101) {
+        if([collect.EFlag isEqual:@"0"] && [collect.cdFlag isEqual:@"0"] ){
+            [self prepareUseCouponData:indexPath];
+        }
     }
+    
 }
 
-#pragma mark - Override FLYBaseViewController
--(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
-    [self prepareRequestCouponData];
-}
-
-
-#pragma mark  - FLYBaseCtrlDelegate delegate
-- (BOOL)close{
-    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navigationbar_background.png"] forBarPosition:UIBarPositionTopAttached barMetrics:UIBarMetricsDefault];
-    return YES;
+#pragma mark - 控件事件
+-(void)segmentAction:(UISegmentedControl *)segment{
+    NSInteger index = segment.selectedSegmentIndex;
+    switch (index) {
+        case 0:
+            _curView.hidden = NO;
+            _hisView.hidden = YES;
+            break;
+        case 1:
+            _curView.hidden = YES;
+            _hisView.hidden = NO;
+            break;
+        default:
+            break;
+    }
 }
 
 #pragma mark - Override UIViewController

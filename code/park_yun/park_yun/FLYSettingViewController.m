@@ -69,6 +69,7 @@
     [FLYDataService requestWithURL:[NSString stringWithFormat:kItunesVersion,kAppId] httpMethod:@"POST" completeBolck:^(id result){
         [ref loadVersionData:result];
     } errorBolck:^(){
+        
     }];
 }
 

@@ -38,7 +38,7 @@
     return self;
 }
 
--(void)_init{
+- (void)_init{
     _firstLocation = YES;
     _isMore = YES;
     _isMapFollow = NO;
@@ -358,7 +358,7 @@
     [self.view.viewController presentViewController:baseNav animated:NO completion:nil];
 }
 
--(void)toNavAction{
+- (void)toNavAction{
     FLYShakeViewController *shakeCtrl = [[FLYShakeViewController alloc] init];
     [self.navigationController pushViewController:shakeCtrl animated:NO];
 }
@@ -401,7 +401,7 @@
     return [self.datas count];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80;
 }
@@ -450,7 +450,7 @@
     }
 }
 
--(void)prepareRequestParkData{
+- (void)prepareRequestParkData{
     //离线
     if ([FLYBaseUtil isOffline]) {
         [self requestParkData];
@@ -481,7 +481,7 @@
 }
 
 //更新用户位置
--(void)updateUserLocation:(BMKUserLocation *)userLocation{
+- (void)updateUserLocation:(BMKUserLocation *)userLocation{
     //跟随、定位
     if (_isMapFollow) {
         BMKCoordinateRegion viewRegion = BMKCoordinateRegionMake(userLocation.location.coordinate, BMKCoordinateSpanMake(kMapRange,kMapRange));
@@ -566,11 +566,11 @@
 }
 
 #pragma mark - 摇动手势
--(BOOL)canBecomeFirstResponder{
+- (BOOL)canBecomeFirstResponder{
     return YES;
 }
 
--(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
         [self toNavAction];
     }
@@ -592,16 +592,16 @@
 }
 
 #pragma mark - Override FLYBaseViewController
--(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+- (void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
     [self prepareRequestParkData];
 }
 
--(void)nodataClickAction:(UITapGestureRecognizer*)gesture{
+- (void)nodataClickAction:(UITapGestureRecognizer*)gesture{
     [self prepareRequestParkData];
 }
 
 #pragma mark - Override UIViewController
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [_mapBaseView.mapView viewWillAppear];
@@ -611,7 +611,7 @@
     [self becomeFirstResponder];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
     
     [_mapBaseView.mapView viewWillDisappear];
@@ -621,7 +621,7 @@
 //    _codeSearcher.delegate = nil;
 }
 
--(void)dealloc{
+- (void)dealloc{
     if (_mapBaseView.mapView != nil) {
         _mapBaseView.mapView = nil;
     }

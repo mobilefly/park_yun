@@ -83,7 +83,7 @@
     _thirdLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabel2.right, 0, 85, 40)];
     _thirdLabel.textAlignment = NSTextAlignmentCenter;
     _thirdLabel.font = [UIFont systemFontOfSize:13.0];
-    _thirdLabel.text = @"3.设置密码";
+    _thirdLabel.text = @"3.设置新密码";
     _thirdLabel.textColor = [UIColor grayColor];
     [self.view addSubview:_thirdLabel];
     
@@ -132,7 +132,7 @@
     _passwordField.textAlignment = NSTextAlignmentCenter;
     _passwordField.clearButtonMode = YES;
     _passwordField.secureTextEntry = YES;
-    _passwordField.placeholder = @"请输入密码";
+    _passwordField.placeholder = @"请输入新密码";
     _passwordField.keyboardType = UIKeyboardTypeASCIICapable;
     _passwordField.font = [UIFont systemFontOfSize:15.0];
     _passwordField.returnKeyType = UIReturnKeyNext;
@@ -300,7 +300,7 @@
     [_codeFiled resignFirstResponder];
 }
 
--(void)responderKeybord{
+- (void)responderKeybord{
     [_usernameField resignFirstResponder];
     [_passwordField resignFirstResponder];
     [_codeFiled resignFirstResponder];

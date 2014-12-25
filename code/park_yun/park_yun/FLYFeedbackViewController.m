@@ -114,6 +114,15 @@
         
         NSMutableDictionary *params = [[NSMutableDictionary alloc] initWithCapacity:5];
         [params setObject:_contentView.text forKey:@"content"];
+        
+        NSDictionary *infoDictionary =[[NSBundle mainBundle]infoDictionary];
+        //app版本
+        NSString *appVersion = [infoDictionary objectForKey:@"CFBundleVersion"];
+        //手机系统版本
+        NSString *mobileVersion = [[UIDevice currentDevice] systemVersion];
+        //手机型号
+        NSString* mobileModel = [[UIDevice currentDevice] model];
+        
         //建议
         [params setObject:@"2" forKey:@"type"];
         if ([FLYBaseUtil isNotEmpty:userid] && [FLYBaseUtil isNotEmpty:token]) {
@@ -121,6 +130,9 @@
             [params setObject:token forKey:@"token"];
             //1 App类型(1.ios 2.android)
             [params setObject:@"1" forKey:@"app_type"];
+            [params setObject:appVersion forKey:@"app_version"];
+            [params setObject:mobileModel forKey:@"mobile_model"];
+            [params setObject:mobileVersion forKey:@"mobile_version"];
         }
         
         if ([FLYBaseUtil isNotEmpty:_phoneFiled.text]){

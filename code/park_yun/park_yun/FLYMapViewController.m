@@ -137,7 +137,7 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [_mapBaseView.mapView viewWillAppear];
@@ -147,7 +147,7 @@
 
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [_mapBaseView.mapView viewWillDisappear];
@@ -156,7 +156,7 @@
     _mapBaseView.mapDelegate = nil;
 }
 
--(void)dealloc{
+- (void)dealloc{
     
     if (_mapBaseView.mapView != nil) {
         _mapBaseView.mapView = nil;

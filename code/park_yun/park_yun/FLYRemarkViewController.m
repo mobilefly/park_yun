@@ -57,7 +57,7 @@
 }
 
 #pragma mark - 控件事件
--(void)addAction{
+- (void)addAction{
     if ([FLYBaseUtil checkUserLogin]) {
         FLYAddRemarkViewController *addRemarkCtrl = [[FLYAddRemarkViewController alloc] init];
         addRemarkCtrl.parkId = self.parkId;
@@ -72,7 +72,7 @@
 }
 
 #pragma mark - 数据请求
--(void)requestRemarkData{
+- (void)requestRemarkData{
     _isMore = NO;
     self.datas = nil;
 
@@ -90,7 +90,7 @@
 }
 
 //上拉
--(void)requestMoreRemarkData{
+- (void)requestMoreRemarkData{
     //FLYMemberTraceModel
     
     if (_isMore) {
@@ -115,7 +115,7 @@
 }
 
 //下拉
--(void)requestMaxRemarkData{
+- (void)requestMaxRemarkData{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    self.parkId,
                                    @"parkid",
@@ -134,7 +134,7 @@
 }
 
 
--(void)loadDataError{
+- (void)loadDataError{
     [self hideHUD];
     [FLYBaseUtil networkError];
 }
@@ -266,7 +266,7 @@
     return [self.datas count];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     int height = 9 + 17 + 10 + 10 + 15 + 7;
     FLYRemarkModel *model = [self.datas objectAtIndex:indexPath.row];
@@ -311,7 +311,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
 

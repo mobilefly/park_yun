@@ -378,12 +378,12 @@
 
 
 #pragma mark - JCTopicDelegate delegate
--(void)didClick:(id)data{
+- (void)didClick:(id)data{
     
 }
 
 
--(void)currentPage:(int)page total:(NSUInteger)total{
+- (void)currentPage:(int)page total:(NSUInteger)total{
     _page.numberOfPages = total;
     _page.currentPage = page;
 }
@@ -412,7 +412,7 @@
     }
 }
 
--(void)requestCollect{
+- (void)requestCollect{
     _collectBtn.enabled = false;
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults stringForKey:@"token"];
@@ -439,14 +439,14 @@
     }
 }
 
--(void)loadError{
+- (void)loadError{
     [self showTimeoutView:YES];
     
     [self hideHUD];
     [FLYBaseUtil networkError];
 }
 
--(void)loadRemoveData:(id)data{
+- (void)loadRemoveData:(id)data{
     _collectBtn.enabled = true;
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
@@ -459,7 +459,7 @@
     }
 }
 
--(void)loadAddData:(id)data{
+- (void)loadAddData:(id)data{
     _collectBtn.enabled = true;
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
@@ -520,12 +520,12 @@
 }
 
 #pragma mark - Override FLYBaseViewController
--(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+- (void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
     [self requestData];
 }
 
 #pragma mark - Override UIViewController
--(void)viewWillDisappear:(BOOL)animated{
+- (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:YES];
     
     if (_topic != nil) {

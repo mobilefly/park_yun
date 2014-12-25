@@ -227,7 +227,7 @@
 }
 
 #pragma mark - Override UIViewController
--(void)dealloc{
+- (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
 

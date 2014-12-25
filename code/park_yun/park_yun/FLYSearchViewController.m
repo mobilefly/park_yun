@@ -54,7 +54,7 @@
     self.view.backgroundColor = bgColor;
     
     _searchBar.backgroundColor = [UIColor clearColor];
-    _searchBar.placeholder = @"停车场";
+    _searchBar.placeholder = @"路段/商圈/地标";
     _searchBar.delegate = self;
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 44, 320, ScreenHeight - 20 - 44 - 44) style:UITableViewStylePlain];
@@ -138,11 +138,11 @@
     option.pageCapacity = 50;
     option.location = appDelegate.coordinate;
     if (keyword == nil || keyword.length <= 0) {
-        option.keyword = @"停车场";
+        option.keyword = @"商圈";
     }else{
         option.keyword = keyword;
     }
-    option.radius = 2000;
+    option.radius = 10000;
     
     if (_poiSearcher != nil) {
         BOOL flag = [_poiSearcher poiSearchNearBy:option];
@@ -446,7 +446,7 @@
 }
 
 //不使用时将delegate设置为 nil
--(void)viewWillDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
@@ -455,7 +455,7 @@
     _poiSearcher.delegate = nil;
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
 

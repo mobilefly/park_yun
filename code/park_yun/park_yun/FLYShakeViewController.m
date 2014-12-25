@@ -270,7 +270,7 @@
 }
 
 //语音导航
--(void)speakAction:(FLYParkModel *)parkModel{
+- (void)speakAction:(FLYParkModel *)parkModel{
     NSString *speechText = [FLYUtils getParkSpeech:parkModel];
     
     if (_iflySpeechSynthesizer != nil && !_isClose) {
@@ -396,7 +396,7 @@
     }
 }
 
--(void)loadMoreParkData:(id)data{
+- (void)loadMoreParkData:(id)data{
     _isLoading = NO;
     _loadingView.hidden = YES;
     
@@ -467,7 +467,7 @@
 }
 
 //动画
--(void)scaleAnimation{
+- (void)scaleAnimation{
     UIView *view = [_carousel itemViewAtIndex:0];
     
     CGAffineTransform transform = view.transform;
@@ -663,11 +663,11 @@
 }
 
 #pragma mark - 摇动手势
--(BOOL)canBecomeFirstResponder{
+- (BOOL)canBecomeFirstResponder{
     return YES;
 }
 
--(void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
+- (void)motionEnded:(UIEventSubtype)motion withEvent:(UIEvent *)event{
     if(motion == UIEventSubtypeMotionShake){
         if ([FLYBaseUtil isEnableInternate]) {
             [self requestParkData];
@@ -700,7 +700,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self becomeFirstResponder];
@@ -710,7 +710,7 @@
     }
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
     
     [_loadTimer invalidate];

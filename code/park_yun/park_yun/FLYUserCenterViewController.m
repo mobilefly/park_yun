@@ -135,7 +135,7 @@
         //未登陆
         else{
             [loginBtn primaryStyle];
-            [loginBtn setTitle:@"会员登陆" forState:UIControlStateNormal];
+            [loginBtn setTitle:@"登陆/注册" forState:UIControlStateNormal];
         }
     }
     
@@ -326,7 +326,7 @@
 }
 
 //用户登陆注销
--(void)loginAction:(UIButton *)button{
+- (void)loginAction:(UIButton *)button{
     //注销用户
     if ([self checkUserLogin]) {
         UIActionSheet *logoutSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"退出登陆" otherButtonTitles:nil, nil];
@@ -334,7 +334,7 @@
     }
 }
 
--(void)settingAction:(UIButton *)button{
+- (void)settingAction:(UIButton *)button{
     FLYSettingViewController *settingController = [[FLYSettingViewController alloc]init];
     [self.navigationController pushViewController:settingController animated:NO];
 }
@@ -518,7 +518,7 @@
     
     [FLYBaseUtil clearUserInfo];
     [loginBtn primaryStyle];
-    [loginBtn setTitle:@"用户登陆" forState:UIControlStateNormal];
+    [loginBtn setTitle:@"登陆/注册" forState:UIControlStateNormal];
     
     //隐藏车牌
     _topView.hidden = YES;

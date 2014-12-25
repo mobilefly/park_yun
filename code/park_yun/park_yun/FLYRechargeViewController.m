@@ -64,7 +64,7 @@
 }
 
 #pragma mark - 数据请求
--(void)requestAlipayOrder{
+- (void)requestAlipayOrder{
     [amountLabel resignFirstResponder];
 
     NSString *amountText = amountLabel.text;
@@ -101,7 +101,7 @@
     }
 }
 
--(void)loadAlipayOrderData:(id)data amount:(NSString *)amount{
+- (void)loadAlipayOrderData:(id)data amount:(NSString *)amount{
     [self hideHUD];
     
     NSString *flag = [data objectForKey:@"flag"];
@@ -150,7 +150,7 @@
 
 
 //wap回调函数
--(void)alipayPaymentResult:(NSString *)resultd
+- (void)alipayPaymentResult:(NSString *)resultd
 {
     //结果处理
     AlixPayResult *result = [[AlixPayResult alloc] initWithString:resultd];
@@ -183,13 +183,13 @@
     
 }
 
--(void)loadDataError{
+- (void)loadDataError{
     [self hideHUD];
     [FLYBaseUtil networkError];
 }
 
 //获取优惠信息
--(void)requestOffInfo{
+- (void)requestOffInfo{
     //防止循环引用
     __weak FLYRechargeViewController *ref = self;
     [FLYDataService requestWithURL:kHttpQueryOffInfo params:nil httpMethod:@"POST" completeBolck:^(id result){
@@ -199,7 +199,7 @@
     }];
 }
 
--(void)loadOffinfoData:(id)data{
+- (void)loadOffinfoData:(id)data{
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         NSDictionary *result = [data objectForKey:@"result"];
@@ -277,7 +277,7 @@
 }
 
 //金额检测
--(BOOL)shouldChangeMoney:(UITextField *)input inRange:(NSRange)range replacementString:(NSString *)string{
+- (BOOL)shouldChangeMoney:(UITextField *)input inRange:(NSRange)range replacementString:(NSString *)string{
     NSArray * temp = [string arrayOfCaptureComponentsMatchedByRegex:@"[.]"];
     if (temp.count > 1) {
         return NO;
@@ -311,7 +311,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
 

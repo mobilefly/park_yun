@@ -55,7 +55,7 @@
 
 
 #pragma mark - 数据请求
--(void)prepareRequestGateData{
+- (void)prepareRequestGateData{
     if ([FLYBaseUtil isEnableInternate]) {
         [self requestGateData];
         [self showHUD:@"加载中" isDim:NO];
@@ -65,7 +65,7 @@
     }
 }
 
--(void)requestGateData{
+- (void)requestGateData{
     [self showTimeoutView:NO];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    self.parkModel.parkId,
@@ -113,7 +113,7 @@
     }
 }
 
--(void)loadDataError{
+- (void)loadDataError{
     [self showTimeoutView:YES];
     [self hideHUD];
     [FLYBaseUtil networkError];
@@ -190,16 +190,16 @@
 }
 
 #pragma mark - Override FLYBaseViewController
--(void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
+- (void)timeoutClickAction:(UITapGestureRecognizer*)gesture{
     [self prepareRequestGateData];
 }
 
 #pragma mark - Override UIViewController
--(void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:YES];
 }
 
@@ -208,7 +208,7 @@
     [super didReceiveMemoryWarning];
 }
 
--(void)dealloc{
+- (void)dealloc{
     NSLog(@"%s",__FUNCTION__);
 }
 
