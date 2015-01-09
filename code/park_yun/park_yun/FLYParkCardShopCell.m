@@ -25,11 +25,14 @@
     _deleteBtn.layer.cornerRadius = 3.0;
     _deleteBtn.layer.borderWidth = 1;
     _deleteBtn.layer.borderColor = [[UIColor orangeColor] CGColor];
+    _deleteBtn.backgroundColor = [UIColor orangeColor];
     
     _amountLabel.textAlignment = NSTextAlignmentRight;
     _amountLabel.textColor = [UIColor orangeColor];
     
     _shopNumField.textAlignment = NSTextAlignmentCenter;
+    _shopNumField.height = 25;
+    _shopNumField.top = _shopNumField.top + (30 - 25) / 2;
     
     [_increaseBtn addTarget:self action:@selector(increaseAction:) forControlEvents:UIControlEventTouchDown];
     

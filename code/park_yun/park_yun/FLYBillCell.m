@@ -45,12 +45,10 @@
 }
 
 - (void)layoutSubviews{
-    
+    _orderNameLabel.text = @"";
     
     if(self.traceModel.order != nil && [FLYBaseUtil isNotEmpty:self.traceModel.order.orderId]){
         NSString *goodName = self.traceModel.order.goodsOrder.goName;
-        
-        _orderNameLabel.text = @"";
         
         if ([self.traceModel.order.orderType isEqualToString:@"03"]) {
             if ([FLYBaseUtil isNotEmpty:goodName]) {
@@ -110,7 +108,7 @@
             _orderInfoLabel.text = @"";
         }
     }else{
-        NSString *parkName = self.traceModel.mtParkname;
+        NSString *parkName = self.traceModel.mtParkname != nil ? self.traceModel.mtParkname:@"";
         NSString *beginTime = self.traceModel.mtParkbegin;
         NSString *endTime = self.traceModel.mtParkend;
         _orderNameLabel.text = [NSString stringWithFormat:@"%@%@",parkName,@"（停车）"];
@@ -119,7 +117,6 @@
         NSDate *endDate = [FLYUtils dateFromFomate:endTime formate:@"yyyyMMddHHmmss"];
         _orderInfoImage.image = [UIImage imageNamed:@"mfpparking_time_all_0.png"];
         _orderInfoLabel.text = [FLYUtils betweenDate:beginDate endDate:endDate];
-        
     }
     
     //时间

@@ -157,12 +157,12 @@
     title.text = @"数量 : ";
     [_parkDetailView addSubview:title];
     
-    _reduceButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 90, sp3.bottom + 15, 15, 15)];
+    _reduceButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 125, sp3.bottom + 12.5, 20, 20)];
     [_reduceButton setBackgroundImage:[UIImage imageNamed:@"mfpparking_gmctkcut_all_0.png"] forState:UIControlStateNormal];
     [_reduceButton addTarget:self action:@selector(reduceAction) forControlEvents:UIControlEventTouchDown];
     [_parkDetailView addSubview:_reduceButton];
     
-    _numField = [[UITextField alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 65, sp3.bottom + 10, 40, 25)];
+    _numField = [[UITextField alloc] initWithFrame:CGRectMake(ScreenWidth - 90, sp3.bottom + 10, 40, 25)];
     _numField.borderStyle = UITextBorderStyleRoundedRect;
     _numField.font = [UIFont systemFontOfSize:13.0];
     _numField.returnKeyType = UIReturnKeyDone;
@@ -171,7 +171,7 @@
     _numField.textAlignment = NSTextAlignmentCenter;
     [_parkDetailView addSubview:_numField];
     
-    _increaseButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - 15, sp3.bottom + 15, 15, 15)];
+    _increaseButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 35, sp3.bottom + 12.5, 20, 20)];
     [_increaseButton setBackgroundImage:[UIImage imageNamed:@"mfpparking_gmctkadd_all_0.png"] forState:UIControlStateNormal];
     [_increaseButton addTarget:self action:@selector(increaseAction) forControlEvents:UIControlEventTouchDown];
     [_parkDetailView addSubview:_increaseButton];

@@ -220,7 +220,7 @@
 
 //支付方式选择
 - (void)paymentAction:(UIButton *)btn{
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"支付宝" otherButtonTitles:@"微信支付", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"支付宝", nil];
     [actionSheet showInView:self.view];
 }
 
@@ -232,12 +232,8 @@
     if (buttonIndex == 0) {
         [self requestAlipayOrder];
     }
-    //微信支付
-    else if (buttonIndex == 1){
-        [FLYToast showWithText:@"暂不支持"];
-    }
     //取消
-    else if (buttonIndex == 2){
+    else if (buttonIndex == 1){
         return;
     }
 }

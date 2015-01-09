@@ -301,8 +301,6 @@
 		74926B431973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74926B401973BD1A00833F99 /* mfpparking_hy_time_all_0@2x.png */; };
 		74926B461973C0A900833F99 /* FLYCardParkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74926B451973C0A900833F99 /* FLYCardParkModel.m */; };
 		74926B491973C11D00833F99 /* FLYMemberCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 74926B481973C11D00833F99 /* FLYMemberCard.m */; };
-		749942E51A4BBED3006D7BD9 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
-		749942E61A4BBED3006D7BD9 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		7499642B1A3A79A70069F185 /* FLYCouponModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499642A1A3A79A70069F185 /* FLYCouponModel.m */; };
 		7499642F1A3A7E9C0069F185 /* FLYCouponCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499642D1A3A7E9C0069F185 /* FLYCouponCell.m */; };
 		749964301A3A7E9C0069F185 /* FLYCouponCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7499642E1A3A7E9C0069F185 /* FLYCouponCell.xib */; };
@@ -313,6 +311,7 @@
 		7499643F1A3AC6C80069F185 /* FLYMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499643D1A3AC6C80069F185 /* FLYMessageCell.m */; };
 		749964401A3AC6C80069F185 /* FLYMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7499643E1A3AC6C80069F185 /* FLYMessageCell.xib */; };
 		7499992C1A3FC16700CDDDD1 /* FLYParkCardDetailView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7499992B1A3FC16700CDDDD1 /* FLYParkCardDetailView.m */; };
+		7499E0881A5E269A00045450 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E7219F758A90021586F /* libcrypto.a */; };
 		749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E3019F758600021586F /* AlipayRsaLib.a */; };
 		749B4E4D19F758600021586F /* Alixpay.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 749B4E3219F758600021586F /* Alixpay.bundle */; };
 		749B4E4F19F758600021586F /* AlixPaylib_arc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E3419F758600021586F /* AlixPaylib_arc.a */; };
@@ -324,7 +323,6 @@
 		749B4E5519F758600021586F /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 749B4E4219F758600021586F /* SBJsonBase.m */; };
 		749B4E5619F758600021586F /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 749B4E4419F758600021586F /* SBJsonParser.m */; };
 		749B4E5719F758600021586F /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 749B4E4619F758600021586F /* SBJsonWriter.m */; };
-		749B4E5819F758600021586F /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E4719F758600021586F /* libcrypto.a */; };
 		749B4E5919F758600021586F /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B4E4819F758600021586F /* libssl.a */; };
 		749B932C1A00E26800D5E90A /* nearby_map_content@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 749B932B1A00E26800D5E90A /* nearby_map_content@3x.png */; };
 		749CCA9D1A3EB19D008F7577 /* DownSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 749CCA9C1A3EB19D008F7577 /* DownSheet.m */; };
@@ -359,6 +357,8 @@
 		74A2ABAC1A007C310007EF51 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9A1A007C310007EF51 /* UIImageView+HighlightedWebCache.m */; };
 		74A2ABAD1A007C310007EF51 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9C1A007C310007EF51 /* UIImageView+WebCache.m */; };
 		74A2ABAE1A007C310007EF51 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9E1A007C310007EF51 /* UIView+WebCacheOperation.m */; };
+		74A4D3651A5FB656009A9FF0 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
+		74A4D3661A5FB656009A9FF0 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		74A60C2A196597580046457B /* btn_close_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C24196597580046457B /* btn_close_normal.png */; };
 		74A60C2B196597580046457B /* btn_close_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C25196597580046457B /* btn_close_normal@2x.png */; };
 		74A60C2C196597580046457B /* btn_close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C26196597580046457B /* btn_close_selected.png */; };
@@ -1699,9 +1699,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				749942E51A4BBED3006D7BD9 /* libbaidumapapi.a in Frameworks */,
-				749942E61A4BBED3006D7BD9 /* libBaiduMobStat.a in Frameworks */,
-				749B4E5819F758600021586F /* libcrypto.a in Frameworks */,
+				7499E0881A5E269A00045450 /* libcrypto.a in Frameworks */,
+				74A4D3651A5FB656009A9FF0 /* libbaidumapapi.a in Frameworks */,
+				74A4D3661A5FB656009A9FF0 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
 				749B4E4F19F758600021586F /* AlixPaylib_arc.a in Frameworks */,
@@ -4595,10 +4595,10 @@
 					"${SDK_DIR}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4630,10 +4630,10 @@
 					"${SDK_DIR}/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
