@@ -25,7 +25,9 @@
     _deleteBtn.layer.cornerRadius = 3.0;
     _deleteBtn.layer.borderWidth = 1;
     _deleteBtn.layer.borderColor = [[UIColor orangeColor] CGColor];
-    _deleteBtn.backgroundColor = [UIColor orangeColor];
+    [_deleteBtn setBackgroundColor:[UIColor orangeColor]];
+    [_deleteBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _deleteBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12.0];
     
     _amountLabel.textAlignment = NSTextAlignmentRight;
     _amountLabel.textColor = [UIColor orangeColor];
