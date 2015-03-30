@@ -64,6 +64,9 @@
         NSLog(@"manager start failed!");
     }
     
+    //向微信注册
+    [WXApi registerApp:@"wx58062b2b7eba907f"];
+    
     //主页面
     _rootController = [[FLYMainViewController alloc] initWithNibName:@"FLYMainViewController" bundle:nil];
     FLYBaseNavigationController *navController = [[FLYBaseNavigationController alloc] initWithRootViewController:_rootController];
@@ -207,13 +210,23 @@
     }
 }
 
-#pragma mark - 支付宝回调
+#pragma mark - 支付宝，微信支付回调
 //独立客户端回调函数
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-	[self parse:url application:application];
+    
+    if ([url.scheme isEqualToString:kWXAppid]) {
+        return [WXApi handleOpenURL:url delegate:self];
+    }else if([url.scheme isEqualToString:@"FLyAlipayParkSmart"]){
+        [self parse:url application:application];
+    }
 	return YES;
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
+    return [WXApi handleOpenURL:url delegate:self];
+}
+
+#pragma mark - 支付宝
 //处理来源回调信息
 - (void)parse:(NSURL *)url application:(UIApplication *)application {
     //结果处理
@@ -238,7 +251,6 @@
         [self toPayResult:@"支付失败"];
         NSLog(@"支付失败");
     }
-    
 }
 
 - (AlixPayResult *)resultFromURL:(NSURL *)url {
@@ -254,13 +266,32 @@
 	return result;
 }
 
-- (void)toPayResult:(NSString *)result{
-    [FLYBaseUtil showMsg:result];
-//    FLYPayResultViewController *resultController = [[FLYPayResultViewController alloc]init];
-//    resultController.result = result;
-//    [_rootController.navigationController pushViewController:resultController animated:NO];
+#pragma mark - delegate WXApiDelegate(微信支付)
+-(void) onResp:(BaseResp*)resp
+{
+    NSString *strTitle;
+    if([resp isKindOfClass:[PayResp class]]){
+        //支付返回结果，实际支付结果需要去微信服务器端查询
+        strTitle = [NSString stringWithFormat:@"支付结果"];
+        
+        switch (resp.errCode) {
+            case WXSuccess:
+                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+                [self toPayResult:@"支付成功"];
+                break;
+                
+            default:
+                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+                [self toPayResult:@"支付失败"];
+                break;
+        }
+    }
 }
 
+#pragma mark - 支付结果跳转
+- (void)toPayResult:(NSString *)result{
+    [FLYBaseUtil showMsg:result];
+}
 
 
 @end

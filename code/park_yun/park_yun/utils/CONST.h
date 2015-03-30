@@ -19,9 +19,9 @@
 //本机
 //#define kHttpDomain @"http://192.168.110.97:8080/park_yun"
 //linux
-#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+//#define kHttpDomain @"http://112.124.57.167:8080/park_service"
 //小朱
-//#define kHttpDomain @"http://192.168.110.178:8080/park_service"
+#define kHttpDomain @"http://192.168.110.155:8080/park_service"
 
 //------停车场-----
 //周边停车场查询
@@ -100,8 +100,10 @@
 //------充值------
 //获取充值优惠信息
 #define kHttpQueryOffInfo @"/order/queryOffInfo.json"
-//生成支付宝用户充值订单接口
+//生成支付宝用户充值订单
 #define kHttpAddAlipay @"/order/addAlipayRechargeOrder.json"
+//生产微信充值订单
+#define kHttpAddWXPay @"/orderWx/addWXRechargeOrder.json"
 
 //------其他------
 //商圈列表
@@ -145,6 +147,8 @@
 //#define kBaiduStat @"c5c1533fb8"
 //讯飞语音
 #define kXunfeiKey @"53c47fda"
+//微信支付
+#define kWXAppid @"wx58062b2b7eba907f"
 
 #define kAplipayPublicKey @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB"
 

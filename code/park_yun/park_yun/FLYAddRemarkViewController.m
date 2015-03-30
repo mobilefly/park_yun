@@ -218,8 +218,6 @@
     NSString *userid = [defaults stringForKey:@"memberId"];
     NSString *token = [defaults stringForKey:@"token"];
     
-    //        NSString *emojiText = [self replaceEmoji:_contentView.text];
-    //        NSLog(@"%@",emojiText);
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    userid,
                                    @"userid",

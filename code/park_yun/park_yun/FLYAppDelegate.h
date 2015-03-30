@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "FLYMainViewController.h"
 #import "BMapKit.h"
+#import "WXApi.h"
 
-@interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate>{
+@interface FLYAppDelegate : UIResponder <UIApplicationDelegate,UINavigationControllerDelegate,WXApiDelegate>{
     BMKMapManager* _mapManager;
    
     

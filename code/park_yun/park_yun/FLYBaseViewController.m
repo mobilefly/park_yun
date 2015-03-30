@@ -322,14 +322,16 @@
 }
 
 - (void)showAlert:(NSString *)message{
-    DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:message leftButtonTitle:nil rightButtonTitle:@"确认"];
-    [alert show];
-    alert.rightBlock = ^() {
-        
-    };
-    alert.dismissBlock = ^() {
-        
-    };
+    if(message != nil){
+        DXAlertView *alert = [[DXAlertView alloc] initWithTitle:@"系统提示" contentText:message leftButtonTitle:nil rightButtonTitle:@"确认"];
+        [alert show];
+        alert.rightBlock = ^() {
+            
+        };
+        alert.dismissBlock = ^() {
+            
+        };
+    }
 }
 
 - (void)showMessage:(NSString *)msg {

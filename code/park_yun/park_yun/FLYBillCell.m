@@ -34,11 +34,11 @@
     
     _dateView = (UIView *)[self viewWithTag:110];
     
-    _dayLabel = (UILabel *)[self viewWithTag:111];
-    _dayLabel.textAlignment = NSTextAlignmentCenter;
-    
-    _monthLabel = (UILabel *)[self viewWithTag:112];
+    _monthLabel = (UILabel *)[self viewWithTag:111];
     _monthLabel.textAlignment = NSTextAlignmentCenter;
+    
+    _dayLabel = (UILabel *)[self viewWithTag:112];
+    _dayLabel.textAlignment = NSTextAlignmentCenter;
     
     UIColor *bgColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"mfpparking_kuang_all_0.png"]];
     _dateView.backgroundColor = bgColor;
@@ -48,26 +48,24 @@
     _orderNameLabel.text = @"";
     
     if(self.traceModel.order != nil && [FLYBaseUtil isNotEmpty:self.traceModel.order.orderId]){
-        NSString *goodName = self.traceModel.order.goodsOrder.goName;
-        
-        if ([self.traceModel.order.orderType isEqualToString:@"03"]) {
-            if ([FLYBaseUtil isNotEmpty:goodName]) {
-                _orderNameLabel.text = goodName;
-            }
-        }
-        //充值
-        else if([self.traceModel.order.orderType isEqualToString:@"01"]) {
+        if([self.traceModel.order.orderType isEqualToString:@"01"]) {
             _orderNameLabel.text = @"账户充值";
             _orderInfoImage.hidden = NO;
-        }
-        else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
-            _orderNameLabel.text = @"办理停车场畅停卡";
+        }else if([self.traceModel.order.orderType isEqualToString:@"02"]) {
+            _orderNameLabel.text = @"办理畅停卡";
             _orderInfoImage.hidden = YES;
-        }
-        //充值(优惠劵)
-        else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
+        }else if([self.traceModel.order.orderType isEqualToString:@"03"]){
+            _orderNameLabel.text = @"停车消费";
+            _orderInfoImage.hidden = NO;
+        }else if([self.traceModel.order.orderType isEqualToString:@"04"]) {
             _orderNameLabel.text = @"账户充值";
             _orderInfoImage.hidden = NO;
+        }else if([self.traceModel.order.orderType isEqualToString:@"05"]) {
+            _orderNameLabel.text = @"车位预定";
+            _orderInfoImage.hidden = YES;
+        }else if([self.traceModel.order.orderType isEqualToString:@"06"]){
+            _orderNameLabel.text = @"车位预定(按小时)";
+            _orderInfoImage.hidden = YES;
         }
 
         //支付方式
@@ -102,7 +100,6 @@
             _orderInfoImage.image = [UIImage imageNamed:@"icon_hongbao.png"];
             _orderInfoLabel.text = @"优惠劵";
         }
-        
         else{
             _orderInfoImage.image = nil;
             _orderInfoLabel.text = @"";
@@ -111,7 +108,7 @@
         NSString *parkName = self.traceModel.mtParkname != nil ? self.traceModel.mtParkname:@"";
         NSString *beginTime = self.traceModel.mtParkbegin;
         NSString *endTime = self.traceModel.mtParkend;
-        _orderNameLabel.text = [NSString stringWithFormat:@"%@%@",parkName,@"（停车）"];
+        _orderNameLabel.text = [NSString stringWithFormat:@"%@%@",parkName,@""];
         
         NSDate *beginDate = [FLYUtils dateFromFomate:beginTime formate:@"yyyyMMddHHmmss"];
         NSDate *endDate = [FLYUtils dateFromFomate:endTime formate:@"yyyyMMddHHmmss"];

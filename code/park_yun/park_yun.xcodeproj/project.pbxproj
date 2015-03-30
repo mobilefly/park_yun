@@ -13,6 +13,9 @@
 		7402D68E1A3E87E6004412A0 /* DownSheetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D68D1A3E87E6004412A0 /* DownSheetModel.m */; };
 		7402D6941A3E8888004412A0 /* DownSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D6931A3E8888004412A0 /* DownSheetCell.m */; };
 		7402D6961A3E93A9004412A0 /* icon_down_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402D6951A3E93A9004412A0 /* icon_down_selected@2x.png */; };
+		740EC4531AC8EB2100AB8708 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
+		740EC4541AC8EB2100AB8708 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
+		740EC45D1AC8ECC100AB8708 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 740EC45A1AC8ECC100AB8708 /* libWeChatSDK.a */; };
 		74109163198A3EBD009F3B4B /* FLYAbortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74109162198A3EBD009F3B4B /* FLYAbortViewController.m */; };
 		74109166198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74109164198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png */; };
 		74109167198A3F97009F3B4B /* mfpparking_gywmtu_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74109165198A3F97009F3B4B /* mfpparking_gywmtu_all_0@2x.png */; };
@@ -357,8 +360,6 @@
 		74A2ABAC1A007C310007EF51 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9A1A007C310007EF51 /* UIImageView+HighlightedWebCache.m */; };
 		74A2ABAD1A007C310007EF51 /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9C1A007C310007EF51 /* UIImageView+WebCache.m */; };
 		74A2ABAE1A007C310007EF51 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 74A2AB9E1A007C310007EF51 /* UIView+WebCacheOperation.m */; };
-		74A4D3651A5FB656009A9FF0 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		74A4D3661A5FB656009A9FF0 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		74A60C2A196597580046457B /* btn_close_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C24196597580046457B /* btn_close_normal.png */; };
 		74A60C2B196597580046457B /* btn_close_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C25196597580046457B /* btn_close_normal@2x.png */; };
 		74A60C2C196597580046457B /* btn_close_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 74A60C26196597580046457B /* btn_close_selected.png */; };
@@ -375,7 +376,6 @@
 		74BEF99B19755FDE003E8BDF /* FLYCollectCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74BEF99919755FDE003E8BDF /* FLYCollectCell.xib */; };
 		74C5619A1960609200F218CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C561991960609200F218CD /* Foundation.framework */; };
 		74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619B1960609200F218CD /* CoreGraphics.framework */; };
-		74C5619E1960609200F218CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 74C5619D1960609200F218CD /* UIKit.framework */; };
 		74C561A41960609200F218CD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 74C561A21960609200F218CD /* InfoPlist.strings */; };
 		74C561A61960609200F218CD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C561A51960609200F218CD /* main.m */; };
 		74C561AA1960609200F218CD /* FLYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 74C561A91960609200F218CD /* FLYAppDelegate.m */; };
@@ -390,6 +390,7 @@
 		74D041211963BC24005B2F76 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 74D0411F1963BC24005B2F76 /* icon.png */; };
 		74D041281963BCE8005B2F76 /* FLYMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74D041261963BCE8005B2F76 /* FLYMainViewController.m */; };
 		74D041291963BCE8005B2F76 /* FLYMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74D041271963BCE8005B2F76 /* FLYMainViewController.xib */; };
+		74D4F8811AC923790054EAFB /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 74D4F8801AC923790054EAFB /* libsqlite3.0.dylib */; };
 		74EE13FF1987546000FB0C86 /* FLYBussinessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */; };
 		74EE14021987976800FB0C86 /* FLYBussinessCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 74EE14011987976800FB0C86 /* FLYBussinessCell.m */; };
 		74EE140B1987AF3500FB0C86 /* mfpparking_shouyeuser_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74EE14031987AF3500FB0C86 /* mfpparking_shouyeuser_all_down@2x.png */; };
@@ -435,6 +436,9 @@
 		7402D6921A3E8888004412A0 /* DownSheetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownSheetCell.h; sourceTree = "<group>"; };
 		7402D6931A3E8888004412A0 /* DownSheetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownSheetCell.m; sourceTree = "<group>"; };
 		7402D6951A3E93A9004412A0 /* icon_down_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_down_selected@2x.png"; sourceTree = "<group>"; };
+		740EC45A1AC8ECC100AB8708 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
+		740EC45B1AC8ECC100AB8708 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
+		740EC45C1AC8ECC100AB8708 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		74109161198A3EBD009F3B4B /* FLYAbortViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYAbortViewController.h; sourceTree = "<group>"; };
 		74109162198A3EBD009F3B4B /* FLYAbortViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYAbortViewController.m; sourceTree = "<group>"; };
 		74109164198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mfpparking_gywmicon_all_0@2x.png"; sourceTree = "<group>"; };
@@ -1667,6 +1671,12 @@
 		74D041251963BCE8005B2F76 /* FLYMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYMainViewController.h; sourceTree = "<group>"; };
 		74D041261963BCE8005B2F76 /* FLYMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYMainViewController.m; sourceTree = "<group>"; };
 		74D041271963BCE8005B2F76 /* FLYMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FLYMainViewController.xib; sourceTree = "<group>"; };
+		74D4F8801AC923790054EAFB /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		74E9CD071AC8E54C006E7298 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = iflyMSC.framework; sourceTree = "<group>"; };
+		74E9CD091AC8E54C006E7298 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
+		74E9CD0A1AC8E54C006E7298 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
+		74E9CD0C1AC8E54C006E7298 /* libbaidumapapi.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libbaidumapapi.a; sourceTree = "<group>"; };
+		74E9CD0D1AC8E54C006E7298 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
 		74EE13FD1987546000FB0C86 /* FLYBussinessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessViewController.h; sourceTree = "<group>"; };
 		74EE13FE1987546000FB0C86 /* FLYBussinessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLYBussinessViewController.m; sourceTree = "<group>"; };
 		74EE14001987976800FB0C86 /* FLYBussinessCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLYBussinessCell.h; sourceTree = "<group>"; };
@@ -1699,15 +1709,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740EC45D1AC8ECC100AB8708 /* libWeChatSDK.a in Frameworks */,
+				740EC4531AC8EB2100AB8708 /* libbaidumapapi.a in Frameworks */,
+				740EC4541AC8EB2100AB8708 /* libBaiduMobStat.a in Frameworks */,
 				7499E0881A5E269A00045450 /* libcrypto.a in Frameworks */,
-				74A4D3651A5FB656009A9FF0 /* libbaidumapapi.a in Frameworks */,
-				74A4D3661A5FB656009A9FF0 /* libBaiduMobStat.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
 				749B4E4F19F758600021586F /* AlixPaylib_arc.a in Frameworks */,
+				74D4F8811AC923790054EAFB /* libsqlite3.0.dylib in Frameworks */,
+				7420AB371960F946000DD75F /* libz.dylib in Frameworks */,
 				746E49A8198B6F3400C93F88 /* libsqlite3.dylib in Frameworks */,
 				7420AB391960F954000DD75F /* libxml2.dylib in Frameworks */,
-				7420AB371960F946000DD75F /* libz.dylib in Frameworks */,
 				74415C3A19863A74005DD554 /* libstdc++.dylib in Frameworks */,
 				748B79A2197CF3ED0081A317 /* iflyMSC.framework in Frameworks */,
 				74415C37198636FB005DD554 /* AVFoundation.framework in Frameworks */,
@@ -1722,7 +1734,6 @@
 				7420AB351960F932000DD75F /* MobileCoreServices.framework in Frameworks */,
 				7420AB311960F90E000DD75F /* CFNetwork.framework in Frameworks */,
 				74C5619C1960609200F218CD /* CoreGraphics.framework in Frameworks */,
-				74C5619E1960609200F218CD /* UIKit.framework in Frameworks */,
 				74C5619A1960609200F218CD /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1772,6 +1783,16 @@
 			path = DownSheet;
 			sourceTree = "<group>";
 		};
+		740EC4551AC8EC5200AB8708 /* Weixin */ = {
+			isa = PBXGroup;
+			children = (
+				740EC45A1AC8ECC100AB8708 /* libWeChatSDK.a */,
+				740EC45B1AC8ECC100AB8708 /* WXApi.h */,
+				740EC45C1AC8ECC100AB8708 /* WXApiObject.h */,
+			);
+			path = Weixin;
+			sourceTree = "<group>";
+		};
 		74109160198A3E5B009F3B4B /* Abort */ = {
 			isa = PBXGroup;
 			children = (
@@ -1817,6 +1838,7 @@
 		7420AAAB1960F6E0000DD75F /* OpenSource */ = {
 			isa = PBXGroup;
 			children = (
+				740EC4551AC8EC5200AB8708 /* Weixin */,
 				7402D68B1A3E877C004412A0 /* DownSheet */,
 				74A2AB7D1A007C310007EF51 /* SDWebImage */,
 				746E4996198B6E6C00C93F88 /* FMDB */,
@@ -3317,10 +3339,10 @@
 		749B4E2F19F758600021586F /* alipay */ = {
 			isa = PBXGroup;
 			children = (
+				749B4E3219F758600021586F /* Alixpay.bundle */,
 				749B4E3019F758600021586F /* AlipayRsaLib.a */,
 				749B4E4719F758600021586F /* libcrypto.a */,
 				749B4E4819F758600021586F /* libssl.a */,
-				749B4E3219F758600021586F /* Alixpay.bundle */,
 				749B4E3419F758600021586F /* AlixPaylib_arc.a */,
 				749B4E3519F758600021586F /* AlixPayOrder.h */,
 				749B4E3619F758600021586F /* AlixPayOrder.m */,
@@ -3707,6 +3729,8 @@
 		74C561981960609200F218CD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				74D4F8801AC923790054EAFB /* libsqlite3.0.dylib */,
+				74E9CD061AC8E54C006E7298 /* libs */,
 				749B931D1A00DD0500D5E90A /* libs */,
 				74933A3C1A00CF7B00E760CF /* park_yun */,
 				74933A391A00CF7200E760CF /* Release-iphoneos */,
@@ -3970,6 +3994,34 @@
 				746E7D49196ACEBF00C3E638 /* FLYBaseMapViewController.mm */,
 			);
 			name = BaseView;
+			sourceTree = "<group>";
+		};
+		74E9CD061AC8E54C006E7298 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				74E9CD071AC8E54C006E7298 /* iflyMSC.framework */,
+				74E9CD081AC8E54C006E7298 /* Release-iphoneos */,
+				74E9CD0B1AC8E54C006E7298 /* Release-iphonesimulator */,
+			);
+			path = libs;
+			sourceTree = "<group>";
+		};
+		74E9CD081AC8E54C006E7298 /* Release-iphoneos */ = {
+			isa = PBXGroup;
+			children = (
+				74E9CD091AC8E54C006E7298 /* libbaidumapapi.a */,
+				74E9CD0A1AC8E54C006E7298 /* libBaiduMobStat.a */,
+			);
+			path = "Release-iphoneos";
+			sourceTree = "<group>";
+		};
+		74E9CD0B1AC8E54C006E7298 /* Release-iphonesimulator */ = {
+			isa = PBXGroup;
+			children = (
+				74E9CD0C1AC8E54C006E7298 /* libbaidumapapi.a */,
+				74E9CD0D1AC8E54C006E7298 /* libBaiduMobStat.a */,
+			);
+			path = "Release-iphonesimulator";
 			sourceTree = "<group>";
 		};
 		74FC62201966DEB400A8289A /* Resources */ = {
@@ -4597,8 +4649,12 @@
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"/Users/chen/Desktop/微信/微信支付(APP)/WeChat",
+					"AppPay(pub)",
+					Demo/client/wechat_sdk_sample_ios_20131216/SDKExport,
+					"$(PROJECT_DIR)/park_yun/openSource/Weixin",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4632,8 +4688,12 @@
 				INFOPLIST_FILE = "park_yun/park_yun-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
+					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
+					"/Users/chen/Desktop/微信/微信支付(APP)/WeChat",
+					"AppPay(pub)",
+					Demo/client/wechat_sdk_sample_ios_20131216/SDKExport,
+					"$(PROJECT_DIR)/park_yun/openSource/Weixin",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
