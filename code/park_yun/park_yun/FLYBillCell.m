@@ -36,9 +36,11 @@
     
     _monthLabel = (UILabel *)[self viewWithTag:111];
     _monthLabel.textAlignment = NSTextAlignmentCenter;
+    _monthLabel.font = [UIFont systemFontOfSize:8.0];
     
     _dayLabel = (UILabel *)[self viewWithTag:112];
     _dayLabel.textAlignment = NSTextAlignmentCenter;
+    _dayLabel.font = [UIFont systemFontOfSize:8.0];
     
     UIColor *bgColor = [UIColor colorWithPatternImage: [UIImage imageNamed:@"mfpparking_kuang_all_0.png"]];
     _dateView.backgroundColor = bgColor;
@@ -119,8 +121,11 @@
     //时间
     NSString *mtPaydate = self.traceModel.mtPaydate;
     if (mtPaydate != nil && mtPaydate.length > 0) {
-        _monthLabel.text = [mtPaydate substringWithRange:NSMakeRange(4,2)];
-        _dayLabel.text = [mtPaydate substringWithRange:NSMakeRange(6,2)];
+        int month = [[mtPaydate substringWithRange:NSMakeRange(4,2)] intValue];
+        int day = [[mtPaydate substringWithRange:NSMakeRange(6,2)] intValue];
+        
+        _monthLabel.text = [NSString stringWithFormat:@"%d%@",month,@"月"];
+        _dayLabel.text = [NSString stringWithFormat:@"%d%@",day,@"日"];
         
         NSString *payDateHour = [mtPaydate substringWithRange:NSMakeRange(8,2)];
         NSString *payDateMin = [mtPaydate substringWithRange:NSMakeRange(10,2)];

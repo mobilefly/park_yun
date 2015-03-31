@@ -60,11 +60,11 @@
     // 如果要关注网络及授权验证事件，请设定     generalDelegate参数
     BOOL ret = [_mapManager start:kBaiduKey generalDelegate:nil];
     if (!ret) {
-        NSLog(@"manager start failed!");
+        NSLog(@"百度地图初始化失败!");
     }
     
     //向微信注册
-    [WXApi registerApp:@"wx58062b2b7eba907f"];
+    [WXApi registerApp:kWXAppid];
     
     //主页面
     _rootController = [[FLYMainViewController alloc] initWithNibName:@"FLYMainViewController" bundle:nil];
@@ -118,7 +118,7 @@
     NSString *token = [[deviceToken description] stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<>"]]; //去掉"<>"
     NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
     
-    NSLog(@"regisger success:%@",token);
+    NSLog(@"推送注册成功:%@",token);
     [defaults setObject:token forKey:@"deviceToken"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
@@ -128,7 +128,7 @@
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
-    NSLog(@"Registfail%@",error);
+    NSLog(@"推送注册失败%@",error);
 }
 
 #pragma mark - 数据请求
@@ -278,12 +278,10 @@
         //支付返回结果，实际支付结果需要去微信服务器端查询
         switch (resp.errCode) {
             case WXSuccess:
-                NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
                 [self toPayResult:@"支付成功"];
                 break;
                 
             default:
-                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
                 [self toPayResult:@"支付失败"];
                 break;
         }
@@ -294,6 +292,5 @@
 - (void)toPayResult:(NSString *)result{
     [FLYBaseUtil showMsg:result];
 }
-
 
 @end

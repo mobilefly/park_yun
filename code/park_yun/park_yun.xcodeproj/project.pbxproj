@@ -1913,7 +1913,6 @@
 				7420AAEF1960F80C000DD75F /* FontLabel */,
 				745E744219654CF400BB0AB9 /* JCTopic */,
 				7420AB4C19610DEB000DD75F /* BaiduMap */,
-				7420AAFF1960F820000DD75F /* SDWebImage */,
 				7420AAF91960F81B000DD75F /* RegexKitLite */,
 				7420AAF31960F814000DD75F /* MBProgressHUD */,
 				74BEF96E1974DADD003E8BDF /* MotionRecognizer */,
@@ -2022,13 +2021,6 @@
 				7420AAFC1960F81B000DD75F /* RegexKitLite.m */,
 			);
 			path = RegexKitLite;
-			sourceTree = "<group>";
-		};
-		7420AAFF1960F820000DD75F /* SDWebImage */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SDWebImage;
 			sourceTree = "<group>";
 		};
 		7420AB3B19610763000DD75F /* Utils */ = {
