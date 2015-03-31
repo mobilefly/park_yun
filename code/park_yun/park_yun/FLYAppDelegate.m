@@ -20,7 +20,7 @@
 #import "FLYMemberModel.h"
 
 @implementation FLYAppDelegate
-//1987
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     //清空上次登录信息
