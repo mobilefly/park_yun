@@ -20,6 +20,8 @@
 #import "DXAlertView.h"
 #import "FLYDBUtil.h"
 #import "UIFactory.h"
+#import "ThemeButton.h"
+
 #import "FLYAppDelegate.h"
 
 #define kTopHeight 60
