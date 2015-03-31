@@ -118,7 +118,7 @@
             //财付通商户号
             NSString *partnerId = [result objectForKey:@"partnerId"];
             //订单详情
-            NSString *packageValue = [result objectForKey:@"packageValue"];
+            NSString *package = [result objectForKey:@"package"];
             //签名
             NSString *sign = [result objectForKey:@"sign"];
             
@@ -129,7 +129,7 @@
             req.prepayId = prepayId;
             req.nonceStr = nonceStr;
             req.timeStamp = timeStamp.intValue;
-            req.package = packageValue;
+            req.package = package;
             req.sign = sign;
             [WXApi sendReq:req];
         }
