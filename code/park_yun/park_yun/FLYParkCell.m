@@ -10,7 +10,6 @@
 #import "UIImageView+WebCache.h"
 #import "FLYUtils.h"
 
-//20150330
 @implementation FLYParkCell
 
 - (void)awakeFromNib
