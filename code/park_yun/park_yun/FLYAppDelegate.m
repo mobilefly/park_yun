@@ -10,7 +10,6 @@
 
 #import "FLYBaseNavigationController.h"
 #import "iflyMSC/IFlySpeechUtility.h"
-#import "FLYPayResultViewController.h"
 #import "BaiduMobStat.h"
 #import "AlixPayResult.h"
 #import "DataVerifier.h"
@@ -223,7 +222,13 @@
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{
-    return [WXApi handleOpenURL:url delegate:self];
+    
+    if ([url.scheme isEqualToString:kWXAppid]) {
+        return [WXApi handleOpenURL:url delegate:self];
+    }else if([url.scheme isEqualToString:@"FLyAlipayParkSmart"]){
+        [self parse:url application:application];
+    }
+    return YES;
 }
 
 #pragma mark - 支付宝
@@ -269,11 +274,8 @@
 #pragma mark - delegate WXApiDelegate(微信支付)
 -(void) onResp:(BaseResp*)resp
 {
-    NSString *strTitle;
     if([resp isKindOfClass:[PayResp class]]){
         //支付返回结果，实际支付结果需要去微信服务器端查询
-        strTitle = [NSString stringWithFormat:@"支付结果"];
-        
         switch (resp.errCode) {
             case WXSuccess:
                 NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);

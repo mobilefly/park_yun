@@ -19,9 +19,11 @@
 //本机
 //#define kHttpDomain @"http://192.168.110.97:8080/park_yun"
 //linux
-//#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+#define kHttpDomain @"http://112.124.57.167:8080/park_service"
+//阿里云服务器2
+//#define kHttpDomain @"http://121.40.205.111:8080/park_service"
 //小朱
-#define kHttpDomain @"http://192.168.110.155:8080/park_service"
+//#define kHttpDomain @"http://192.168.110.155:8080/park_service"
 
 //------停车场-----
 //周边停车场查询
@@ -94,7 +96,7 @@
 #define kHttpQueryParkListByRegion @"/common/queryParkListByRegion.json"
 //查询停车场畅停卡收费标准
 #define kHttpQueryBuyParkCardList @"/park/queryParkCardList.json"
-//购买畅听卡
+//购买畅停
 #define kHttpBuyParkCard @"/member/addParkCard.json"
 
 //------充值------

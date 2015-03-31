@@ -27,12 +27,6 @@
 {
     UILabel *resultLabel = (UILabel *)[self.view viewWithTag:101];
     resultLabel.text = _result;
-//    if([_result compare:@"支付成功"] == NSOrderedSame){
-//        resultLabel.textColor = [UIColor blackColor];
-//    }else{
-//        resultLabel.textColor = [UIColor redColor];
-//    }
-//    [resultLabel sizeToFit];
     [super viewDidLoad];
 }
 

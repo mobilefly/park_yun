@@ -13,8 +13,6 @@
 		7402D68E1A3E87E6004412A0 /* DownSheetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D68D1A3E87E6004412A0 /* DownSheetModel.m */; };
 		7402D6941A3E8888004412A0 /* DownSheetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7402D6931A3E8888004412A0 /* DownSheetCell.m */; };
 		7402D6961A3E93A9004412A0 /* icon_down_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7402D6951A3E93A9004412A0 /* icon_down_selected@2x.png */; };
-		740EC4531AC8EB2100AB8708 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 749B93231A00DD0500D5E90A /* libbaidumapapi.a */; };
-		740EC4541AC8EB2100AB8708 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74933A351A00C95F00E760CF /* libBaiduMobStat.a */; };
 		740EC45D1AC8ECC100AB8708 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 740EC45A1AC8ECC100AB8708 /* libWeChatSDK.a */; };
 		74109163198A3EBD009F3B4B /* FLYAbortViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 74109162198A3EBD009F3B4B /* FLYAbortViewController.m */; };
 		74109166198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 74109164198A3F97009F3B4B /* mfpparking_gywmicon_all_0@2x.png */; };
@@ -222,6 +220,8 @@
 		746570501980982E0076397A /* FLYRemarkCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7465704E1980982E0076397A /* FLYRemarkCell.xib */; };
 		74657053198099450076397A /* FLYRemarkModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 74657052198099450076397A /* FLYRemarkModel.m */; };
 		746570561980D6F10076397A /* FLYGoodsOrderModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 746570551980D6F10076397A /* FLYGoodsOrderModel.m */; };
+		746DB3E41AC946F9002953C4 /* libbaidumapapi.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7400497719618BE90016AD61 /* libbaidumapapi.a */; };
+		746DB3E51AC946F9002953C4 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74415C1219861C12005DD554 /* libBaiduMobStat.a */; };
 		746DB65A1A25C31E007864C3 /* icon-120.png in Resources */ = {isa = PBXBuildFile; fileRef = 746DB6591A25C31E007864C3 /* icon-120.png */; };
 		746E4973198B1E3700C93F88 /* mfpparking_yaosanjiao_all_0_02@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 746E4972198B1E3700C93F88 /* mfpparking_yaosanjiao_all_0_02@2x.png */; };
 		746E4978198B1EF500C93F88 /* mfpparking_yaoyuanjian_all_down@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 746E4974198B1EF500C93F88 /* mfpparking_yaoyuanjian_all_down@2x.png */; };
@@ -1709,9 +1709,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				746DB3E41AC946F9002953C4 /* libbaidumapapi.a in Frameworks */,
+				746DB3E51AC946F9002953C4 /* libBaiduMobStat.a in Frameworks */,
 				740EC45D1AC8ECC100AB8708 /* libWeChatSDK.a in Frameworks */,
-				740EC4531AC8EB2100AB8708 /* libbaidumapapi.a in Frameworks */,
-				740EC4541AC8EB2100AB8708 /* libBaiduMobStat.a in Frameworks */,
 				7499E0881A5E269A00045450 /* libcrypto.a in Frameworks */,
 				749B4E5919F758600021586F /* libssl.a in Frameworks */,
 				749B4E4C19F758600021586F /* AlipayRsaLib.a in Frameworks */,
@@ -4632,7 +4632,7 @@
 		74C561C31960609200F218CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4650,11 +4650,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
-					"/Users/chen/Desktop/微信/微信支付(APP)/WeChat",
-					"AppPay(pub)",
-					Demo/client/wechat_sdk_sample_ios_20131216/SDKExport,
 					"$(PROJECT_DIR)/park_yun/openSource/Weixin",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4671,7 +4668,7 @@
 		74C561C41960609200F218CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4689,11 +4686,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/park_yun/openSource/alipay",
-					"$(PROJECT_DIR)/libs/Release-iphonesimulator",
-					"/Users/chen/Desktop/微信/微信支付(APP)/WeChat",
-					"AppPay(pub)",
-					Demo/client/wechat_sdk_sample_ios_20131216/SDKExport,
 					"$(PROJECT_DIR)/park_yun/openSource/Weixin",
+					"$(PROJECT_DIR)/libs/Release-iphoneos",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (

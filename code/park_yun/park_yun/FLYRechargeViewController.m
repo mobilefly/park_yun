@@ -85,7 +85,7 @@
                                        @"userid",
                                        amountParms,
                                        @"amount",
-                                       @"停哪儿微信充值",
+                                       @"停哪儿充值",
                                        @"productName",
                                        nil];
         
@@ -297,6 +297,9 @@
 
 //支付方式选择
 - (void)paymentAction:(UIButton *)btn{
+    
+//    [self validateWXAPP];
+    
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"支付宝",@"微信支付", nil];
     [actionSheet showInView:self.view];
 }

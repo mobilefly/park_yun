@@ -153,7 +153,7 @@
     NSString *flag = [data objectForKey:@"flag"];
     if ([flag isEqualToString:kFlagYes]) {
         
-        //设置未畅听卡用户
+        //设置未畅停卡用户
         NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:@"3" forKey:@"memberType"];
         [[NSUserDefaults standardUserDefaults] synchronize];
@@ -206,9 +206,9 @@
 - (void)buyAction{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     if (![FLYBaseUtil checkUserBindCar]) {
-        [self showAlert:@"未绑定车牌,无法购买畅听卡"];
+        [self showAlert:@"未绑定车牌,无法购买畅停卡"];
     }else if([self.datas count] == 0){
-        [self showAlert:@"请添加需要购买的畅停卡"];
+        [self showAlert:@"购物车为空"];
     }else{
         NSString *memberCarno = [defaults stringForKey:@"memberCarno"];
         NSString *msg = [NSString stringWithFormat:@"购买车牌【 %@ 】\n是否确定购买?",memberCarno];

@@ -28,7 +28,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.title = @"购买畅听卡";
+        self.title = @"购买畅停卡";
     }
     return self;
 }
@@ -418,7 +418,7 @@
             if ([parkCardList count] > 0) {
                 [self initParkDetail];
             }else{
-                [self showToast:@"该停车场暂无畅听卡"];
+                [self showToast:@"该停车场暂无畅停卡"];
             }
         }
     }else{
